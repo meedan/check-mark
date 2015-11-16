@@ -9,11 +9,15 @@
   },
   "main": "index.js",
   "scripts": {
-    "test": "test"
+    "start": "webpack-dev-server"
   },
   "author": "Meedan",
   "license": "MIT",
   "devDependencies": {
-    "webpack": "^1.12.6"
+    "css-loader": "^0.23.0",
+    "html-webpack-plugin": "^1.6.2",
+    "style-loader": "^0.13.0",
+    "webpack": "^1.12.6",
+    "webpack-dev-server": "^1.12.1"
   }
 }
