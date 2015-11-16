@@ -2,10 +2,18 @@
   "name": "bridge-client",
   "version": "0.0.1",
   "description": "A web client for Bridge, based on Webpack and React",
+  "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/meedan/bridge-client"
+  },
   "main": "index.js",
   "scripts": {
     "test": "test"
   },
   "author": "Meedan",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "webpack": "^1.12.6"
+  }
 }
