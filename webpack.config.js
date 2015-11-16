@@ -16,7 +16,7 @@ module.exports = {
     loaders: [
       {
         test: /\.css$/,
-        loaders: ['style', 'css'],
+        loaders: ['style', 'css', 'babel'],
         include: APP_PATH
       }
     ]
@@ -34,5 +34,8 @@ module.exports = {
     new HtmlwebpackPlugin({
       title: 'Bridge'
     })
-  ]
+  ],
+  resolve: {
+    extensions: ['', '.js', '.jsx']
+  }
 };
