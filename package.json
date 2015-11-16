@@ -1,0 +1,11 @@
+{
+  "name": "bridge-client",
+  "version": "0.0.1",
+  "description": "A web client for Bridge, based on Webpack and React",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "author": "Meedan",
+  "license": "MIT"
+}
