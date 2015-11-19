@@ -1,7 +1,7 @@
 import path from 'path';
 import webpack from 'webpack';
 
-const port = 3000;
+const port = 3005;
 const entry = [
   `webpack-dev-server/client?http://localhost:${port}`,
   'webpack/hot/only-dev-server'
@@ -16,10 +16,10 @@ export default {
     inject: [ path.join(__dirname, '../src/browser/extension/inject/index'), ...entry ]
   },
   output: {
-    path: path.join(__dirname, '../dev/js'),
+    path: path.join(__dirname, '../build/dev'),
     filename: '[name].bundle.js',
     chunkFilename: '[id].chunk.js',
-    publicPath: `http://localhost:${port}/js/`
+    publicPath: `http://localhost:${port}/`
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),

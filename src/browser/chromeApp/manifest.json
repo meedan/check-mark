@@ -2,7 +2,7 @@
   "version": "0.0.0",
   "name": "browser-app",
   "manifest_version": 2,
-  "description": "Redux counter example",
+  "description": "Bridge",
   "icons": {
     "16": "img/logo/16x16.png",
     "48": "img/logo/48x48.png",

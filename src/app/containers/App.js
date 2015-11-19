@@ -1,12 +1,12 @@
 import { connect } from 'react-redux';
 
-import Counter from '../components/Counter';
-import * as counterActions from '../actions/counter';
+import Bridge from '../components/Bridge';
+import * as bridgeActions from '../actions/bridge';
 
 function mapStateToProps(state) {
   return { state: state };
 }
 
-const mapDispatchToProps = counterActions; // { ...counterActions, ...};
+const mapDispatchToProps = bridgeActions;
 
-export default connect(mapStateToProps, mapDispatchToProps)(Counter);
+export default connect(mapStateToProps, mapDispatchToProps)(Bridge);

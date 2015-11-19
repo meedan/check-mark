@@ -10,7 +10,7 @@ import devConfig from './webpack/dev.config';
 import prodConfig from './webpack/prod.config';
 import appConfig from './webpack/app.config';
 
-const port = 3000;
+const port = 3005;
 
 /*
  * common tasks
@@ -154,6 +154,7 @@ gulp.task('compress:firefox', () => {
 });
 
 gulp.task('default', ['replace-webpack-code', 'webpack-dev-server', 'views:dev', 'copy:dev']);
+gulp.task('dev', ['replace-webpack-code', 'webpack-dev-server']);
 gulp.task('build:extension', ['replace-webpack-code', 'webpack:build:extension', 'views:build:extension', 'copy:build:extension']);
 gulp.task('build:app', ['replace-webpack-code', 'webpack:build:app', 'views:build:app', 'copy:build:app']);
 gulp.task('build:firefox', ['copy:build:firefox']);

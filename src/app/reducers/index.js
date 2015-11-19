@@ -1,5 +1,5 @@
 import { combineReducers } from 'redux';
-import counter from './counter';
+import bridge from './bridge';
 import extension from './extension';
 
-export default combineReducers({ counter, extension });
+export default combineReducers({ bridge, extension });

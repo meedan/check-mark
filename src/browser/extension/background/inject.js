@@ -1,6 +1,6 @@
 // dev only: async fetch bundle
 
-const arrowURLs = [ 'https://github.com' ];
+const arrowURLs = [ 'https://twitter.com', 'https://www.facebook.com' ];
 
 chrome.tabs.onUpdated.addListener(function(tabId, changeInfo, tab) {
   if (changeInfo.status !== 'loading') return;

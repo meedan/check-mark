@@ -5,7 +5,7 @@ import initBadge from './badge';
 configureStore(store => {
   window.store = store;
   createMenu();
-  initBadge(store.getState().counter.count);
+  initBadge(store.getState().bridge.bridge);
 
   if (__DEVELOPMENT__) {
     require('./inject');

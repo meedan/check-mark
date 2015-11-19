@@ -1,9 +1,9 @@
-import { INCREMENT_COUNTER, DECREMENT_COUNTER } from '../constants/ActionTypes';
+import { LOGIN_TWITTER, LOGIN_FACEBOOK } from '../constants/ActionTypes';
 import { sendNotification } from '../actions/extension';
 
 const events = [
   {
-    catch: [INCREMENT_COUNTER, DECREMENT_COUNTER],
+    catch: [LOGIN_TWITTER, LOGIN_FACEBOOK],
     dispatch: sendNotification
   }
 ];

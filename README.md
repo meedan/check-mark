@@ -30,23 +30,19 @@
 npm install
 ```
 
-## Development
-
-```bash
-# build files to './dev'
-# watch files change
-# start WebpackDevServer
-npm run dev
-```
-
-You can load unpacked extensions with `./dev`.
-
 #### React/Flux hot reload
 
 ```bash
 # build files to './build/extension'
 npm run build:extension
 ```
+
+In order to test:
+
+* Go to Google Chrome / Chromium
+* Type `chrome://extensions`
+* Hit "Load unpacked extension..."
+* Choose the `build/extension` directory
 
 ## Build app
 
