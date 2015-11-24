@@ -67,6 +67,7 @@ gulp.task('copy:dev', () => {
 
 gulp.task('webpack:build:extension', (callback) => {
   let myConfig = Object.create(prodConfig);
+  gulp.src('./src/app/config/config.prod.js').pipe(rename('config.js')).pipe(gulp.dest('./src/app/config'));
   webpack(myConfig, (err, stats) => {
     if (err) {
       throw new gutil.PluginError('webpack:build', err);

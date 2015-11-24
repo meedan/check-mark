@@ -18,12 +18,7 @@
     "page": "background.html"
   },
   "content_scripts": [
-    {
-      "matches": ["*://www.facebook.com/*", "*://twitter.com/*"],
-      "js": ["js/inject.bundle.js"],
-      "run_at": "document_end"
-    }
   ],
-  "permissions": [ "contextMenus", "tabs", "storage", "https://www.facebook.com/*", "https://twitter.com/*" ],
-  "content_security_policy": "script-src 'self'; object-src 'self'; style-src * 'unsafe-inline'; img-src 'self' data:;"
+  "permissions": [ "contextMenus", "tabs", "storage", "http://localhost:3000/" ],
+  "content_security_policy": "script-src 'self' 'unsafe-eval'; object-src 'self'; style-src * 'unsafe-inline'; img-src 'self' data:;"
 }

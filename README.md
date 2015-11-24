@@ -25,12 +25,14 @@
 ## Installation
 
 ```bash
-# required node.js/io.js
+# required node.js / io.js
 # clone it
 npm install
 ```
 
-#### React/Flux hot reload
+#### Build Chrome Extension
+
+First define configurations (e.g., Bridge API host) in `src/browser/extension/manifest.prod.json` and `src/app/config/config.prod.js`.
 
 ```bash
 # build files to './build/extension'
