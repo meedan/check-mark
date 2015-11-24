@@ -2,3 +2,5 @@ node_modules
 *.sw*
 *~
 npm-debug.log
+src/browser/extension/manifest.prod.json
+src/app/config/config.prod.js
