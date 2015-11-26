@@ -1,16 +1,15 @@
 import { LOGIN_TWITTER, LOGIN_FACEBOOK, NOTIFY_SEND, NOTIFY_RECEIVE } from '../constants/ActionTypes';
-import util from 'util';
 
-export default function bridge(state = { provider: null }, action) {
+export default function bridge(state = { session: null }, action) {
   if (action.type === NOTIFY_SEND || action.type === NOTIFY_RECEIVE) {
     return state;
   }
 
   switch (action.type) {
     case LOGIN_TWITTER:
-      return { ...state, provider: 'twitter' };
+      return { session: action.session, provider: 'twitter', view: 'menu' };
     case LOGIN_FACEBOOK:
-      return { ...state, provider: 'facebook' };
+      return { session: action.session, provider: 'facebook', view: 'menu' };
     default:
       return state;
   }

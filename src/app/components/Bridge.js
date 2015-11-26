@@ -1,17 +1,21 @@
 import React, { Component, PropTypes } from 'react';
+import util from 'util';
+import Login from './Login';
+import Menu from './Menu';
 
 class Bridge extends Component {
   render() {
     const { loginTwitter, loginFacebook, state } = this.props;
-    return (
-      <div>
-        <h3>Bridge</h3>
-        <p>{state.provider}</p>
-        <button className="btn" onClick={loginTwitter}>Login on Twitter</button>
-        {' '}
-        <button className="btn" onClick={loginFacebook}>Login on Facebook</button>
-      </div>
-    );
+    let view = ((state && state.bridge && state.bridge.view) ? state.bridge.view : 'login');
+
+    switch (view) {
+      case 'login':
+        return (<Login {...this.props} />);
+      case 'menu':
+        return (<Menu />);
+      default:
+        return null;
+    }
   }
 }
 
