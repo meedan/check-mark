@@ -6,6 +6,7 @@ class Bridge extends Component {
     return (
       <div>
         <h3>Bridge</h3>
+        <p>{state.provider}</p>
         <button className="btn" onClick={loginTwitter}>Login on Twitter</button>
         {' '}
         <button className="btn" onClick={loginFacebook}>Login on Facebook</button>

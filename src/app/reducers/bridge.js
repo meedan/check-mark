@@ -1,8 +1,9 @@
 import { LOGIN_TWITTER, LOGIN_FACEBOOK, NOTIFY_SEND, NOTIFY_RECEIVE } from '../constants/ActionTypes';
+import util from 'util';
 
 export default function bridge(state = { provider: null }, action) {
-  if (window.bgBadge && (action.type === NOTIFY_SEND || action.type === NOTIFY_RECEIVE)) {
-    window.bgBadge(state.provider); return state;
+  if (action.type === NOTIFY_SEND || action.type === NOTIFY_RECEIVE) {
+    return state;
   }
 
   switch (action.type) {

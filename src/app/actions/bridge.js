@@ -3,7 +3,15 @@ import axios from 'axios';
 import util from 'util';
 import config from '../config/config.js';
 
-var login = function(provider) {
+// React callback
+
+var callback = function(session, type) {
+  return { type: type, session: session };
+};
+
+// Request auth information from backend
+
+var request = function(provider, type, dispatch) {
   axios.get(config.bridgeApiBase + '/api/users/' + provider + '_info')
   .then(function(response) {
     if (response.data == null) {
@@ -11,23 +19,36 @@ var login = function(provider) {
       var timer = window.setInterval(function() {   
         if (win.closed) {  
           window.clearInterval(timer);
-          return login(provider);
+          request(provider, type, dispatch);
         }  
       }, 500);
     }
     else {
-      window.alert('Logged in on ' + provider + ' as ' + response.data.name);
-      return response.data;
+      dispatch(callback(response.data, type));
     }
   });
 };
 
 export function loginTwitter() {
-  var session = login('twitter');
-  return { type: LOGIN_TWITTER, session: session };
+  return (dispatch, getState) => {
+    const { session } = getState();
+
+    if (session != undefined && session.provider === 'twitter') {
+      dispatch(callback(session, LOGIN_TWITTER));
+    }
+
+    request('twitter', LOGIN_TWITTER, dispatch);
+  };
 }
 
 export function loginFacebook() {
-  var session = login('facebook');
-  return { type: LOGIN_FACEBOOK, session: session };
+  return (dispatch, getState) => {
+    const { session } = getState();
+
+    if (session != undefined && session.provider === 'facebook') {
+      dispatch(callback(session, LOGIN_FACEBOOK));
+    }
+
+    request('facebook', LOGIN_FACEBOOK, dispatch);
+  };
 }
