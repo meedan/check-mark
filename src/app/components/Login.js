@@ -3,7 +3,7 @@ import util from 'util';
 
 class Login extends Component {
   render() {
-    const { loginTwitter, loginFacebook, state } = this.props;
+    const { loginTwitter, loginFacebook, goBack, state } = this.props;
     return (
       <div>
         <h3>Connect with:</h3>

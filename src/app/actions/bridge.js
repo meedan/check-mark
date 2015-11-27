@@ -1,4 +1,4 @@
-import { LOGIN_TWITTER, LOGIN_FACEBOOK } from '../constants/ActionTypes';
+import { LOGIN_TWITTER, LOGIN_FACEBOOK, GO_BACK } from '../constants/ActionTypes';
 import axios from 'axios';
 import util from 'util';
 import config from '../config/config.js';
@@ -50,5 +50,11 @@ export function loginFacebook() {
     }
 
     request('facebook', LOGIN_FACEBOOK, dispatch);
+  };
+}
+
+export function goBack() {
+  return (dispatch, getState) => {
+    dispatch({ type: GO_BACK, view: 'login' });
   };
 }

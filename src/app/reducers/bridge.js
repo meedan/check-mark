@@ -11,6 +11,6 @@ export default function bridge(state = { session: null }, action) {
     case LOGIN_FACEBOOK:
       return { session: action.session, provider: 'facebook', view: 'menu' };
     default:
-      return state;
+      return { session: state.session, view: action.view };
   }
 }
