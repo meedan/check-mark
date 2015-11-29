@@ -3,6 +3,7 @@ import util from 'util';
 import Login from './Login';
 import Menu from './Menu';
 import Message from './Message';
+import SavePost from './SavePost';
 
 class Bridge extends Component {
   render() {
@@ -16,6 +17,8 @@ class Bridge extends Component {
         return (<Menu {...this.props} />);
       case 'message':
         return (<Message {...this.props} />);
+      case 'save_post':
+        return (<SavePost {...this.props} />);
       default:
         return null;
     }

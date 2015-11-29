@@ -79,6 +79,7 @@
     "react": "^0.14.0",
     "react-dom": "^0.14.0",
     "react-redux": "^4.0.0",
+    "react-select": "^0.9.1",
     "redux": "^3.0.0",
     "redux-notify": "^0.1.1",
     "redux-persist": "^1.4.1",
