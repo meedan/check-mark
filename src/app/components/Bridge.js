@@ -2,10 +2,11 @@ import React, { Component, PropTypes } from 'react';
 import util from 'util';
 import Login from './Login';
 import Menu from './Menu';
+import Message from './Message';
 
 class Bridge extends Component {
   render() {
-    const { loginTwitter, loginFacebook, goBack, state } = this.props;
+    const { loginTwitter, loginFacebook, goBack, savePost, state } = this.props;
     let view = ((state && state.bridge && state.bridge.view) ? state.bridge.view : 'login');
 
     switch (view) {
@@ -13,6 +14,8 @@ class Bridge extends Component {
         return (<Login {...this.props} />);
       case 'menu':
         return (<Menu {...this.props} />);
+      case 'message':
+        return (<Message {...this.props} />);
       default:
         return null;
     }
@@ -20,8 +23,6 @@ class Bridge extends Component {
 }
 
 Bridge.propTypes = {
-  loginTwitter: PropTypes.func.isRequired,
-  loginFacebook: PropTypes.func.isRequired,
   state: PropTypes.object.isRequired
 };
 
