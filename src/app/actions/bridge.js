@@ -85,8 +85,15 @@ export function savePost() {
         dispatch({ type: ERROR, message: 'Oops! Looks like you\'re not assigned to a project yet. Please email us hello@speakbridge.io to be assigned to a project.', view: 'message', session: state.session, previousView: state.view, errorType: 'no-project' })
       }
       else {
-        dispatch({ type: SAVE_POST, view: 'save_post', session: state.session, previousView: state.view, projects: data })
+        dispatch({ type: SAVE_POST, view: 'save_post', session: state.session, previousView: 'menu', projects: data })
       }
     });
+  };
+}
+
+export function submitPost(data) {
+  return (dispatch, getState) => {
+    var project = data.target['0'].value,
+        url     = getState().extension.url;
   };
 }

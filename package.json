@@ -85,9 +85,11 @@
     "react-redux": "^4.0.0",
     "react-select": "^0.9.1",
     "redux": "^3.0.0",
+    "redux-form": "^3.1.0",
     "redux-notify": "^0.1.1",
     "redux-persist": "^1.4.1",
     "redux-thunk": "^1.0.0",
+    "scriptjs": "^2.5.8",
     "util": "^0.10.3"
   }
 }

@@ -12,11 +12,14 @@ class SelectProject extends Component {
     }
 
     return (
-      <Select
-         name="select-project"
-         value=""
-         options={options}
-      />
+      <div>
+        <label>Project</label>
+        <Select
+           name="project"
+           value=""
+           options={options}
+        />
+      </div>
     );
   }
 }

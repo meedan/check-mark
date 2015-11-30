@@ -7,7 +7,7 @@ import SavePost from './SavePost';
 
 class Bridge extends Component {
   render() {
-    const { loginTwitter, loginFacebook, goBack, savePost, state } = this.props;
+    const { loginTwitter, loginFacebook, goBack, savePost, submitPost, state } = this.props;
     let view = ((state && state.bridge && state.bridge.view) ? state.bridge.view : 'login');
 
     switch (view) {
