@@ -1,9 +1,9 @@
-import { LOGIN_TWITTER, LOGIN_FACEBOOK, GO_BACK, SAVE_POST, ERROR } from '../constants/ActionTypes';
+import { LOGIN_TWITTER, LOGIN_FACEBOOK, GO_BACK, SAVE_POST, SAVE_TRANSLATION, ERROR } from '../constants/ActionTypes';
 import { sendNotification } from '../actions/extension';
 
 const events = [
   {
-    catch: [LOGIN_TWITTER, LOGIN_FACEBOOK, GO_BACK, SAVE_POST, ERROR],
+    catch: [LOGIN_TWITTER, LOGIN_FACEBOOK, GO_BACK, SAVE_POST, SAVE_TRANSLATION, ERROR],
     dispatch: sendNotification
   }
 ];

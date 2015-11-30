@@ -1,4 +1,4 @@
-import { LOGIN_TWITTER, LOGIN_FACEBOOK, GO_BACK, SAVE_POST, ERROR } from '../constants/ActionTypes';
+import { LOGIN_TWITTER, LOGIN_FACEBOOK, GO_BACK, SAVE_POST, SAVE_TRANSLATION, ERROR } from '../constants/ActionTypes';
 import axios from 'axios';
 import util from 'util';
 import config from '../config/config.js';
@@ -97,6 +97,38 @@ export function savePost() {
   };
 }
 
+export function saveTranslation() {
+  return (dispatch, getState) => {
+    var state = getState().bridge;
+    request('get', 'projects', state.session, {}, SAVE_TRANSLATION, dispatch, 'save_translation', state.view, function(dispatch, response) {
+      var projects = response.data.data;
+      if (projects.length === 0) {
+        dispatch({ type: ERROR, message: 'Oops! Looks like you\'re not assigned to a project yet. Please email us hello@speakbridge.io to be assigned to a project.', view: 'message', session: state.session, previousView: state.view, errorType: 'no-project' })
+      }
+      else {
+        getState().extension.projects = projects.slice();
+        request('get', 'languages/me', state.session, {}, SAVE_TRANSLATION, dispatch, 'save_translation', state.view, function(dispatch, response) {
+          var languages = [];
+          // FIXME: Get names from server
+          var labels = {
+            'en_US': 'English',
+            'pt_BR': 'Portuguese',
+            'es_LA': 'Spanish',
+            'ar_AR': 'Arabic'
+          };
+          var pairs = response.data.data;
+          for (var i = 0; i < pairs.length; i++) {
+            var value = pairs[i].replace(/^[^:]+:/, '');
+            languages.push({ label: labels[value], value: value });
+          }
+          getState().extension.languages = languages.slice();
+          dispatch({ type: SAVE_POST, view: 'save_translation', session: state.session, previousView: 'menu' })
+        });
+      }
+    });
+  };
+}
+
 export function submitPost(data) {
   return (dispatch, getState) => {
     var project_id = data.target['0'].value,
@@ -105,6 +137,21 @@ export function submitPost(data) {
 
     request('post', 'posts', state.session, { url: url, project_id: project_id }, SAVE_POST, dispatch, 'message', 'save_post', function(dispatch, response) {
       dispatch({ type: SAVE_POST, message: 'Thanks, your post was saved!', view: 'message', session: state.session, previousView: 'save_post' })
+    });
+  };
+}
+
+export function submitTranslation(data) {
+  return (dispatch, getState) => {
+    var project_id  = data.target['0'].value,
+        lang        = data.target['2'].value,
+        translation = data.target['4'].value,
+        comment     = data.target['5'].value,
+        state       = getState().bridge,
+        url         = getState().extension.url;
+
+    request('post', 'posts', state.session, { url: url, project_id: project_id, translation: translation, comment: comment, lang: lang }, SAVE_POST, dispatch, 'message', 'save_post', function(dispatch, response) {
+      dispatch({ type: SAVE_POST, message: 'Thanks, your translation was saved!', view: 'message', session: state.session, previousView: 'save_post' })
     });
   };
 }
