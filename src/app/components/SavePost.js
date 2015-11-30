@@ -10,7 +10,7 @@ class SavePost extends Component {
         <form onSubmit={submitPost.bind(this)}>
           <p><a onClick={goBack}>Back</a></p>
           <Embedly url={state.extension.url} />
-          <SelectProject projects={state.bridge.projects} />
+          <SelectProject projects={state.extension.projects} />
           <button className="btn">Add to Project</button>
         </form>
       </div>

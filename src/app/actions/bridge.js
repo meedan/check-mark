@@ -5,23 +5,27 @@ import config from '../config/config.js';
 
 // Request information from the backend, after logged in
 
-var request = function(method, endpoint, session, type, dispatch, view, previousView, callback) {
+var request = function(method, endpoint, session, data, type, dispatch, view, previousView, callback) {
   var headers = {
     'X-Bridge-Token': session.token,
     'X-Bridge-Uuid': session.id,
     'X-Bridge-Provider': session.provider,
     'X-Bridge-Secret': session.secret
   };
-  axios({ method: method, url: config.bridgeApiBase + '/api/' + endpoint, headers: headers })
+  axios({ method: method, url: config.bridgeApiBase + '/api/' + endpoint, headers: headers, data: data, timeout: 100000 })
   .then(function(response) {
-    if (!response.data || !response.data.type) {
-      dispatch({ type: ERROR, message: 'Something wrong happened! Please try again.', view: 'message', session: session, previousView: previousView })
+     callback(dispatch, response);
+  })
+  .catch(function(response) {
+    if (response instanceof Error) {
+      dispatch({ type: ERROR, message: response.message, view: 'message', session: session, previousView: previousView })
     }
-    else if (response.status != 200 && response.data.type === 'error') {
-      dispatch({ type: ERROR, message: response.data.data.message, view: 'message', session: session, previousView: previousView })
-    }
-    else if (response.status === 200) {
-      callback(dispatch, response.data.data);
+    else {
+      var message = 'Error code: ' + response.status;
+      if (response.data.data && response.data.data.message) {
+        message = response.data.data.message;
+      }
+      dispatch({ type: ERROR, message: message, view: 'message', session: session, previousView: previousView })
     }
   });
 };
@@ -80,12 +84,14 @@ export function goBack() {
 export function savePost() {
   return (dispatch, getState) => {
     var state = getState().bridge;
-    request('get', 'projects', state.session, SAVE_POST, dispatch, 'save_post', state.view, function(dispatch, data) {
-      if (data.length === 0) {
+    request('get', 'projects', state.session, {}, SAVE_POST, dispatch, 'save_post', state.view, function(dispatch, response) {
+      var projects = response.data.data;
+      if (projects.length === 0) {
         dispatch({ type: ERROR, message: 'Oops! Looks like you\'re not assigned to a project yet. Please email us hello@speakbridge.io to be assigned to a project.', view: 'message', session: state.session, previousView: state.view, errorType: 'no-project' })
       }
       else {
-        dispatch({ type: SAVE_POST, view: 'save_post', session: state.session, previousView: 'menu', projects: data })
+        getState().extension.projects = projects.slice();
+        dispatch({ type: SAVE_POST, view: 'save_post', session: state.session, previousView: 'menu' })
       }
     });
   };
@@ -93,7 +99,12 @@ export function savePost() {
 
 export function submitPost(data) {
   return (dispatch, getState) => {
-    var project = data.target['0'].value,
-        url     = getState().extension.url;
+    var project_id = data.target['0'].value,
+        state      = getState().bridge,
+        url        = getState().extension.url;
+
+    request('post', 'posts', state.session, { url: url, project_id: project_id }, SAVE_POST, dispatch, 'message', 'save_post', function(dispatch, response) {
+      dispatch({ type: SAVE_POST, message: 'Thanks, your post was saved!', view: 'message', session: state.session, previousView: 'save_post' })
+    });
   };
 }
