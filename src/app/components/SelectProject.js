@@ -14,7 +14,7 @@ class SelectProject extends Component {
     return (
       <Select
          name="select-project"
-         value="one"
+         value=""
          options={options}
       />
     );

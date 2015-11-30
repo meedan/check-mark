@@ -4,14 +4,15 @@
   "description": "Bridge web client",
   "scripts": {
     "start": "gulp",
-    "build:extension": "BABEL_ENV=production gulp build:extension",
+    "build:extension": "npm run style && BABEL_ENV=production gulp build:extension",
     "build:app": "BABEL_ENV=production gulp build:app",
     "build:firefox": "BABEL_ENV=production gulp build:firefox",
     "compress:extension": "npm run build:extension && gulp compress:extension",
     "compress:app": "npm run build:app && gulp compress:app",
     "compress:firefox": "npm run build:firefox && gulp compress:firefox",
     "clean": "rm -rf build/ && rm -rf dev/",
-    "dev": "gulp dev"
+    "dev": "gulp dev",
+    "style": "mkdir -p build/extension/css 2>/dev/null && node-sass src/app/styles/stylesheet.scss --output-style=compressed | postcss --use autoprefixer -o build/extension/css/stylesheet.css"
   },
   "repository": {
     "type": "git",
@@ -72,10 +73,13 @@
     "webpack-dev-server": "^1.12.1"
   },
   "dependencies": {
+    "autoprefixer": "^6.1.1",
     "axios": "^0.7.0",
     "chrome-storage-local": "^0.1.1",
     "crossmessaging": "0.1.1",
     "http": "0.0.0",
+    "node-sass": "^3.4.2",
+    "postcss-cli": "^2.3.2",
     "react": "^0.14.0",
     "react-dom": "^0.14.0",
     "react-redux": "^4.0.0",
