@@ -1,13 +1,16 @@
 import React, { Component, PropTypes } from 'react';
-import util from 'util';
+import BackBar from './BackBar';
 
 class Message extends Component {
   render() {
     const { loginTwitter, loginFacebook, goBack, savePost, submitPost, saveTranslation, submitTranslation, state } = this.props;
     return (
       <div className={state.bridge.errorType}>
-        <p><a onClick={goBack}>{ state.bridge.previousView === 'reload' ? 'Done' : 'Back' }</a></p>
-        <div className="message" dangerouslySetInnerHTML={{__html: state.bridge.message}}></div>
+        <BackBar goBack={goBack} />
+        <div class="textured">
+          <img src="images/confirmation-translated.svg" />
+          <div className="message" dangerouslySetInnerHTML={{__html: state.bridge.message}}></div>
+        </div>
       </div>
     );
   }

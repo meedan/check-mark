@@ -19,6 +19,6 @@
   },
   "content_scripts": [
   ],
-  "permissions": [ "contextMenus", "tabs", "storage", "http://localhost:3000/", "https://cdn.embedly.com/", "https://platform.twitter.com/", "https://cdn.api.twitter.com/", "https://syndication.twimg.com/", "https://syndication.twitter.com/"],
-  "content_security_policy": "script-src 'self' https://cdn.embedly.com https://platform.twitter.com https://cdn.api.twitter.com https://syndication.twimg.com https://syndication.twitter.com; object-src 'self'; style-src * 'unsafe-inline'; img-src 'self' https://i-cdn.embed.ly https://syndication.twitter.com data: https://*.twimg.com https://platform.twitter.com;"
+  "permissions": [ "contextMenus", "tabs", "storage", "http://localhost:3000/", "https://cdn.embedly.com/", "https://platform.twitter.com/", "https://cdn.api.twitter.com/", "https://syndication.twimg.com/", "https://syndication.twitter.com/", "https://fonts.googleapis.com/"],
+  "content_security_policy": "script-src 'self' https://cdn.embedly.com https://platform.twitter.com https://cdn.api.twitter.com https://syndication.twimg.com https://syndication.twitter.com; object-src 'self'; style-src * 'unsafe-inline'; img-src 'self' https://i-cdn.embed.ly https://syndication.twitter.com data: https://*.twimg.com https://platform.twitter.com https://fonts.googleapis.com;"
 }

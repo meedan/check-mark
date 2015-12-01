@@ -90,13 +90,13 @@ export function loginFacebook() {
 
 export function goBack() {
   return (dispatch, getState) => {
-    var state = getState().bridge;
-    if (state.previousView === 'reload') {
+    // var state = getState().bridge;
+    // if (state.previousView === 'reload') {
       getState().extension.runtime.reload();
-    }
-    else {
-      dispatch({ type: GO_BACK, view: state.previousView, session: state.session, previousView: 'login' });
-    }
+    // }
+    // else {
+    //   dispatch({ type: GO_BACK, view: state.previousView, session: state.session, previousView: 'login' });
+    // }
   };
 }
 
@@ -157,7 +157,7 @@ export function submitPost(e) {
         url        = getState().extension.url;
 
     request('post', 'posts', state.session, { url: url, project_id: project_id }, SAVE_POST, dispatch, 'message', 'save_post', function(dispatch, response) {
-      dispatch({ type: SAVE_POST, message: '<h3>Success!</h3><p>This post will be available for translators</p>', view: 'message', session: state.session, previousView: 'reload' })
+      dispatch({ type: SAVE_POST, message: '<h1>Success!</h1><h2>This post will be available for translators</h2>', view: 'message', session: state.session, previousView: 'reload' })
     });
     e.preventDefault();
   };
@@ -176,7 +176,7 @@ export function submitTranslation(e) {
 
     request('post', 'posts', state.session, { url: url, project_id: project_id, translation: translation, comment: comment, lang: lang }, SAVE_POST, dispatch, 'message', 'save_translation', function(dispatch, response) {
       var embed_url = response.data.embed_url;
-      dispatch({ type: SAVE_POST, message: '<h3>Success! Thank you!</h3><p>See your translation at <a href="' + embed_url + '" target="_blank">' + embed_url + '</a></p>', view: 'message', session: state.session, previousView: 'reload' })
+      dispatch({ type: SAVE_POST, message: '<h1>Success! Thank you!</h1><h2>See your translation at</h2><a href="' + embed_url + '" target="_blank" class="plain-text">' + embed_url + '</a>', view: 'message', session: state.session, previousView: 'reload' })
     });
     e.preventDefault();
   };

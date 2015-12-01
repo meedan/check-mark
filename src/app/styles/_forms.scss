@@ -1,0 +1,61 @@
+form {
+  margin: 0 auto;
+  align-content: center;
+}
+
+label {
+  float: left;
+  font-size: 20px;
+  color: $warm-gray;
+  font-weight: 700;
+  padding-top: 1.5em;
+  padding-bottom: 0.5em;
+}
+
+* {
+  outline: none !important;
+}
+
+.dropdown {
+  display: block;
+  clear: both;
+  margin-top: 40px;
+  margin-left: 10px;
+  border: 2px solid $keyboard-gray;
+  font-size: 16px;
+}
+
+select {
+  width: 100%;
+  color: #000;
+}
+
+textarea {
+  display: block;
+  width: 90%;
+  border-radius: 4px;
+  padding: 0px;
+  min-height: 80px;
+}
+
+textarea#translation {
+  border: 2px solid $bridge-orange;
+}
+
+textarea#annotation {
+  border: 2px solid $light-bridge-orange;
+  background: $light-bridge-orange;
+}
+
+div.select-project, div.select-language {
+  width: 48%;
+  float: left;
+}
+
+#submit {
+  clear: both;
+}
+
+.Select-clear {
+  display: none;
+}

@@ -1,13 +1,176 @@
+@charset "utf-8";
+
+@import url(https://fonts.googleapis.com/css?family=Lato:400,100,100italic,300,300italic,400italic,700,700italic,900,900italic);
+
 @import "react-select";
+@import "normalize";
+@import "colors";
+@import "buttons";
+@import "forms";
 
 body {
-  background-color: #eee;
-  width: 400px;
+  text-align: center;
+  margin: auto;
+  font-family: "Lato", sans-serif;
+  width: 500px;
+  padding: 50px 10px;
 }
 
-textarea {
-  width: 100%;
+// Some basic font colors
+
+.orange-text {
+  color: $bridge-orange;
 }
+
+h1 {
+  color: rgba(0, 0, 0, .3);
+  font-weight: bold;
+  font-size: 32px;
+  letter-spacing: -1px;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, .5);
+  background: none;
+  margin: 0;
+}
+
+h3, h2 {
+  color: $warm-gray;
+}
+
+h3 {
+  font-size: 20px;
+}
+
+// Basic Backgrounds
+
+.textured:before {
+  content: "";
+  display: block;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  opacity: 0.3;
+  background-repeat: no-repeat;
+  // background-position: 100% 0;
+  -ms-background-size: cover;
+  -o-background-size: cover;
+  -moz-background-size: cover;
+  -webkit-background-size: cover;
+  background-size: cover;
+  background-image: url("/images/contours.svg");
+}
+
+// Any semblance of a grid
+
+.column {
+  display: flex;
+  flex: none;
+  flex-direction: column;
+}
+
+// Top back bar
+
+.back-bar {
+  background: #ffffff;
+  width: 100%;
+  height: 40px;
+  margin: 0;
+  padding: 0;
+  border-bottom: 1px solid $light-gray;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+
+  a {
+    margin-top: 10px;
+    margin-right: 10px;
+    text-decoration: none;
+    float: right;
+    color: $bridge-orange;
+    cursor: pointer;
+  }
+
+  img {
+    vertical-align: bottom;
+    padding-right: 6px;
+  }
+}
+
+// Individual screens section
+
+// Login Screen
+
+.row {
+  padding: 1.5em 0em;
+}
+
+.login-button {
+  margin-top: 5em;
+}
+
+.login-header, .header-general {
+  padding-top: 5em;
+  h1 {
+    padding-top: 1em;
+  }
+  h2 {
+    padding-top: 0;
+  }
+  a.plain-link {
+    color: $bridge-orange;
+    font-size: 1.5em;
+  }
+}
+
+// Choices (choose action) page
+
+.choose {
+  margin-top: 80px;
+}
+
+.action {
+  margin-top: 0px;
+  font-size: 24px;
+}
+
+.light-gray-background {
+  background-color: $light-gray;
+  margin: 10px 20px 10px 20px;
+  border-radius: 10px;
+  padding: 30px 0;
+}
+
+.twitter-tweet {
+}
+
+// Unassigned page
+
+img.unassigned {
+  position: fixed;
+  margin-top: 0;
+  margin-left: 0px;
+}
+
+.main-message {
+  text-align: center;
+  margin-top: 400px;
+  a {
+    color: $bridge-orange;
+  }
+}
+
+// General error page
+
+img.bug {
+  position: fixed;
+  margin-top: 50px;
+  margin-left: 240px;
+}
+
+// Source embed
 
 #embedly {
   display: block;

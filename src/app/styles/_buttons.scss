@@ -1,0 +1,30 @@
+.btn {
+  font-size: 16px;
+  line-height: 19px;
+  text-decoration: none;
+  padding: 1em 1.5em;
+  cursor: pointer;
+  border: 0;
+}
+
+.btn-facebook-login {
+  margin: 0 30px;
+  color: #FFFFFF;
+  background: #3B5998;
+}
+
+.btn-twitter-login {
+  margin: 0 30px;
+  color: #FFFFFF;
+  background: #4099FF;
+}
+
+.btn-large {
+  margin: 2em auto;
+  color: $bridge-orange;
+  border: 2px solid $bridge-orange;
+  background: #ffffff;
+  min-width: 300px;
+  max-width: 300px;
+  padding: 1em 1.5em;
+}

@@ -1,6 +1,5 @@
 import React, { Component, PropTypes } from 'react';
 import Select from 'react-select';
-import util from 'util';
 
 class SelectProject extends Component {
   render() {
@@ -13,10 +12,12 @@ class SelectProject extends Component {
 
     return (
       <div>
-        <label>Project</label>
+        <label for="project">Project:</label>
         <Select
            name="project"
            value=""
+           className="dropdown"
+           id="project"
            options={options}
         />
       </div>

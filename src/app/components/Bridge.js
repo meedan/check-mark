@@ -1,5 +1,4 @@
 import React, { Component, PropTypes } from 'react';
-import util from 'util';
 import Login from './Login';
 import Menu from './Menu';
 import Message from './Message';
