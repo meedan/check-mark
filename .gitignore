@@ -4,3 +4,4 @@ node_modules
 npm-debug.log
 src/browser/extension/manifest.prod.json
 src/app/config/config.prod.js
+build
