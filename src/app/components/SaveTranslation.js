@@ -15,7 +15,7 @@ class SaveTranslation extends Component {
             <h3 className="action">Translate this post</h3>
             <div className="column form-column">
               <Embedly url={state.extension.url} />
-              <form onSubmit={submitPost.bind(this)}>
+              <form onSubmit={submitTranslation.bind(this)}>
                 
                 <label for="translation">Translation</label>
                 <textarea name="translation-text" id="translation">Enter your translation here</textarea>

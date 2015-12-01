@@ -176,7 +176,7 @@ export function submitTranslation(e) {
 
     request('post', 'posts', state.session, { url: url, project_id: project_id, translation: translation, comment: comment, lang: lang }, SAVE_POST, dispatch, 'message', 'save_translation', function(dispatch, response) {
       var embed_url = response.data.embed_url;
-      dispatch({ type: SAVE_POST, message: '<h1>Success! Thank you!</h1><h2>See your translation at</h2><a href="' + embed_url + '" target="_blank" class="plain-text">' + embed_url + '</a>', view: 'message', session: state.session, previousView: 'reload' })
+      dispatch({ type: SAVE_POST, message: '<h1>Success! Thank you!</h1><h2>See your translation at</h2><a href="' + embed_url + '" target="_blank" class="plain-link">' + embed_url + '</a>', view: 'message', session: state.session, previousView: 'reload' })
     });
     e.preventDefault();
   };
