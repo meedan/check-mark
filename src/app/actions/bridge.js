@@ -167,10 +167,10 @@ export function submitTranslation(e) {
   return (dispatch, getState) => {
     disableButton();
 
-    var project_id  = e.target['0'].value,
-        lang        = e.target['2'].value,
-        translation = e.target['4'].value,
-        comment     = e.target['5'].value,
+    var project_id  = e.target['2'].value,
+        lang        = e.target['4'].value,
+        translation = e.target['0'].value,
+        comment     = e.target['1'].value,
         state       = getState().bridge,
         url         = getState().extension.url;
 
