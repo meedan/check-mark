@@ -7,7 +7,7 @@ class Message extends Component {
     return (
       <div className={state.bridge.errorType}>
         <p><a onClick={goBack}>Back</a></p>
-        <p className="message">{state.bridge.message}</p>
+        <div className="message" dangerouslySetInnerHTML={{__html: state.bridge.message}}></div>
       </div>
     );
   }

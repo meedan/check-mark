@@ -150,7 +150,7 @@ export function submitPost(e) {
         url        = getState().extension.url;
 
     request('post', 'posts', state.session, { url: url, project_id: project_id }, SAVE_POST, dispatch, 'message', 'save_post', function(dispatch, response) {
-      dispatch({ type: SAVE_POST, message: 'Thanks, your post was saved!', view: 'message', session: state.session, previousView: 'save_post' })
+      dispatch({ type: SAVE_POST, message: '<h3>Success!</h3><p>This post will be available for translators</p>', view: 'message', session: state.session, previousView: 'save_post' })
     });
     e.preventDefault();
   };
@@ -166,7 +166,8 @@ export function submitTranslation(e) {
         url         = getState().extension.url;
 
     request('post', 'posts', state.session, { url: url, project_id: project_id, translation: translation, comment: comment, lang: lang }, SAVE_POST, dispatch, 'message', 'save_post', function(dispatch, response) {
-      dispatch({ type: SAVE_POST, message: 'Thanks, your translation was saved!', view: 'message', session: state.session, previousView: 'save_post' })
+      var embed_url = response.data.embed_url;
+      dispatch({ type: SAVE_POST, message: '<h3>Success! Thank you!</h3><p>See your translation at <a href="' + embed_url + '" target="_blank">' + embed_url + '</a></p>', view: 'message', session: state.session, previousView: 'save_post' })
     });
     e.preventDefault();
   };
