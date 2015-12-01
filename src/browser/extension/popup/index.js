@@ -9,6 +9,7 @@ chrome.runtime.getBackgroundPage( background => {
       var url = tabs[0].url;
       var state = background.store.getState();
       state.extension.url = url;
+      state.extension.runtime = chrome.runtime;
 
       render(
         <Root store={background.store} />,

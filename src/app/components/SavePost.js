@@ -11,7 +11,7 @@ class SavePost extends Component {
           <p><a onClick={goBack}>Back</a></p>
           <Embedly url={state.extension.url} />
           <SelectProject projects={state.extension.projects} />
-          <button className="btn">Add to Project</button>
+          <button className="btn" id="submit">Add to Project</button>
         </form>
       </div>
     );

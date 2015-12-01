@@ -13,12 +13,12 @@ class SaveTranslation extends Component {
           <Embedly url={state.extension.url} />
           <SelectProject projects={state.extension.projects} />
           <label>Language</label>
-          <Select name="lang" value="" options={state.extension.languages} />
+          <Select name="language" value="" options={state.extension.languages} />
           <label>Translation</label>
           <textarea name="translation" />
           <label>Annotation</label>
           <textarea name="annotation" />
-          <button className="btn">Submit Translation</button>
+          <button className="btn" id="submit">Submit Translation</button>
         </form>
       </div>
     );

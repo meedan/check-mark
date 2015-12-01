@@ -22,7 +22,7 @@ class Embedly extends Component {
 
   render() {
     if (this.domain() === 'twitter.com') {
-      return (<div className="embed"><blockquote className="twitter-tweet" lang="pt"><a href={this.props.url}></a></blockquote></div>);
+      return (<div className="embed"><blockquote className="twitter-tweet"><a id="embedly" href={this.props.url}></a></blockquote></div>);
     }
     else {
       return (<div className="embed"><a data-card-controls="0" data-card-width="100%" id="embedly" href={this.props.url}></a></div>);
