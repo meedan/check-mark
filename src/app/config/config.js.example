@@ -1,0 +1,5 @@
+var config = {};
+
+config.bridgeApiBase = 'http://bridge-api-base';
+
+module.exports = config;

@@ -5,11 +5,6 @@
   "scripts": {
     "start": "gulp",
     "build:extension": "npm run style && BABEL_ENV=production gulp build:extension",
-    "build:app": "BABEL_ENV=production gulp build:app",
-    "build:firefox": "BABEL_ENV=production gulp build:firefox",
-    "compress:extension": "npm run build:extension && gulp compress:extension",
-    "compress:app": "npm run build:app && gulp compress:app",
-    "compress:firefox": "npm run build:firefox && gulp compress:firefox",
     "clean": "rm -rf build/ && rm -rf dev/",
     "dev": "gulp dev",
     "style": "mkdir -p build/extension/css 2>/dev/null && node-sass src/app/styles/stylesheet.scss --output-style=compressed | postcss --use autoprefixer -o build/extension/css/stylesheet.css && cp -r src/app/styles/images build/extension/"
@@ -53,6 +48,7 @@
     "gulp": "^3.9.0",
     "gulp-jade": "1.1.0",
     "gulp-rename": "^1.2.2",
+    "gulp-replace": "^0.5.4",
     "gulp-util": "^3.0.6",
     "gulp-zip": "^3.0.2",
     "html-webpack-plugin": "^1.6.2",
