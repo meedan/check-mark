@@ -1,5 +1,5 @@
 var config = {};
 
-config.bridgeApiBase = 'http://localhost:3000';
+config.bridgeApiBase = 'https://bridge-api.edge.meedan.com';
 
 module.exports = config;
