@@ -10,3 +10,4 @@ TODO
 * I found out that there are a couple Facebook URL patterns that we don't support on our parser at this time (that never appeared to me, but appeared to An) (will need to add support in our parser)
 * Translation field is cleared when you click (easy to fix)
 * Add a logout button
+* Detect language of translation to pre-select target language
