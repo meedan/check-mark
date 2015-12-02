@@ -5,10 +5,10 @@ class Message extends Component {
   render() {
     const { loginTwitter, loginFacebook, goBack, savePost, submitPost, saveTranslation, submitTranslation, state } = this.props;
     return (
-      <div className={state.bridge.errorType}>
+      <div>
         <BackBar goBack={goBack} />
         <div class="textured">
-          <img src="images/confirmation-translated.svg" />
+          <img src={state.bridge.image ? ('images/' + state.bridge.image + '.svg') : 'images/error-general-bug.svg' } />
           <div className="message" dangerouslySetInnerHTML={{__html: state.bridge.message}}></div>
         </div>
       </div>

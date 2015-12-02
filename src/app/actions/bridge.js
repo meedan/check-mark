@@ -26,10 +26,10 @@ var request = function(method, endpoint, session, data, type, dispatch, view, pr
     if (err) {
       if (err.response) {
         var json = JSON.parse(err.response.text);
-        dispatch({ type: ERROR, message: json.data.message, view: 'message', session: session, previousView: previousView })
+        dispatch({ type: ERROR, message: '<h2>' + json.data.message + '</h2>', view: 'message', session: session, previousView: previousView, image: 'error-invalid-url' })
       }
       else {
-        dispatch({ type: ERROR, message: util.inspect(err), view: 'message', session: session, previousView: previousView })
+        dispatch({ type: ERROR, message: util.inspect(err), view: 'message', session: session, previousView: previousView, image: 'error-invalid-url' })
       }
     }
     else {
@@ -38,7 +38,7 @@ var request = function(method, endpoint, session, data, type, dispatch, view, pr
         callback(dispatch, json);
       }
       else {
-        dispatch({ type: ERROR, message: json.data.message, view: 'message', session: session, previousView: previousView })
+        dispatch({ type: ERROR, message: '<h2>' + json.data.message + '</h2>', view: 'message', session: session, previousView: previousView, image: 'error-invalid-url' })
       }
     }
   });
@@ -49,7 +49,10 @@ var request = function(method, endpoint, session, data, type, dispatch, view, pr
 var requestAuth = function(provider, type, dispatch) {
   superagent.get(config.bridgeApiBase + '/api/users/' + provider + '_info')
   .end(function(err, response) {
-    if (response.text === 'null') {
+    if (err) {
+      dispatch({ type: ERROR, message: '<h2>Could not connect to Bridge</h2>', view: 'message', session: null, previousView: 'login' })
+    }
+    else if (response.text === 'null') {
       var win = window.open(config.bridgeApiBase + '/api/users/auth/' + provider + '?destination=/close.html', provider);
       var timer = window.setInterval(function() {   
         if (win.closed) {  
@@ -106,7 +109,7 @@ export function savePost() {
     request('get', 'projects', state.session, {}, SAVE_POST, dispatch, 'save_post', state.view, function(dispatch, response) {
       var projects = response.data;
       if (projects.length === 0) {
-        dispatch({ type: ERROR, message: 'Oops! Looks like you\'re not assigned to a project yet. Please email us hello@speakbridge.io to be assigned to a project.', view: 'message', session: state.session, previousView: state.view, errorType: 'no-project' })
+        dispatch({ type: ERROR, message: '<h1>Oops! Looks like you\'re not assigned to a project yet</h1><h2>Please email us hello@speakbridge.io to be assigned to a project.</h2>', view: 'message', session: state.session, previousView: state.view, image: 'error-unassigned' })
       }
       else {
         getState().extension.projects = projects.slice();
@@ -122,7 +125,7 @@ export function saveTranslation() {
     request('get', 'projects', state.session, {}, SAVE_TRANSLATION, dispatch, 'save_translation', state.view, function(dispatch, response) {
       var projects = response.data;
       if (projects.length === 0) {
-        dispatch({ type: ERROR, message: 'Oops! Looks like you\'re not assigned to a project yet. Please email us hello@speakbridge.io to be assigned to a project.', view: 'message', session: state.session, previousView: state.view, errorType: 'no-project' })
+        dispatch({ type: ERROR, message: '<h1>Oops! Looks like you\'re not assigned to a project yet</h1><h2>Please email us hello@speakbridge.io to be assigned to a project.</h2>', view: 'message', session: state.session, previousView: state.view, image: 'error-unassigned' })
       }
       else {
         getState().extension.projects = projects.slice();
@@ -157,7 +160,7 @@ export function submitPost(e) {
         url        = getState().extension.url;
 
     request('post', 'posts', state.session, { url: url, project_id: project_id }, SAVE_POST, dispatch, 'message', 'save_post', function(dispatch, response) {
-      dispatch({ type: SAVE_POST, message: '<h1>Success!</h1><h2>This post will be available for translators</h2>', view: 'message', session: state.session, previousView: 'reload' })
+      dispatch({ type: SAVE_POST, message: '<h1>Success!</h1><h2>This post will be available for translators</h2>', view: 'message', session: state.session, previousView: 'reload', image: 'confirmation-saved' })
     });
     e.preventDefault();
   };
@@ -176,7 +179,7 @@ export function submitTranslation(e) {
 
     request('post', 'posts', state.session, { url: url, project_id: project_id, translation: translation, comment: comment, lang: lang }, SAVE_POST, dispatch, 'message', 'save_translation', function(dispatch, response) {
       var embed_url = response.data.embed_url;
-      dispatch({ type: SAVE_POST, message: '<h1>Success! Thank you!</h1><h2>See your translation at</h2><a href="' + embed_url + '" target="_blank" class="plain-link">' + embed_url + '</a>', view: 'message', session: state.session, previousView: 'reload' })
+      dispatch({ type: SAVE_POST, message: '<h1>Success! Thank you!</h1><h2>See your translation at</h2><a href="' + embed_url + '" target="_blank" class="plain-link">' + embed_url + '</a>', view: 'message', session: state.session, previousView: 'reload', image: 'confirmation-translated' })
     });
     e.preventDefault();
   };
