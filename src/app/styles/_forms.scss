@@ -12,8 +12,9 @@ label {
   padding-bottom: 0.5em;
 }
 
-* {
-  outline: none !important;
+:focus {
+  outline-color: transparent;
+  outline-style: none;
 }
 
 .dropdown {

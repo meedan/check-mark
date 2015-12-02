@@ -12,7 +12,7 @@ class SelectProject extends Component {
 
     return (
       <div>
-        <label for="project">Project:</label>
+        <label for="project">Project</label>
         <Select
            name="project"
            value=""
