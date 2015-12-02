@@ -5,7 +5,7 @@
   "scripts": {
     "start": "gulp",
     "build:extension": "npm run style && BABEL_ENV=production gulp build:extension",
-    "clean": "rm -rf build/ && rm -rf dev/",
+    "clean": "rm -rf build src/browser/extension/manifest.json src/app/config/config.js",
     "dev": "gulp dev",
     "style": "mkdir -p build/extension/css 2>/dev/null && node-sass src/app/styles/stylesheet.scss --output-style=compressed | postcss --use autoprefixer -o build/extension/css/stylesheet.css && cp -r src/app/styles/images build/extension/"
   },
