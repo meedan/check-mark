@@ -1,0 +1,8 @@
+TODO
+
+* Add support to run it as a web application
+* Add support to run it as a Firefox extension
+* Add automated tests
+* Run the extension from the context menu by clicking on an icon
+* Do not show the "choose" screen - it can be inferred from the current post being displayed
+* Store the last choices of the user (e.g.: last project)
