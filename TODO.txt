@@ -6,3 +6,4 @@ TODO
 * Run the extension from the context menu by clicking on an icon
 * Do not show the "choose" screen - it can be inferred from the current post being displayed
 * Store the last choices of the user (e.g.: last project)
+* Allow setting the API URL from the extension settings
