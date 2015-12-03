@@ -8,7 +8,9 @@ import util from 'util';
 class SaveTranslation extends Component {
   onTranslationFocus() {
     var field = React.findDOMNode(this.translation)
-    field.value = "";
+    if (field.value === 'Enter your translation here') {
+      field.value = "";
+    }
     field.style.backgroundColor = '#F4F4F4';
   }
 
@@ -17,7 +19,10 @@ class SaveTranslation extends Component {
   }
 
   onAnnotationFocus() {
-    React.findDOMNode(this.annotation).value = "";
+    var field = React.findDOMNode(this.annotation);
+    if (field.value === 'Enter your annotation here') {
+      field.value = "";
+    }
   }
 
   render() {
