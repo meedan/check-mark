@@ -4,10 +4,11 @@ TODO
 * Add support to run it as a Firefox extension
 * Add automated tests
 * Run the extension from the context menu by clicking on an icon
-* Do not show the "choose" screen - it can be inferred from the current post being displayed
+* Do not show the "choose login" screen - it can be inferred from the current post being displayed
 * Store the last choices of the user (e.g.: last project)
 * Allow setting the API URL from the extension settings
 * I found out that there are a couple Facebook URL patterns that we don't support on our parser at this time (that never appeared to me, but appeared to An) (will need to add support in our parser)
 * Translation field is cleared when you click (easy to fix)
 * Add a logout button
 * Detect language of translation to pre-select target language
+* Allow RTL composition for translation and annotation fields
