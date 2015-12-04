@@ -2,7 +2,19 @@
   "version": "0.1.0",
   "name": "Bridge",
   "manifest_version": 2,
-  "description": "Translate social media",
+  "description": "Bridge is currently only available to translators and project leaders who have set up their accounts after contacting Meedan Labs. To apply to use the software for your online community, please visit http://www.meedan.com/bridge. This is a beta application.
+  
+Bridge enables rapid translation of public social media content and the addition of important cultural, social and political notes to facilitate understanding and build connections.
+  
+Here's what you can do with this application:
+  
+Translate and Annotate: Participants can translate and annotate the most relevant and interesting content from social media by clicking the browser extension when viewing the content.
+  
+Request Translations: Participants can place interesting content into a request queue for others to view and translate.
+  
+Share With the World: Every translation completed under a Bridge project can be published and shared with the broader world.
+  
+To apply to use the software for your online community, please visit http://www.meedan.com/bridge. We work with journalists, fans, humanitarians, development organizations, internet culture researchers and anyone passionate about building bridges across the global web.",
   "browser_action": {
     "default_icon": "img/logo/48x48.png",
     "default_title": "Bridge",
