@@ -33,7 +33,11 @@ gulp.task('replace-webpack-code', () => {
 gulp.task('config:build:extension', () => {
   gulp.src('./src/browser/extension/manifest.json.example')
   .pipe(bump())
+  .pipe(gulp.dest('./src/browser/extension'));
+  
+  gulp.src('./src/browser/extension/manifest.json.example')
   .pipe(replace('http://bridge-api-base', config.bridgeApiBase))
+  .pipe(replace('Bridge Title', config.title))
   .pipe(rename('manifest.json'))
   .pipe(gulp.dest('./build/extension'));
 

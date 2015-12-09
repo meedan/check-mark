@@ -1,3 +1,4 @@
 {
+  "title": "Bridge Local",
   "bridgeApiBase": "http://localhost:3000"
 }
