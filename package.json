@@ -73,6 +73,7 @@
     "autoprefixer": "^6.1.1",
     "chrome-storage-local": "^0.1.1",
     "crossmessaging": "0.1.1",
+    "gulp-bump": "^1.0.0",
     "http": "0.0.0",
     "node-sass": "^3.4.2",
     "postcss-cli": "^2.3.2",

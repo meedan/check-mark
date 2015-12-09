@@ -5,6 +5,7 @@ import jade from 'gulp-jade';
 import rename from 'gulp-rename';
 import zip from 'gulp-zip';
 import replace from 'gulp-replace';
+import bump from 'gulp-bump';
 import webpack from 'webpack';
 import WebpackDevServer from 'webpack-dev-server';
 import webpackConfig from './webpack/config';
@@ -31,6 +32,7 @@ gulp.task('replace-webpack-code', () => {
 
 gulp.task('config:build:extension', () => {
   gulp.src('./src/browser/extension/manifest.json.example')
+  .pipe(bump())
   .pipe(replace('http://bridge-api-base', config.bridgeApiBase))
   .pipe(rename('manifest.json'))
   .pipe(gulp.dest('./build/extension'));
