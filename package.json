@@ -7,7 +7,8 @@
     "build:extension": "npm run style && BABEL_ENV=production gulp build:extension",
     "clean": "rm -rf build src/browser/extension/manifest.json src/app/config/config.js",
     "dev": "gulp dev",
-    "style": "mkdir -p build/extension/css 2>/dev/null && node-sass src/app/styles/stylesheet.scss --output-style=compressed | postcss --use autoprefixer -o build/extension/css/stylesheet.css && cp -r src/app/styles/images build/extension/"
+    "style": "mkdir -p build/extension/css 2>/dev/null && node-sass src/app/styles/stylesheet.scss --output-style=compressed | postcss --use autoprefixer -o build/extension/css/stylesheet.css && cp -r src/app/styles/images build/extension/",
+    "release:extension": "rm -rf releases/* && npm run style && cp config.json.edge config.json && BABEL_ENV=production gulp build:extension && zip -r releases/bridge-edge.zip build/extension && cp config.json.live config.json && BABEL_ENV=production gulp build:extension && zip -r releases/bridge-beta.zip build/extension && cp config.json.example config.json && BABEL_ENV=production gulp build:extension"
   },
   "repository": {
     "type": "git",

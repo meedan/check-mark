@@ -27,6 +27,10 @@ Right now it's a Google Chrome extension, but since it's based on React.js + Red
 * Choose the `build/extension` directory
 * An icon will be added to your Google Chrome toolbar
 
+## How to release a new version (edge and live)
+
+* Run `npm run release:extension`, which will create zip files under `releases/` directory.
+
 ## TODO
 
 Check `TODO.txt`.
