@@ -11,3 +11,13 @@ do
 done
 
 convert 128x128.png scalable.ico
+
+# Original icon (square size please)
+img='logo-edge.svg'
+
+for size in 16 48 128
+do
+  inkscape --export-png="${size}x${size}-edge.png" -w $size -h $size $img
+done
+
+convert 128x128-edge.png scalable-edge.ico
