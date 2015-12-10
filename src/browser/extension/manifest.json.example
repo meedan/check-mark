@@ -1,18 +1,18 @@
 {
-  "version": "0.1.5",
+  "version": "0.1.8",
   "name": "Bridge Title",
   "manifest_version": 2,
   "description": "Translate the global web. A new app for social translation of social media, brought to you by @meedan. Currently in beta.",
   "browser_action": {
-    "default_icon": "img/logo/48x48.png",
-    "default_title": "Bridge",
+    "default_icon": "img/logo/48x48-suffix.png",
+    "default_title": "Bridge Title",
     "default_popup": "popup.html"
   },
   "icons": {
-    "16": "img/logo/16x16.png",
-    "48": "img/logo/48x48.png",
-    "128": "img/logo/128x128.png",
-    "scalable": "img/logo/scalable.ico"
+    "16": "img/logo/16x16-suffix.png",
+    "48": "img/logo/48x48-suffix.png",
+    "128": "img/logo/128x128-suffix.png",
+    "scalable": "img/logo/scalable-suffix.ico"
   },
   "background": {
     "page": "background.html"
