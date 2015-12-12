@@ -10,6 +10,11 @@ class Bridge extends Component {
     const { loginTwitter, loginFacebook, goBack, savePost, submitPost, saveTranslation, submitTranslation, state } = this.props;
     let view = ((state && state.bridge && state.bridge.view) ? state.bridge.view : 'login');
 
+    if (!/(facebook|twitter)\.com$/.test(state.extension.url.split('/')[2])) {
+      state.bridge.message = '<h1>Oops - right now, Bridge only works with posts from Twitter or Facebook. Try again?</h1>';
+      return (<Message {...this.props} />);
+    }
+
     switch (view) {
       case 'login':
         return (<Login {...this.props} />);
