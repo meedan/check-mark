@@ -15,7 +15,13 @@ class SaveTranslation extends Component {
   }
 
   onTranslationBlur() {
-    React.findDOMNode(this.translation).style.backgroundColor = '#FFF';
+    var field = React.findDOMNode(this.translation);
+    field.style.backgroundColor = '#FFF';
+  }
+
+  onTranslationKey() {
+    var field = React.findDOMNode(this.translation);
+    window.storage.set('translation', field.value);
   }
 
   onAnnotationFocus() {
@@ -25,8 +31,32 @@ class SaveTranslation extends Component {
     }
   }
 
+  onAnnotationKey() {
+    var field = React.findDOMNode(this.annotation);
+    window.storage.set('annotation', field.value);
+  }
+
+  getSavedValues() {
+    var that = this;
+    window.storage.get('translation', function(value) {
+      var field = React.findDOMNode(that.translation);
+      if (value != '' && value != undefined) {
+        field.value = value;
+      }
+    });
+    window.storage.get('annotation', function(value) {
+      var field = React.findDOMNode(that.annotation);
+      if (value != '' && value != undefined) {
+        field.value = value;
+      }
+    });
+  }
+
   render() {
     const { loginTwitter, loginFacebook, goBack, savePost, submitPost, saveTranslation, submitTranslation, state } = this.props;
+
+    this.getSavedValues();
+
     return (
       <div>
         <BackBar goBack={goBack} />
@@ -43,6 +73,7 @@ class SaveTranslation extends Component {
                           id="translation"
                           onFocus={this.onTranslationFocus.bind(this)} 
                           onBlur={this.onTranslationBlur.bind(this)} 
+                          onKeyUp={this.onTranslationKey.bind(this)}
                           ref={(ref) => this.translation = ref}>Enter your translation here</textarea>
 
                 <label for="annotation">Annotation</label>
@@ -50,6 +81,7 @@ class SaveTranslation extends Component {
                 <textarea name="annotation" 
                           id="annotation"
                           onFocus={this.onAnnotationFocus.bind(this)} 
+                          onKeyUp={this.onAnnotationKey.bind(this)}
                           ref={(ref) => this.annotation = ref}>Enter your annotation here</textarea>
                 
                 <div className="select-project">

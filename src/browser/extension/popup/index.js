@@ -11,6 +11,21 @@ chrome.runtime.getBackgroundPage( background => {
       state.extension.url = url;
       state.extension.runtime = chrome.runtime;
 
+      window.storage = {
+        set: function(key, value) {
+          var values = {};
+          values[url + ' ' + key] = value;
+          chrome.storage.sync.set(values, function() {});
+        },
+
+        get: function(key, callback) {
+          var k = url + ' ' + key;
+          chrome.storage.sync.get(k, function(value) {
+            callback(value[k]);
+          });
+        }
+      };
+
       render(
         <Root store={background.store} />,
         document.getElementById('root')
