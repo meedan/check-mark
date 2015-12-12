@@ -89,7 +89,7 @@ class SaveTranslation extends Component {
                 </div>
 
                 <div className="select-language">
-                  <label>Language</label>
+                  <label>Target Language</label>
                   <Select name="language" value="" options={state.extension.languages} className="dropdown" />
                 </div>
                 
