@@ -203,5 +203,5 @@ export function submitTranslation(e) {
 function disableButton() {
   var button = document.getElementById('submit');
   button.disabled = 'disabled';
-  button.innerHTML = 'Please, wait...';
+  button.innerHTML = 'Please wait...';
 }
