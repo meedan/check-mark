@@ -6,3 +6,4 @@ src/browser/extension/manifest.json
 src/app/config/config.js
 build
 config.json
+test/config.yml

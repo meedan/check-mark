@@ -10,8 +10,8 @@ class Menu extends Component {
         <div className="textured">
           <h3 className="choose">What would you like to do with this post?</h3>
           <div className="column button-column">
-            <a className="btn btn-large" onClick={savePost}>Save to existing project for translation</a>
-            <a className="btn btn-large" onClick={saveTranslation}>Translate this post and add it to a project</a>
+            <a className="btn btn-large" id="save-post" onClick={savePost}>Save to existing project for translation</a>
+            <a className="btn btn-large" id="translate-post" onClick={saveTranslation}>Translate this post and add it to a project</a>
           </div>
         </div>
       </div>
