@@ -32,6 +32,10 @@ Right now it's a Google Chrome extension, but since it's based on React.js + Red
 * Run `npm run release:extension`, which will bump version number and create zip files under `releases/` directory
 * Upload the zip files to Chrome Webstore (developer's dashboard)
 
+## How to test
+
+* Run `npm run test` (you need `ruby` and `rubygems`, and need a file `test/config.yml`)
+
 ## TODO
 
 Check `TODO.txt`.
