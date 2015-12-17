@@ -131,6 +131,7 @@ export function saveTranslation() {
         getState().extension.projects = projects.slice();
         request('get', 'languages/me', state.session, {}, SAVE_TRANSLATION, dispatch, 'save_translation', state.view, function(dispatch, response) {
           var languages = [];
+          
           // FIXME: Get names from server
           var labels = {
             'en_US': 'English',
@@ -138,11 +139,19 @@ export function saveTranslation() {
             'es_LA': 'Spanish',
             'ar_AR': 'Arabic'
           };
+
+          for (var value in labels) {
+            languages.push({ label: labels[value], value: value });
+          }
+
+          /*
           var pairs = response.data;
           for (var i = 0; i < pairs.length; i++) {
             var value = pairs[i].replace(/^[^:]+:/, '');
             languages.push({ label: labels[value], value: value });
           }
+          */
+
           getState().extension.languages = languages.slice();
           dispatch({ type: SAVE_POST, view: 'save_translation', session: state.session, previousView: 'menu' })
         });
