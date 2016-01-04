@@ -5,7 +5,7 @@ import TranslationToolbar from './TranslationToolbar';
 
 class ListTranslations extends Component {
   render() {
-    const { loginTwitter, loginFacebook, goBack, savePost, submitPost, saveTranslation, submitTranslation, myTranslations, deleteTranslation, state } = this.props;
+    const { loginTwitter, loginFacebook, goBack, savePost, submitPost, saveTranslation, submitTranslation, myTranslations, deleteTranslation, editTranslation, state } = this.props;
     return (
       <div id="my-translations">
         <BackBar goBack={goBack} myTranslations={myTranslations} />
@@ -14,11 +14,11 @@ class ListTranslations extends Component {
             <h3 className="action">My Translations</h3>
             <div className="column form-column">
 
-              <TranslationToolbar translation={state.bridge.translation} myTranslations={myTranslations} deleteTranslation={deleteTranslation} />
+              <TranslationToolbar translation={state.bridge.translation} myTranslations={myTranslations} deleteTranslation={deleteTranslation} editTranslation={editTranslation} />
 
               <Bridgembed translation={state.bridge.translation} />
 
-              <TranslationToolbar translation={state.bridge.translation} myTranslations={myTranslations} deleteTranslation={deleteTranslation} />
+              <TranslationToolbar translation={state.bridge.translation} myTranslations={myTranslations} deleteTranslation={deleteTranslation} editTranslation={editTranslation} />
 
             </div>
           </div>

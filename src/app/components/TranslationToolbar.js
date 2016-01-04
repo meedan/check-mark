@@ -18,9 +18,8 @@ class TranslationToolbar extends Component {
           className={this.props.translation.index === 0 ? 'hidden' : ''}>Newer</a> 
 
         <div>
-          <a 
-            onClick={this.props.deleteTranslation}
-            id="my-translations-link-delete">Delete</a>
+          <a onClick={this.props.editTranslation} id="my-translations-link-edit">Edit</a>
+          <a onClick={this.props.deleteTranslation} id="my-translations-link-delete">Delete</a>
         </div>
 
         <a 

@@ -14,14 +14,13 @@ chrome.runtime.getBackgroundPage( background => {
       window.storage = {
         set: function(key, value) {
           var values = {};
-          values[url + ' ' + key] = value;
+          values[key] = value;
           chrome.storage.sync.set(values, function() {});
         },
 
         get: function(key, callback) {
-          var k = url + ' ' + key;
-          chrome.storage.sync.get(k, function(value) {
-            callback(value[k]);
+          chrome.storage.sync.get(key, function(value) {
+            callback(value[key]);
           });
         }
       };

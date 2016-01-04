@@ -20,8 +20,9 @@ class SaveTranslation extends Component {
   }
 
   onTranslationKey() {
-    var field = React.findDOMNode(this.translation);
-    window.storage.set('translation', field.value);
+    var field = React.findDOMNode(this.translation),
+        url = this.props.state.bridge.url;
+    window.storage.set(url + ' translation', field.value);
   }
 
   onAnnotationFocus() {
@@ -32,19 +33,21 @@ class SaveTranslation extends Component {
   }
 
   onAnnotationKey() {
-    var field = React.findDOMNode(this.annotation);
-    window.storage.set('annotation', field.value);
+    var field = React.findDOMNode(this.annotation),
+        url = this.props.state.bridge.url;
+    window.storage.set(url + ' annotation', field.value);
   }
 
   getSavedValues() {
-    var that = this;
-    window.storage.get('translation', function(value) {
+    var that = this,
+        url = this.props.state.bridge.url;
+    window.storage.get(url + ' translation', function(value) {
       var field = React.findDOMNode(that.translation);
       if (value != '' && value != undefined) {
         field.value = value;
       }
     });
-    window.storage.get('annotation', function(value) {
+    window.storage.get(url + ' annotation', function(value) {
       var field = React.findDOMNode(that.annotation);
       if (value != '' && value != undefined) {
         field.value = value;
@@ -53,7 +56,7 @@ class SaveTranslation extends Component {
   }
 
   render() {
-    const { loginTwitter, loginFacebook, goBack, savePost, submitPost, saveTranslation, submitTranslation, myTranslations, state } = this.props;
+    const { loginTwitter, loginFacebook, goBack, savePost, submitPost, saveTranslation, submitTranslation, myTranslations, updateTranslation, state } = this.props;
 
     this.getSavedValues();
 
@@ -64,8 +67,8 @@ class SaveTranslation extends Component {
           <div className="light-gray-background">
             <h3 className="action">Translate this post</h3>
             <div className="column form-column">
-              <Embedly url={state.extension.url} />
-              <form onSubmit={submitTranslation.bind(this)}>
+              <Embedly url={state.bridge.url} />
+              <form onSubmit={state.bridge.action === 'edit' ? updateTranslation.bind(this) : submitTranslation.bind(this)}>
                 
                 <label for="translation">Translation</label>
 
@@ -74,7 +77,7 @@ class SaveTranslation extends Component {
                           onFocus={this.onTranslationFocus.bind(this)} 
                           onBlur={this.onTranslationBlur.bind(this)} 
                           onKeyUp={this.onTranslationKey.bind(this)}
-                          ref={(ref) => this.translation = ref}>Enter your translation here</textarea>
+                          ref={(ref) => this.translation = ref}>{state.bridge.translation || 'Enter your translation here'}</textarea>
 
                 <label for="annotation">Annotation</label>
 
@@ -82,18 +85,26 @@ class SaveTranslation extends Component {
                           id="annotation"
                           onFocus={this.onAnnotationFocus.bind(this)} 
                           onKeyUp={this.onAnnotationKey.bind(this)}
-                          ref={(ref) => this.annotation = ref}>Enter your annotation here</textarea>
-                
-                <div className="select-project">
-                  <SelectProject projects={state.extension.projects} />
-                </div>
+                          ref={(ref) => this.annotation = ref}>{state.bridge.annotation || 'Enter your annotation here'}</textarea>
+            
+                {(() => {
+                  if (state.bridge.action != 'edit') {
+                    return (
+                      <div>
+                        <div className="select-project">
+                          <SelectProject projects={state.extension.projects} />
+                        </div>
 
-                <div className="select-language">
-                  <label>Target Language</label>
-                  <Select name="language" value="" options={state.extension.languages} className="dropdown" />
-                </div>
+                        <div className="select-language">
+                          <label>Target Language</label>
+                          <Select name="language" value="" options={state.extension.languages} className="dropdown" />
+                        </div>
+                      </div>
+                    );
+                  }
+                })()}
                 
-                <button className="btn btn-large" id="submit">Submit Translation</button>
+                <button className="btn btn-large" id="submit">Save Translation</button>
               </form>
             </div>
           </div>

@@ -11,7 +11,7 @@ class BackBar extends Component {
         <a onClick={this.loadTranslations.bind(this)} id="my-translations-link">My Translations</a>
         <a onClick={this.props.goBack}>
           <img src="/images/backbutton.svg" />
-          Back
+          Close
         </a>
       </div>
     );

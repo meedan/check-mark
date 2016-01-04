@@ -242,11 +242,10 @@ img.bug {
     position: absolute;
 
     a {
-      color: $dark-gray;
-    }
-
-    #my-translations-link-delete {
       position: static;
+      color: $dark-gray;
+      display: inline-block;
+      width: 50%;
     }
   }
 }

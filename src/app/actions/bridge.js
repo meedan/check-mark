@@ -161,7 +161,7 @@ export function saveTranslation() {
           */
 
           getState().extension.languages = languages.slice();
-          dispatch({ type: SAVE_POST, view: 'save_translation', session: state.session, previousView: 'menu' })
+          dispatch({ type: SAVE_TRANSLATION, view: 'save_translation', session: state.session, previousView: 'menu', url: getState().extension.url })
         });
       }
     });
@@ -207,11 +207,11 @@ export function submitTranslation(e) {
     }
 
     else {
-      request('post', 'posts', state.session, { url: url, project_id: project_id, translation: translation, comment: comment, lang: lang }, SAVE_POST, dispatch, 'message', 'save_translation', function(dispatch, response) {
-        window.storage.set('annotation', '');
-        window.storage.set('translation', '');
+      request('post', 'posts', state.session, { url: url, project_id: project_id, translation: translation, comment: comment, lang: lang }, SAVE_TRANSLATION, dispatch, 'message', 'save_translation', function(dispatch, response) {
+        window.storage.set(url + ' annotation', '');
+        window.storage.set(url + ' translation', '');
         var embed_url = response.data.embed_url;
-        dispatch({ type: SAVE_POST, message: '<h1>Success! Thank you!</h1><h2>See your translation at</h2><a href="' + embed_url + '" target="_blank" class="plain-link">' + embed_url + '</a>', view: 'message', session: state.session, previousView: 'reload', image: 'confirmation-translated' })
+        dispatch({ type: SAVE_TRANSLATION, message: '<h1>Success! Thank you!</h1><h2>See your translation at</h2><a href="' + embed_url + '" target="_blank" class="plain-link">' + embed_url + '</a>', view: 'message', session: state.session, previousView: 'reload', image: 'confirmation-translated' })
       });
     }
 
@@ -278,7 +278,14 @@ export function myTranslations(step) {
           var translations = response.data;
           for (var i = 0; i < translations.length; i++) {
             var t = translations[i];
-            extension.translations.push({ id: t.id, embed_url: t.embed_url + '.js', index: extension.translations.length });
+            extension.translations.push({
+              id: t.id,
+              embed_url: t.embed_url + '.js',
+              index: extension.translations.length,
+              source_url: t.source.link,
+              translation: t.text,
+              annotation: (t.comments.length > 0 ? t.comments[0].text : '')
+            });
           }
           extension.currentTranslation += step;
           link.innerHTML = 'Older';
@@ -315,5 +322,52 @@ export function deleteTranslation() {
         }
       });
     }
+  };
+}
+
+export function editTranslation() {
+  return (dispatch, getState) => {
+    var state = getState().bridge,
+        extension = getState().extension,
+        translation = extension.translations[extension.currentTranslation];
+
+    dispatch({ type: SAVE_TRANSLATION, view: 'save_translation', session: state.session, previousView: 'menu', url: translation.source_url, action: 'edit', translation: translation.translation, annotation: translation.annotation });
+  };
+}
+
+export function updateTranslation(e) {
+  return (dispatch, getState) => {
+    disableButton();
+
+    var text        = e.target['0'].value,
+        comment     = e.target['1'].value,
+        state       = getState().bridge,
+        extension   = getState().extension,
+        translation = extension.translations[extension.currentTranslation];
+
+    if (comment === 'Enter your annotation here') {
+      comment = '';
+    }
+
+    if (text === 'Enter your translation here' || text === '') {
+      dispatch({ type: ERROR, message: '<h2>Translation cannot be blank</h2>', view: 'message', session: state.session, previousView: 'save_translation' });
+    }
+
+    else {
+      request('put', 'translations/' + translation.id, state.session, { text: text, comment: comment }, SAVE_TRANSLATION, dispatch, 'message', 'save_translation', function(dispatch, response) {
+        var url = translation.source_url;
+        window.storage.set(url + ' annotation', '');
+        window.storage.set(url + ' translation', '');
+        if (response.type === 'success') {
+          var embed_url = translation.embed_url.replace(/\.js$/, '');
+          dispatch({ type: SAVE_TRANSLATION, message: '<h1>Success! Thank you!</h1><h2>See your translation at</h2><a href="' + embed_url + '" target="_blank" class="plain-link">' + embed_url + '</a>', view: 'message', session: state.session, previousView: 'reload', image: 'confirmation-translated' })
+        }
+        else {
+          dispatch({ type: ERROR, message: '<h2>Could not update translation</h2>', view: 'message', session: state.session, previousView: 'save_translation' });
+        }
+      });
+    }
+
+    e.preventDefault();
   };
 }
