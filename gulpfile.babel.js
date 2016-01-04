@@ -39,6 +39,7 @@ gulp.task('config:build:extension', () => {
   .pipe(replace('http://bridge-api-base', config.bridgeApiBase))
   .pipe(replace('Bridge Title', config.title))
   .pipe(replace('suffix', config.suffix))
+  .pipe(replace('http://bridge-embed-base', config.bridgeEmbedBase))
   .pipe(rename('manifest.json'))
   .pipe(gulp.dest('./build/extension'));
 

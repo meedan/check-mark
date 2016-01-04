@@ -3,10 +3,10 @@ import BackBar from './BackBar';
 
 class Menu extends Component {
   render() {
-    const { loginTwitter, loginFacebook, goBack, savePost, submitPost, saveTranslation, submitTranslation, state } = this.props;
+    const { loginTwitter, loginFacebook, goBack, savePost, submitPost, saveTranslation, submitTranslation, myTranslations, state } = this.props;
     return (
       <div>
-        <BackBar goBack={goBack} />
+        <BackBar goBack={goBack} myTranslations={myTranslations} />
         <div className="textured">
           <h3 className="choose">What would you like to do with this post?</h3>
           <div className="column button-column">

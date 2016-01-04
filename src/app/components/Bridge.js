@@ -4,10 +4,11 @@ import Menu from './Menu';
 import Message from './Message';
 import SavePost from './SavePost';
 import SaveTranslation from './SaveTranslation';
+import ListTranslations from './ListTranslations';
 
 class Bridge extends Component {
   render() {
-    const { loginTwitter, loginFacebook, goBack, savePost, submitPost, saveTranslation, submitTranslation, state } = this.props;
+    const { loginTwitter, loginFacebook, goBack, savePost, submitPost, saveTranslation, submitTranslation, myTranslations, state } = this.props;
     let view = ((state && state.bridge && state.bridge.view) ? state.bridge.view : 'login');
 
     if (!/(facebook|twitter)\.com$/.test(state.extension.url.split('/')[2])) {
@@ -26,6 +27,8 @@ class Bridge extends Component {
         return (<SavePost {...this.props} />);
       case 'save_translation':
         return (<SaveTranslation {...this.props} />);
+      case 'list_translations':
+        return (<ListTranslations {...this.props} />);
       default:
         return null;
     }

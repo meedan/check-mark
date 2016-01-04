@@ -3,10 +3,10 @@ import BackBar from './BackBar';
 
 class Message extends Component {
   render() {
-    const { loginTwitter, loginFacebook, goBack, savePost, submitPost, saveTranslation, submitTranslation, state } = this.props;
+    const { loginTwitter, loginFacebook, goBack, savePost, submitPost, saveTranslation, submitTranslation, myTranslations, state } = this.props;
     return (
       <div>
-        <BackBar goBack={goBack} />
+        <BackBar goBack={goBack} myTranslations={myTranslations} />
         <div class="textured">
           <img src={state.bridge.image ? ('images/' + state.bridge.image + '.svg') : 'images/error-general-bug.svg' } />
           <div className="message" dangerouslySetInnerHTML={{__html: state.bridge.message}}></div>

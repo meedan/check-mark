@@ -53,13 +53,13 @@ class SaveTranslation extends Component {
   }
 
   render() {
-    const { loginTwitter, loginFacebook, goBack, savePost, submitPost, saveTranslation, submitTranslation, state } = this.props;
+    const { loginTwitter, loginFacebook, goBack, savePost, submitPost, saveTranslation, submitTranslation, myTranslations, state } = this.props;
 
     this.getSavedValues();
 
     return (
       <div>
-        <BackBar goBack={goBack} />
+        <BackBar goBack={goBack} myTranslations={myTranslations} />
         <div className="textured">
           <div className="light-gray-background">
             <h3 className="action">Translate this post</h3>

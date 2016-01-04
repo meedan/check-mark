@@ -1,4 +1,4 @@
-import { LOGIN_TWITTER, LOGIN_FACEBOOK, GO_BACK, SAVE_POST, SAVE_TRANSLATION, ERROR } from '../constants/ActionTypes';
+import { LOGIN_TWITTER, LOGIN_FACEBOOK, GO_BACK, SAVE_POST, SAVE_TRANSLATION, LIST_TRANSLATIONS, ERROR } from '../constants/ActionTypes';
 import superagent from 'superagent';
 import util from 'util';
 import config from '../config/config.js';
@@ -14,6 +14,14 @@ var request = function(method, endpoint, session, data, type, dispatch, view, pr
   };
 
   var path = config.bridgeApiBase + '/api/' + endpoint;
+
+  if (method === 'get' && Object.keys(data).length > 0) {
+    path += '?'
+    for (var key in data) {
+      path += key + '=' + data[key] + '&'
+    }
+  }
+
   var http = method === 'post' ? superagent.post(path) : superagent.get(path);
 
   for (var key in headers) {
@@ -215,4 +223,75 @@ function disableButton() {
   var button = document.getElementById('submit');
   button.disabled = 'disabled';
   button.innerHTML = 'Please wait...';
+}
+
+export function myTranslations(step) {
+  return (dispatch, getState) => {
+    var state = getState().bridge,
+        extension = getState().extension,
+        params = { 'max-results': 10 };
+
+    var dispatchCurrentTranslation = function() {
+      dispatch({ type: LIST_TRANSLATIONS, translation: extension.translations[extension.currentTranslation],
+                 view: 'list_translations', session: state.session, previousView: 'login' });
+    };
+
+    // Initialization
+
+    if (!extension.translations) {
+      extension.translations = [];
+    }
+
+    if (!extension.currentTranslation) {
+      extension.currentTranslation = 0;
+    }
+
+    // Try to get a translation
+
+    var translation = extension.translations[extension.currentTranslation + step];
+
+    // Translation is not loaded yet
+
+    if (translation === undefined) {
+
+      // If going backwards, it's because we reached the first one
+
+      if (step < 0) {
+        extension.currentTranslation = 0;
+        dispatchCurrentTranslation();
+      }
+
+      // Otherwise, we need to load more translations from the backend
+      
+      else {
+        if (extension.translations.length > 0) {
+          params['from-id'] = extension.translations[extension.currentTranslation].id;
+        }
+
+        // Avoid double click
+
+        var link = step === 0 ? document.getElementById('my-translations-link') : document.getElementById('my-translations-link-next');
+        link.onclick = function() { return false; };
+        link.innerHTML = 'Loading...';
+
+        request('get', 'translations/me', state.session, params, LIST_TRANSLATIONS, dispatch, 'list_translations', 'login', function(dispatch, response) {
+          var translations = response.data;
+          for (var i = 0; i < translations.length; i++) {
+            var t = translations[i];
+            extension.translations.push({ id: t.id, embed_url: t.embed_url + '.js', index: extension.translations.length });
+          }
+          extension.currentTranslation += step;
+          link.innerHTML = 'Next';
+          dispatchCurrentTranslation();
+        });
+      }
+    }
+
+    // This translation is loaded
+    
+    else {
+      extension.currentTranslation += step;
+      dispatchCurrentTranslation();
+    }
+  };
 }

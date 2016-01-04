@@ -1,5 +1,6 @@
 {
   "title": "Bridge",
   "bridgeApiBase": "https://bridge-api.meedan.com",
+  "bridgeEmbedBase": "https://speakbridge.io",
   "suffix": "live"
 }

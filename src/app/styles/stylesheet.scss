@@ -91,6 +91,11 @@ h3 {
     float: right;
     color: $bridge-orange;
     cursor: pointer;
+
+    &#my-translations-link {
+      float: left;
+      margin-left: 10px;
+    }
   }
 
   img {
@@ -193,5 +198,35 @@ img.bug {
   100% {
     transform: scale(1);
     opacity: 0;
+  }
+}
+
+// Translations
+
+#my-translations {
+  h3 {
+    margin-bottom: 0;
+  }
+
+  .hidden {
+    display: none;
+  }
+}
+
+#my-translations-pager {
+  a {
+    cursor: pointer;
+    float: left;
+    color: $bridge-orange;
+    padding-left: 18px;
+    background: transparent url('/images/left-arrow.png') left center no-repeat;
+    margin-left: 8px;
+  }
+
+  a + a {
+    float: right;
+    padding-right: 18px;
+    background: transparent url('/images/right-arrow.png') right center no-repeat;
+    margin-right: 8px;
   }
 }
