@@ -22,7 +22,7 @@ var request = function(method, endpoint, session, data, type, dispatch, view, pr
     }
   }
 
-  var http = method === 'post' ? superagent.post(path) : superagent.get(path);
+  var http = superagent[method](path);
 
   for (var key in headers) {
     http.set(key, headers[key]);
@@ -281,7 +281,7 @@ export function myTranslations(step) {
             extension.translations.push({ id: t.id, embed_url: t.embed_url + '.js', index: extension.translations.length });
           }
           extension.currentTranslation += step;
-          link.innerHTML = 'Next';
+          link.innerHTML = 'Older';
           dispatchCurrentTranslation();
         });
       }
@@ -292,6 +292,28 @@ export function myTranslations(step) {
     else {
       extension.currentTranslation += step;
       dispatchCurrentTranslation();
+    }
+  };
+}
+
+export function deleteTranslation() {
+  return (dispatch, getState) => {
+    var state = getState().bridge,
+        extension = getState().extension,
+        translation = extension.translations[extension.currentTranslation],
+        confirmed = window.confirm('Are you sure you want to delete this translation? This can\'t de undone.');
+ 
+    if (confirmed) {
+      request('del', 'translations/' + translation.id, state.session, {}, LIST_TRANSLATIONS, dispatch, 'list_translations', 'login', function(dispatch, response) {
+        if (response.type === 'success') {
+          extension.translations.splice(extension.currentTranslation, 1);
+          dispatch({ type: LIST_TRANSLATIONS, translation: extension.translations[extension.currentTranslation],
+                     view: 'list_translations', session: state.session, previousView: 'login' });
+        }
+        else {
+          window.alert('Could not delete your translation. Please try again later.');
+        }
+      });
     }
   };
 }

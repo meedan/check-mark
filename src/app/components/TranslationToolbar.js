@@ -11,16 +11,22 @@ class TranslationToolbar extends Component {
 
   render() {
     return (
-      <p id="my-translations-pager">
+      <div id="my-translations-pager">
         <a 
           onClick={this.previousTranslation.bind(this)} 
           id="my-translations-link-previous" 
           className={this.props.translation.index === 0 ? 'hidden' : ''}>Newer</a> 
 
+        <div>
+          <a 
+            onClick={this.props.deleteTranslation}
+            id="my-translations-link-delete">Delete</a>
+        </div>
+
         <a 
           onClick={this.nextTranslation.bind(this)} 
           id="my-translations-link-next">Older</a>
-      </p>
+      </div>
     );
   }
 }
