@@ -15,7 +15,7 @@ class Bridgembed extends Component {
 
   removeBridgembedTags() {
     const container = document.getElementById('bridge-embed-container');
-    container.innerHTML = '';
+    container.innerHTML = '<div id="loader">Loading...</div>';
   }
 
   componentDidMount() {
@@ -32,7 +32,7 @@ class Bridgembed extends Component {
   }
 
   render() {
-    return (<div id="bridge-embed-container"></div>);
+    return (<div id="bridge-embed-container"><div id="loader">Loading...</div></div>);
   }
 }
 

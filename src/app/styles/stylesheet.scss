@@ -250,3 +250,24 @@ img.bug {
     }
   }
 }
+
+// Bridgembed
+
+#bridge-embed-container {
+  position: relative;
+
+  iframe {
+    position: relative;
+    z-index: 1;
+  }
+
+  #loader {
+    position: absolute;
+    left: 0;
+    top: 10px;
+    z-index: 0;
+    text-align: center;
+    color: $dark-gray;
+    width: 100%;
+  }
+}
