@@ -7,6 +7,7 @@
 @import "colors";
 @import "buttons";
 @import "forms";
+@import "confirmation-link";
 
 body {
   text-align: center;
@@ -201,15 +202,15 @@ img.bug {
   }
 }
 
+.hidden {
+  display: none;
+}
+
 // Translations
 
 #my-translations {
   h3 {
     margin-bottom: 0;
-  }
-
-  .hidden {
-    display: none;
   }
 }
 
@@ -235,7 +236,7 @@ img.bug {
     right: 8px;
   }
 
-  div {
+  & > div {
     width: 171px;
     text-align: center;
     left: 144px;

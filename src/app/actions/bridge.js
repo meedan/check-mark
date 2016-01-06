@@ -307,21 +307,18 @@ export function deleteTranslation() {
   return (dispatch, getState) => {
     var state = getState().bridge,
         extension = getState().extension,
-        translation = extension.translations[extension.currentTranslation],
-        confirmed = window.confirm('Are you sure you want to delete this translation? This can\'t de undone.');
+        translation = extension.translations[extension.currentTranslation];
  
-    if (confirmed) {
-      request('del', 'translations/' + translation.id, state.session, {}, LIST_TRANSLATIONS, dispatch, 'list_translations', 'login', function(dispatch, response) {
-        if (response.type === 'success') {
-          extension.translations.splice(extension.currentTranslation, 1);
-          dispatch({ type: LIST_TRANSLATIONS, translation: extension.translations[extension.currentTranslation],
-                     view: 'list_translations', session: state.session, previousView: 'login' });
-        }
-        else {
-          window.alert('Could not delete your translation. Please try again later.');
-        }
-      });
-    }
+    request('del', 'translations/' + translation.id, state.session, {}, LIST_TRANSLATIONS, dispatch, 'list_translations', 'login', function(dispatch, response) {
+      if (response.type === 'success') {
+        extension.translations.splice(extension.currentTranslation, 1);
+        dispatch({ type: LIST_TRANSLATIONS, translation: extension.translations[extension.currentTranslation],
+                   view: 'list_translations', session: state.session, previousView: 'login' });
+      }
+      else {
+        window.alert('Could not delete your translation. Please try again later.');
+      }
+    });
   };
 }
 

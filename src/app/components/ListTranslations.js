@@ -18,8 +18,6 @@ class ListTranslations extends Component {
 
               <Bridgembed translation={state.bridge.translation} />
 
-              <TranslationToolbar translation={state.bridge.translation} myTranslations={myTranslations} deleteTranslation={deleteTranslation} editTranslation={editTranslation} />
-
             </div>
           </div>
         </div>

@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import ConfirmationLink from './ConfirmationLink';
 
 class TranslationToolbar extends Component {
   nextTranslation() {
@@ -19,7 +20,7 @@ class TranslationToolbar extends Component {
 
         <div>
           <a onClick={this.props.editTranslation} id="my-translations-link-edit">Edit</a>
-          <a onClick={this.props.deleteTranslation} id="my-translations-link-delete">Delete</a>
+          <ConfirmationLink id="my-translations-link-delete" label="Delete" action={this.props.deleteTranslation} />
         </div>
 
         <a 
