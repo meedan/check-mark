@@ -1,5 +1,5 @@
 {
-  "version": "0.1.233",
+  "version": "0.1.236",
   "name": "Bridge Title",
   "manifest_version": 2,
   "description": "Translate the global web. A new app for social translation of social media, brought to you by @meedan. Currently in beta.",
@@ -20,7 +20,7 @@
   "content_scripts": [],
   "permissions": [
     "contextMenus",
-    "tabs",
+    "activeTab",
     "storage",
     "http://bridge-api-base/",
     "https://cdn.embedly.com/",
@@ -31,5 +31,5 @@
     "https://fonts.googleapis.com/",
     "http://bridge-embed-base/"
   ],
-  "content_security_policy": "script-src 'self' http://bridge-embed-base https://cdn.embedly.com https://platform.twitter.com https://cdn.api.twitter.com https://syndication.twimg.com https://syndication.twitter.com; object-src 'self'; style-src * 'unsafe-inline'; img-src 'self' https://i-cdn.embed.ly https://syndication.twitter.com data: https://*.twimg.com https://platform.twitter.com https://fonts.googleapis.com;"
+  "content_security_policy": "script-src 'self' http://bridge-embed-base https://cdn.embedly.com https://platform.twitter.com https://cdn.api.twitter.com https://syndication.twimg.com https://syndication.twitter.com; object-src 'self'; style-src 'self' https://fonts.googleapis.com https://platform.twitter.com https://*.twimg.com https://syndication.twitter.com https://i-cdn.embed.ly https://cdn.embedly.com https://cdn.api.twitter.com https://syndication.twimg.com 'unsafe-inline'; img-src 'self' https://i-cdn.embed.ly https://syndication.twitter.com data: https://*.twimg.com https://platform.twitter.com https://fonts.googleapis.com;"
 }
