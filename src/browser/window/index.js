@@ -1,10 +1,6 @@
-import React from 'react';
-import { render } from 'react-dom';
-import Root from 'app/containers/Root';
+import renderRoot from '../renderRoot';
 
 chrome.runtime.getBackgroundPage( background => {
-  render(
-    <Root store={background.store} />,
-    document.getElementById('root')
-  );
+  var url = document.location.search.replace(/^\?url=/, '');
+  renderRoot(chrome, background, url);
 });

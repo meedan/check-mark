@@ -7,7 +7,9 @@ function addToMenu(id, title, contexts, onClick) {
     id: id,
     title: title,
     contexts: contexts,
-    onclick: onClick
+    onclick: function(info, tab) {
+      onClick(info, tab);
+    }
   });
 }
 
@@ -18,16 +20,23 @@ function closeIfExist(type) {
   }
 }
 
-function popWindow(action, url, type, customOptions) {
+function popWindow(info, tab) {
+  var action = 'open',
+      url = 'window.html',
+      type = 'app';
+
   closeIfExist(type);
+  
   let options = {
     type: 'popup',
-    left: 100, top: 100,
-    width: 800, height: 700,
-    ...customOptions
+    left: 100,
+    top: 100,
+    width: 630,
+    height: 530
   };
+  
   if (action === 'open') {
-    options.url = chrome.extension.getURL(url);
+    options.url = chrome.extension.getURL(url) + '?url=' + info.linkUrl;
     chrome.windows.create(options, (win) => {
       windows[type] = win.id;
     });
@@ -35,7 +44,7 @@ function popWindow(action, url, type, customOptions) {
 }
 
 function createMenu() {
-  addToMenu(MENU_APP, 'Bridge', ['all'], () => popWindow('open', 'window.html', 'app', {left: 0, width: 1080}));
+  addToMenu(MENU_APP, 'Bridge', ['all'], popWindow);
 }
 
 export default createMenu;
