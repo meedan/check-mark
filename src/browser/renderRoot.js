@@ -6,6 +6,10 @@ function renderRoot(chrome, background, url) {
   var state = background.store.getState();
   state.extension.url = url;
   state.extension.runtime = chrome.runtime;
+    
+  if (state.bridge.view === 'message') {
+    state.bridge.view = 'home';
+  }
 
   window.storage = {
     set: function(key, value) {
