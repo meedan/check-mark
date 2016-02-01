@@ -90,7 +90,7 @@ class Bridge extends Component {
           return (<Message {...this.props} />);
         }
       case 'save_translation':
-        if (this.pageSupported(state)) {
+        if ((state && state.bridge && state.bridge.action === 'edit') || this.pageSupported(state)) {
           return (<SaveTranslation {...this.props} />);
         }
         else {
