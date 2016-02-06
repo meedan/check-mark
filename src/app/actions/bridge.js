@@ -24,6 +24,8 @@ var request = function(method, endpoint, session, data, type, dispatch, view, pr
 
   var http = superagent[method](path);
 
+  http.timeout(30000);
+
   for (var key in headers) {
     http.set(key, headers[key]);
   }
