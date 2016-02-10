@@ -30,7 +30,11 @@ Right now it's a Google Chrome extension, but since it's based on React.js + Red
 ## How to release a new version (edge and live)
 
 * Run `npm run release:extension`, which will bump version number and create zip files under `releases/` directory
-* Upload the zip files to Chrome Webstore (developer's dashboard)
+
+## How to publish a new version (edge and live)
+
+* Run `npm run publish:extension`, which will upload and publish the items to Chrome Store
+* Alternatively, you can upload the zip files to Chrome Webstore (developer's dashboard)
 
 ## How to test
 
