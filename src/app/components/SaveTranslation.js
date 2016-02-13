@@ -1,9 +1,7 @@
 import React, { Component, PropTypes } from 'react';
-import SelectProject from './SelectProject';
+import BridgeSelect from './BridgeSelect';
 import Embedly from './Embedly';
-import Select from 'react-select';
 import BackBar from './BackBar';
-import util from 'util';
 
 class SaveTranslation extends Component {
   onTranslationFocus() {
@@ -41,12 +39,14 @@ class SaveTranslation extends Component {
   getSavedValues() {
     var that = this,
         url = this.props.state.bridge.url;
+    
     window.storage.get(url + ' translation', function(value) {
       var field = React.findDOMNode(that.translation);
       if (value != '' && value != undefined) {
         field.value = value;
       }
     });
+    
     window.storage.get(url + ' annotation', function(value) {
       var field = React.findDOMNode(that.annotation);
       if (value != '' && value != undefined) {
@@ -55,10 +55,12 @@ class SaveTranslation extends Component {
     });
   }
 
+  componentDidMount() {
+    this.getSavedValues();
+  }
+
   render() {
     const { loginTwitter, loginFacebook, goBack, savePost, submitPost, saveTranslation, submitTranslation, myTranslations, updateTranslation, state } = this.props;
-
-    this.getSavedValues();
 
     return (
       <div>
@@ -66,7 +68,7 @@ class SaveTranslation extends Component {
         <div className="textured">
           <div className="light-gray-background">
             <h3 className="action">Translate this post</h3>
-            <div className="column form-column">
+            <div className="column form-column" id="translation-form">
               <Embedly url={state.bridge.url} />
               <form onSubmit={state.bridge.action === 'edit' ? updateTranslation.bind(this) : submitTranslation.bind(this)}>
                 
@@ -91,14 +93,9 @@ class SaveTranslation extends Component {
                   if (state.bridge.action != 'edit') {
                     return (
                       <div>
-                        <div className="select-project">
-                          <SelectProject projects={state.extension.projects} />
-                        </div>
-
-                        <div className="select-language">
-                          <label>Target Language</label>
-                          <Select name="language" value="" options={state.extension.languages} className="dropdown" />
-                        </div>
+                        <BridgeSelect name="project" objects={state.extension.projects} />
+                        <BridgeSelect name="from" objects={state.extension.sourcelanguages} />
+                        <BridgeSelect name="to" objects={state.extension.targetlanguages} />
                       </div>
                     );
                   }

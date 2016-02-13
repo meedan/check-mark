@@ -29,6 +29,7 @@ describe 'bridge client' do
       element = @driver.find_element(:css, '.js-password-field')
       element if element.displayed?
     }
+    sleep 1
     input.send_keys(@config['twitter_password'])
     input = wait.until {
       element = @driver.find_element(:css, 'button')
@@ -41,7 +42,7 @@ describe 'bridge client' do
   def twitter_auth
     open_extension
     @driver.find_element(:xpath, "//a[@id='twitter-login']").click
-    sleep 5
+    sleep 10
     window = @driver.window_handles.first
     @driver.switch_to.window(window)
     open_extension
@@ -115,9 +116,9 @@ describe 'bridge client' do
       }
       @driver.execute_script("return document.forms[0].project.value = '5';")
       input = wait.until {
-        @driver.find_element(:name, 'language')
+        @driver.find_element(:name, 'to')
       }
-      @driver.execute_script("return document.forms[0].language.value = 'en_US';")
+      @driver.execute_script("return document.forms[0].to.value = 'es_LA';")
       input = wait.until {
         element = @driver.find_element(:css, '#submit')
         element if element.displayed?

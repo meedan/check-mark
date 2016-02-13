@@ -1,5 +1,5 @@
 import React, { Component, PropTypes } from 'react';
-import SelectProject from './SelectProject';
+import BridgeSelect from './BridgeSelect';
 import Embedly from './Embedly';
 import BackBar from './BackBar';
 
@@ -15,7 +15,10 @@ class SavePost extends Component {
             <div className="column form-column">
               <Embedly url={state.extension.url} />
               <form onSubmit={submitPost.bind(this)}>
-                <SelectProject projects={state.extension.projects} />
+                <div>
+                  <BridgeSelect name="project" objects={state.extension.projects} />
+                  <BridgeSelect name="language" objects={state.extension.sourcelanguages} />
+                </div>
                 <button className="btn btn-large" id="submit">Add to Project</button>
               </form>
             </div>

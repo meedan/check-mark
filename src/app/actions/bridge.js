@@ -24,7 +24,7 @@ var request = function(method, endpoint, session, data, type, dispatch, view, pr
 
   var http = superagent[method](path);
 
-  http.timeout(30000);
+  http.timeout(120000);
 
   for (var key in headers) {
     http.set(key, headers[key]);
@@ -113,60 +113,46 @@ export function goBack() {
   };
 }
 
+var saveObject = function(dispatch, state, type, view, url) {
+  var bstate = state.bridge;
+  request('get', 'projects', bstate.session, {}, type, dispatch, view, bstate.view, function(dispatch, response) {
+    var projects = response.data;
+    if (projects.length === 0) {
+      var m = '<h1>Oops! Looks like you\'re not assigned to a project yet</h1>' +
+              '<h2>Please email us hello@speakbridge.io to be assigned to a project.</h2>';
+      dispatch({ type: ERROR, message: m, view: 'message', session: bstate.session, previousView: bstate.view, image: 'error-unassigned' })
+    }
+    else {
+      state.extension.projects = projects.slice();
+      request('get', 'languages', bstate.session, {}, type, dispatch, view, bstate.view, function(dispatch, response) {
+        var languages = [],
+            data  = response.data;
+
+        for (var i = 0; i < data.length; i++) {
+          languages.push({ id: data[i].code, title: data[i].name });
+        }
+
+        state.extension.targetlanguages = languages.slice();
+        languages.unshift({ id: '', title: 'Auto-Detect' });
+        state.extension.sourcelanguages = languages.slice();
+      
+        dispatch({ type: type, view: view, session: bstate.session, previousView: 'menu', url: url });
+      });
+    }
+  });
+}
+
 export function savePost() {
   return (dispatch, getState) => {
-    var state = getState().bridge;
-    request('get', 'projects', state.session, {}, SAVE_POST, dispatch, 'save_post', state.view, function(dispatch, response) {
-      var projects = response.data;
-      if (projects.length === 0) {
-        dispatch({ type: ERROR, message: '<h1>Oops! Looks like you\'re not assigned to a project yet</h1><h2>Please email us hello@speakbridge.io to be assigned to a project.</h2>', view: 'message', session: state.session, previousView: state.view, image: 'error-unassigned' })
-      }
-      else {
-        getState().extension.projects = projects.slice();
-        dispatch({ type: SAVE_POST, view: 'save_post', session: state.session, previousView: 'menu' })
-      }
-    });
+    var state = getState();
+    saveObject(dispatch, state, SAVE_POST, 'save_post', '');
   };
 }
 
 export function saveTranslation() {
   return (dispatch, getState) => {
-    var state = getState().bridge;
-    request('get', 'projects', state.session, {}, SAVE_TRANSLATION, dispatch, 'save_translation', state.view, function(dispatch, response) {
-      var projects = response.data;
-      if (projects.length === 0) {
-        dispatch({ type: ERROR, message: '<h1>Oops! Looks like you\'re not assigned to a project yet</h1><h2>Please email us hello@speakbridge.io to be assigned to a project.</h2>', view: 'message', session: state.session, previousView: state.view, image: 'error-unassigned' })
-      }
-      else {
-        getState().extension.projects = projects.slice();
-        request('get', 'languages/me', state.session, {}, SAVE_TRANSLATION, dispatch, 'save_translation', state.view, function(dispatch, response) {
-          var languages = [];
-          
-          // FIXME: Get names from server
-          var labels = {
-            'en_US': 'English',
-            'pt_BR': 'Portuguese',
-            'es_LA': 'Spanish',
-            'ar_AR': 'Arabic'
-          };
-
-          for (var value in labels) {
-            languages.push({ label: labels[value], value: value });
-          }
-
-          /*
-          var pairs = response.data;
-          for (var i = 0; i < pairs.length; i++) {
-            var value = pairs[i].replace(/^[^:]+:/, '');
-            languages.push({ label: labels[value], value: value });
-          }
-          */
-
-          getState().extension.languages = languages.slice();
-          dispatch({ type: SAVE_TRANSLATION, view: 'save_translation', session: state.session, previousView: 'menu', url: getState().extension.url })
-        });
-      }
-    });
+    var state = getState();
+    saveObject(dispatch, state, SAVE_TRANSLATION, 'save_translation', state.extension.url);
   };
 }
 
@@ -175,10 +161,11 @@ export function submitPost(e) {
     disableButton();
 
     var project_id = e.target['0'].value,
+        language   = e.target['2'].value,
         state      = getState().bridge,
         url        = getState().extension.url;
 
-    request('post', 'posts', state.session, { url: url, project_id: project_id }, SAVE_POST, dispatch, 'message', 'save_post', function(dispatch, response) {
+    request('post', 'posts', state.session, { url: url, project_id: project_id, post_lang: language }, SAVE_POST, dispatch, 'message', 'save_post', function(dispatch, response) {
       dispatch({ type: SAVE_POST, message: '<h1>Success!</h1><h2>This post will be available for translators</h2>', view: 'message', session: state.session, previousView: 'reload', image: 'confirmation-saved' })
     });
     e.preventDefault();
@@ -190,7 +177,8 @@ export function submitTranslation(e) {
     disableButton();
 
     var project_id  = e.target['2'].value,
-        lang        = e.target['4'].value,
+        from        = e.target['4'].value,
+        to          = e.target['6'].value,
         translation = e.target['0'].value,
         comment     = e.target['1'].value,
         state       = getState().bridge,
@@ -200,16 +188,16 @@ export function submitTranslation(e) {
       comment = '';
     }
 
-    if (translation === 'Enter your translation here' || translation === '') {
-      dispatch({ type: ERROR, message: '<h2>Translation cannot be blank</h2>', view: 'message', session: state.session, previousView: 'save_translation' });
+    if (translation === 'Enter your translation here') {
+      translation = '';
     }
 
-    else if (lang === '') {
-      dispatch({ type: ERROR, message: '<h2>Language cannot be blank</h2>', view: 'message', session: state.session, previousView: 'save_translation' });
+    if (to === '') {
+      dispatch({ type: ERROR, message: '<h2>Target language cannot be blank</h2>', view: 'message', session: state.session, previousView: 'save_translation' });
     }
 
     else {
-      request('post', 'posts', state.session, { url: url, project_id: project_id, translation: translation, comment: comment, lang: lang }, SAVE_TRANSLATION, dispatch, 'message', 'save_translation', function(dispatch, response) {
+      request('post', 'posts', state.session, { url: url, project_id: project_id, translation: translation, comment: comment, lang: to, post_lang: from }, SAVE_TRANSLATION, dispatch, 'message', 'save_translation', function(dispatch, response) {
         window.storage.set(url + ' annotation', '');
         window.storage.set(url + ' translation', '');
         var embed_url = response.data.embed_url;
