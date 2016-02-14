@@ -176,11 +176,13 @@ export function submitTranslation(e) {
   return (dispatch, getState) => {
     disableButton();
 
-    var project_id  = e.target['2'].value,
-        from        = e.target['4'].value,
-        to          = e.target['6'].value,
-        translation = e.target['0'].value,
-        comment     = e.target['1'].value,
+    var form = document.forms[0];
+
+    var project_id  = form.project.value,
+        from        = form.from.value,
+        to          = form.to.value,
+        translation = form.translation.value,
+        comment     = form.annotation.value,
         state       = getState().bridge,
         url         = getState().extension.url;
 
@@ -192,7 +194,11 @@ export function submitTranslation(e) {
       translation = '';
     }
 
-    if (to === '') {
+    if (project_id === '') {
+      dispatch({ type: ERROR, message: '<h2>Please choose a project</h2>', view: 'message', session: state.session, previousView: 'save_translation' });
+    }
+
+    else if (to === '') {
       dispatch({ type: ERROR, message: '<h2>Target language cannot be blank</h2>', view: 'message', session: state.session, previousView: 'save_translation' });
     }
 
@@ -211,8 +217,10 @@ export function submitTranslation(e) {
 
 function disableButton() {
   var button = document.getElementById('submit');
-  button.disabled = 'disabled';
-  button.innerHTML = 'Please wait...';
+  if (button) {
+    button.disabled = 'disabled';
+    button.innerHTML = 'Please wait...';
+  }
 }
 
 export function myTranslations(step) {
