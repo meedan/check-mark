@@ -86,3 +86,24 @@ div.select-project, div.select-language {
   margin-left: 5px;
   margin-right: 5px;
 }
+
+.Select-item {
+  padding: 1px 6px 8px 6px;
+  margin: 0;
+  width: 100%;
+  color: $lighter-gray;
+}
+
+.Select-item-icon {
+  cursor: pointer;
+  margin-right: 5px;
+  color: $lighter-gray;
+}
+
+.Select-item-icon:hover {
+  color: $dark-gray;
+}
+
+.Select-clear-zone {
+  display: none;
+}

@@ -94,7 +94,7 @@ class SaveTranslation extends Component {
                     return (
                       <div>
                         <BridgeSelect name="project" objects={state.extension.projects} />
-                        <BridgeSelect name="from" objects={state.extension.sourcelanguages} />
+                        <BridgeSelect name="from" objects={state.extension.sourcelanguages} multi={true} />
                         <BridgeSelect name="to" objects={state.extension.targetlanguages} />
                       </div>
                     );

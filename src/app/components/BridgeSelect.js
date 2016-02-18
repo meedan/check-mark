@@ -49,6 +49,8 @@ class BridgeSelect extends Component {
            id={'select-' + name}
            onChange={this.changed.bind(this)}
            options={options}
+           multi={this.props.multi || false}
+           placeholder="Choose..."
         />
       </div>
     );
