@@ -6,7 +6,7 @@ export default {
     background: [ path.join(__dirname, '../src/browser/extension/background/index') ],
     window: [ path.join(__dirname, '../src/browser/window/index') ],
     popup: [ path.join(__dirname, '../src/browser/extension/popup/index') ],
-    inject: [ path.join(__dirname, '../src/browser/extension/inject/index') ]
+    inject: [ path.join(__dirname, '../src/browser/extension/inject/index') ],
   },
   output: {
     path: path.join(__dirname, '../build/extension/js'),
@@ -16,7 +16,7 @@ export default {
   plugins: [
     new webpack.DefinePlugin({
       'process.env': {
-        NODE_ENV: '"production"'
+        NODE_ENV: '"development"'
       },
       __DEVELOPMENT__: false
     }),

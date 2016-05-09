@@ -2,10 +2,12 @@ import React, { Component, PropTypes } from 'react';
 import BackBar from './BackBar';
 import Bridgembed from './Bridgembed';
 import TranslationToolbar from './TranslationToolbar';
+import Relay from 'react-relay';
 
 class ListTranslations extends Component {
   render() {
     const { loginTwitter, loginFacebook, goBack, savePost, submitPost, saveTranslation, submitTranslation, myTranslations, deleteTranslation, editTranslation, state } = this.props;
+    state.bridge.translation = this.props.translation
     return (
       <div id="my-translations">
         <BackBar goBack={goBack} myTranslations={myTranslations} />
@@ -26,4 +28,17 @@ class ListTranslations extends Component {
   }
 }
 
-export default ListTranslations;
+const ListTranslationsContainer = Relay.createContainer(ListTranslations, {
+  fragments: {
+    translation: () => Relay.QL`
+      fragment on Translation {
+        lang
+        content
+        id
+        embed_url
+      }
+    `,
+  },
+});
+
+export default ListTranslationsContainer;

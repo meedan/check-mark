@@ -6,7 +6,7 @@ import Menu from './Menu';
 import Message from './Message';
 import SavePost from './SavePost';
 import SaveTranslation from './SaveTranslation';
-import ListTranslations from './ListTranslations';
+import ListTranslationsContainer from './ListTranslations';
 
 class Bridge extends Component {
   currentProvider(state) {
@@ -97,7 +97,7 @@ class Bridge extends Component {
           return (<Message {...this.props} />);
         }
       case 'list_translations':
-        return (<ListTranslations {...this.props} />);
+        return (<ListTranslationsContainer {...this.props} />);
       default:
         return null;
     }
