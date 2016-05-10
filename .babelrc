@@ -2,7 +2,7 @@
   "stage": 0,
   "env": {
     "development": {
-      "plugins": ["react-transform", "./src/plugins/babelRelayPlugin.js"],
+      "plugins": ["./src/plugins/babelRelayPlugin.js", "react-transform"],
       "extra": {
         "react-transform": {
           "transforms": [{

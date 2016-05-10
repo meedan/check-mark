@@ -6,20 +6,13 @@ import Relay from 'react-relay';
 
 class ListTranslations extends Component {
   render() {
-    const { loginTwitter, loginFacebook, goBack, savePost, submitPost, saveTranslation, submitTranslation, myTranslations, deleteTranslation, editTranslation, state } = this.props;
-    state.bridge.translation = this.props.translation
     return (
       <div id="my-translations">
-        <BackBar goBack={goBack} myTranslations={myTranslations} />
         <div className="textured">
           <div className="light-gray-background">
             <h3 className="action">My Translations</h3>
             <div className="column form-column">
-
-              <TranslationToolbar translation={state.bridge.translation} myTranslations={myTranslations} deleteTranslation={deleteTranslation} editTranslation={editTranslation} />
-
-              <Bridgembed translation={state.bridge.translation} />
-
+              <Bridgembed translation={this.props.translation} /> 
             </div>
           </div>
         </div>
@@ -32,9 +25,7 @@ const ListTranslationsContainer = Relay.createContainer(ListTranslations, {
   fragments: {
     translation: () => Relay.QL`
       fragment on Translation {
-        lang
-        content
-        id
+        id,
         embed_url
       }
     `,

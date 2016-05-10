@@ -8,7 +8,7 @@ class Bridgembed extends Component {
 
   addBridgembedScriptTag() {
     const script = document.createElement('script');
-    script.src = this.props.translation.embed_url;
+    script.src = this.props.translation.embed_url + '.js';
     script.async = true;
     document.getElementById('bridge-embed-container').appendChild(script);
   }

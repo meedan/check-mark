@@ -7,6 +7,8 @@ import Message from './Message';
 import SavePost from './SavePost';
 import SaveTranslation from './SaveTranslation';
 import ListTranslationsContainer from './ListTranslations';
+import TranslationsRoute from './TranslationsRoute';
+import Relay from 'react-relay';
 
 class Bridge extends Component {
   currentProvider(state) {
@@ -97,7 +99,9 @@ class Bridge extends Component {
           return (<Message {...this.props} />);
         }
       case 'list_translations':
-        return (<ListTranslationsContainer {...this.props} />);
+        Relay.injectNetworkLayer(new Relay.DefaultNetworkLayer('http://localhost:3000/api/graphql'));
+        var route = new TranslationsRoute();
+        return (<Relay.RootContainer Component={ListTranslationsContainer} route={route} />);
       default:
         return null;
     }
