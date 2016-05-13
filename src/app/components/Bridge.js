@@ -69,6 +69,17 @@ class Bridge extends Component {
     }
   }
 
+  setUpGraphql(session) {
+    Relay.injectNetworkLayer(new Relay.DefaultNetworkLayer(config.bridgeApiBase + '/api/graphql', {
+      headers: {
+        'X-Bridge-Token': session.token,
+        'X-Bridge-Uuid': session.id,
+        'X-Bridge-Provider': session.provider,
+        'X-Bridge-Secret': session.secret
+      }
+    }));
+  }
+
   render() {
     const { loginTwitter, loginFacebook, goBack, savePost, submitPost, saveTranslation, submitTranslation, myTranslations, state } = this.props;
 
@@ -99,7 +110,7 @@ class Bridge extends Component {
           return (<Message {...this.props} />);
         }
       case 'list_translations':
-        Relay.injectNetworkLayer(new Relay.DefaultNetworkLayer('http://localhost:3000/api/graphql'));
+        this.setUpGraphql(state.bridge.session);
         var route = new TranslationsRoute();
         return (<Relay.RootContainer Component={ListTranslationsContainer} route={route} />);
       default:
