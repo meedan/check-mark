@@ -2,7 +2,7 @@ import Relay from 'react-relay';
 
 class TranslationsRoute extends Relay.Route {
   static queries = {
-    translation: () => Relay.QL`query { translation }`,
+    me: () => Relay.QL`query { me }`, 
   };
   static paramDefinitions = {
   };

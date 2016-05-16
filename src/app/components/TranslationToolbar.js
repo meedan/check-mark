@@ -3,11 +3,11 @@ import ConfirmationLink from './ConfirmationLink';
 
 class TranslationToolbar extends Component {
   nextTranslation() {
-    this.props.myTranslations(1);
+    this.props.goToTranslation(1);
   }
 
   previousTranslation() {
-    this.props.myTranslations(-1);
+    this.props.goToTranslation(-1);
   }
 
   render() {
