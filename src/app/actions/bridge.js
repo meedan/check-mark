@@ -2,6 +2,8 @@ import { LOGIN_TWITTER, LOGIN_FACEBOOK, GO_BACK, SAVE_POST, SAVE_TRANSLATION, LI
 import superagent from 'superagent';
 import util from 'util';
 import config from '../config/config.js';
+import Relay from 'react-relay';
+import EditTranslationMutation from '../components/EditTranslationMutation';
 
 // Request information from the backend, after logged in
 
@@ -268,7 +270,7 @@ export function updateTranslation(e) {
         state       = getState().bridge,
         extension   = getState().extension,
         translation = extension.translation;
-
+    
     if (comment === 'Enter your annotation here') {
       comment = '';
     }
@@ -281,10 +283,13 @@ export function updateTranslation(e) {
       var url = translation.source_url;
       window.storage.set(url + ' annotation', '');
       window.storage.set(url + ' translation', '');
-
-      Relay.Store.update(
+      Relay.Store.commitUpdate(
         new EditTranslationMutation({
-          translation: { content, annotation, id },
+          translation: {
+            content: text,
+            annotation: comment,
+            id: translation.id
+          }
         })
       );
 
