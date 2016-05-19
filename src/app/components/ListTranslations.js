@@ -7,6 +7,7 @@ import TranslationsRoute from './TranslationsRoute';
 import config from '../config/config.js';
 
 const pageSize = 2;
+let editTranslationAction = null;
 
 class ListTranslations extends Component {
   constructor(props) {
@@ -40,13 +41,17 @@ class ListTranslations extends Component {
     this.forceUpdate();
   }
 
+  editTranslation() {
+    var translation = this.getCurrentTranslation();
+    editTranslationAction(translation);
+  }
+
   render() {
     var translation = this.getCurrentTranslation();
 
     return (
       <div>
-        <TranslationToolbar translation={translation} goToTranslation={this.goToTranslation.bind(this)} editTranslation={null}
-                            deleteTranslation={null} />
+        <TranslationToolbar translation={translation} goToTranslation={this.goToTranslation.bind(this)} editTranslation={this.editTranslation.bind(this)} deleteTranslation={null} />
         <p></p>
         <Bridgembed translation={translation} />
       </div>
@@ -66,7 +71,10 @@ const ListTranslationsContainer = Relay.createContainer(ListTranslations, {
           edges {
             node {
               id,
-              embed_url
+              embed_url,
+              source_url,
+              content,
+              annotation
             }
           }
         }
@@ -85,6 +93,10 @@ class ListTranslationsScreen extends Component {
         'X-Bridge-Secret': session.secret
       }
     }));
+  }
+  
+  componentWillMount() {
+    editTranslationAction = this.props.editTranslation;
   }
   
   render() {

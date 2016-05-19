@@ -262,6 +262,10 @@ img.bug {
     z-index: 1;
   }
 
+  iframe + iframe {
+    display: none;
+  }
+
   #loader {
     position: absolute;
     left: 0;
