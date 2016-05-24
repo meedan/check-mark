@@ -1,5 +1,6 @@
 var config = {};
 
 config.bridgeApiBase = 'http://bridge-api-base';
+config.pusherKey = 'pusher-key';
 
 module.exports = config;

@@ -45,6 +45,7 @@ gulp.task('config:build:extension', () => {
 
   gulp.src('./src/app/config/config.js.example')
   .pipe(replace('http://bridge-api-base', config.bridgeApiBase))
+  .pipe(replace('pusher-key', config.pusherKey))
   .pipe(rename('config.js'))
   .pipe(gulp.dest('./src/app/config'));
 });

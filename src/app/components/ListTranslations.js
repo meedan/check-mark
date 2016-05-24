@@ -5,6 +5,8 @@ import TranslationToolbar from './TranslationToolbar';
 import Relay from 'react-relay';
 import TranslationsRoute from './TranslationsRoute';
 import config from '../config/config.js';
+import Pusher from 'pusher-js';
+import util from 'util';
 
 const pageSize = 2;
 let editTranslationAction = null;
@@ -13,6 +15,79 @@ class ListTranslations extends Component {
   constructor(props) {
     super(props);
     this.currentTranslationIndex = 0;
+    this.subscribe();
+  }
+
+  subscribe() {
+    var that = this;
+    Pusher.logToConsole = true;
+
+    var pusher = new Pusher(config.pusherKey, {
+      encrypted: true
+    });
+
+    /*
+    var fragment = Relay.QL`
+      fragment on User {
+        id,
+        name,
+        translations(first: $pageSize) {
+          edges {
+            node {
+              id,
+              embed_url,
+              source_url,
+              content,
+              annotation
+            },
+            cursor
+          },
+          pageInfo {
+            hasNextPage,
+            hasPreviousPage
+          } 
+        }
+      }
+    `;
+    */
+
+    var channel = pusher.subscribe('user_b283247d57ea60213fdc1a1a43a6f128'); // FIXME hard-coded hash
+    channel.bind('translation_created', function(data) {
+      /*
+      var query = Relay.createQuery(Relay.QL`query {
+        me {
+          ${fragment}
+        }
+      }`, { pageSize: pageSize + 1 });
+
+      // Reindex current translations
+      data.message.node.index = 0;
+      var translations = that.props.me.translations.edges,
+          newTranslations = [{ node: data.message.node.translations.edges[0].node, cursor: data.message.cursor }];
+      for (var i = 0; i < translations.length; i++) {
+        var node = translations[i].node;
+        node.index = i + 1;
+        newTranslations.push({ node: node, cursor: window.btoa(i + 2) });
+      }
+      that.props.me.translations.edges = newTranslations;
+      that.props.currentTranslationIndex = 0;
+      that.props.currentTranslation = data.message.node;
+      that.forceUpdate();
+
+      const payload = {
+        me: {
+          translations: {
+            edges: newTranslations
+          },
+          id: that.props.me.id,
+          name: that.props.me.name
+        }
+      };
+      
+      Relay.Store.getStoreData().handleQueryPayload(query, payload);
+      */
+      that.props.relay.forceFetch();
+    });
   }
 
   getCurrentTranslation() {
@@ -66,6 +141,7 @@ const ListTranslationsContainer = Relay.createContainer(ListTranslations, {
   fragments: {
     me: () => Relay.QL`
       fragment on User {
+        id,
         name,
         translations(first: $pageSize) {
           edges {
@@ -75,7 +151,8 @@ const ListTranslationsContainer = Relay.createContainer(ListTranslations, {
               source_url,
               content,
               annotation
-            }
+            },
+            cursor
           }
         }
       }
