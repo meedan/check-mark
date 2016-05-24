@@ -31,6 +31,7 @@ class ListTranslations extends Component {
       fragment on User {
         id,
         name,
+        userhash,
         translations(first: $pageSize) {
           edges {
             node {
@@ -51,7 +52,7 @@ class ListTranslations extends Component {
     `;
     */
 
-    var channel = pusher.subscribe('user_b283247d57ea60213fdc1a1a43a6f128'); // FIXME hard-coded hash
+    var channel = pusher.subscribe('user_' + that.props.me.userhash);
     channel.bind('translation_created', function(data) {
       /*
       var query = Relay.createQuery(Relay.QL`query {
@@ -80,7 +81,8 @@ class ListTranslations extends Component {
             edges: newTranslations
           },
           id: that.props.me.id,
-          name: that.props.me.name
+          name: that.props.me.name,
+          userhash: that.props.me.userhash
         }
       };
       
@@ -143,6 +145,7 @@ const ListTranslationsContainer = Relay.createContainer(ListTranslations, {
       fragment on User {
         id,
         name,
+        userhash,
         translations(first: $pageSize) {
           edges {
             node {
