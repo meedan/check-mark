@@ -13,7 +13,7 @@ class SavePost extends Component {
           <div className="light-gray-background">
             <h3 className="action">Save to existing project for translation</h3>
             <div className="column form-column">
-              <Embedly url={state.extension.url} />
+              { state.extension.selection ? <div id="quote">{state.extension.selection}</div> : <Embedly url={state.extension.url} /> }
               <form onSubmit={submitPost.bind(this)}>
                 <div>
                   <BridgeSelect name="project" objects={state.extension.projects} />

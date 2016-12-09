@@ -215,9 +215,18 @@ img.bug {
   }
 }
 
+.translation {
+  font-size: 14px;
+
+  .translation-languages {
+    color: $warm-gray; 
+  }
+}
+
 #my-translations-pager {
   position: relative;
   margin: 0;
+  margin-bottom: 25px;
 
   a {
     cursor: pointer;
@@ -274,5 +283,18 @@ img.bug {
     text-align: center;
     color: $dark-gray;
     width: 100%;
+  }
+}
+
+// Quote support
+
+#quote {
+  padding: 20px 10px;
+  font-size: 16px;
+  color: $dark-gray;
+  background-color: $light-gray;
+
+  b {
+    font-size: 50px;
   }
 }

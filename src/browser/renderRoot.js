@@ -25,6 +25,12 @@ function renderRoot(chrome, background, url) {
     }
   };
 
+  chrome.tabs.executeScript( {
+    code: "window.getSelection().toString();"
+  }, function(selection) {
+    state.extension.selection = selection[0];
+  });
+
   render(
     <Root store={background.store} />,
     document.getElementById('root')

@@ -69,7 +69,7 @@ class SaveTranslation extends Component {
           <div className="light-gray-background">
             <h3 className="action">Translate this post</h3>
             <div className="column form-column" id="translation-form">
-              <Embedly url={state.bridge.url} />
+              { state.extension.selection ? <div id="quote">{state.extension.selection}</div> : <Embedly url={state.bridge.url} /> }
               <form onSubmit={state.bridge.action === 'edit' ? updateTranslation.bind(this) : submitTranslation.bind(this)}>
                 
                 <label for="translation">Translation</label>

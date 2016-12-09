@@ -1,4 +1,5 @@
 import React, { Component, PropTypes } from 'react';
+import Relay from 'react-relay';
 import superagent from 'superagent';
 import config from '../config/config.js';
 import Login from './Login';
@@ -9,6 +10,14 @@ import SaveTranslation from './SaveTranslation';
 import ListTranslationsScreen from './ListTranslations';
 
 class Bridge extends Component {
+  setUpGraphql(session) {
+    Relay.injectNetworkLayer(new Relay.DefaultNetworkLayer(config.bridgeApiBase + '/api/graphql', {
+      headers: {
+        'X-Check-Token': session.token
+      }
+    }));
+  }
+
   currentProvider(state) {
     var domain = state.extension.url.split('/')[2];
     if (/twitter\.com$/.test(domain)) {
@@ -23,7 +32,7 @@ class Bridge extends Component {
   }
 
   pageSupported(state) {
-    if (!/(facebook|twitter)\.com$/.test(state.extension.url.split('/')[2])) {
+    if (!/(facebook|twitter)\.com$/.test(state.extension.url.split('/')[2]) && !state.extension.selection) {
       state.bridge.message = '<h1>Oops - right now, Bridge only works with posts from Twitter or Facebook. Try again?</h1>';
       return false;
     }
@@ -42,7 +51,7 @@ class Bridge extends Component {
           that.forceUpdate();
         }
 
-    if (provider === null) {
+    if (provider === null && !state.extension.selection) {
       fail();
     }
 
@@ -51,17 +60,20 @@ class Bridge extends Component {
     }
 
     else {
-      superagent.get(config.bridgeApiBase + '/api/users/' + provider + '_info')
+      superagent.get(config.bridgeApiBase + '/api/me')
       .end(function(err, response) {
         if (err) {
           fail();
         }
-        else if (response.text === 'null') {
-          fail();
-        }
         else {
-          state.bridge.session = JSON.parse(response.text);
-          success();
+          var userData = JSON.parse(response.text);
+          if (!userData || !userData.data || !userData.data.token) {
+            fail();
+          }
+          else {
+            state.bridge.session = userData.data;
+            success();
+          }
         }
       });
     }
@@ -71,6 +83,10 @@ class Bridge extends Component {
     const { loginTwitter, loginFacebook, goBack, savePost, submitPost, saveTranslation, submitTranslation, myTranslations, state } = this.props;
 
     let view = ((state && state.bridge && state.bridge.view) ? state.bridge.view : 'home');
+    
+    if (state && state.bridge && state.bridge.session) {
+      this.setUpGraphql(state.bridge.session);
+    }
 
     switch (view) {
       case 'home':

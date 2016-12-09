@@ -3,16 +3,13 @@ import superagent from 'superagent';
 import util from 'util';
 import config from '../config/config.js';
 import Relay from 'react-relay';
-import EditTranslationMutation from '../components/EditTranslationMutation';
+import CreateMediaMutation from '../components/CreateMediaMutation';
 
 // Request information from the backend, after logged in
 
 var request = function(method, endpoint, session, data, type, dispatch, view, previousView, callback) {
   var headers = {
-    'X-Bridge-Token': session.token,
-    'X-Bridge-Uuid': session.id,
-    'X-Bridge-Provider': session.provider,
-    'X-Bridge-Secret': session.secret
+    'X-Check-Token': session.token
   };
 
   var path = config.bridgeApiBase + '/api/' + endpoint;
@@ -59,22 +56,25 @@ var request = function(method, endpoint, session, data, type, dispatch, view, pr
 // Request auth information from backend
 
 var requestAuth = function(provider, type, dispatch) {
-  superagent.get(config.bridgeApiBase + '/api/users/' + provider + '_info')
+  superagent.get(config.bridgeApiBase + '/api/me')
   .end(function(err, response) {
     if (err) {
       dispatch({ type: ERROR, message: '<h2>Could not connect to Bridge</h2>', view: 'message', session: null, previousView: 'login' })
     }
-    else if (response.text === 'null') {
-      var win = window.open(config.bridgeApiBase + '/api/users/auth/' + provider + '?destination=/close.html', provider);
-      var timer = window.setInterval(function() {   
-        if (win.closed) {  
-          window.clearInterval(timer);
-          requestAuth(provider, type, dispatch);
-        }  
-      }, 500);
-    }
     else {
-      dispatch({ session: JSON.parse(response.text), type: type, provider: provider, view: 'menu', previousView: 'login' });
+      var userData = JSON.parse(response.text);
+      if (!userData || !userData.data || !userData.data.token) {
+        var win = window.open(config.bridgeApiBase + '/api/users/auth/' + provider + '?destination=/close.html', provider);
+        var timer = window.setInterval(function() {   
+          if (win.closed) {  
+            window.clearInterval(timer);
+            requestAuth(provider, type, dispatch);
+          }  
+        }, 500);
+      }
+      else {
+        dispatch({ session: userData.data, type: type, provider: provider, view: 'menu', previousView: 'login' });
+      }
     }
   });
 };
@@ -116,32 +116,39 @@ export function goBack() {
 }
 
 var saveObject = function(dispatch, state, type, view, url) {
-  var bstate = state.bridge;
-  request('get', 'projects', bstate.session, {}, type, dispatch, view, bstate.view, function(dispatch, response) {
-    var projects = response.data;
-    if (projects.length === 0) {
-      var m = '<h1>Oops! Looks like you\'re not assigned to a project yet</h1>' +
-              '<h2>Please email us hello@speakbridge.io to be assigned to a project.</h2>';
-      dispatch({ type: ERROR, message: m, view: 'message', session: bstate.session, previousView: bstate.view, image: 'error-unassigned' })
-    }
-    else {
-      state.extension.projects = projects.slice();
-      request('get', 'languages', bstate.session, {}, type, dispatch, view, bstate.view, function(dispatch, response) {
-        var languages = [],
-            data  = response.data;
+  var bstate = state.bridge,
+      session = bstate.session;
+  console.log(session);
+  
+  var team = session.current_team,
+      projects = team ? team.projects : [],
+      languages = session.get_languages; // [{ id: 'en', title: 'English' }, ...]
 
-        for (var i = 0; i < data.length; i++) {
-          languages.push({ id: data[i].code, title: data[i].name });
-        }
+  if (!team) {
+    var m = '<h1>Oops! Looks like you\'re not assigned to a team yet</h1>' +
+            '<h2>Please email us hello@speakbridge.io to be assigned to a team.</h2>';
+    dispatch({ type: ERROR, message: m, view: 'message', session: bstate.session, previousView: bstate.view, image: 'error-unassigned' });
+  }
 
-        state.extension.targetlanguages = languages.slice();
-        languages.unshift({ id: '', title: 'Auto-Detect' });
-        state.extension.sourcelanguages = languages.slice();
-      
-        dispatch({ type: type, view: view, session: bstate.session, previousView: 'menu', url: url });
-      });
-    }
-  });
+  else if (projects.length === 0) {
+    var m = '<h1>Oops! Looks like you\'re not assigned to a project yet</h1>' +
+            '<h2>Please email us hello@speakbridge.io to be assigned to a project.</h2>';
+    dispatch({ type: ERROR, message: m, view: 'message', session: bstate.session, previousView: bstate.view, image: 'error-unassigned' });
+  }
+
+  else if (languages === '') {
+    var m = '<h1>Oops! Looks like you don\'t have languages set yet.</h1>' +
+            '<h2>Please email us hello@speakbridge.io to choose languages.</h2>';
+    dispatch({ type: ERROR, message: m, view: 'message', session: bstate.session, previousView: bstate.view, image: 'error-unassigned' });
+  }
+  
+  else {
+    state.extension.projects = projects.slice();
+    state.extension.targetlanguages = languages.slice();
+    languages.unshift({ id: '', title: 'Auto-Detect' });
+    state.extension.sourcelanguages = languages.slice();
+    dispatch({ type: type, view: view, session: bstate.session, previousView: 'menu', url: url });
+  }
 }
 
 export function savePost() {
@@ -162,14 +169,47 @@ export function submitPost(e) {
   return (dispatch, getState) => {
     disableButton();
 
-    var project_id = e.target['0'].value,
-        language   = e.target['2'].value,
-        state      = getState().bridge,
-        url        = getState().extension.url;
+    var project_id  = e.target['0'].value,
+        language    = e.target['2'].value,
+        state       = getState().bridge,
+        url         = getState().extension.url,
+        information = {};
 
-    request('post', 'posts', state.session, { url: url, project_id: project_id, post_lang: language }, SAVE_POST, dispatch, 'message', 'save_post', function(dispatch, response) {
-      dispatch({ type: SAVE_POST, message: '<h1>Success!</h1><h2>This post will be available for translators</h2>', view: 'message', session: state.session, previousView: 'reload', image: 'confirmation-saved' })
-    });
+    if (getState().extension.selection) {
+      url = '';
+      information = { quote: getState().extension.selection };
+    }
+
+    var onFailure = (transaction) => {
+      transaction.getError().json().then(function(json) {
+        var message = 'Sorry, could not create translation';
+        if (json.error) {
+          message = json.error;
+        }
+        dispatch({ type: ERROR, message: '<h2>' + message + '</h2>', view: 'message', session: state.session, previousView: 'save_translation' });
+      });
+    };
+
+    var onSuccess = (response) => {
+      window.storage.set(url + ' annotation', '');
+      window.storage.set(url + ' translation', '');
+        
+      var embed_url = config.bridgeEmbedBase.replace(/^(https?:\/\/)/, '$1' + state.session.current_team.subdomain + '.') + '/project/' + project_id + '/media/' + response.createMedia.media.dbid;
+
+      dispatch({ type: SAVE_POST, message: '<h1>Success!</h1><h2>This post will be available for translators at <a href="' + embed_url + '" target="_blank" class="plain-link">' + embed_url + '</a></h2>', view: 'message', session: state.session, previousView: 'reload', image: 'confirmation-saved' })
+    };
+
+    Relay.Store.commitUpdate(
+      new CreateMediaMutation({
+        media: {
+          url: url,
+          information: information,
+          project_id: parseInt(project_id)
+        }
+      }),
+      { onSuccess, onFailure }
+    );
+    
     e.preventDefault();
   };
 }
@@ -186,7 +226,13 @@ export function submitTranslation(e) {
         translation = form.translation.value,
         comment     = form.annotation.value,
         state       = getState().bridge,
-        url         = getState().extension.url;
+        url         = getState().extension.url,
+        information = {};
+
+    if (getState().extension.selection) {
+      url = '';
+      information = { quote: getState().extension.selection };
+    }
 
     if (comment === 'Enter your annotation here') {
       comment = '';
@@ -205,12 +251,36 @@ export function submitTranslation(e) {
     }
 
     else {
-      request('post', 'posts', state.session, { url: url, project_id: project_id, translation: translation, comment: comment, lang: to, post_lang: from }, SAVE_TRANSLATION, dispatch, 'message', 'save_translation', function(dispatch, response) {
+      var onFailure = (transaction) => {
+        transaction.getError().json().then(function(json) {
+          var message = 'Sorry, could not create translation';
+          if (json.error) {
+            message = json.error;
+          }
+          dispatch({ type: ERROR, message: '<h2>' + message + '</h2>', view: 'message', session: state.session, previousView: 'save_translation' });
+        });
+      };
+
+      var onSuccess = (response) => {
         window.storage.set(url + ' annotation', '');
         window.storage.set(url + ' translation', '');
-        var embed_url = response.data.embed_url;
-        dispatch({ type: SAVE_TRANSLATION, message: '<h1>Success! Thank you!</h1><h2>See your translation at</h2><a href="' + embed_url + '" target="_blank" class="plain-link">' + embed_url + '</a>', view: 'message', session: state.session, previousView: 'reload', image: 'confirmation-translated' })
-      });
+
+        var embed_url = config.bridgeEmbedBase.replace(/^(https?:\/\/)/, '$1' + state.session.current_team.subdomain + '.') + '/project/' + project_id + '/media/' + response.createMedia.media.dbid;
+
+        dispatch({ type: SAVE_TRANSLATION, message: '<h1>Success! Thank you!</h1><h2>See your translation at</h2><a href="' + embed_url + '" target="_blank" class="plain-link">' + embed_url + '</a>', view: 'message', session: state.session, previousView: 'reload', image: 'confirmation-translated' });
+      };
+
+      Relay.Store.commitUpdate(
+        new CreateMediaMutation({
+          media: {
+            translation: { annotation_type: 'translation', translation: translation, from: from, to: to, comment: comment },
+            information: information,
+            url: url,
+            project_id: parseInt(project_id)
+          }
+        }),
+        { onSuccess, onFailure }
+      );
     }
 
     e.preventDefault();
@@ -283,15 +353,6 @@ export function updateTranslation(e) {
       var url = translation.source_url;
       window.storage.set(url + ' annotation', '');
       window.storage.set(url + ' translation', '');
-      Relay.Store.commitUpdate(
-        new EditTranslationMutation({
-          translation: {
-            content: text,
-            annotation: comment,
-            id: translation.id
-          }
-        })
-      );
 
       var embed_url = translation.embed_url.replace(/\.js$/, '');
       dispatch({ type: SAVE_TRANSLATION, message: '<h1>Success! Thank you!</h1><h2>See your translation at</h2><a href="' + embed_url + '" target="_blank" class="plain-link">' + embed_url + '</a>', view: 'message', session: state.session, previousView: 'reload', image: 'confirmation-translated' })

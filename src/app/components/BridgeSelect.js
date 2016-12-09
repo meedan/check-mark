@@ -36,7 +36,7 @@ class BridgeSelect extends Component {
         title   = name.charAt(0).toUpperCase() + name.slice(1);
 
     for (var i = 0; i < objects.length; i++) {
-      options.push({ value: objects[i].id, label: objects[i].title });
+      options.push({ value: objects[i].dbid || objects[i].id, label: objects[i].title });
     }
 
     return (
