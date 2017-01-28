@@ -16,3 +16,5 @@ The interface should look similar to the current Meedan Bridge web extension (wi
 ![](UI.JPG "UI Diagram")
 
 The extension will also include "Share to Check" buttons on social media posts (need to confer on how exactly injection interface will look like)
+
+![](UI2.JPG "UI Diagram 2")
