@@ -1,0 +1,11 @@
+{
+  "title": "Bridge Local",
+  "bridgeApiBase": "http://localhost:3000",
+  "bridgeEmbedBase": "http://localhost:3001",
+  "suffix": "local",
+  "public": "false",
+  "googleAppId": "",
+  "googleClientId": "",
+  "googleCode": "",
+  "googleAccessToken": ""
+}

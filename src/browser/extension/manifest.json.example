@@ -1,17 +1,15 @@
 {
-  "version": "0.1.669",
-  "name": "Bridge Title",
+  "version": "0.1.671",
+  "name": "Check Mark",
   "manifest_version": 2,
-  "description": "Translate the global web. A new app for social translation of social media, brought to you by @meedan. Currently in beta.",
+  "description": "News verification.",
   "browser_action": {
-    "default_icon": "img/logo/48x48-suffix.png",
-    "default_title": "Bridge Title",
+    "default_icon": "img/logo/check.png",
+    "default_title": "Check Mark",
     "default_popup": "popup.html"
   },
   "icons": {
-    "16": "img/logo/16x16-suffix.png",
-    "48": "img/logo/48x48-suffix.png",
-    "128": "img/logo/128x128-suffix.png"
+    "16": "img/logo/check.png"
   },
   "background": {
     "page": "background.html"
