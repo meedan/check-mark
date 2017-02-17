@@ -1,0 +1,8 @@
+var config = {};
+
+config.bridgeApiBase = 'http://bridge-api-base';
+config.bridgeEmbedBase = 'http://localhost:3333';
+config.penderUrl = 'http://localhost:3005';
+config.pusherKey = 'pusher-key';
+
+module.exports = config;

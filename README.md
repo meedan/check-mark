@@ -24,20 +24,43 @@ The extension will also include "Share to Check" buttons on social media posts (
 ---
 
 
-## Usage
+## Structure
 
-First, you need to change into the subdirectory and install all
-[NodeJS][nodejs] dependencies with [npm](http://npmjs.com/) or
-[yarn](https://yarnpkg.com/):
+- `src/app`: React cross-browser application.
+- `src/browser`: sources for the extension and Chrome app.
 
-    npm install
+## How to build
 
-Start the continuous build process to transpile the code into something that
-can run in Firefox or Chrome:
+* Copy `config.json.example` to `config.json` and define your configurations
+* `npm install`
+* `npm run build:extension`
 
-    npm run build
+## How to develop
 
-This creates a WebExtension in the `extension` subdirectory.
-Any time you edit a file, it will be rebuilt automatically.
+* The theme files (SASS files) are under `src/app/styles`
+* Other development files are under `src/app/`
+* In order to reflect your changes, run `npm run build:extension`
 
-Files in the 'src' directory will be compiled into the 'extension/dist' folder.
+## How to use
+
+* Go to Google Chrome / Chromium
+* Type `chrome://extensions`
+* Hit "Load unpacked extension..."
+* Choose the `build/extension` directory
+* An icon will be added to your Google Chrome toolbar
+
+## How to release a new version (edge and live)
+
+* Run `npm run release:extension`, which will bump version number and create zip files under `releases/` directory
+
+## How to publish a new version (edge and live)
+
+* Run `npm run publish:extension`, which will upload and publish the items to Chrome Store
+* Alternatively, you can upload the zip files to Chrome Webstore (developer's dashboard)
+
+## How to test
+
+* Run `npm run test` (you need `ruby` and `rubygems`, and need a file `test/config.yml`)
+
+
+

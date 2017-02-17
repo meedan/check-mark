@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="28px" height="19px" viewBox="0 0 28 19" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.4.2 (15857) - http://www.bohemiancoding.com/sketch -->
+    <title>backbutton</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="choose" sketch:type="MSArtboardGroup" transform="translate(-596.000000, -43.000000)" stroke="#FF4F00" fill="#FF4F00">
+            <g id="back-bar" sketch:type="MSLayerGroup" transform="translate(0.000000, 30.000000)">
+                <path d="M616.548267,17.4466133 L597.92512,17.4466133 L600.8768,14.7035733 L600.221867,14 L596,17.9266133 L600.221867,21.8532267 L600.8768,21.15008 L597.926827,18.40832 L616.549973,18.40832 C619.65824,18.40832 622.186667,20.9367467 622.186667,24.0450133 C622.186667,27.15328 619.65824,29.6817067 616.549973,29.6817067 L616.549973,30.6417067 C620.186453,30.6417067 623.146667,27.6832 623.146667,24.0450133 C623.14496,20.4068267 620.186453,17.4466133 616.548267,17.4466133 L616.548267,17.4466133 Z" id="backbutton" sketch:type="MSShapeGroup"></path>
+            </g>
+        </g>
+    </g>
+</svg>

@@ -1,0 +1,11 @@
+{
+  "title": "Bridge",
+  "bridgeApiBase": "https://bridge-api.meedan.com",
+  "bridgeEmbedBase": "https://speakbridge.io",
+  "suffix": "live",
+  "public": "true",
+  "googleAppId": "jfjhkoibpnplohpgfogadhhbaeinnaob",
+  "googleClientId": "645211925992-2p0f6nf3ouhu5ci2a0vprb2dgt9s39ba.apps.googleusercontent.com",
+  "googleCode": "4/ni2o-PyCD0m3aMrgNg1K5q4EmkN4mMykwR_bojWSLfA",
+  "googleAccessToken": "ya29.hAI5yAP-rXqAyqKpsTvLCXeAKlkGbdoT-QXiEvX5VDVJzw4VuKAzki7VY05phqV9XFW8"
+}

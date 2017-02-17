@@ -1,15 +1,10 @@
-# See http://help.github.com/ignore-files/ for more about ignoring files.
-
-# dependencies
 node_modules
-
-# testing
-coverage
-
-# production
-build
-
-# misc
-.DS_Store
-.env
+*.sw*
+*~
 npm-debug.log
+src/browser/extension/manifest.json
+src/app/config/config.js
+build
+config.json
+test/config.yml
+
