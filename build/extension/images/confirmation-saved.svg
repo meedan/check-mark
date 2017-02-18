@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg width="164px" height="250px" viewBox="0 0 164 250" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
+    <!-- Generator: Sketch 3.4.2 (15857) - http://www.bohemiancoding.com/sketch -->
+    <title>Group</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" sketch:type="MSPage">
+        <g id="Group" sketch:type="MSLayerGroup">
+            <g id="Page-1" stroke="#ABB5BD" stroke-width="4" sketch:type="MSShapeGroup">
+                <path d="M144.075401,86.7274292 L84.063093,0.581495422 L20.6424209,86.7274292 L81.7749184,45.4040955 L144.075401,86.7274292 Z" id="Fill-1"></path>
+                <path d="M20.6424209,92.2573594 L84.063093,171.331612 L144.075401,92.2573594 L20.6424209,92.2573594 Z" id="Fill-2"></path>
+                <path d="M147.352685,97.3302226 L114.839739,140.081749 L155.064892,182.833276 L163.698627,122.597125 L147.352685,97.3302226 Z" id="Fill-3"></path>
+                <path d="M0.0890848143,121.53788 L8.71983751,181.762031 L48.9479726,137.861463 L16.4320443,96.258977 L0.0890848143,121.53788 Z" id="Fill-4"></path>
+            </g>
+            <path d="M21.3114754,183.606557 L21.3114754,229.508197" id="Path-7661" stroke="#FF4F00" stroke-dasharray="2" sketch:type="MSShapeGroup"></path>
+            <path d="M62.704918,183.606557 L62.704918,250" id="Path-7661-Copy" stroke="#FF4F00" stroke-dasharray="2" sketch:type="MSShapeGroup"></path>
+            <path d="M104.508197,183.606557 L104.508197,250" id="Path-7661-Copy-2" stroke="#FF4F00" stroke-dasharray="2" sketch:type="MSShapeGroup"></path>
+            <path d="M146.721311,183.606557 L146.721311,229.508197" id="Path-7661-Copy-3" stroke="#FF4F00" stroke-dasharray="2" sketch:type="MSShapeGroup"></path>
+        </g>
+    </g>
+</svg>
