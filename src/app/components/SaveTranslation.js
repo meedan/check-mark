@@ -3,6 +3,7 @@ import BridgeSelect from './BridgeSelect';
 import Embedly from './Embedly';
 import BackBar from './BackBar';
 
+/*
 class SaveTranslation extends Component {
   onTranslationFocus() {
     var field = React.findDOMNode(this.translation)
@@ -111,4 +112,4 @@ class SaveTranslation extends Component {
   }
 }
 
-export default SaveTranslation;
+export default SaveTranslation; */

@@ -5,7 +5,7 @@ import BackBar from './BackBar';
 
 class SavePost extends Component {
   render() {
-    const { loginTwitter, loginFacebook, goBack, savePost, submitPost, saveTranslation, submitTranslation, myTranslations, state } = this.props;
+    const { loginTwitter, loginFacebook, goBack, savePost, submitPost, myTranslations, state } = this.props;
     return (
       <div>
         <BackBar goBack={goBack} myTranslations={myTranslations} />
@@ -17,7 +17,6 @@ class SavePost extends Component {
               <form onSubmit={submitPost.bind(this)}>
                 <div>
                   <BridgeSelect name="project" objects={state.extension.projects} />
-                  <BridgeSelect name="language" objects={state.extension.sourcelanguages} multi={true} />
                 </div>
                 <button className="btn btn-large" id="submit">Add to Project</button>
               </form>

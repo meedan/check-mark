@@ -9,10 +9,11 @@ class CreateMediaMutation extends Relay.Mutation {
   }
 
   getVariables() {
+    console.log(this.props.media);
+
     var media = this.props.media,
-        annotation = JSON.stringify(media.translation),
         information = JSON.stringify(media.information);
-    return { url: media.url, information: information, project_id: media.project_id, annotation: annotation };
+    return { url: media.url, information: information, project_id: media.project_id};
   }
 
   getFatQuery() {

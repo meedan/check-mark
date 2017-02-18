@@ -6,7 +6,6 @@ import Login from './Login';
 import Menu from './Menu';
 import Message from './Message';
 import SavePost from './SavePost';
-import SaveTranslation from './SaveTranslation';
 import ListTranslationsScreen from './ListTranslations';
 
 class Bridge extends Component {
@@ -32,10 +31,10 @@ class Bridge extends Component {
   }
 
   pageSupported(state) {
-    if (!/(facebook|twitter)\.com$/.test(state.extension.url.split('/')[2]) && !state.extension.selection) {
-      state.bridge.message = '<h1>Oops - right now, Bridge only works with posts from Twitter or Facebook. Try again?</h1>';
-      return false;
-    }
+    // if (!/(facebook|twitter)\.com$/.test(state.extension.url.split('/')[2]) && !state.extension.selection) {
+    //   state.bridge.message = '<h1>Oops - right now, Bridge only works with posts from Twitter or Facebook. Try again?</h1>';
+    //   return false;
+    // }
     return true;
   }
 
@@ -80,7 +79,7 @@ class Bridge extends Component {
   }
 
   render() {
-    const { loginTwitter, loginFacebook, goBack, savePost, submitPost, saveTranslation, submitTranslation, myTranslations, state } = this.props;
+    const { loginTwitter, loginFacebook, goBack, savePost, submitPost, myTranslations, state } = this.props;
 
     let view = ((state && state.bridge && state.bridge.view) ? state.bridge.view : 'home');
     
@@ -101,13 +100,6 @@ class Bridge extends Component {
       case 'save_post':
         if (this.pageSupported(state)) {
           return (<SavePost {...this.props} />);
-        }
-        else {
-          return (<Message {...this.props} />);
-        }
-      case 'save_translation':
-        if ((state && state.bridge && state.bridge.action === 'edit') || this.pageSupported(state)) {
-          return (<SaveTranslation {...this.props} />);
         }
         else {
           return (<Message {...this.props} />);

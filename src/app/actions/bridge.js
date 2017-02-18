@@ -118,6 +118,12 @@ export function goBack() {
 var saveObject = function(dispatch, state, type, view, url) {
   var bstate = state.bridge,
       session = bstate.session;
+
+  console.log(dispatch);
+  console.log(state);
+  console.log(type);
+  console.log(view);
+  console.log(url);
   console.log(session);
   
   var team = session.current_team,
@@ -144,9 +150,9 @@ var saveObject = function(dispatch, state, type, view, url) {
   
   else {
     state.extension.projects = projects.slice();
-    state.extension.targetlanguages = languages.slice();
-    languages.unshift({ id: '', title: 'Auto-Detect' });
-    state.extension.sourcelanguages = languages.slice();
+    // state.extension.targetlanguages = languages.slice();
+    // languages.unshift({ id: '', title: 'Auto-Detect' });
+    // state.extension.sourcelanguages = languages.slice();
     dispatch({ type: type, view: view, session: bstate.session, previousView: 'menu', url: url });
   }
 }
@@ -158,12 +164,12 @@ export function savePost() {
   };
 }
 
-export function saveTranslation() {
+/*export function saveTranslation() {
   return (dispatch, getState) => {
     var state = getState();
     saveObject(dispatch, state, SAVE_TRANSLATION, 'save_translation', state.extension.url);
   };
-}
+}*/
 
 export function submitPost(e) {
   return (dispatch, getState) => {
@@ -191,9 +197,11 @@ export function submitPost(e) {
     };
 
     var onSuccess = (response) => {
+      console.log("calling onSuccess function");
       window.storage.set(url + ' annotation', '');
       window.storage.set(url + ' translation', '');
-        
+
+      console.log("storage successful");
       var embed_url = config.bridgeEmbedBase.replace(/^(https?:\/\/)/, '$1' + state.session.current_team.subdomain + '.') + '/project/' + project_id + '/media/' + response.createMedia.media.dbid;
 
       dispatch({ type: SAVE_POST, message: '<h1>Success!</h1><h2>This post will be available for translators at <a href="' + embed_url + '" target="_blank" class="plain-link">' + embed_url + '</a></h2>', view: 'message', session: state.session, previousView: 'reload', image: 'confirmation-saved' })
