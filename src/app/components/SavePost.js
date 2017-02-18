@@ -5,7 +5,7 @@ import BackBar from './BackBar';
 
 class SavePost extends Component {
   render() {
-    const { loginTwitter, loginFacebook, goBack, savePost, submitPost, saveTranslation, submitTranslation, myTranslations, state } = this.props;
+    const { loginTwitter, loginFacebook, goBack, savePost, submitPost, myTranslations, state } = this.props;
     return (
       <div>
         <BackBar goBack={goBack} myTranslations={myTranslations} />

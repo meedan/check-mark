@@ -158,12 +158,12 @@ export function savePost() {
   };
 }
 
-export function saveTranslation() {
+/*export function saveTranslation() {
   return (dispatch, getState) => {
     var state = getState();
     saveObject(dispatch, state, SAVE_TRANSLATION, 'save_translation', state.extension.url);
   };
-}
+}*/
 
 export function submitPost(e) {
   return (dispatch, getState) => {

@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 
 class Login extends Component {
   render() {
-    const { loginTwitter, loginFacebook, goBack, savePost, submitPost, saveTranslation, submitTranslation, myTranslations, state } = this.props;
+    const { loginTwitter, loginFacebook, goBack, savePost, submitPost, myTranslations, state } = this.props;
     return (
       <div className="textured">
         <img src="/images/connect-with.svg" />
