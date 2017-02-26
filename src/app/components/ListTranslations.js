@@ -59,32 +59,34 @@ class ListTranslations extends Component {
   }
 }
 
-const ListTranslationsContainer = Relay.createContainer(ListTranslations, {
-  initialVariables: {
-    pageSize: pageSize,
-    type: 'translation'
-  },
-  fragments: {
-    me: () => Relay.QL`
-      fragment on User {
-        id,
-        name,
-        annotations(first: $pageSize, type: $type) {
-          edges {
-            node {
-              id,
-              content,
-              media {
-                jsondata,
-                url
-              }
-            }
-          }
-        }
-      }
-    `
-  }
-});
+const ListTranslationsContainer = {};
+
+// Relay.createContainer(ListTranslations, {
+  // initialVariables: {
+  //   pageSize: pageSize,
+  //   type: 'translation'
+  // },
+  // fragments: {
+  //   me: () => Relay.QL`
+  //     fragment on User {
+  //       id,
+  //       name,
+  //       annotations(first: $pageSize, type: $type) {
+  //         edges {
+  //           node {
+  //             id,
+  //             content,
+  //             media {
+  //               jsondata,
+  //               url
+  //             }
+  //           }
+  //         }
+  //       }
+  //     }
+  //   `
+  // }
+// });
 
 class ListTranslationsScreen extends Component { 
   render() {

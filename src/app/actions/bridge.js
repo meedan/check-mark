@@ -3,7 +3,7 @@ import superagent from 'superagent';
 import util from 'util';
 import config from '../config/config.js';
 import Relay from 'react-relay';
-import CreateMediaMutation from '../components/CreateMediaMutation';
+import CreateProjectMediaMutation from '../components/CreateProjectMediaMutation';
 
 // Request information from the backend, after logged in
 
@@ -188,6 +188,8 @@ export function submitPost(e) {
 
     var onFailure = (transaction) => {
       transaction.getError().json().then(function(json) {
+        console.log("Error");
+        console.log(json);
         var message = 'Sorry, could not create translation';
         if (json.error) {
           message = json.error;
@@ -208,10 +210,11 @@ export function submitPost(e) {
     };
 
     Relay.Store.commitUpdate(
-      new CreateMediaMutation({
+      new CreateProjectMediaMutation({
         media: {
           url: url,
-          information: information,
+          quote: url,
+          image: "",
           project_id: parseInt(project_id)
         }
       }),
