@@ -8,10 +8,9 @@ class SavePost extends Component {
     const { loginTwitter, loginFacebook, goBack, savePost, submitPost, myTranslations, state } = this.props;
     return (
       <div>
-        <BackBar goBack={goBack} myTranslations={myTranslations} />
         <div className="textured">
           <div className="light-gray-background">
-            <h3 className="action">Save to existing project for translation</h3>
+            <h3 className="action">Save Current Link to Check</h3>
             <div className="column form-column">
               { state.extension.selection ? <div id="quote">{state.extension.selection}</div> : <Embedly url={state.extension.url} /> }
               <form onSubmit={submitPost.bind(this)}>
