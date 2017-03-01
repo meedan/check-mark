@@ -209,7 +209,7 @@ export function submitPost(e) {
       //var embed_url = config.bridgeEmbedBase.replace(/^(http?:\/\/)/, '$1' + state.session.current_team.name + '.') + '/project/' + project_id + '/media/' + response.createProjectMedia.project_media.dbid;
       var embed_url = 'http://qa.checkmedia.org/' +  state.session.current_team.slug + '/project/' + project_id + '/media/' + response.createProjectMedia.project_media.dbid;
 
-      dispatch({ type: SAVE_POST, message: '<h1>Success!</h1><h2>This post will be available for translators at <a href="' + embed_url + '" target="_blank" class="plain-link">' + embed_url + '</a></h2>', view: 'message', session: state.session, previousView: 'reload', image: 'confirmation-saved' })
+      dispatch({ type: SAVE_POST, message: '<h1>Success!</h1><h2>This post will be available at <a href="' + embed_url + '" target="_blank" class="plain-link">' + embed_url + '</a></h2>', view: 'message', session: state.session, previousView: 'reload', image: 'confirmation-saved' })
     };
 
     Relay.Store.commitUpdate(
