@@ -216,7 +216,7 @@ export function submitPost(e) {
       new CreateProjectMediaMutation({
         media: {
           url: url,
-          quote: url,
+          quote: null,
           image: "",
           project_id: parseInt(project_id)
         }
