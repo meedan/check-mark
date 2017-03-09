@@ -4,6 +4,7 @@ import util from 'util';
 import config from '../config/config.js';
 import Relay from 'react-relay';
 import CreateProjectMediaMutation from '../components/CreateProjectMediaMutation';
+import CreateCommentMutation from '../components/CreateCommentMutation';
 
 // Request information from the backend, after logged in
 
@@ -176,7 +177,7 @@ export function submitPost(e) {
     disableButton();
 
     var project_id  = e.target['0'].value,
-        language    = e.target['2'].value,
+        comment     = e.target['2'].value,
         state       = getState().bridge,
         url         = getState().extension.url,
         information = {};
@@ -199,18 +200,43 @@ export function submitPost(e) {
     };
 
     var onSuccess = (response) => {
-      console.log("calling onSuccess function");
+
+      var annotator = state.session;
+      var image = '';
+      var context = null;
+      var annotated = {id:null};
+      var annotated_type = 'ProjectMedia';
+
+      var annotated_id = response.createProjectMedia.project_media.dbid;
+      annotated_id = annotated_id.toString();
+
+      let onSuccess = function(){
+        var embed_url = 'http://qa.checkmedia.org/' +  state.session.current_team.slug + '/project/' + project_id + '/media/' + response.createProjectMedia.project_media.dbid;
+        dispatch({ type: SAVE_POST, message: '<h1>Success!</h1><h2>This post will be available at <a href="' + embed_url + '" target="_blank" class="plain-link">' + embed_url + '</a></h2>', view: 'message', session: state.session, previousView: 'reload', image: 'confirmation-saved' })
+      }
+
+      Relay.Store.commitUpdate(
+        new CreateCommentMutation({
+          parent_type: 'source',
+          annotator,
+          annotated,
+          image,
+          context: null,
+          annotation: {
+            text: comment,
+            annotated_type,
+            annotated_id,
+          },
+        }),
+        { onSuccess, onFailure }
+      );
+
       window.storage.set(url + ' annotation', '');
       window.storage.set(url + ' translation', '');
 
-      console.log("storage successful");
-      console.log(response);
-      console.log(state);
       //var embed_url = config.bridgeEmbedBase.replace(/^(http?:\/\/)/, '$1' + state.session.current_team.name + '.') + '/project/' + project_id + '/media/' + response.createProjectMedia.project_media.dbid;
       var embed_url = 'http://qa.checkmedia.org/' +  state.session.current_team.slug + '/project/' + project_id + '/media/' + response.createProjectMedia.project_media.dbid;
-
-      dispatch({ type: SAVE_POST, message: '<h1>Success!</h1><h2>This post will be available at <a href="' + embed_url + '" target="_blank" class="plain-link">' + embed_url + '</a></h2>', view: 'message', session: state.session, previousView: 'reload', image: 'confirmation-saved' })
-    };
+  };
 
     Relay.Store.commitUpdate(
       new CreateProjectMediaMutation({
