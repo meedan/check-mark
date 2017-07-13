@@ -2,7 +2,3 @@ node_modules
 *.sw*
 *~
 npm-debug.log
-src/browser/extension/manifest.json
-src/app/config/config.js
-test/config.yml
-
