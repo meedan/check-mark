@@ -1,0 +1,12 @@
+@import 'variables';
+
+.button {
+  cursor: pointer;
+  background: $white;
+  padding: 10px 0;
+  font-size: 14px;
+  font-weight: 500;
+  color: $clear-blue;
+  margin-top: 36px;
+  text-transform: uppercase;
+}
