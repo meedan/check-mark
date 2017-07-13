@@ -1,4 +1,6 @@
 node_modules
+coverage
+build
 *.sw*
 *~
 npm-debug.log
