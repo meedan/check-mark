@@ -1,0 +1,8 @@
+[main]
+host = https://www.transifex.com
+
+[check-2.browser-extension]
+file_filter = src/localization/<lang>.json
+source_file = src/localization/en.json
+source_lang = en
+type = KEYVALUEJSON

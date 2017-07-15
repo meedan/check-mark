@@ -22,3 +22,7 @@ You can compile the code with `npm run build`. It was developed and tested with 
 * Click "Load Temporary Add-on"
 * Pick the `build` directory
 * The extension will appear on the toolbar
+
+#### Localization
+
+As usual, localization is done on [Transifex](https://www.transifex.com/meedan/check-2/browser-extension/). You must have the `tx` client [installed](http://docs.transifex.com/client/setup/) on your computer and [configured](https://docs.transifex.com/client/client-configuration) to communicate with the Transifex server. You can send new strings to Transifex by running `npm run transifex:upload` and you can download translations from Transifex by running `npm run transifex:download`.

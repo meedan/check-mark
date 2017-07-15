@@ -1,10 +1,19 @@
 @import 'variables';
 
+.rtl {
+  text-align: right;
+  direction: rtl;
+}
+
+.ltr {
+  text-align: left;
+  direction: ltr;
+}
+
 body {
   margin: 0;
   padding: 16px;
   width: 356px;
   font-family: Roboto;
   background: $white;
-  text-align: $direction;
 }
