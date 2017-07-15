@@ -4,3 +4,4 @@ build
 *.sw*
 *~
 npm-debug.log
+test/config.yml

@@ -3,9 +3,18 @@
   "name": "Check",
   "description": "Verify breaking news online",
   "version": "1.0",
+  "commands": {
+    "_execute_browser_action": {
+      "suggested_key": {
+        "default": "Ctrl+Shift+L"
+      },
+      "description": "Check"
+    }
+  },
   "browser_action": {
     "default_icon": "check19.png",
-    "default_popup": "popup.html"
+    "default_popup": "popup.html",
+    "default_title": "Check"
   },
   "icons": {
     "128": "check128.png",

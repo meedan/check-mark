@@ -56,8 +56,8 @@
     "clean-css": "find src -name \"*.css\" -exec rm -f {} \";\"",
     "clean-localization": "rm -rf src/localization/messages",
     "build": "npm run build-css && node scripts/build.js && npm run clean-css && npm run clean-localization",
-    "test": "node scripts/test.js --env=jsdom",
-    "transifex:parse": "npm run build && babel-node scripts/localize",
+    "test": "cd test && bundle install && rspec && cd ..",
+    "transifex:parse": "npm run build && babel-node scripts/localize.js",
     "transifex:upload": "npm run transifex:parse && tx push -s",
     "transifex:download": "tx pull -a -f"
   },
