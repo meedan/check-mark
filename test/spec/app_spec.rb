@@ -60,7 +60,7 @@ describe 'app' do
       sleep 5
     end
 
-    it "should open extension bli" do
+    it "should open extension" do
       open_extension
     end
 
