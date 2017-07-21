@@ -6,6 +6,8 @@ A browser extension for [Check](https://meedan.com/en/check/).
 
 The JavaScript and SASS codes live in `src`. Static files like HTML, Manifest and images live in `public`.
 
+Copy `config.js.example` to `config.js` and define your configurations.
+
 You can compile the code with `npm run build`. It was developed and tested with Node 7. After the code is compiled, it will be under `build`. After you installed the extension (see below how to do it), you don't need to re-install it when you make code changes.
 
 #### Running the extension in Google Chrome

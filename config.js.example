@@ -1,0 +1,5 @@
+const config = {
+  checkApiUrl: 'http://localhost:3000/',
+  checkApiGraphqlUrl: 'http://localhost:3000/api/graphql'
+};
+export default config;

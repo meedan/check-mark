@@ -1,16 +1,8 @@
 @import 'variables';
 
 #app {
-  h2 {
-    font-size: 20px;
-    font-weight: 500;
-    color: $black-87;
-    margin: 0;
-  }
-
   p {
     font-size: 14px;
     color: $black-54;
-    line-height: 1.43;
   }
 }

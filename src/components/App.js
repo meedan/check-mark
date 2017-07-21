@@ -1,19 +1,47 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import '../style/App.css';
-import Button from './Button';
+import Login from './Login';
+import Save from './Save';
+import environment from '../relay/Environment';
+import { QueryRenderer, graphql } from 'react-relay';
 
 class App extends Component {
+  getChildContext() {
+    return {
+      user: null
+    };
+  }
+
   render() {
     return (
       <div id="app" className={this.props.direction}>
-        <h2><FormattedMessage id="App.addToCheck" defaultMessage="Add to Check" /></h2>
-        <p><FormattedMessage id="App.addLinks" defaultMessage="Add links to Check with one click. Links will be added to your most recently active project." /></p>
-        <p><FormattedMessage id="App.getStarted" defaultMessage="To get started, sign in." /></p>
-        <Button label={<FormattedMessage id="App.signIn" defaultMessage="Sign In" />} />
+        <QueryRenderer environment={environment}
+          query={graphql`
+            query AppQuery {
+              me {
+                name
+              }
+            }
+          `}
+          render={({error, props}) => {
+            if (error || !props || !props.me) {
+              return <Login />;
+            }
+            else if (props && props.me) {
+              return <Save />;
+            }
+            return <p><FormattedMessage id="App.loading" defaultMessage="Loading..." /></p>;
+          }}
+        />
       </div>
     );
   }
 }
+
+App.childContextTypes = {
+  user: PropTypes.object
+};
 
 export default App;

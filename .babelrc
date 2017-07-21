@@ -2,7 +2,7 @@
   "presets": ["es2015", "stage-0", "react"],
   "env": {
     "production": {
-      "plugins": [["react-intl", { "messagesDir": "./src/localization/messages/" }]]
+      "plugins": [["react-intl", { "messagesDir": "./src/localization/messages/" }], ["relay"]]
     }
   }
 }
