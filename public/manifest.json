@@ -20,8 +20,14 @@
     "128": "check128.png",
     "48": "check48.png"
   },
+  "cross-domain-content": [
+    "http://localhost:3000/"
+  ],
   "permissions": [
     "activeTab",
+    "tabs",
+    "cookies",
+    "webRequest",
     "https://fonts.googleapis.com/",
     "http://localhost:3000/"
   ]

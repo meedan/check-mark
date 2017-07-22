@@ -1,0 +1,12 @@
+@import 'variables';
+
+#error {
+  code {
+    font-family: 'Roboto Mono', monospace;
+    font-size: 12px;
+    line-height: 1.33;
+    color: $black-40;
+    margin-bottom: 30px;
+    display: block;
+  }
+}
