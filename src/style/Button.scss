@@ -1,12 +1,17 @@
 @import 'variables';
 
-.button {
+button {
   cursor: pointer;
   background: $white;
   padding: 10px 0;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: bold;
   color: $clear-blue;
   margin-top: 36px;
   text-transform: uppercase;
+  border: 0;
+
+  &:focus {
+    outline: none;
+  }
 }

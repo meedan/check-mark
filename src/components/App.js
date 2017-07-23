@@ -29,7 +29,7 @@ class App extends Component {
   componentWillMount() {
     const that = this;
 
-    superagent.get(config.checkApiUrl + '/api/me').end(function(err, response) {
+    superagent.get(config.checkApiUrl + '/api/me').withCredentials().end(function(err, response) {
       let state = { loaded: true };
       
       try {

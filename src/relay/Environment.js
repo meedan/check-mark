@@ -12,7 +12,7 @@ function fetchQuery(
   cacheConfig,
   uploadables,
 ) {
-  return fetch(config.checkApiGraphqlUrl, {
+  return fetch(config.checkApiUrl + '/api/graphql', {
     method: 'POST',
     headers: {
       'content-type': 'application/json',

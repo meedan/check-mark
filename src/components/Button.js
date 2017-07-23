@@ -4,9 +4,9 @@ import '../style/Button.css';
 class Button extends Component {
   render() {
     return (
-      <div className="button">
+      <button onClick={this.props.onClick.bind(this)}>
         {this.props.label}
-      </div>
+      </button>
     );
   }
 }

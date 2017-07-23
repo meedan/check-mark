@@ -1,5 +1,5 @@
 const config = {
-  checkApiUrl: 'http://localhost:3000/',
-  checkApiGraphqlUrl: 'http://localhost:3000/api/graphql'
+  checkApiUrl: 'http://localhost:3000',
+  checkWebUrl: 'http://localhost:3333'
 };
 export default config;
