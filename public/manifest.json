@@ -11,8 +11,12 @@
       "description": "Check"
     }
   },
+  "background": {
+    "persistent": true,
+    "page": "background.html"
+  },
   "browser_action": {
-    "default_icon": "check19.png",
+    "default_icon": "check19-out.png",
     "default_popup": "popup.html",
     "default_title": "Check"
   },
@@ -20,9 +24,6 @@
     "128": "check128.png",
     "48": "check48.png"
   },
-  "cross-domain-content": [
-    "http://localhost:3000/"
-  ],
   "permissions": [
     "activeTab",
     "tabs",

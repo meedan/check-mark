@@ -1,13 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import util from 'util';
 import '../style/App.css';
 import Login from './Login';
 import Save from './Save';
 import Error from './Error';
-import superagent from 'superagent';
-import config from '../config';
+import { loggedIn } from '../helpers';
 
 class App extends Component {
   constructor(props) {
@@ -29,35 +27,8 @@ class App extends Component {
   componentWillMount() {
     const that = this;
 
-    superagent.get(config.checkApiUrl + '/api/me').withCredentials().end(function(err, response) {
-      let state = { loaded: true };
-      
-      try {
-        if (err) {
-          if (err.response) {
-            const json = JSON.parse(err.response.text);
-            state.error = json.data.message;
-          }
-          else {
-            state.error = err;
-          }
-        }
-        else {
-          const json = JSON.parse(response.text);
-          if (response.status === 200) {
-            state.error = false;
-            state.user = json.data;
-          }
-          else {
-            state.error = json.data.message;
-          }
-        }
-      }
-      catch (e) {
-        state.error = util.inspect(e);
-      }
-
-      that.setState(state);
+    loggedIn(function(user, error) {
+      that.setState({ loaded: true, user, error });
     });
   }
 
