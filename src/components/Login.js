@@ -4,8 +4,6 @@ import '../style/Login.css';
 import Button from './Button';
 import config from '../config';
 
-/*global chrome*/
-
 class Login extends Component {
   signIn() {
     window.open(config.checkWebUrl);
