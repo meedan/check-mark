@@ -1,4 +1,72 @@
 @import 'variables';
 
 #projects {
+  .Select-control {
+    width: 115px;
+    border: 0;
+    border-radius: 0;
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+    background: $black-5;
+  }
+
+  .is-focused:not(.is-open) > .Select-control {
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+  }
+
+  .Select-placeholder, .Select-value {
+    font-size: 16px;
+    color: $black-87;
+  }
+
+  .Select-menu-outer {
+    border-radius: 0;
+    -moz-border-radius: 0;
+    -webkit-border-radius: 0;
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+    border: 0;
+    background-color: $light-grey;
+    margin-bottom: 16px;
+  }
+
+  .Select-option-group-label {
+    background-color: transparent;
+    color: $black-87;
+    font-size: 16px;
+    font-weight: normal;
+
+    img {
+      width: 16px;
+      height: 16px;
+      border: 1px solid $black-5;
+      vertical-align: bottom;
+    }
+  }
+
+  .Select-option {
+    font-size: 16px;
+    background-color: transparent;
+    color: $black-54;
+    padding-left: 10px;
+
+    &:last-child {
+      border-radius: 0;
+      -moz-border-radius: 0;
+      -webkit-border-radius: 0;
+    }
+
+    &.is-selected {
+      background-color: transparent;
+      color: $black-54;
+    }
+
+    &.is-focused {
+      background-color: transparent;
+      color: $black-54;
+    }
+  }
 }
