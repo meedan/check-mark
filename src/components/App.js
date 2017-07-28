@@ -30,7 +30,7 @@ class App extends Component {
     const that = this;
 
     loggedIn(function(user, error) {
-      const environment = createEnvironment(user.token);
+      const environment = user ? createEnvironment(user.token) : null;
       that.setState({ loaded: true, user, error, environment });
     });
   }

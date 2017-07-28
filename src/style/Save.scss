@@ -27,5 +27,74 @@
     color: $white;
     width: 84px;
     text-align: center;
+    font-weight: normal;
+  }
+
+  #menu-trigger {
+    width: 24px;
+    height: 24px;
+    background: transparent url(/menu.png) center center no-repeat;
+    position: absolute;
+    right: 16px;
+    top: 3px;
+    cursor: pointer;
+  }
+
+  #menu {
+    width: 235px;
+    padding: 8px 0;
+    background: $white;
+    box-shadow: 0 3px 6px 0 $black-16, 0 3px 6px 0 $black-24;
+    position: absolute;
+    top: 38px;
+    right: 16px;
+    z-index: 1;
+
+    li {
+      display: block;
+      list-style: none;
+      line-height: 48px;
+      font-size: 16px;
+      padding-left: 28px;
+      color: $black-5;
+
+      &.active {
+        color: $black-54;
+        cursor: pointer;
+      }
+
+      &:hover {
+        background: $light-grey; 
+      }
+    }
+
+    hr {
+      height: 1px;
+      background: $black-16;
+      border: 0;
+    }
+  }
+
+  &.menu-displayed {
+    min-height: 400px;
+
+    #menu {
+      display: block;
+    }
+
+    #menu-trigger {
+      border-radius: 50%;
+      background-color: $black-5;
+    }
+  }
+
+  &.menu-hidden {
+    #menu {
+      display: none;
+    }
+  }
+
+  &.select-displayed {
+    min-height: 300px;
   }
 }

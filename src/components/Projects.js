@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { FormattedMessage } from 'react-intl';
 import PropTypes from 'prop-types';
 import { QueryRenderer, graphql } from 'react-relay';
 import Select from 'react-select-plus';
@@ -64,6 +63,8 @@ class Projects extends Component {
               });
             }
             return <Select onChange={this.onChange.bind(this)}
+                           onOpen={this.props.onOpenSelect ? this.props.onOpenSelect : null}
+                           onClose={this.props.onCloseSelect ? this.props.onCloseSelect : null}
                            options={groups}
                            value={this.state.selectedProject} />;
           }}
