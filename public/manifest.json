@@ -29,6 +29,7 @@
     "tabs",
     "cookies",
     "webRequest",
+    "contextMenus",
     "https://fonts.googleapis.com/",
     "http://localhost:3000/"
   ]

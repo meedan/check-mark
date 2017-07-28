@@ -59,14 +59,19 @@ const translations = require(`./localization/${locale}.json`);
 /*global chrome*/
 
 chrome.tabs.query({ active: true, lastFocusedWindow: true }, function(tabs) {
-  const url = tabs[0].url;
+  const urlParam = window.location.search.match(/^\?url=(.*)/);
+  const url = urlParam ? decodeURI(urlParam[1]) : tabs[0].url;
 
   chrome.tabs.executeScript( {
     code: "window.getSelection().toString();"
   }, function(selection) {
+
+    const textParam = window.location.search.match(/^\?text=(.*)/);
+    const text = textParam ? decodeURI(textParam[1]) : selection;
+
     ReactDOM.render(
       <IntlProvider locale={locale} messages={translations}>
-        <App direction={direction} url={url} text={selection} />
+        <App direction={direction} url={url} text={text} />
       </IntlProvider>,
       document.getElementById('root')
     );

@@ -1,6 +1,9 @@
 import config from './config';
 import { loggedIn } from './helpers';
 
+import createMenu from './context';
+createMenu();
+
 const checkUrl = config.checkWebUrl;
 
 function onNavigate(details) {
