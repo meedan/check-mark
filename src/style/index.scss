@@ -17,3 +17,7 @@ body {
   font-family: Roboto;
   background: $white;
 }
+
+body, html {
+  overflow-y: visible;
+}

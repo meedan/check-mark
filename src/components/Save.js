@@ -79,7 +79,16 @@ class Save extends Component {
           <Projects onSelectProject={this.onSelectProject.bind(this)} 
                     onOpenSelect={this.onOpenSelect.bind(this)}
                     onCloseSelect={this.onCloseSelect.bind(this)} />
-          <span id="preview"><FormattedMessage id="Save.link" defaultMessage="Link: {link}" values={{ link: this.props.url }} /></span>
+          <span id="preview">
+            { this.props.text && this.props.text != '' ?
+              <span title={this.props.text}>
+                <FormattedMessage id="Save.claim" defaultMessage="Claim: {text}" values={{ text: this.props.text }} />
+              </span> :
+              <span title={this.props.url}>
+                <FormattedMessage id="Save.link" defaultMessage="Link: {link}" values={{ link: this.props.url }} />
+              </span>
+            }
+          </span>
         </div>
 
         <Button label={<FormattedMessage id="Save.save" defaultMessage="Save" />} />
