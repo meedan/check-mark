@@ -41,14 +41,20 @@
   }
 
   #menu {
+    display: block;
     width: 235px;
-    padding: 8px 0;
+    padding: 0;
     background: $white;
     box-shadow: 0 3px 6px 0 $black-16, 0 3px 6px 0 $black-24;
     position: absolute;
     top: 38px;
     right: 16px;
     z-index: 1;
+    max-height: 400px;
+    overflow-y: hidden;
+    transition-property: all;
+    transition-duration: .5s;
+    transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
 
     li {
       display: block;
@@ -79,7 +85,7 @@
     min-height: 400px;
 
     #menu {
-      display: block;
+      padding: 8px 0;
     }
 
     #menu-trigger {
@@ -90,7 +96,7 @@
 
   &.menu-hidden {
     #menu {
-      display: none;
+      max-height: 0;
     }
   }
 
