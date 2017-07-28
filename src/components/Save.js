@@ -54,10 +54,8 @@ class Save extends Component {
   }
 
   logout() {
-    const that = this;
-    logout(function() {
-      that.openCheck('');
-    });
+    logout();
+    this.openCheck('');
   }
 
   render() {
