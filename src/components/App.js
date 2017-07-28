@@ -38,7 +38,7 @@ class App extends Component {
   render() {
     return (
       <div id="app" className={this.props.direction}>
-        {!this.state.loaded ? null : (this.state.user ? <Save /> : (this.state.error ? <Error message={this.state.error} /> : <Login />))}
+        {!this.state.loaded ? null : (this.state.user ? <Save url={this.props.url} /> : (this.state.error ? <Error message={this.state.error} /> : <Login />))}
       </div>
     );
   }

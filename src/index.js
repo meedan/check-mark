@@ -56,9 +56,15 @@ const direction = rtlLanguages.indexOf(locale) > -1 ? 'rtl' : 'ltr';
 
 const translations = require(`./localization/${locale}.json`);
 
-ReactDOM.render(
-  <IntlProvider locale={locale} messages={translations}>
-    <App direction={direction} />
-  </IntlProvider>,
-  document.getElementById('root')
-);
+/*global chrome*/
+
+chrome.tabs.query({ active: true, lastFocusedWindow: true }, function(tabs) {
+  const url = tabs[0].url;
+
+  ReactDOM.render(
+    <IntlProvider locale={locale} messages={translations}>
+      <App direction={direction} url={url} />
+    </IntlProvider>,
+    document.getElementById('root')
+  );
+});

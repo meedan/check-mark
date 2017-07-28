@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import Projects from './Projects';
+import Button from './Button';
 import '../style/Save.css';
 
 class Save extends Component {
@@ -20,8 +21,11 @@ class Save extends Component {
     return (
       <div id="save">
         <h2><FormattedMessage id="Save.addToCheck" defaultMessage="Add to Check" /></h2>
-        <Projects onSelectProject={this.onSelectProject.bind(this)} />
-        <p>Selected project: {this.state.selectedProject}</p>
+        <div>
+          <Projects onSelectProject={this.onSelectProject.bind(this)} />
+          <span id="preview"><FormattedMessage id="Save.link" defaultMessage="Link: {link}" values={{ link: this.props.url }} /></span>
+        </div>
+        <Button label={<FormattedMessage id="Save.save" defaultMessage="Save" />} />
       </div>
     );
   }

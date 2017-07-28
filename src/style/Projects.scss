@@ -30,7 +30,16 @@
     box-shadow: none;
     border: 0;
     background-color: $light-grey;
+    box-shadow: 0 0 16px 0 $black-12, 0 16px 16px 0 $black-24;
     margin-bottom: 16px;
+  }
+  
+  .Select-option-group {
+    border-bottom: 1px solid $black-16;
+
+    &:last-child {
+      border-bottom: 0;
+    }
   }
 
   .Select-option-group-label {
@@ -38,12 +47,14 @@
     color: $black-87;
     font-size: 16px;
     font-weight: normal;
+    padding: 16px 10px;
 
     img {
-      width: 16px;
-      height: 16px;
-      border: 1px solid $black-5;
-      vertical-align: bottom;
+      // width: 16px;
+      // height: 16px;
+      // border: 1px solid $black-5;
+      // vertical-align: bottom;
+      display: none;
     }
   }
 
@@ -52,6 +63,7 @@
     background-color: transparent;
     color: $black-54;
     padding-left: 10px;
+    padding: 16px 10px;
 
     &:last-child {
       border-radius: 0;
@@ -68,5 +80,9 @@
       background-color: transparent;
       color: $black-54;
     }
+  }
+
+  .Select-clear {
+    display: none;
   }
 }

@@ -1,4 +1,31 @@
 @import 'variables';
 
 #save {
+  & > div {
+    position: relative;
+    margin-top: 18px;
+  }
+
+  #preview {
+    font-size: 12px;
+    color: $black-54;
+    position: absolute;
+    left: 131px;
+    line-height: 16px;
+    top: 8px;
+    width: 225px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  button {
+    margin-top: 18px;
+    border-radius: 2px;
+    background-color: $clear-blue;
+    box-shadow: 0 2px 2px 0 $black-24, 0 0 2px 0 $black-12;
+    color: $white;
+    width: 84px;
+    text-align: center;
+  }
 }
