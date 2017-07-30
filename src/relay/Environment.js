@@ -6,7 +6,7 @@ import {
 } from 'relay-runtime';
 import config from '../config';
 
-function createFetchQuery(token) {
+function createFetchQuery(token, teamSlug) {
   return function fetchQuery(
     operation,
     variables,
@@ -23,6 +23,7 @@ function createFetchQuery(token) {
       body: JSON.stringify({
         query: operation.text,
         variables,
+        team: teamSlug
       }),
     }).then(response => {
       return response.json();
@@ -30,8 +31,8 @@ function createFetchQuery(token) {
   };
 }
 
-export function createEnvironment(token) {
-  const network = Network.create(createFetchQuery(token));
+export function createEnvironment(token, teamSlug) {
+  const network = Network.create(createFetchQuery(token, teamSlug));
   const source = new RecordSource();
   const store = new Store(source);
   const environment = new Environment({ network, store });

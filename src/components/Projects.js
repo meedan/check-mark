@@ -32,6 +32,7 @@ class Projects extends Component {
                   edges {
                     node {
                       avatar
+                      slug
                       name
                       projects {
                         edges {
@@ -56,7 +57,7 @@ class Projects extends Component {
                 let group = { label: <span><img src={team.avatar} alt="" /> {team.name}</span>, options: [] };
                 team.projects.edges.forEach(function(projectNode) {
                   const project = projectNode.node;
-                  const option = { label: project.title, value: project.dbid };
+                  const option = { label: project.title, value: team.slug + ':' + project.dbid };
                   group.options.push(option);
                 });
                 groups.push(group);
