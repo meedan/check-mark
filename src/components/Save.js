@@ -156,10 +156,10 @@ class Save extends Component {
         <div id="menu-trigger" onClick={this.toggleMenu.bind(this)}></div>
         <ul id="menu">
           <li onClick={this.menuAction.bind(this, '')} className={ this.state.state === 'saved' ? 'active' : '' }><FormattedMessage id="Save.openInNewTab" defaultMessage="Open in new tab" /></li>
-          <li onClick={this.menuAction.bind(this)} className={ this.state.state === 'saved' ? 'active' : '' }><FormattedMessage id="Save.editTags" defaultMessage="Edit tags" /></li>
-          <li onClick={this.menuAction.bind(this)} className={ this.state.state === 'saved' ? 'active' : '' }><FormattedMessage id="Save.moveToProject" defaultMessage="Move to project" /></li>
-          <li onClick={this.menuAction.bind(this)} className={ this.state.state === 'saved' ? 'active' : '' }><FormattedMessage id="Save.addTask" defaultMessage="Add task" /></li>
-          <li onClick={this.menuAction.bind(this)} className={ this.state.state === 'saved' ? 'active' : '' }><FormattedMessage id="Save.editTitleOrDescription" defaultMessage="Edit title or description" /></li>
+          <li onClick={this.menuAction.bind(this, 'edit-tags')} className={ this.state.state === 'saved' ? 'active' : '' }><FormattedMessage id="Save.editTags" defaultMessage="Edit tags" /></li>
+          <li onClick={this.menuAction.bind(this, 'move')} className={ this.state.state === 'saved' ? 'active' : '' }><FormattedMessage id="Save.moveToProject" defaultMessage="Move to project" /></li>
+          <li onClick={this.menuAction.bind(this, 'add-task')} className={ this.state.state === 'saved' ? 'active' : '' }><FormattedMessage id="Save.addTask" defaultMessage="Add task" /></li>
+          <li onClick={this.menuAction.bind(this, 'edit-title')} className={ this.state.state === 'saved' ? 'active' : '' }><FormattedMessage id="Save.editTitle" defaultMessage="Edit title" /></li>
           <hr />
           <li onClick={this.openCheck.bind(this, 'check/me')} className="active"><FormattedMessage id="Save.myProfile" defaultMessage="My profile" /></li>
           <li onClick={this.logout.bind(this)} className="active"><FormattedMessage id="Save.logOut" defaultMessage="Log out" /></li>
