@@ -16,6 +16,18 @@
     "defaultMessage": "Sign In"
   },
   {
+    "id": "Error.thereWasAProblem",
+    "defaultMessage": "Hmm, there was a problem"
+  },
+  {
+    "id": "Error.tryAgain",
+    "defaultMessage": "Please try again later."
+  },
+  {
+    "id": "Error.forHelp",
+    "defaultMessage": "For help contact check@meedan.com."
+  },
+  {
     "id": "Save.addToCheck",
     "defaultMessage": "Add to Check"
   },
@@ -66,17 +78,5 @@
   {
     "id": "Save.saved",
     "defaultMessage": "Saved"
-  },
-  {
-    "id": "Error.thereWasAProblem",
-    "defaultMessage": "Hmm, there was a problem"
-  },
-  {
-    "id": "Error.tryAgain",
-    "defaultMessage": "Please try again later."
-  },
-  {
-    "id": "Error.forHelp",
-    "defaultMessage": "For help contact check@meedan.com."
   }
 ]

@@ -91,6 +91,7 @@ module.exports = isObject;
 
 "use strict";
 const config = {
+  checkRelayPath: 'https://check-api.checkmedia.org/relay.json',
   checkApiUrl: 'https://check-api.checkmedia.org',
   checkWebUrl: 'https://checkmedia.org'
 };

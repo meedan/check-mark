@@ -1,4 +1,5 @@
 const config = {
+  checkRelayPath: '/local/or/remote/path/to/relay.json',
   checkApiUrl: 'http://localhost:3000',
   checkWebUrl: 'http://localhost:3333'
 };
