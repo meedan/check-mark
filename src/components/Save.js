@@ -174,7 +174,7 @@ class Save extends Component {
           :
           <div id="project">
             <img src={this.state.result.createProjectMedia.project_media.project.team.avatar} alt="" /> 
-            <span>{this.state.result.createProjectMedia.project_media.project.title}</span>
+            <span title={this.state.result.createProjectMedia.project_media.project.title}>{this.state.result.createProjectMedia.project_media.project.title}</span>
           </div>
           }
 

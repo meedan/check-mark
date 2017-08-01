@@ -25,7 +25,7 @@
       height: 32px;
       border: 1px solid $black-5;
       margin-right: 16px;
-      vertical-align: middle;
+      vertical-align: top;
     }
 
     span {
@@ -33,6 +33,10 @@
       color: $black-87;
       display: inline-block;
       line-height: 32px;
+      width: 75px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
     }
   }
 
