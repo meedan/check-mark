@@ -6,6 +6,6 @@ getit(config.checkRelayPath, function(err, data) {
     console.log(err);
   }
   else {
-    fs.writeFileSync('src/relay/schema.json', data);
+    fs.writeFileSync('src/relay/relay.json', data);
   }
 });

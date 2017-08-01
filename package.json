@@ -64,7 +64,7 @@
     "clean-localization": "rm -rf src/localization/messages",
     "build": "npm run relay && npm run build-css && cp config.js src/ && node scripts/build.js && npm run clean-css && npm run clean-localization && rm -f src/config.js",
     "test": "cd test && bundle install && bundle exec rspec && cd ..",
-    "relay": "babel-node scripts/relay.js && relay-compiler --src ./src --schema ./src/relay/schema.json",
+    "relay": "babel-node scripts/relay.js && relay-compiler --src ./src --schema ./src/relay/relay.json",
     "transifex:parse": "npm run build && babel-node scripts/localize.js",
     "transifex:upload": "npm run transifex:parse && tx push -s",
     "transifex:download": "tx pull -a -f",
