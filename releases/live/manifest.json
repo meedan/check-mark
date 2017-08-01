@@ -32,7 +32,6 @@
     "contextMenus",
     "https://fonts.googleapis.com/",
     "http://localhost:3000/",
-    "https://check-api-qa.checkmedia.org/",
-    "https://check-api.checkmedia.org/"
+    "https://check-api-qa.checkmedia.org/"
   ]
 }

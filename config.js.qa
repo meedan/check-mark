@@ -1,0 +1,5 @@
+const config = {
+  checkApiUrl: 'https://check-api-qa.checkmedia.org',
+  checkWebUrl: 'https://qa.checkmedia.org'
+};
+export default config;

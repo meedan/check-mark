@@ -91,8 +91,8 @@ module.exports = isObject;
 
 "use strict";
 const config = {
-  checkApiUrl: 'https://check-api-qa.checkmedia.org',
-  checkWebUrl: 'https://qa.checkmedia.org'
+  checkApiUrl: 'https://check-api.checkmedia.org',
+  checkWebUrl: 'https://checkmedia.org'
 };
 /* harmony default export */ __webpack_exports__["a"] = (config);
 
