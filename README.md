@@ -38,7 +38,7 @@ Releases are available under `releases`.
 
 #### Tests
 
-You need `zip`, `rspec`, `geckodriver` and `chromedriver`.
-Copy `test/config.yml.example` to `test/config.yml` and adjust the configurations.
-Tests can be run with `npm run test`.
-Make sure that `chromedriver` is running before starting the tests.
+* You need `zip`, `rspec`, `geckodriver` and `chromedriver`.
+* Copy `test/config.yml.example` to `test/config.yml` and adjust the configurations.
+* Tests can be run with `npm run test`.
+* Make sure that `chromedriver` is running before starting the tests.

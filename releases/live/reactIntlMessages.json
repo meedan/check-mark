@@ -1,5 +1,21 @@
 [
   {
+    "id": "Login.addToCheck",
+    "defaultMessage": "Add to Check"
+  },
+  {
+    "id": "Login.addLinks",
+    "defaultMessage": "Add links to Check with one click. Links will be added to your selected project."
+  },
+  {
+    "id": "Login.getStarted",
+    "defaultMessage": "To get started, sign in."
+  },
+  {
+    "id": "Login.signIn",
+    "defaultMessage": "Sign In"
+  },
+  {
     "id": "Save.addToCheck",
     "defaultMessage": "Add to Check"
   },
@@ -52,22 +68,6 @@
     "defaultMessage": "Saved"
   },
   {
-    "id": "Login.addToCheck",
-    "defaultMessage": "Add to Check"
-  },
-  {
-    "id": "Login.addLinks",
-    "defaultMessage": "Add links to Check with one click. Links will be added to your most recently active project."
-  },
-  {
-    "id": "Login.getStarted",
-    "defaultMessage": "To get started, sign in."
-  },
-  {
-    "id": "Login.signIn",
-    "defaultMessage": "Sign In"
-  },
-  {
     "id": "Error.thereWasAProblem",
     "defaultMessage": "Hmm, there was a problem"
   },
@@ -78,5 +78,9 @@
   {
     "id": "Error.forHelp",
     "defaultMessage": "For help contact check@meedan.com."
+  },
+  {
+    "id": "Projects.select",
+    "defaultMessage": "Select..."
   }
 ]

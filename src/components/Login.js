@@ -13,7 +13,7 @@ class Login extends Component {
     return (
       <div id="login">
         <h2><FormattedMessage id="Login.addToCheck" defaultMessage="Add to Check" /></h2>
-        <p><FormattedMessage id="Login.addLinks" defaultMessage="Add links to Check with one click. Links will be added to your most recently active project." /></p>
+        <p><FormattedMessage id="Login.addLinks" defaultMessage="Add links to Check with one click. Links will be added to your selected project." /></p>
         <p><FormattedMessage id="Login.getStarted" defaultMessage="To get started, sign in." /></p>
         <Button onClick={this.signIn} label={<FormattedMessage id="Login.signIn" defaultMessage="Sign In" />} />
       </div>

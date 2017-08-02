@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { FormattedMessage } from 'react-intl';
 import { QueryRenderer, graphql } from 'react-relay';
 import Select from 'react-select-plus';
 import '../style/Projects.css';
@@ -67,6 +68,7 @@ class Projects extends Component {
                            onOpen={this.props.onOpenSelect ? this.props.onOpenSelect : null}
                            onClose={this.props.onCloseSelect ? this.props.onCloseSelect : null}
                            options={groups}
+                           placeholder={<FormattedMessage id="Projects.select" defaultMessage="Select..." />}
                            value={this.state.selectedProject} />;
           }}
         />
