@@ -22,7 +22,7 @@ You can compile the code with `npm run build`. It was developed and tested with 
 
 * Visit `about:debugging`
 * Click "Load Temporary Add-on"
-* Pick the `build` directory
+* Pick the `manifest.json` file inside `build` directory
 * The extension will appear on the toolbar
 
 #### Localization
