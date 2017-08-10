@@ -24,7 +24,7 @@ before_install:
 - ./autogen.sh
 - ./configure --without-python
 - make
-- make install
+- sudo make install
 - cd -
 # xvfb
 - sh -e /etc/init.d/xvfb start
