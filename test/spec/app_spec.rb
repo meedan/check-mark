@@ -44,25 +44,23 @@ describe 'app' do
 
   context 'firefox' do
     before :all do
-      `cd ../build && zip -r -FS /tmp/test.xpi * && cd -`
+      `cd #{@config['extension_path']} && zip -r -FS #{@config['extension_path']}/test.xpi * && cd -`
     end
 
     after :all do
-      `rm -f /tmp/test.xpi`
+      `rm -f #{@config['extension_path']}/test.xpi`
     end
 
     def open_browser(language = 'en')
       close_browser
-      caps = Selenium::WebDriver::Remote::Capabilities.firefox(marionette: true)
-      profile = Selenium::WebDriver::Firefox::Profile.new
-      profile['ui.popup.disable_autohide'] = true
-      profile['intl.accept_languages'] = language
-      @driver = Selenium::WebDriver.for(:firefox, desired_capabilities: caps, profile: profile)
+      prefs = { 'intl.accept_languages' => language }
+      caps = Selenium::WebDriver::Remote::Capabilities.firefox(marionette: true, 'moz:firefoxOptions' => { prefs: prefs })
+      @driver = Selenium::WebDriver.for :remote, url: @config['geckodriver_url'], desired_capabilities: caps
       bridge = @driver.send(:bridge)
       uri = URI(bridge.http.send(:server_url).to_s + 'session/' + bridge.session_id + '/moz/addon/install')
       http = Net::HTTP.new(uri.host, uri.port)
       req = Net::HTTP::Post.new(uri.path, 'Content-Type' => 'application/json')
-      req.body = { path: '/tmp/test.xpi', temporary: true }.to_json
+      req.body = { path: "#{@config['extension_path']}/test.xpi", temporary: true }.to_json
       res = http.request(req)
       puts 'Tried to install extension, here is the response from geckodriver: ' + res.body
       sleep 3
@@ -76,12 +74,10 @@ describe 'app' do
     end
 
     def open_extension
-      @driver.action.key_down(:control).key_down(:shift).send_keys('l').key_up(:shift).key_up(:control).perform
-      sleep 5
-
-      # This is needed until geckodriver is able to switch to the extension's context automatically
+      # @driver.action.key_down(:control).key_down(:shift).send_keys('l').key_up(:shift).key_up(:control).perform
+      # window = @driver.window_handles.last
+      # @driver.switch_to.window(window)
       @driver.navigate.to 'about:debugging'
-      sleep 3
       id = get_element('.internal-uuid span')
       @driver.navigate.to "moz-extension://#{id.text}/popup.html"
       get_element('#app')
@@ -94,7 +90,9 @@ describe 'app' do
     def open_browser(language = 'en')
       close_browser
       prefs = { 'intl.accept_languages' => language }
-      @driver = Selenium::WebDriver.for :chrome, switches: ['--load-extension=../build'], prefs: prefs
+      path = @config['extension_path']
+      caps = Selenium::WebDriver::Remote::Capabilities.chrome(chromeOptions: { args: ["--load-extension=#{path}"], prefs: prefs })
+      @driver = Selenium::WebDriver.for :remote, url: @config['chromedriver_url'], desired_capabilities: caps
     end
 
     def close_browser
@@ -105,10 +103,15 @@ describe 'app' do
     end
 
     def open_extension
-      @driver.action.key_down(:control).key_down(:shift).send_keys('l').key_up(:shift).key_up(:control).perform
-      sleep 5
-      window = @driver.window_handles.last
-      @driver.switch_to.window(window)
+      # @driver.action.key_down(:control).key_down(:shift).send_keys('l').key_up(:shift).key_up(:control).perform
+      # window = @driver.window_handles.last
+      # @driver.switch_to.window(window)
+      @driver.navigate.to 'chrome://extensions-frame'
+      sleep 1
+      get_element('#toggle-dev-on').click
+      sleep 1
+      id = get_element('.extension-id')
+      @driver.navigate.to "chrome-extension://#{id.text}/popup.html"
       get_element('#app')
     end
 

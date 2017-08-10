@@ -1,0 +1,3 @@
+chromedriver_url: http://chromedriver:4444/wd/hub
+geckodriver_url: http://geckodriver:4444
+extension_path: /app/releases/test

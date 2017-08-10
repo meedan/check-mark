@@ -1,0 +1,6 @@
+const config = {
+  checkRelayPath: '/api/public/relay.json',
+  checkApiUrl: 'http://api.test:13000',
+  checkWebUrl: 'http://web.test:13333'
+};
+export default config;

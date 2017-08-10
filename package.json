@@ -63,13 +63,14 @@
     "clean-css": "find src -name \"*.css\" -exec rm -f {} \";\"",
     "clean-localization": "rm -rf src/localization/messages",
     "build": "npm run relay && npm run build-css && cp config.js src/ && node scripts/build.js && npm run clean-css && npm run clean-localization && rm -f src/config.js",
-    "test": "cd test && bundle install && bundle exec rspec && cd ..",
+    "test": "npm run release:test && cd test && bundle install && bundle exec rspec && cd ..",
     "relay": "babel-node scripts/relay.js && relay-compiler --src ./src --schema ./src/relay/relay.json",
     "transifex:parse": "npm run build && babel-node scripts/localize.js",
     "transifex:upload": "npm run transifex:parse && tx push -s",
     "transifex:download": "tx pull -a -f",
     "release:qa": "mv config.js config.js.bkp; cp config.js.qa config.js; npm run build; rm -rf releases/qa; cp -r build releases/qa; find releases/qa -name \"*.map\" -exec rm -f {} \";\"; mv config.js.bkp config.js",
-    "release:live": "mv config.js config.js.bkp; cp config.js.live config.js; npm run build; rm -rf releases/live; cp -r build releases/live; find releases/live -name \"*.map\" -exec rm -f {} \";\"; mv config.js.bkp config.js"
+    "release:live": "mv config.js config.js.bkp; cp config.js.live config.js; npm run build; rm -rf releases/live; cp -r build releases/live; find releases/live -name \"*.map\" -exec rm -f {} \";\"; mv config.js.bkp config.js",
+    "release:test": "mv config.js config.js.bkp; cp config.js.test config.js; npm run build; rm -rf releases/test; cp -r build releases/test; find releases/test -name \"*.map\" -exec rm -f {} \";\"; mv config.js.bkp config.js"
   },
   "jest": {
     "collectCoverageFrom": [
