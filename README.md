@@ -1,5 +1,7 @@
 ## Check Mark
 
+[![Travis](https://travis-ci.org/meedan/check-mark.svg?branch=develop)](https://travis-ci.org/meedan/check-mark/)
+
 A browser extension for [Check](https://meedan.com/en/check/).
 
 ### Development
