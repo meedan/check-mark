@@ -9,15 +9,35 @@ rvm:
 - 2.3.1
 addons:
   firefox: '56.0b1'
+  postgresql: '9.4'
 before_install:
 # env
 - export DISPLAY=':99.0'
 - export CI=false
-# apt dependencies
+# dependencies
 - sudo apt-get -qq update
-- sudo apt-get install ruby ruby-dev xvfb autoconf automake libtool -y
+- sudo apt-get install ruby ruby-dev xvfb autoconf automake libtool redis-server -y
 - rvm install 2.3.1
 - rvm --default use 2.3.1
+- gem install bundler
+# check api
+- psql -c 'create database checkdesk_development;' -U postgres
+- redis-server 2>&1 >/dev/null &
+- wget https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-2.4.1.deb && sudo dpkg -i --force-confnew elasticsearch-2.4.1.deb && sudo service elasticsearch restart
+- sleep 15
+- 'echo "script.engine.groovy.inline.update: on" | sudo tee -a /etc/elasticsearch/elasticsearch.yml'
+- sudo /usr/share/elasticsearch/bin/plugin install analysis-icu
+- sudo service elasticsearch restart
+- git clone https://github.com/meedan/check-api.git
+- cp check-api/config/config.yml.example check-api/config/config.yml
+- cp check-api/config/initializers/secret_token.rb.example check-api/config/initializers/secret_token.rb
+- cp check-api/config/database.yml.example check-api/config/database.yml
+- cd check-api
+- bundle install
+- bundle exec rake db:migrate
+- bundle exec rake lapis:api_keys:create_default
+- rails s -p 3000 >/dev/null &
+- cd -
 # watchman (relay-compiler dependency)
 - git clone https://github.com/facebook/watchman.git
 - cd watchman
@@ -46,8 +66,7 @@ before_install:
 - tar -xzf geckodriver-v0.18.0-linux64.tar.gz -C geckodriver
 - export PATH=$PATH:$PWD/geckodriver
 - geckodriver -p 4445 >/dev/null 2>/dev/null &
-# ruby / bundler / rspec
-- gem install bundler
+# test dependencies
 - cd test && bundle install && cd -
 # configs
 - cp config.js.travis config.js
