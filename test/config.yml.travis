@@ -1,0 +1,3 @@
+chromedriver_url: http://localhost:4444/wd/hub
+geckodriver_url: http://localhost:4445
+extension_path: /home/travis/build/meedan/check-mark/releases/test

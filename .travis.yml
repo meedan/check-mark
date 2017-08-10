@@ -1,0 +1,48 @@
+sudo: required
+dist: trusty
+language: node_js
+services:
+- postgresql
+env:
+- DISPLAY=':99.0'
+- RAILS_ENV=development
+node_js:
+- '7'
+rvm:
+- 2.3.1
+addons:
+  firefox: '56.0b1'
+before_install:
+# apt dependencies
+- sudo apt-get -qq update
+- sudo apt-get install ruby ruby-dev xvfb -y
+- rvm install 2.3.1
+- rvm --default use 2.3.1
+# xvfb
+- sh -e /etc/init.d/xvfb start
+# google chrome
+- sudo apt-get -qq update
+- sudo apt-get install chromium-browser -y
+- export CHROME_BIN=/usr/bin/chromium-browser
+- chromium-browser --no-sandbox &
+# chromedriver
+- wget http://chromedriver.storage.googleapis.com/2.28/chromedriver_linux64.zip
+- unzip chromedriver_linux64.zip
+- sudo mv chromedriver /usr/local/bin
+- sudo chmod a+x /usr/local/bin/chromedriver
+- chromedriver >/dev/null 2>/dev/null &
+# geckodriver
+- wget https://github.com/mozilla/geckodriver/releases/download/v0.18.0/geckodriver-v0.18.0-linux64.tar.gz
+- mkdir geckodriver
+- tar -xzf geckodriver-v0.18.0-linux64.tar.gz -C geckodriver
+- export PATH=$PATH:$PWD/geckodriver
+- geckodriver -p 4445 >/dev/null 2>/dev/null &
+# ruby / bundler / rspec
+- gem install bundler
+- cd test && bundle install && cd -
+# configs
+- cp config.js.travis config.js.test
+- cp test/config.yml.travis test/config.yml
+before_script:
+- npm install
+script: npm run test
