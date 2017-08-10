@@ -32,7 +32,7 @@ before_install:
 - cp check-api/config/config.yml.example check-api/config/config.yml
 - cp check-api/config/initializers/secret_token.rb.example check-api/config/initializers/secret_token.rb
 - cp check-api/config/database.yml.example check-api/config/database.yml
-- sed -i s/host: postgres/host: localhost/ check-api/config/database.yml 
+- sed -i 's/host: postgres/host: localhost/' check-api/config/database.yml 
 - cd check-api
 - bundle install
 - bundle exec rake db:migrate
