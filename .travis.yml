@@ -14,6 +14,7 @@ before_install:
 # env
 - export DISPLAY=':99.0'
 - export CI=false
+- export RAILS_ENV=test
 # dependencies
 - sudo apt-get -qq update
 - sudo apt-get install ruby ruby-dev xvfb autoconf automake libtool redis-server -y
@@ -22,7 +23,7 @@ before_install:
 - gem install bundler
 # check api
 - 'echo "127.0.0.1 postgres" | sudo tee -a /etc/hosts'
-- psql -c 'create database checkdesk_development;' -U postgres
+- psql -c 'create database checkdesk_test;' -U postgres
 - redis-server 2>&1 >/dev/null &
 - wget https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-2.4.1.deb && sudo dpkg -i --force-confnew elasticsearch-2.4.1.deb && sudo service elasticsearch restart
 - sleep 15
