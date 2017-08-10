@@ -21,6 +21,7 @@ before_install:
 - rvm --default use 2.3.1
 - gem install bundler
 # check api
+- sudo echo '127.0.0.1 postgres' >> /etc/hosts
 - psql -c 'create database checkdesk_development;' -U postgres
 - redis-server 2>&1 >/dev/null &
 - wget https://download.elasticsearch.org/elasticsearch/elasticsearch/elasticsearch-2.4.1.deb && sudo dpkg -i --force-confnew elasticsearch-2.4.1.deb && sudo service elasticsearch restart
@@ -32,7 +33,6 @@ before_install:
 - cp check-api/config/config.yml.example check-api/config/config.yml
 - cp check-api/config/initializers/secret_token.rb.example check-api/config/initializers/secret_token.rb
 - cp check-api/config/database.yml.example check-api/config/database.yml
-- sed -i 's/host: postgres/host: localhost/' check-api/config/database.yml 
 - cd check-api
 - bundle install
 - bundle exec rake db:migrate
