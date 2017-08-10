@@ -10,3 +10,4 @@ config.js
 .config.js.bkp
 src/relay/relay.json
 releases/test
+webdriver-profile*
