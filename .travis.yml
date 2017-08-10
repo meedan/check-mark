@@ -12,6 +12,7 @@ addons:
 before_install:
 # env
 - export DISPLAY=':99.0'
+- export CI=false
 # apt dependencies
 - sudo apt-get -qq update
 - sudo apt-get install ruby ruby-dev xvfb autoconf automake libtool -y
