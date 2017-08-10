@@ -3,9 +3,6 @@ dist: trusty
 language: node_js
 services:
 - postgresql
-env:
-- DISPLAY=':99.0'
-- RAILS_ENV=development
 node_js:
 - '7'
 rvm:
@@ -13,6 +10,8 @@ rvm:
 addons:
   firefox: '56.0b1'
 before_install:
+# env
+- export DISPLAY=':99.0'
 # apt dependencies
 - sudo apt-get -qq update
 - sudo apt-get install ruby ruby-dev xvfb -y
