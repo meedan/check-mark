@@ -14,9 +14,18 @@ before_install:
 - export DISPLAY=':99.0'
 # apt dependencies
 - sudo apt-get -qq update
-- sudo apt-get install ruby ruby-dev xvfb -y
+- sudo apt-get install ruby ruby-dev xvfb autoconf automake libtool -y
 - rvm install 2.3.1
 - rvm --default use 2.3.1
+# watchman (relay-compiler dependency)
+- git clone https://github.com/facebook/watchman.git
+- cd watchman
+- git checkout v4.7.0
+- ./autogen.sh
+- ./configure --without-python
+- make
+- make install
+- cd -
 # xvfb
 - sh -e /etc/init.d/xvfb start
 # google chrome
@@ -40,6 +49,7 @@ before_install:
 - gem install bundler
 - cd test && bundle install && cd -
 # configs
+- cp config.js.travis config.js
 - cp config.js.travis config.js.test
 - cp test/config.yml.travis test/config.yml
 before_script:
