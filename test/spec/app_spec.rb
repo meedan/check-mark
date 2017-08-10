@@ -17,6 +17,28 @@ shared_examples 'tests' do
     expect(message.text.include?('Adicionar ao Check')).to be(true)
     open_browser 'en'
   end
+
+  it 'should login' do
+    login
+  end
+
+  it 'should create media' do
+    login
+    expect(@driver.page_source.include?('Claim: Test')).to be(false)
+    expect(@driver.page_source.include?('Link: ')).to be(true)
+    @driver.navigate.to @driver.current_url + '?text=Test'
+    sleep 2
+    expect(@driver.page_source.include?('Claim: Test')).to be(true)
+    expect(@driver.page_source.include?('Link: ')).to be(false)
+    get_element('.Select-arrow').click
+    sleep 1
+    get_element('.Select-option').click
+    sleep 1
+    expect(@driver.page_source.include?('Saved')).to be(false)
+    get_element('#save button').click
+    sleep 10
+    expect(@driver.page_source.include?('Saved')).to be(true)
+  end
 end
 
 describe 'app' do
@@ -34,12 +56,52 @@ describe 'app' do
     close_browser
   end
 
-  def get_element(selector)
+  def get_element(selector, visible = true)
     wait = Selenium::WebDriver::Wait.new(timeout: 5)
     wait.until {
       element = @driver.find_element(:css, selector)
-      element if element.displayed?
+      element if visible && element.displayed?
     }
+  end
+
+  def request_api(path, params)
+    require 'net/http'
+    uri = URI("#{@config['check_api_url']}/test/#{path}")
+    uri.query = URI.encode_www_form(params)
+    Net::HTTP.get_response(uri)
+  end
+
+  def login
+    # Create user and confirm account
+    email = "test-#{Time.now.to_i}@test.com"
+    user = request_api 'user', { name: 'Test', email: email, password: '12345678', password_confirmation: '12345678', provider: '' }
+    request_api 'confirm_user', { email: email }
+
+    # Open extension and assert that the user is not logged in
+    open_extension
+    expect(@driver.window_handles.size == 1).to be(true)
+    expect(@driver.page_source.include?('sign in')).to be(true)
+
+    # Click on "sign in" and make sure that a new window is opened
+    get_element('#login button').click
+    sleep 3
+    expect(@driver.window_handles.size == 2).to be(true)
+    window = @driver.window_handles.last
+    @driver.switch_to.window(window)
+
+    # Login, create a team and create a project
+    @driver.navigate.to "#{@config['check_api_url']}/test/session?email=#{email}"
+    team = request_api 'team', { name: "Test Team #{Time.now.to_i}", email: email }
+    team_id = JSON.parse(team.body)['data']['dbid']
+    project = request_api 'project', { title: "Test Project #{Time.now.to_i}", team_id: team_id }
+    @driver.close if @driver.respond_to?(:close)
+
+    # Go back to the extension and make sure that user is logged in
+    window = @driver.window_handles.first
+    @driver.switch_to.window(window)
+    @driver.navigate.refresh
+    sleep 3
+    expect(@driver.page_source.include?('sign in')).to be(false)
   end
 
   context 'firefox' do
