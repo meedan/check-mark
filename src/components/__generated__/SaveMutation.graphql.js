@@ -1,6 +1,6 @@
 /**
  * @flow
- * @relayHash cb2c205bb3bcddd18fc29eef83692bfa
+ * @relayHash 42d9ef666d417ffd10a8dfea430e24c0
  */
 
 /* eslint-disable */
@@ -25,6 +25,7 @@ export type SaveMutationResponse = {|
   +createProjectMedia: ?{|
     +project_media: ?{|
       +dbid: ?number;
+      +metadata: ?string;
       +project: ?{|
         +dbid: ?number;
         +title: string;
@@ -46,6 +47,7 @@ mutation SaveMutation(
   createProjectMedia(input: $input) {
     project_media {
       dbid
+      metadata
       project {
         dbid
         title
@@ -104,6 +106,13 @@ const batch /*: ConcreteBatch*/ = {
                 "alias": null,
                 "args": null,
                 "name": "dbid",
+                "storageKey": null
+              },
+              {
+                "kind": "ScalarField",
+                "alias": null,
+                "args": null,
+                "name": "metadata",
                 "storageKey": null
               },
               {
@@ -213,6 +222,13 @@ const batch /*: ConcreteBatch*/ = {
                 "storageKey": null
               },
               {
+                "kind": "ScalarField",
+                "alias": null,
+                "args": null,
+                "name": "metadata",
+                "storageKey": null
+              },
+              {
                 "kind": "LinkedField",
                 "alias": null,
                 "args": null,
@@ -291,7 +307,7 @@ const batch /*: ConcreteBatch*/ = {
       }
     ]
   },
-  "text": "mutation SaveMutation(\n  $input: CreateProjectMediaInput!\n) {\n  createProjectMedia(input: $input) {\n    project_media {\n      dbid\n      project {\n        dbid\n        title\n        team {\n          slug\n          avatar\n          id\n        }\n        id\n      }\n      id\n    }\n  }\n}\n"
+  "text": "mutation SaveMutation(\n  $input: CreateProjectMediaInput!\n) {\n  createProjectMedia(input: $input) {\n    project_media {\n      dbid\n      metadata\n      project {\n        dbid\n        title\n        team {\n          slug\n          avatar\n          id\n        }\n        id\n      }\n      id\n    }\n  }\n}\n"
 };
 
 module.exports = batch;

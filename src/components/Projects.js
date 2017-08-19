@@ -29,17 +29,20 @@ class Projects extends Component {
           query={graphql`
             query ProjectsQuery {
               me {
-                teams {
+                team_users {
                   edges {
                     node {
-                      avatar
-                      slug
-                      name
-                      projects {
-                        edges {
-                          node {
-                            title
-                            dbid
+                      status
+                      team {
+                        avatar
+                        slug
+                        name
+                        projects {
+                          edges {
+                            node {
+                              title
+                              dbid
+                            }
                           }
                         }
                       }
@@ -53,15 +56,17 @@ class Projects extends Component {
           render={({error, props}) => {
             let groups = [];
             if (!error && props && props.me) {
-              props.me.teams.edges.forEach(function(teamNode) {
-                const team = teamNode.node;
-                let group = { label: <span><img src={team.avatar} alt="" /> {team.name}</span>, options: [] };
-                team.projects.edges.forEach(function(projectNode) {
-                  const project = projectNode.node;
-                  const option = { label: project.title, value: team.slug + ':' + project.dbid };
-                  group.options.push(option);
-                });
-                groups.push(group);
+              props.me.team_users.edges.forEach(function(teamUserNode) {
+                if (teamUserNode.node.status === 'member') {
+                  const team = teamUserNode.node.team;
+                  let group = { label: <span><img src={team.avatar} alt="" /> {team.name}</span>, options: [] };
+                  team.projects.edges.forEach(function(projectNode) {
+                    const project = projectNode.node;
+                    const option = { label: project.title, value: team.slug + ':' + project.dbid };
+                    group.options.push(option);
+                  });
+                  groups.push(group);
+                }
               });
             }
             return <Select onChange={this.onChange.bind(this)}

@@ -17,6 +17,7 @@ const mutation = graphql`
     createProjectMedia(input: $input) {
       project_media {
         dbid
+        metadata
         project {
           dbid
           title
@@ -42,6 +43,14 @@ class Save extends Component {
       state: 'pending', // pending, saving, saved, failed
       result: null
     };
+  }
+
+  getMetadata(key) {
+    if (this.state.result) {
+      const media = JSON.parse(this.state.result.createProjectMedia.project_media.metadata);
+      return media[key];
+    }
+    return null;
   }
 
   onSelectProject(option) {
@@ -77,7 +86,11 @@ class Save extends Component {
   }
 
   openCheck(path) {
-    window.open(config.checkWebUrl + '/' + path);
+    this.openUrl(config.checkWebUrl + '/' + path);
+  }
+
+  openUrl(url) {
+    window.open(url);
   }
 
   logout() {
@@ -179,14 +192,15 @@ class Save extends Component {
           }
 
           <span id="preview">
-            { this.props.text && this.props.text != '' ?
+          { (this.state.state === 'saved' && this.state.result) ? <span className="saved" onClick={this.openUrl.bind(this, this.getMetadata('permalink'))}>{this.getMetadata('title')}</span> : (
+            (this.props.text && this.props.text != '') ?
               <span title={this.props.text}>
                 <FormattedMessage id="Save.claim" defaultMessage="Claim: {text}" values={{ text: this.props.text }} />
               </span> :
               <span title={this.props.url}>
                 <FormattedMessage id="Save.link" defaultMessage="Link: {link}" values={{ link: this.props.url }} />
               </span>
-            }
+          )}
           </span>
         </div>
 

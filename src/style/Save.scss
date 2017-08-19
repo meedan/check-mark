@@ -17,6 +17,14 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
+
+    .saved {
+      cursor: pointer;
+
+      &:hover {
+        color: $black-87;
+      }
+    }
   }
 
   #project {

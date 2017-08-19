@@ -1,6 +1,6 @@
 /**
  * @flow
- * @relayHash 5ece8ef1f2439bf750e7841381136cdf
+ * @relayHash c3b7cf33f257d2e42d17bc235cf0e944
  */
 
 /* eslint-disable */
@@ -11,19 +11,22 @@
 import type {ConcreteBatch} from 'relay-runtime';
 export type ProjectsQueryResponse = {|
   +me: ?{|
-    +teams: ?{|
+    +team_users: ?{|
       +edges: ?$ReadOnlyArray<?{|
         +node: ?{|
-          +avatar: ?string;
-          +slug: string;
-          +name: string;
-          +projects: ?{|
-            +edges: ?$ReadOnlyArray<?{|
-              +node: ?{|
-                +title: string;
-                +dbid: ?number;
-              |};
-            |}>;
+          +status: ?string;
+          +team: ?{|
+            +avatar: ?string;
+            +slug: string;
+            +name: string;
+            +projects: ?{|
+              +edges: ?$ReadOnlyArray<?{|
+                +node: ?{|
+                  +title: string;
+                  +dbid: ?number;
+                |};
+              |}>;
+            |};
           |};
         |};
       |}>;
@@ -36,20 +39,24 @@ export type ProjectsQueryResponse = {|
 /*
 query ProjectsQuery {
   me {
-    teams {
+    team_users {
       edges {
         node {
-          avatar
-          slug
-          name
-          projects {
-            edges {
-              node {
-                title
-                dbid
-                id
+          status
+          team {
+            avatar
+            slug
+            name
+            projects {
+              edges {
+                node {
+                  title
+                  dbid
+                  id
+                }
               }
             }
+            id
           }
           id
         }
@@ -79,15 +86,15 @@ const batch /*: ConcreteBatch*/ = {
             "kind": "LinkedField",
             "alias": null,
             "args": null,
-            "concreteType": "TeamConnection",
-            "name": "teams",
+            "concreteType": "TeamUserConnection",
+            "name": "team_users",
             "plural": false,
             "selections": [
               {
                 "kind": "LinkedField",
                 "alias": null,
                 "args": null,
-                "concreteType": "TeamEdge",
+                "concreteType": "TeamUserEdge",
                 "name": "edges",
                 "plural": true,
                 "selections": [
@@ -95,7 +102,7 @@ const batch /*: ConcreteBatch*/ = {
                     "kind": "LinkedField",
                     "alias": null,
                     "args": null,
-                    "concreteType": "Team",
+                    "concreteType": "TeamUser",
                     "name": "node",
                     "plural": false,
                     "selections": [
@@ -103,59 +110,77 @@ const batch /*: ConcreteBatch*/ = {
                         "kind": "ScalarField",
                         "alias": null,
                         "args": null,
-                        "name": "avatar",
-                        "storageKey": null
-                      },
-                      {
-                        "kind": "ScalarField",
-                        "alias": null,
-                        "args": null,
-                        "name": "slug",
-                        "storageKey": null
-                      },
-                      {
-                        "kind": "ScalarField",
-                        "alias": null,
-                        "args": null,
-                        "name": "name",
+                        "name": "status",
                         "storageKey": null
                       },
                       {
                         "kind": "LinkedField",
                         "alias": null,
                         "args": null,
-                        "concreteType": "ProjectConnection",
-                        "name": "projects",
+                        "concreteType": "Team",
+                        "name": "team",
                         "plural": false,
                         "selections": [
+                          {
+                            "kind": "ScalarField",
+                            "alias": null,
+                            "args": null,
+                            "name": "avatar",
+                            "storageKey": null
+                          },
+                          {
+                            "kind": "ScalarField",
+                            "alias": null,
+                            "args": null,
+                            "name": "slug",
+                            "storageKey": null
+                          },
+                          {
+                            "kind": "ScalarField",
+                            "alias": null,
+                            "args": null,
+                            "name": "name",
+                            "storageKey": null
+                          },
                           {
                             "kind": "LinkedField",
                             "alias": null,
                             "args": null,
-                            "concreteType": "ProjectEdge",
-                            "name": "edges",
-                            "plural": true,
+                            "concreteType": "ProjectConnection",
+                            "name": "projects",
+                            "plural": false,
                             "selections": [
                               {
                                 "kind": "LinkedField",
                                 "alias": null,
                                 "args": null,
-                                "concreteType": "Project",
-                                "name": "node",
-                                "plural": false,
+                                "concreteType": "ProjectEdge",
+                                "name": "edges",
+                                "plural": true,
                                 "selections": [
                                   {
-                                    "kind": "ScalarField",
+                                    "kind": "LinkedField",
                                     "alias": null,
                                     "args": null,
-                                    "name": "title",
-                                    "storageKey": null
-                                  },
-                                  {
-                                    "kind": "ScalarField",
-                                    "alias": null,
-                                    "args": null,
-                                    "name": "dbid",
+                                    "concreteType": "Project",
+                                    "name": "node",
+                                    "plural": false,
+                                    "selections": [
+                                      {
+                                        "kind": "ScalarField",
+                                        "alias": null,
+                                        "args": null,
+                                        "name": "title",
+                                        "storageKey": null
+                                      },
+                                      {
+                                        "kind": "ScalarField",
+                                        "alias": null,
+                                        "args": null,
+                                        "name": "dbid",
+                                        "storageKey": null
+                                      }
+                                    ],
                                     "storageKey": null
                                   }
                                 ],
@@ -204,15 +229,15 @@ const batch /*: ConcreteBatch*/ = {
             "kind": "LinkedField",
             "alias": null,
             "args": null,
-            "concreteType": "TeamConnection",
-            "name": "teams",
+            "concreteType": "TeamUserConnection",
+            "name": "team_users",
             "plural": false,
             "selections": [
               {
                 "kind": "LinkedField",
                 "alias": null,
                 "args": null,
-                "concreteType": "TeamEdge",
+                "concreteType": "TeamUserEdge",
                 "name": "edges",
                 "plural": true,
                 "selections": [
@@ -220,7 +245,7 @@ const batch /*: ConcreteBatch*/ = {
                     "kind": "LinkedField",
                     "alias": null,
                     "args": null,
-                    "concreteType": "Team",
+                    "concreteType": "TeamUser",
                     "name": "node",
                     "plural": false,
                     "selections": [
@@ -228,72 +253,97 @@ const batch /*: ConcreteBatch*/ = {
                         "kind": "ScalarField",
                         "alias": null,
                         "args": null,
-                        "name": "avatar",
-                        "storageKey": null
-                      },
-                      {
-                        "kind": "ScalarField",
-                        "alias": null,
-                        "args": null,
-                        "name": "slug",
-                        "storageKey": null
-                      },
-                      {
-                        "kind": "ScalarField",
-                        "alias": null,
-                        "args": null,
-                        "name": "name",
+                        "name": "status",
                         "storageKey": null
                       },
                       {
                         "kind": "LinkedField",
                         "alias": null,
                         "args": null,
-                        "concreteType": "ProjectConnection",
-                        "name": "projects",
+                        "concreteType": "Team",
+                        "name": "team",
                         "plural": false,
                         "selections": [
+                          {
+                            "kind": "ScalarField",
+                            "alias": null,
+                            "args": null,
+                            "name": "avatar",
+                            "storageKey": null
+                          },
+                          {
+                            "kind": "ScalarField",
+                            "alias": null,
+                            "args": null,
+                            "name": "slug",
+                            "storageKey": null
+                          },
+                          {
+                            "kind": "ScalarField",
+                            "alias": null,
+                            "args": null,
+                            "name": "name",
+                            "storageKey": null
+                          },
                           {
                             "kind": "LinkedField",
                             "alias": null,
                             "args": null,
-                            "concreteType": "ProjectEdge",
-                            "name": "edges",
-                            "plural": true,
+                            "concreteType": "ProjectConnection",
+                            "name": "projects",
+                            "plural": false,
                             "selections": [
                               {
                                 "kind": "LinkedField",
                                 "alias": null,
                                 "args": null,
-                                "concreteType": "Project",
-                                "name": "node",
-                                "plural": false,
+                                "concreteType": "ProjectEdge",
+                                "name": "edges",
+                                "plural": true,
                                 "selections": [
                                   {
-                                    "kind": "ScalarField",
+                                    "kind": "LinkedField",
                                     "alias": null,
                                     "args": null,
-                                    "name": "title",
-                                    "storageKey": null
-                                  },
-                                  {
-                                    "kind": "ScalarField",
-                                    "alias": null,
-                                    "args": null,
-                                    "name": "dbid",
-                                    "storageKey": null
-                                  },
-                                  {
-                                    "kind": "ScalarField",
-                                    "alias": null,
-                                    "args": null,
-                                    "name": "id",
+                                    "concreteType": "Project",
+                                    "name": "node",
+                                    "plural": false,
+                                    "selections": [
+                                      {
+                                        "kind": "ScalarField",
+                                        "alias": null,
+                                        "args": null,
+                                        "name": "title",
+                                        "storageKey": null
+                                      },
+                                      {
+                                        "kind": "ScalarField",
+                                        "alias": null,
+                                        "args": null,
+                                        "name": "dbid",
+                                        "storageKey": null
+                                      },
+                                      {
+                                        "kind": "ScalarField",
+                                        "alias": null,
+                                        "args": null,
+                                        "name": "id",
+                                        "storageKey": null
+                                      }
+                                    ],
                                     "storageKey": null
                                   }
                                 ],
                                 "storageKey": null
                               }
                             ],
+                            "storageKey": null
+                          },
+                          {
+                            "kind": "ScalarField",
+                            "alias": null,
+                            "args": null,
+                            "name": "id",
                             "storageKey": null
                           }
                         ],
@@ -327,7 +377,7 @@ const batch /*: ConcreteBatch*/ = {
       }
     ]
   },
-  "text": "query ProjectsQuery {\n  me {\n    teams {\n      edges {\n        node {\n          avatar\n          slug\n          name\n          projects {\n            edges {\n              node {\n                title\n                dbid\n                id\n              }\n            }\n          }\n          id\n        }\n      }\n    }\n    id\n  }\n}\n"
+  "text": "query ProjectsQuery {\n  me {\n    team_users {\n      edges {\n        node {\n          status\n          team {\n            avatar\n            slug\n            name\n            projects {\n              edges {\n                node {\n                  title\n                  dbid\n                  id\n                }\n              }\n            }\n            id\n          }\n          id\n        }\n      }\n    }\n    id\n  }\n}\n"
 };
 
 module.exports = batch;
