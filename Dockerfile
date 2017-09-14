@@ -2,7 +2,7 @@ FROM meedan/ruby
 MAINTAINER Meedan <sysops@meedan.com>
 
 # install dependencies
-RUN apt-get update -qq && apt-get install -y zip autoconf automake libtool && rm -rf /var/lib/apt/lists/*
+RUN apt-get update -qq && apt-get install -y zip autoconf automake libtool python-pip && rm -rf /var/lib/apt/lists/*
 
 # node modules
 ADD package.json /tmp/package.json
@@ -20,6 +20,9 @@ RUN git clone https://github.com/facebook/watchman.git /tmp/watchman && \
     ./autogen.sh && \
     ./configure --without-python && \
     make && make install
+
+# tx client
+RUN pip install transifex-client
 
 # install code
 WORKDIR /app
