@@ -27,6 +27,14 @@ function createFetchQuery(token, teamSlug) {
       }),
     }).then(response => {
       return response.json();
+    }).then(json => {
+      if (json.error) {
+        return {
+          data: null,
+          errors: [json.error]
+        };
+      }
+      return json;
     });
   };
 }

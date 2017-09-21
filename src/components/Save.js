@@ -103,7 +103,11 @@ class Save extends Component {
   }
 
   failed(error) {
-    this.setState({ state: 'failed', result: error });
+    let message = error;
+    if (error && error.source && error.source.errors && error.source.errors.length > 0) {
+      message = error.source.errors[0];
+    }
+    this.setState({ state: 'failed', result: message });
   }
 
   save() {
