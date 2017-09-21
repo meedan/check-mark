@@ -4,6 +4,32 @@
 
 A browser extension for [Check](https://meedan.com/en/check/).
 
+### Download
+
+Available for [Mozilla Firefox](https://addons.mozilla.org/firefox/addon/check/) and [Google Chrome](https://chrome.google.com/webstore/detail/check/afafaiilokmpfmkfjjgfenfneoafojie).
+
+### About
+
+Check, developed by Meedan, is a platform for collaborative verification of digital media. The Check project has worked to build online tools to improve the investigative quality of citizen journalism and help limit the rapid spread of rumors and misinformation online. Using Check you can quickly build a team, add social media links to fact-check them, set key questions for investigating news items gathered amongst your team.
+
+Check’s browser extension allows you to quickly add media items that you come across on the internet to your Check team for investigation. Here’s how you can use it:
+
+Browse the internet, and find a Tweet, YouTube video, Facebook post or an Instagram photo that you want your team to fact-check and investigate. Click the Check icon’, choose one of the projects you want to add this item to, and save it.
+
+You can also highlight text from an article, a web page, or an incoming web whatsapp message. Right click, select the Check icon, and choose one of the projects you want to add this text to.
+
+The extension works on Tweetdeck for web and other tools that operate on the browser.
+
+On Check, you can see this item added as media on your team and you can start the verification process right away. Here’s what you can do on Check for fact-checking:
+
+Add journalists and citizen journalists to your team so that they can contribute to the verification process.
+
+Ask questions about media items, like date, time, location and evidence to help deciding if it’s true or fake.
+
+Add a verification status to each media item you have on your team to reflect the result of the fact-checking process like, verified, false or in progress.
+
+If you work in digital media and want to try out Check as a way to streamline and coordinate your social news gathering and verification workflow, please visit https://meedan.com/en/check.
+
 ### Development
 
 The JavaScript and SASS codes live in `src`. Static files like HTML, Manifest and images live in `public`.
@@ -33,13 +59,27 @@ As usual, localization is done on [Transifex](https://www.transifex.com/meedan/c
 
 #### Releasing new versions
 
+First, you need to edit `public/manifest.json` and increment the version number.
+
 * QA: `npm run release:qa`
 * Live: `npm run release:live`
 
-Releases are available under `releases`.
+Releases are available under `releases`. After that, you need to upload `releases/live/live.zip` and `releases/qa/qa.zip` to Chrome Store and Firefox Store.
 
 #### Tests
 
 * You need `zip`, `rspec`, `geckodriver` and `chromedriver`.
 * Copy `test/config.yml.example` to `test/config.yml` and adjust the configurations.
 * Tests can be run with `npm run test`.
+
+#### Screenshots
+
+![Screenshot](screenshots/screenshot1.png?raw=true "Screenshot")
+
+![Screenshot](screenshots/screenshot2.png?raw=true "Screenshot")
+
+![Screenshot](screenshots/screenshot3.png?raw=true "Screenshot")
+
+![Screenshot](screenshots/screenshot4.png?raw=true "Screenshot")
+
+![Screenshot](screenshots/screenshot5.png?raw=true "Screenshot")
