@@ -67,7 +67,7 @@ chrome.tabs.query({ active: true, lastFocusedWindow: true }, function(tabs) {
   }, function(selection) {
 
     const textParam = window.location.search.match(/^\?text=(.*)/);
-    const text = textParam ? decodeURI(textParam[1]) : (selection ? selection[0] : '');
+    const text = textParam ? decodeURIComponent(decodeURI(textParam[1])) : (selection ? selection[0] : '');
 
     ReactDOM.render(
       <IntlProvider locale={locale} messages={translations}>

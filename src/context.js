@@ -45,7 +45,7 @@ function popWindow(info, tab) {
     }
     else if (info.selectionText && info.selectionText != '') {
       key = 'text';
-      value = info.selectionText;
+      value = encodeURIComponent(info.selectionText);
     }
     options.url = chrome.extension.getURL(url) + '?' + key + '=' + value;
     chrome.windows.create(options, (win) => {
