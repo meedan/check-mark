@@ -34,6 +34,7 @@ class Projects extends Component {
                     node {
                       status
                       team {
+                        limits
                         avatar
                         slug
                         name
@@ -59,13 +60,15 @@ class Projects extends Component {
               props.me.team_users.edges.forEach(function(teamUserNode) {
                 if (teamUserNode.node.status === 'member') {
                   const team = teamUserNode.node.team;
-                  let group = { label: <span><img src={team.avatar} alt="" /> {team.name}</span>, options: [] };
-                  team.projects.edges.forEach(function(projectNode) {
-                    const project = projectNode.node;
-                    const option = { label: project.title, value: team.slug + ':' + project.dbid };
-                    group.options.push(option);
-                  });
-                  groups.push(group);
+                  if (team.limits.browser_extension !== false) {
+                    let group = { label: <span><img src={team.avatar} alt="" /> {team.name}</span>, options: [] };
+                    team.projects.edges.forEach(function(projectNode) {
+                      const project = projectNode.node;
+                      const option = { label: project.title, value: team.slug + ':' + project.dbid };
+                      group.options.push(option);
+                    });
+                    groups.push(group);
+                  }
                 }
               });
             }

@@ -1,6 +1,6 @@
 /**
  * @flow
- * @relayHash c3b7cf33f257d2e42d17bc235cf0e944
+ * @relayHash 838bc5fc0068272d29a971b7e4e85390
  */
 
 /* eslint-disable */
@@ -16,6 +16,7 @@ export type ProjectsQueryResponse = {|
         +node: ?{|
           +status: ?string;
           +team: ?{|
+            +limits: ?any;
             +avatar: ?string;
             +slug: string;
             +name: string;
@@ -44,6 +45,7 @@ query ProjectsQuery {
         node {
           status
           team {
+            limits
             avatar
             slug
             name
@@ -121,6 +123,13 @@ const batch /*: ConcreteBatch*/ = {
                         "name": "team",
                         "plural": false,
                         "selections": [
+                          {
+                            "kind": "ScalarField",
+                            "alias": null,
+                            "args": null,
+                            "name": "limits",
+                            "storageKey": null
+                          },
                           {
                             "kind": "ScalarField",
                             "alias": null,
@@ -268,6 +277,13 @@ const batch /*: ConcreteBatch*/ = {
                             "kind": "ScalarField",
                             "alias": null,
                             "args": null,
+                            "name": "limits",
+                            "storageKey": null
+                          },
+                          {
+                            "kind": "ScalarField",
+                            "alias": null,
+                            "args": null,
                             "name": "avatar",
                             "storageKey": null
                           },
@@ -377,7 +393,7 @@ const batch /*: ConcreteBatch*/ = {
       }
     ]
   },
-  "text": "query ProjectsQuery {\n  me {\n    team_users {\n      edges {\n        node {\n          status\n          team {\n            avatar\n            slug\n            name\n            projects {\n              edges {\n                node {\n                  title\n                  dbid\n                  id\n                }\n              }\n            }\n            id\n          }\n          id\n        }\n      }\n    }\n    id\n  }\n}\n"
+  "text": "query ProjectsQuery {\n  me {\n    team_users {\n      edges {\n        node {\n          status\n          team {\n            limits\n            avatar\n            slug\n            name\n            projects {\n              edges {\n                node {\n                  title\n                  dbid\n                  id\n                }\n              }\n            }\n            id\n          }\n          id\n        }\n      }\n    }\n    id\n  }\n}\n"
 };
 
 module.exports = batch;
