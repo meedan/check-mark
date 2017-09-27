@@ -30,7 +30,7 @@ before_install:
 - 'echo "script.engine.groovy.inline.update: on" | sudo tee -a /etc/elasticsearch/elasticsearch.yml'
 - sudo /usr/share/elasticsearch/bin/plugin install analysis-icu
 - sudo service elasticsearch restart
-- git clone --branch feature/6270-team-limits https://github.com/meedan/check-api.git
+- git clone https://github.com/meedan/check-api.git
 - cp check-api/config/config.yml.example check-api/config/config.yml
 - cp check-api/config/initializers/secret_token.rb.example check-api/config/initializers/secret_token.rb
 - cp check-api/config/database.yml.example check-api/config/database.yml
