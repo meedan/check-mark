@@ -103,10 +103,11 @@ class Save extends Component {
   }
 
   failed(error) {
-    let message = error;
-    if (error && error.source && error.source.errors && error.source.errors.length > 0) {
-      message = error.source.errors[0];
-    }
+    let message = <FormattedMessage id="Save.error" defaultMessage="Sorry, we encountered a problem adding this to Check." />;
+    // Show the error message from the backend
+    // if (error && error.source && error.source.errors && error.source.errors.length > 0) {
+    //   message = error.source.errors[0];
+    // }
     this.setState({ state: 'failed', result: message });
   }
 
@@ -163,7 +164,7 @@ class Save extends Component {
 
   render() {
     if (this.state.state === 'failed') {
-      return (<Error message={this.state.result.toString()} />);
+      return (<Error messageComponent={this.state.result} />);
     }
 
     return (
