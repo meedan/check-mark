@@ -6,3 +6,4 @@ file_filter = src/localization/<lang>.json
 source_file = src/localization/en.json
 source_lang = en
 type = KEYVALUEJSON
+
