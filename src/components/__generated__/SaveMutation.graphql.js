@@ -1,6 +1,6 @@
 /**
  * @flow
- * @relayHash 42d9ef666d417ffd10a8dfea430e24c0
+ * @relayHash bdc8c75901c952f6e8062ffb5e797838
  */
 
 /* eslint-disable */
@@ -20,7 +20,6 @@ export type SaveMutationVariables = {|
     set_tasks_responses?: ?any;
   };
 |};
-
 export type SaveMutationResponse = {|
   +createProjectMedia: ?{|
     +project_media: ?{|

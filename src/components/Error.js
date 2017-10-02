@@ -10,7 +10,7 @@ class Error extends Component {
     return (
       <div id="error">
         <h2><FormattedMessage id="Error.thereWasAProblem" defaultMessage="Hmm, there was a problem" /></h2>
-        <code dangerouslySetInnerHTML={{ __html: message }}></code>
+        <code>{message}</code>
         <p>
           <FormattedMessage id="Error.tryAgain" defaultMessage="Please try again later." />
           <br />
