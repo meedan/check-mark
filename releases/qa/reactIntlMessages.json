@@ -1,21 +1,5 @@
 [
   {
-    "id": "Login.addToCheck",
-    "defaultMessage": "Add to Check"
-  },
-  {
-    "id": "Login.addLinks",
-    "defaultMessage": "Add links to Check with one click. Links will be added to your selected project."
-  },
-  {
-    "id": "Login.getStarted",
-    "defaultMessage": "To get started, sign in."
-  },
-  {
-    "id": "Login.signIn",
-    "defaultMessage": "Sign In"
-  },
-  {
     "id": "Save.error",
     "defaultMessage": "Sorry, we encountered a problem adding this to Check."
   },
@@ -70,6 +54,22 @@
   {
     "id": "Save.saved",
     "defaultMessage": "Saved"
+  },
+  {
+    "id": "Login.addToCheck",
+    "defaultMessage": "Add to Check"
+  },
+  {
+    "id": "Login.addLinks",
+    "defaultMessage": "Add links to Check with one click. Links will be added to your selected project."
+  },
+  {
+    "id": "Login.getStarted",
+    "defaultMessage": "To get started, sign in."
+  },
+  {
+    "id": "Login.signIn",
+    "defaultMessage": "Sign In"
   },
   {
     "id": "Error.thereWasAProblem",
