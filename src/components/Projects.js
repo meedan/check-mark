@@ -68,7 +68,6 @@ class Projects extends Component {
 
           render={({error, props}) => {
             let groups = [];
-            let value = null;
             
             if (!error && props && props.me) {
               props.me.team_users.edges.forEach(function(teamUserNode) {
