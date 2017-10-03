@@ -6,6 +6,8 @@ import Select from 'react-select-plus';
 import '../style/Projects.css';
 import 'react-select-plus/dist/react-select-plus.css';
 
+/*global chrome*/
+
 class Projects extends Component {
   constructor(props) {
     super(props);
@@ -13,6 +15,16 @@ class Projects extends Component {
     this.state = {
       selectedProject: null
     };
+  }
+
+  componentWillMount() {
+    chrome.storage.sync.get('lastProject', (data) => {
+      const value = data.lastProject;
+      if (value) {
+        this.props.onSelectProject({ value });
+        this.setState({ selectedProject: value });
+      }
+    });
   }
 
   onChange(value) {
@@ -56,6 +68,8 @@ class Projects extends Component {
 
           render={({error, props}) => {
             let groups = [];
+            let value = null;
+            
             if (!error && props && props.me) {
               props.me.team_users.edges.forEach(function(teamUserNode) {
                 if (teamUserNode.node.status === 'member') {
@@ -72,6 +86,7 @@ class Projects extends Component {
                 }
               });
             }
+
             return <Select onChange={this.onChange.bind(this)}
                            onOpen={this.props.onOpenSelect ? this.props.onOpenSelect : null}
                            onClose={this.props.onCloseSelect ? this.props.onCloseSelect : null}

@@ -10,6 +10,8 @@ import { logout } from '../helpers';
 import { createEnvironment } from '../relay/Environment'; 
 import '../style/Save.css';
 
+/*global chrome*/
+
 const mutation = graphql`
   mutation SaveMutation(
     $input: CreateProjectMediaInput!
@@ -99,7 +101,10 @@ class Save extends Component {
   }
 
   saved(response) {
-    this.setState({ state: 'saved', result: response });
+    const project = response.createProjectMedia.project_media.project;
+    chrome.storage.sync.set({ 'lastProject': project.team.slug + ':' + project.dbid }, () => {
+      this.setState({ state: 'saved', result: response });
+    });
   }
 
   failed(error) {
