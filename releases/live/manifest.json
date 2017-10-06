@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Check",
   "description": "Verify breaking news online",
-  "version": "1.0.1",
+  "version": "1.0.6",
   "commands": {
     "_execute_browser_action": {
       "suggested_key": {
@@ -28,11 +28,10 @@
     "activeTab",
     "tabs",
     "cookies",
+    "storage",
     "webRequest",
     "contextMenus",
     "https://fonts.googleapis.com/",
-    "http://localhost:3000/",
-    "https://check-api-qa.checkmedia.org/",
     "https://check-api.checkmedia.org/"
   ]
 }

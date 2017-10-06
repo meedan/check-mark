@@ -12,3 +12,4 @@ src/relay/relay.json
 releases/test
 webdriver-profile*
 FindGraphQLTags-*
+__generated__

@@ -25,6 +25,7 @@ const checkRequiredFiles = require('react-dev-utils/checkRequiredFiles');
 const formatWebpackMessages = require('react-dev-utils/formatWebpackMessages');
 const printHostingInstructions = require('react-dev-utils/printHostingInstructions');
 const FileSizeReporter = require('react-dev-utils/FileSizeReporter');
+import appConfig from '../config';
 
 const measureFileSizesBeforeBuild =
   FileSizeReporter.measureFileSizesBeforeBuild;
@@ -49,6 +50,8 @@ measureFileSizesBeforeBuild(paths.appBuild)
     fs.emptyDirSync(paths.appBuild);
     // Merge with the public folder
     copyPublicFolder();
+    // Set manifest
+    setManifest();
     // Compile background.js
     build(previousFileSizes, configBg);
     // Start the webpack build
@@ -144,4 +147,11 @@ function copyPublicFolder() {
     dereference: true,
     filter: file => file !== paths.appHtml,
   });
+}
+
+function setManifest() {
+  const manifest = paths.appBuild + '/manifest.json'
+  const data = fs.readFileSync(manifest, 'utf8');
+  const result = data.replace(/{checkApiUrl}/g, appConfig.checkApiUrl + '/');
+  fs.writeFileSync(manifest, result, 'utf8');
 }

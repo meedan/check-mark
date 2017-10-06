@@ -17,6 +17,7 @@ function createFetchQuery(token, teamSlug) {
       method: 'POST',
       headers: {
         'X-Check-Token': token,
+        'X-Check-Client': 'browser-extension',
         'content-type': 'application/json',
         credentials: 'include'
       },

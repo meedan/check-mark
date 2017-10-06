@@ -16,6 +16,10 @@
     "defaultMessage": "Sign In"
   },
   {
+    "id": "Save.error",
+    "defaultMessage": "Sorry, we encountered a problem adding this to Check."
+  },
+  {
     "id": "Save.addToCheck",
     "defaultMessage": "Add to Check"
   },
