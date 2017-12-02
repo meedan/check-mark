@@ -1,8 +1,7 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
-import '../style/Login.css';
 import Button from './Button';
-import config from '../config';
+import config from './../config';
 
 class Login extends Component {
   signIn() {

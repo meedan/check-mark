@@ -5,10 +5,9 @@ import { commitMutation, graphql } from 'react-relay';
 import Projects from './Projects';
 import Button from './Button';
 import Error from './Error';
-import config from '../config';
-import { logout } from '../helpers';
-import { createEnvironment } from '../relay/Environment'; 
-import '../style/Save.css';
+import config from './../config';
+import { logout } from './../helpers';
+import { createEnvironment } from './../relay/Environment'; 
 
 /*global chrome*/
 

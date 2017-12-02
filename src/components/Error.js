@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import util from 'util';
-import '../style/Error.css';
 
 class Error extends Component {
   render() {

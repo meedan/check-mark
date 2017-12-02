@@ -1,8 +1,11 @@
 {
-  "presets": ["es2015", "stage-0", "react"],
+  "presets": ["es2015", "stage-0", "react", "babel-preset-expo"],
   "env": {
     "production": {
-      "plugins": [["react-intl", { "messagesDir": "./src/localization/messages/" }], ["relay"]]
+      "plugins": [["react-intl", { "messagesDir": "./src/localization/messages/" }], ["relay"], ["transform-react-jsx-source"]]
+    },
+    "development": {
+      "plugins": [["react-intl", { "messagesDir": "./src/localization/messages/" }], ["relay"], ["transform-react-jsx-source"]]
     }
   }
 }

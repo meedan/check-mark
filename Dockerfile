@@ -2,7 +2,7 @@ FROM meedan/ruby
 MAINTAINER Meedan <sysops@meedan.com>
 
 # install dependencies
-RUN apt-get update -qq && apt-get install -y zip autoconf automake libtool python-pip && rm -rf /var/lib/apt/lists/*
+RUN apt-get update -qq && apt-get install -y zip autoconf automake libtool python-pip inotify-tools && rm -rf /var/lib/apt/lists/*
 
 # node modules
 ADD package.json /tmp/package.json

@@ -3,8 +3,6 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { QueryRenderer, graphql } from 'react-relay';
 import Select from 'react-select-plus';
-import '../style/Projects.css';
-import 'react-select-plus/dist/react-select-plus.css';
 
 /*global chrome*/
 

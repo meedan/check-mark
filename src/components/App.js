@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import '../style/App.css';
 import Login from './Login';
 import Save from './Save';
 import Error from './Error';
-import { loggedIn } from '../helpers';
-import { createEnvironment } from '../relay/Environment'; 
+import { loggedIn } from './../helpers';
+import { createEnvironment } from './../relay/Environment'; 
 
 class App extends Component {
   constructor(props) {
@@ -37,9 +36,9 @@ class App extends Component {
 
   render() {
     return (
-      <div id="app" className={this.props.direction}>
+      <View id="app" className={this.props.direction}>
         {!this.state.loaded ? null : (this.state.user ? <Save url={this.props.url} text={this.props.text} /> : (this.state.error ? <Error message={this.state.error} /> : <Login />))}
-      </div>
+      </View>
     );
   }
 }

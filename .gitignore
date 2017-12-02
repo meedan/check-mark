@@ -13,3 +13,7 @@ releases/test
 webdriver-profile*
 FindGraphQLTags-*
 __generated__
+haste-map-*
+.expo
+metro-bundler-*
+src/localization/messages
