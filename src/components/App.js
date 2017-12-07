@@ -5,6 +5,7 @@ import Save from './Save';
 import Error from './Error';
 import { loggedIn } from './../helpers';
 import { createEnvironment } from './../relay/Environment'; 
+import { View } from 'react-native';
 
 class App extends Component {
   constructor(props) {
@@ -13,7 +14,7 @@ class App extends Component {
     this.state = {
       user: null,
       error: false,
-      loaded: false,
+      loaded: this.props.platform === 'mobile',
       environment: null
     };
   }
@@ -21,23 +22,30 @@ class App extends Component {
   getChildContext() {
     return {
       user: this.state.user,
-      environment: this.state.environment
+      environment: this.state.environment,
+      platform: this.props.platform
     };
   }
 
   componentWillMount() {
-    const that = this;
+    if (this.props.platform != 'mobile') {
+      const that = this;
 
-    loggedIn(function(user, error) {
-      const environment = user ? createEnvironment(user.token, '') : null;
-      that.setState({ loaded: true, user, error, environment });
-    });
+      loggedIn(function(user, error) {
+        that.loginCallback(user, error);
+      });
+    }
+  }
+
+  loginCallback(user, error) {
+    const environment = user ? createEnvironment(user.token, '') : null;
+    this.setState({ loaded: true, user, error, environment });
   }
 
   render() {
     return (
       <View id="app" className={this.props.direction}>
-        {!this.state.loaded ? null : (this.state.user ? <Save url={this.props.url} text={this.props.text} /> : (this.state.error ? <Error message={this.state.error} /> : <Login />))}
+        {!this.state.loaded ? null : (this.state.user ? <Save url={this.props.url} text={this.props.text} /> : (this.state.error ? <Error message={this.state.error} /> : <Login callback={this.loginCallback.bind(this)} />))}
       </View>
     );
   }
@@ -45,7 +53,8 @@ class App extends Component {
 
 App.childContextTypes = {
   user: PropTypes.object,
-  environment: PropTypes.object
+  environment: PropTypes.object,
+  platform: PropTypes.string
 };
 
 export default App;
