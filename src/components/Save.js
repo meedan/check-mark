@@ -114,8 +114,13 @@ class Save extends Component {
   }
 
   logout() {
-    logout();
-    this.openCheck('');
+    if (this.context.platform === 'mobile') {
+      logout(this.props.callback);
+    }
+    else {
+      logout();
+      this.openCheck('');
+    }
   }
 
   ignore() {

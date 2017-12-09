@@ -17,13 +17,20 @@ class Login extends Component {
 
     this.state = {
       checkOpened: false,
-      webViewUrl: ''
+      url: config.checkWebUrl
     };
   }
 
   onNavigationStateChange(webViewState) {
     const { url } = webViewState;
-    this.setState({ webViewUrl: url });
+    this.setState({ url });
+    if (url === config.checkApiUrl + '/close.html') {
+      this.setState({ url: config.checkWebUrl }, () => {
+        setTimeout(() => {
+          this.forceUpdate();
+        }, 1000);
+      });
+    }
   }
 
   onMessage(event) {
@@ -66,10 +73,10 @@ class Login extends Component {
           window.postMessage(JSON.stringify(user));
         }
         else {
-          setTimeout(waitForToken, 1000);
+          setTimeout(waitForToken, 200);
         }
       };
-      setTimeout(waitForToken, 1000);
+      setTimeout(waitForToken, 500);
     `;
       
     return (
@@ -77,7 +84,7 @@ class Login extends Component {
       <View style={style}>
         <WebView
           ref="webview"
-          source={{ uri: config.checkWebUrl }}
+          source={{ uri: this.state.url }}
           onNavigationStateChange={this.onNavigationStateChange.bind(this)}
           onMessage={this.onMessage.bind(this)}
           injectedJavaScript={script}

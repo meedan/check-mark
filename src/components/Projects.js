@@ -97,7 +97,7 @@ class Projects extends Component {
               }
             }
             else {
-              return <Text>Something went wrong!</Text>;
+              return <Text>...</Text>;
             }
           }}
         />

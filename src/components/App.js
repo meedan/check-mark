@@ -42,10 +42,14 @@ class App extends Component {
     this.setState({ loaded: true, user, error, environment });
   }
 
+  logoutCallback() {
+    this.setState({ user: null });
+  }
+
   render() {
     return (
       <View id="app" className={this.props.direction}>
-        {!this.state.loaded ? null : (this.state.user ? <Save url={this.props.url} text={this.props.text} /> : (this.state.error ? <Error message={this.state.error} /> : <Login callback={this.loginCallback.bind(this)} />))}
+        {!this.state.loaded ? null : (this.state.user ? <Save url={this.props.url} text={this.props.text} callback={this.logoutCallback.bind(this)} /> : (this.state.error ? <Error message={this.state.error} /> : <Login callback={this.loginCallback.bind(this)} />))}
       </View>
     );
   }
