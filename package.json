@@ -51,6 +51,7 @@
     "react-native": "0.50.3",
     "react-native-cookies": "^3.2.0",
     "react-native-scripts": "1.8.1",
+    "react-native-web": "0.1.16",
     "react-relay": "^1.1.0",
     "react-select-plus": "^1.0.0-rc.5",
     "react-test-renderer": "16.0.0",

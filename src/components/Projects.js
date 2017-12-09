@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { QueryRenderer, graphql } from 'react-relay';
 import { Alert, Text, View, Picker } from 'react-native';
+import Select from './Select';
 import util from 'util';
 
 /*global chrome*/
@@ -26,7 +27,8 @@ class Projects extends Component {
     // });
   }
 
-  onChange(value, index) {
+  onChange(selected, index) {
+    const value = selected.value || selected;
     this.props.onSelectProject(value);
     this.setState({ selectedProject: value });
   }
@@ -88,13 +90,7 @@ class Projects extends Component {
               });
 
               if (groups.length > 0) {
-                return (<Picker selectedValue={this.state.selectedProject} onValueChange={this.onChange.bind(this)}>
-                  {options.map((project) => {
-                    return (
-                      <Picker.Item key={project.value} label={project.label} value={project.value} />
-                    );
-                  })}
-                </Picker>);
+                return (<Select selectedValue={this.state.selectedProject} onValueChange={this.onChange.bind(this)} options={options} groups={groups} />);
               }
               else {
                 return <Text>No teams allowed to use the mobile app.</Text>;

@@ -17,3 +17,4 @@ haste-map-*
 .expo
 metro-bundler-*
 src/localization/messages
+config.js.local
