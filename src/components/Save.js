@@ -202,7 +202,7 @@ class Save extends Component {
      <View id="save" className={this.setClasses()}>
         <View><FormattedMessage id="Save.addToCheck" defaultMessage="Add to Check" /></View>
 
-        <View id="menu-trigger" onPress={this.toggleMenu.bind(this)}><FormattedMessage id="Save.menu" defaultMessage="Menu" /></View>
+        <View id="menu-trigger" onPress={this.toggleMenu.bind(this)}><Text>|||</Text></View>
         <View id="menu">
           <Text onPress={this.menuAction.bind(this, '')} className={ this.state.state === 'saved' ? 'active' : '' }><FormattedMessage id="Save.openInNewTab" defaultMessage="Open in new tab" /></Text>
           <Text onPress={this.menuAction.bind(this, 'edit-tags')} className={ this.state.state === 'saved' ? 'active' : '' }><FormattedMessage id="Save.editTags" defaultMessage="Edit tags" /></Text>
