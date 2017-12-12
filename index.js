@@ -2,13 +2,15 @@ global.self = global;
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { View, Text, NativeModules, Platform } from 'react-native';
+import { View, Text, NativeModules, Platform, AppRegistry, Clipboard } from 'react-native';
 import ReactApp from './src/components/App';
-import { IntlProvider, addLocaleData } from 'react-intl';
+import { IntlProvider, addLocaleData, FormattedMessage } from 'react-intl';
 import ar from 'react-intl/locale-data/ar';
 import en from 'react-intl/locale-data/en';
 import fr from 'react-intl/locale-data/fr';
 import pt from 'react-intl/locale-data/pt';
+import ShareMenu from 'react-native-share-menu';
+import util from 'util';
 
 if (!global.Intl) {
   global.Intl = require('intl');
@@ -64,13 +66,51 @@ const translations = {
 };
 
 export default class App extends React.Component {
+  constructor(props) {
+    super(props); 
+    this.state = {
+      sharedText: null,
+      clipboard: null
+    };
+  }
+
+  componentWillMount() {
+    ShareMenu.getSharedText((text) => {
+      if (text && text.length) {
+        this.setState({ sharedText: text });
+      }
+    });
+
+    Clipboard.getString().then((content) => {
+      this.setState({ clipboard: content });
+    });
+  }
+
   render() {
+    let input = this.state.sharedText;
+    if (!input) {
+      input = this.state.clipboard;
+    }
+    let url = null;
+    let text = null;
+
+    if (input) {
+      if (/^https?:\/\//.test(input) && !/ /.test(input)) {
+        url = input;
+      }
+      else {
+        text = input;
+      }
+    }
+
     return (
       <IntlProvider locale={locale} messages={translations[locale]} textComponent={Text}>
         <View style={{ marginTop: 30 }}>
-          <ReactApp direction={direction} url={null} text={'Testing'} platform="mobile" />
+          { input ? <ReactApp direction={direction} url={url} text={text} platform="mobile" /> : null }
         </View>
       </IntlProvider>
     );
   }
 }
+
+AppRegistry.registerComponent('checkmark', () => App);

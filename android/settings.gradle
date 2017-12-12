@@ -1,0 +1,7 @@
+rootProject.name = 'checkmark'
+include ':react-native-share-menu'
+project(':react-native-share-menu').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-share-menu/android')
+include ':react-native-cookies'
+project(':react-native-cookies').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-cookies/android')
+
+include ':app'
