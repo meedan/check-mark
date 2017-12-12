@@ -8,6 +8,7 @@ import Error from './Error';
 import config from './../config';
 import { logout } from './../helpers';
 import { createEnvironment } from './../relay/Environment'; 
+import { writeToStore } from './../helpers';
 
 /*global chrome*/
 
@@ -115,7 +116,9 @@ class Save extends Component {
 
   logout() {
     if (this.context.platform === 'mobile') {
-      logout(this.props.callback);
+      writeToStore('mobile', 'userToken', '', () => {
+        logout(this.props.callback);
+      });
     }
     else {
       logout();
@@ -127,10 +130,10 @@ class Save extends Component {
   }
 
   saved(response) {
-    // const project = response.createProjectMedia.project_media.project;
-    // chrome.storage.sync.set({ 'lastProject': project.team.slug + ':' + project.dbid }, () => {
+    const project = response.createProjectMedia.project_media.project;
+    writeToStore(this.context.platform, 'lastProject', project.team.slug + ':' + project.dbid, () => {
       this.setState({ state: 'saved', result: response });
-    // });
+    });
   }
 
   failed(error) {

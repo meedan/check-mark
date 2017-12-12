@@ -5,6 +5,7 @@ import { QueryRenderer, graphql } from 'react-relay';
 import { Alert, Text, View, Picker } from 'react-native';
 import Select from './Select';
 import util from 'util';
+import { readFromStore } from './../helpers';
 
 /*global chrome*/
 
@@ -18,13 +19,11 @@ class Projects extends Component {
   }
 
   componentWillMount() {
-    // chrome.storage.sync.get('lastProject', (data) => {
-    //   const value = data.lastProject;
-    //   if (value) {
-    //     this.props.onSelectProject({ value });
-    //     this.setState({ selectedProject: value });
-    //   }
-    // });
+    readFromStore(this.context.platform, 'lastProject', (value) => {
+      if (value) {
+        this.onChange(value, null);
+      }
+    });
   }
 
   onChange(selected, index) {

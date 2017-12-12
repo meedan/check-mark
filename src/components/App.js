@@ -28,13 +28,9 @@ class App extends Component {
   }
 
   componentWillMount() {
-    if (this.props.platform != 'mobile') {
-      const that = this;
-
-      loggedIn(function(user, error) {
-        that.loginCallback(user, error);
-      });
-    }
+    loggedIn(this.props.platform, (user, error) => {
+      this.loginCallback(user, error);
+    });
   }
 
   loginCallback(user, error) {
