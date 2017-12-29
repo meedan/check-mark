@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
 import PropTypes from 'prop-types';
 import { WebView, View, Dimensions, Button, Text } from 'react-native';
-import { writeToStore } from './../helpers';
 import config from './../config';
 
 const messages = defineMessages({
@@ -39,7 +38,7 @@ class Login extends Component {
     if (data) {
       this.setState({ checkOpened: false });
       const user = JSON.parse(data);
-      writeToStore('mobile', 'userToken', user.token, () => {
+      this.context.store.write('userToken', user.token, () => {
         this.props.callback(user, false);
       });
     }
@@ -116,6 +115,7 @@ Login.propTypes = {
 };
 
 Login.contextTypes = {
+  store: PropTypes.object,
   platform: PropTypes.string
 };
 

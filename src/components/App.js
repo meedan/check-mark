@@ -23,14 +23,27 @@ class App extends Component {
     return {
       user: this.state.user,
       environment: this.state.environment,
-      platform: this.props.platform
+      platform: this.props.platform,
+      store: this.props.store
     };
   }
 
   componentWillMount() {
-    loggedIn(this.props.platform, (user, error) => {
-      this.loginCallback(user, error);
-    });
+    if (this.props.platform === 'mobile') {
+      this.props.store.read('userToken', (token) => {
+        if (token && token != '') {
+          this.loginCallback({ token }, false);
+        }
+        else {
+          this.loginCallback(null, false);
+        }
+      });
+    }
+    else {
+      loggedIn((user, error) => {
+        this.loginCallback(user, error);
+      });
+    }
   }
 
   loginCallback(user, error) {
@@ -54,7 +67,8 @@ class App extends Component {
 App.childContextTypes = {
   user: PropTypes.object,
   environment: PropTypes.object,
-  platform: PropTypes.string
+  platform: PropTypes.string,
+  store: PropTypes.object
 };
 
 export default App;

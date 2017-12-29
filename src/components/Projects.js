@@ -5,7 +5,6 @@ import { QueryRenderer, graphql } from 'react-relay';
 import { Alert, Text, View, Picker } from 'react-native';
 import Select from './Select';
 import util from 'util';
-import { readFromStore } from './../helpers';
 
 /*global chrome*/
 
@@ -19,7 +18,7 @@ class Projects extends Component {
   }
 
   componentWillMount() {
-    readFromStore(this.context.platform, 'lastProject', (value) => {
+    this.context.store.read('lastProject', (value) => {
       if (value) {
         this.onChange(value, null);
       }
@@ -107,6 +106,7 @@ class Projects extends Component {
 
 Projects.contextTypes = {
   environment: PropTypes.object,
+  store: PropTypes.object,
   platform: PropTypes.string
 };
 

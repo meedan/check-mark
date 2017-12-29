@@ -18,3 +18,4 @@ haste-map-*
 metro-bundler-*
 src/localization/messages
 config.js.local
+src/style/*.css

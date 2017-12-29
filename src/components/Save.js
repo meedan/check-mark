@@ -8,7 +8,6 @@ import Error from './Error';
 import config from './../config';
 import { logout } from './../helpers';
 import { createEnvironment } from './../relay/Environment'; 
-import { writeToStore } from './../helpers';
 
 /*global chrome*/
 
@@ -116,7 +115,7 @@ class Save extends Component {
 
   logout() {
     if (this.context.platform === 'mobile') {
-      writeToStore('mobile', 'userToken', '', () => {
+      this.context.store.write('userToken', '', () => {
         logout(this.props.callback);
       });
     }
@@ -131,7 +130,7 @@ class Save extends Component {
 
   saved(response) {
     const project = response.createProjectMedia.project_media.project;
-    writeToStore(this.context.platform, 'lastProject', project.team.slug + ':' + project.dbid, () => {
+    this.context.store.write('lastProject', project.team.slug + ':' + project.dbid, () => {
       this.setState({ state: 'saved', result: response });
     });
   }
@@ -262,6 +261,7 @@ Save.propTypes = {
 
 Save.contextTypes = {
   user: PropTypes.object,
+  store: PropTypes.object,
   platform: PropTypes.string
 };
 
