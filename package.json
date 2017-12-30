@@ -51,7 +51,7 @@
     "react-native": "0.50.3",
     "react-native-cookies": "^3.2.0",
     "react-native-scripts": "1.8.1",
-    "react-native-share-menu": "^1.3.1",
+    "react-native-share-menu": "^1.5.0",
     "react-native-web": "0.1.16",
     "react-relay": "^1.1.0",
     "react-select-plus": "^1.0.0-rc.5",
@@ -68,20 +68,17 @@
     "whatwg-fetch": "2.0.3"
   },
   "scripts": {
-    "start": "react-native-scripts start",
-    "eject": "react-native-scripts eject",
-    "android": "react-native-scripts android",
-    "ios": "react-native-scripts ios",
-    "start-mobile": "npm i && npm start",
-    "build-css": "node-sass-chokidar src/ -o src/",
-    "clean-css": "find src -name \"*.css\" -exec rm -f {} \";\"",
+    "build-android": "npm i && npm run relay && cp config.js src/ && react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res && react-native run-android && rm -f src/config.js",
+    
     "clean-localization": "rm -rf src/localization/messages",
-    "build": "npm i && npm run relay && npm run build-css && cp config.js src/ && babel-node scripts/build.js && npm run clean-css && npm run clean-localization && rm -f src/config.js",
+    "build": "npm i && npm run relay && cp config.js src/ && babel-node scripts/build.js && npm run clean-css && npm run clean-localization && rm -f src/config.js",
     "test": "npm run release:test && cd test && bundle install && bundle exec rspec && cd ..",
     "relay": "babel-node scripts/relay.js && relay-compiler --src ./src --schema ./src/relay/relay.json",
+    
     "transifex:parse": "npm run build && babel-node scripts/localize.js",
     "transifex:upload": "npm run transifex:parse && tx push -s",
     "transifex:download": "tx pull -a -f",
+    
     "release:qa": "mv config.js config.js.bkp; cp config.js.qa config.js; npm run build; rm -rf releases/qa; cp -r build releases/qa; find releases/qa -name \"*.map\" -exec rm -f {} \";\"; mv config.js.bkp config.js && cd releases/qa && zip -r qa.zip * && cd -",
     "release:live": "mv config.js config.js.bkp; cp config.js.live config.js; npm run build; rm -rf releases/live; cp -r build releases/live; find releases/live -name \"*.map\" -exec rm -f {} \";\"; mv config.js.bkp config.js && cd releases/live && zip -r live.zip * && cd -",
     "release:test": "mv config.js config.js.bkp; cp config.js.test config.js; npm run build; rm -rf releases/test; cp -r build releases/test; find releases/test -name \"*.map\" -exec rm -f {} \";\"; mv config.js.bkp config.js"

@@ -75,15 +75,19 @@ export default class App extends React.Component {
   }
 
   componentWillMount() {
+    /*
     ShareMenu.getSharedText((text) => {
-      if (text && text.length) {
+      if (text && text.length && this.state.sharedText != text) {
         this.setState({ sharedText: text });
       }
     });
 
     Clipboard.getString().then((content) => {
-      this.setState({ clipboard: content });
+      if (this.state.clipboard != content) {
+        this.setState({ clipboard: content });
+      }
     });
+    */
   }
 
   render() {
@@ -118,7 +122,7 @@ export default class App extends React.Component {
     return (
       <IntlProvider locale={locale} messages={translations[locale]} textComponent={Text}>
         <View style={{ marginTop: 30 }}>
-          { input ? <ReactApp direction={direction} url={url} text={text} platform="mobile" store={store} /> : null }
+          { input ? <ReactApp direction={direction} url={url} text={text} platform="mobile" store={store} /> : <Text>Nothing</Text> }
         </View>
       </IntlProvider>
     );

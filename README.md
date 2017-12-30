@@ -1,8 +1,10 @@
-## Check Mark
+# Check Mark
 
 [![Travis](https://travis-ci.org/meedan/check-mark.svg?branch=develop)](https://travis-ci.org/meedan/check-mark/)
 
-A browser extension for [Check](https://meedan.com/en/check/).
+A browser extension and mobile application for [Check](https://meedan.com/en/check/).
+
+## Browser Extension
 
 ### Download
 
@@ -10,7 +12,7 @@ Available for [Mozilla Firefox](https://addons.mozilla.org/firefox/addon/check/)
 
 ### Development
 
-The JavaScript and SASS codes live in `src`. Static files like HTML, Manifest and images live in `public`.
+The JavaScript code lives in `src`. Static files like HTML, Manifest and images live in `public`.
 
 Copy `config.js.example` to `config.js` and define your configurations.
 
@@ -49,3 +51,9 @@ Releases are available under `releases`. After that, you need to upload `release
 * You need `zip`, `rspec`, `geckodriver` and `chromedriver`.
 * Copy `test/config.yml.example` to `test/config.yml` and adjust the configurations.
 * Tests can be run with `npm run test`.
+
+## Mobile Application
+
+### Development
+
+Copy `config.js.example` to `config.js` and define your configurations. Connect your device to your computer and run `npm run build-android`. The application will be launched on your phone.
