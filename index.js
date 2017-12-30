@@ -2,7 +2,7 @@ global.self = global;
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { AsyncStorage, View, Text, NativeModules, Platform, AppRegistry, Clipboard } from 'react-native';
+import { AppState, AsyncStorage, View, Text, NativeModules, Platform, AppRegistry, Clipboard } from 'react-native';
 import ReactApp from './src/components/App';
 import NoInput from './src/components/NoInput';
 import { IntlProvider, addLocaleData, FormattedMessage } from 'react-intl';
@@ -71,11 +71,31 @@ export default class App extends React.Component {
     super(props); 
     this.state = {
       sharedText: null,
-      clipboard: null
+      clipboard: null,
+      appState: AppState.currentState
     };
   }
 
   componentWillMount() {
+    this.getInput();
+  }
+
+  componentDidMount() {
+    AppState.addEventListener('change', this.handleAppStateChange);
+  }
+
+  componentWillUnmount() {
+    AppState.removeEventListener('change', this.handleAppStateChange);
+  }
+
+  handleAppStateChange = (nextAppState) => {
+    if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
+      this.getInput();
+    }
+    this.setState({ appState: nextAppState });
+  }
+
+  getInput() {
     ShareMenu.getSharedText((text) => {
       if (text && text.length && this.state.sharedText != text) {
         this.setState({ sharedText: text });
