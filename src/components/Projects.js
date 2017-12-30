@@ -93,7 +93,7 @@ class Projects extends Component {
                 return (<Select selectedValue={this.state.selectedProject} onValueChange={this.onChange.bind(this)} options={options} groups={groups} />);
               }
               else {
-                return <Text>You are not a member of any team allowed to use the mobile application.</Text>;
+                return <Text><FormattedMessage id="Projects.noTeams" defaultMessage="You are not a member of any team allowed to use the mobile application." /></Text>;
               }
             }
             else {

@@ -7,6 +7,7 @@ import fr from 'react-intl/locale-data/fr';
 import pt from 'react-intl/locale-data/pt';
 
 import App from './components/App';
+import NoInput from './components/NoInput';
 
 let locale = navigator.languages || navigator.language || navigator.userLanguage || 'en';
 if (locale.constructor === Array) {
@@ -86,7 +87,7 @@ chrome.tabs.query({ active: true, lastFocusedWindow: true }, function(tabs) {
 
     ReactDOM.render(
       <IntlProvider locale={locale} messages={translations}>
-        <App direction={direction} url={url} text={text} store={store} />
+        { (text || url) ? <App direction={direction} url={url} text={text} store={store} /> : <NoInput /> }
       </IntlProvider>,
       document.getElementById('root')
     );

@@ -16,7 +16,7 @@ class Select extends Component {
 
     return (
       <Picker selectedValue={this.props.selectedValue} onValueChange={this.props.onValueChange}>
-        <Picker.Item key={0} label={'Select...'} value={0} />
+        <Picker.Item key={0} label={this.props.intl.formatMessage(messages.select)} value={0} />
         {options.map((project) => {
           return (
             <Picker.Item key={project.value} label={project.label} value={project.value} />

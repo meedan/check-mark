@@ -4,6 +4,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { AsyncStorage, View, Text, NativeModules, Platform, AppRegistry, Clipboard } from 'react-native';
 import ReactApp from './src/components/App';
+import NoInput from './src/components/NoInput';
 import { IntlProvider, addLocaleData, FormattedMessage } from 'react-intl';
 import ar from 'react-intl/locale-data/ar';
 import en from 'react-intl/locale-data/en';
@@ -120,7 +121,7 @@ export default class App extends React.Component {
     return (
       <IntlProvider locale={locale} messages={translations[locale]} textComponent={Text}>
         <View style={{ marginTop: 30 }}>
-          { input ? <ReactApp direction={direction} url={url} text={text} platform="mobile" store={store} /> : <Text>Please invoke this application from the share menu of another application, or copy something to the clipboard and open this application again.</Text> }
+          { input ? <ReactApp direction={direction} url={url} text={text} platform="mobile" store={store} /> : <NoInput /> }
         </View>
       </IntlProvider>
     );
