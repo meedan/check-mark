@@ -27,8 +27,10 @@ class Projects extends Component {
 
   onChange(selected, index) {
     const value = selected.value || selected;
-    this.props.onSelectProject(value);
-    this.setState({ selectedProject: value });
+    if (value) {
+      this.props.onSelectProject(value);
+      this.setState({ selectedProject: value });
+    }
   }
 
   render() {
@@ -91,7 +93,7 @@ class Projects extends Component {
                 return (<Select selectedValue={this.state.selectedProject} onValueChange={this.onChange.bind(this)} options={options} groups={groups} />);
               }
               else {
-                return <Text>No teams allowed to use the mobile app.</Text>;
+                return <Text>You are not a member of any team allowed to use the mobile application.</Text>;
               }
             }
             else {

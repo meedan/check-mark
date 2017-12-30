@@ -147,6 +147,10 @@ class Save extends Component {
   save() {
     const that = this;
 
+    if (!this.state.selectedProject) {
+      return false;
+    }
+
     let url = '';
     let text = '';
     if (this.props.url && this.props.url != '') {

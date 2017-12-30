@@ -75,7 +75,6 @@ export default class App extends React.Component {
   }
 
   componentWillMount() {
-    /*
     ShareMenu.getSharedText((text) => {
       if (text && text.length && this.state.sharedText != text) {
         this.setState({ sharedText: text });
@@ -87,7 +86,6 @@ export default class App extends React.Component {
         this.setState({ clipboard: content });
       }
     });
-    */
   }
 
   render() {
@@ -109,7 +107,7 @@ export default class App extends React.Component {
 
     const store = {
       read: async function(key, callback) {
-        item = await AsyncStorage.getItem(key);
+        const item = await AsyncStorage.getItem(key);
         callback(item);
       },
     
@@ -122,7 +120,7 @@ export default class App extends React.Component {
     return (
       <IntlProvider locale={locale} messages={translations[locale]} textComponent={Text}>
         <View style={{ marginTop: 30 }}>
-          { input ? <ReactApp direction={direction} url={url} text={text} platform="mobile" store={store} /> : <Text>Nothing</Text> }
+          { input ? <ReactApp direction={direction} url={url} text={text} platform="mobile" store={store} /> : <Text>Please invoke this application from the share menu of another application, or copy something to the clipboard and open this application again.</Text> }
         </View>
       </IntlProvider>
     );

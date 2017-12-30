@@ -56,4 +56,10 @@ Releases are available under `releases`. After that, you need to upload `release
 
 ### Development
 
-Copy `config.js.example` to `config.js` and define your configurations. Connect your device to your computer and run `npm run build-android`. The application will be launched on your phone.
+For the first time only, run `npm run prepare-android`. You may also need to open the application on your device, shake it, and set the IP of the host computer and port 8081 at "Dev Settings".
+
+Copy `config.js.example` to `config.js` and define your configurations. Connect your device to your computer and run `npm run build-android`. This command must keep running. If it exits, run again. The application will be launched on your phone.
+
+### TODO
+
+* Support image upload

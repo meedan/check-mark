@@ -6,7 +6,6 @@ import en from 'react-intl/locale-data/en';
 import fr from 'react-intl/locale-data/fr';
 import pt from 'react-intl/locale-data/pt';
 
-import './style/index.css';
 import App from './components/App';
 
 let locale = navigator.languages || navigator.language || navigator.userLanguage || 'en';
