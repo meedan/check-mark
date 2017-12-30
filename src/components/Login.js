@@ -23,8 +23,11 @@ class Login extends Component {
 
   onNavigationStateChange(webViewState) {
     const { url } = webViewState;
-    this.setState({ url });
-    if (url === config.checkApiUrl + '/close.html') {
+    // Avoid Twitter "Invalid request token being sent" error
+    if (!/twitter/.test(url)) {
+      this.setState({ url });
+    }
+    if (url.replace(/close\.html.*$/, 'close.html') === config.checkApiUrl + '/close.html') {
       this.setState({ url: config.checkWebUrl }, () => {
         setTimeout(() => {
           this.forceUpdate();
@@ -56,7 +59,8 @@ class Login extends Component {
   render() {
     let style = {
       backgroundColor: '#FAFAFA',
-      height: 350
+      height: 350,
+      paddingBottom: 50
     };
     if (this.context.platform === 'mobile') {
       const dimensions = Dimensions.get('window');
