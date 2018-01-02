@@ -1,7 +1,5 @@
 #!/bin/bash
 
-npm i
-
 # browser extension
 npm run build
 
@@ -13,5 +11,5 @@ echo 999999 | sudo tee -a /proc/sys/fs/inotify/max_user_instances
 echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
 watchman watch-del-all && watchman shutdown-server
 
-# development server for mobile application
-NODE_ENV=development npm start
+# mobile application (please connect your device to the USB)
+npm run build-android
