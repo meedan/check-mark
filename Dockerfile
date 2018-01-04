@@ -143,6 +143,10 @@ RUN echo "installing sdk tools" && \
 WORKDIR /app
 COPY . /app
 
+# stuff needed to generate apk
+RUN echo -e "\n" | keytool -genkey -noprompt -storepass meedan -v -keystore key.keystore -alias alias -keyalg RSA -keysize 2048 -validity 10000 -dname "CN=[Meedan], OU=[Meedan], O=[Meedan], L=[San Francisco], ST=[CA], C=[US]"
+RUN mv key.keystore /root/
+
 # compile
 COPY ./docker-entrypoint.sh /
 RUN chmod +x /docker-entrypoint.sh

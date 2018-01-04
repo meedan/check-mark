@@ -11,5 +11,8 @@ echo 999999 | sudo tee -a /proc/sys/fs/inotify/max_user_instances
 echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p
 watchman watch-del-all && watchman shutdown-server
 
-# mobile application (please connect your device to the USB)
+# mobile application snapshot
+npm run generate-apk
+
+# mobile application live (please connect your device to the USB)
 npm run build-android
