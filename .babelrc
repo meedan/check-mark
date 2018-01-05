@@ -1,5 +1,5 @@
 {
-  "presets": ["es2015", "stage-0", "react", "babel-preset-expo"],
+  "presets": ["stage-0", "react", "react-native"],
   "env": {
     "production": {
       "plugins": [["react-intl", { "messagesDir": "./src/localization/messages/" }], ["relay"], ["transform-react-jsx-source"]]

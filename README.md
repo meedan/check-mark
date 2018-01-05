@@ -60,6 +60,8 @@ For the first time only, run `npm run prepare-android`. You may also need to ope
 
 Copy `config.js.example` to `config.js` and define your configurations. Connect your device to your computer and run `npm run build-android`. This command must keep running. If it exits, run again. The application will be launched on your phone.
 
+You can also generate a APK that doesn't depend on the development server. In order to do that, execute `npm run generate-apk` and the APK will be at `android/app/build/outputs/apk/app-release.apk`. 
+
 ### TODO
 
 * Support image upload

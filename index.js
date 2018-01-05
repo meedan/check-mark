@@ -13,6 +13,9 @@ import pt from 'react-intl/locale-data/pt';
 import ShareMenu from 'react-native-share-menu';
 import util from 'util';
 
+import asyncToGenerator from 'async-to-generator';
+babelHelpers.asyncToGenerator = asyncToGenerator;
+
 if (!global.Intl) {
   global.Intl = require('intl');
 }
