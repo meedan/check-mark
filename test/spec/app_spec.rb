@@ -6,14 +6,14 @@ require 'json'
 shared_examples 'tests' do
   it 'should open extension' do
     open_extension
-    message = get_element('#app h2')
+    message = get_element('#title span')
     expect(message.text.include?('Add to Check')).to be(true)
   end
 
   it 'should localize' do
     open_browser 'pt'
     open_extension
-    message = get_element('#app h2')
+    message = get_element('#title span')
     expect(message.text.include?('Adicionar ao Check')).to be(true)
     open_browser 'en'
   end
@@ -35,7 +35,7 @@ shared_examples 'tests' do
     get_element('.Select-option').click
     sleep 1
     expect(@driver.page_source.include?('Saved')).to be(false)
-    get_element('#save button').click
+    get_element('#button > div').click
     sleep 10
     expect(@driver.page_source.include?('Saved')).to be(true)
   end
@@ -83,7 +83,7 @@ describe 'app' do
     expect(@driver.page_source.include?('sign in')).to be(true)
 
     # Click on "sign in" and make sure that a new window is opened
-    get_element('#login button').click
+    get_element('#button > div').click
     sleep 3
     expect(@driver.window_handles.size == 2).to be(true)
     window = @driver.window_handles.last

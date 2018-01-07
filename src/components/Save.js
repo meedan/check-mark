@@ -206,7 +206,7 @@ class Save extends Component {
 
     return (
      <View id="save" className={this.setClasses()}>
-        <View><FormattedMessage id="Save.addToCheck" defaultMessage="Add to Check" /></View>
+        <Text id="title"><FormattedMessage id="Save.addToCheck" defaultMessage="Add to Check" /></Text>
 
         <View id="menu-trigger" onPress={this.toggleMenu.bind(this)}><Text>|||</Text></View>
         <View id="menu">
@@ -245,14 +245,17 @@ class Save extends Component {
           )}
           </View>
         </View>
-        
+       
+        <View id="button"> 
         { this.state.state === 'pending' ? 
-            <Button onPress={this.save.bind(this)} title={this.props.intl.formatMessage(messages.save)} />
+            <Button onPress={this.save.bind(this)} className="save" id="button-save" title={this.props.intl.formatMessage(messages.save)} />
           : (this.state.state === 'saving' ?
-            <Button onPress={this.ignore.bind(this)} className="saving" title={this.props.intl.formatMessage(messages.saving)} />
+            <Button onPress={this.ignore.bind(this)} className="saving" id="button-saving" title={this.props.intl.formatMessage(messages.saving)} />
           : (this.state.state === 'saved' ?
-            <Button onPress={this.ignore.bind(this)} className="saved" title={this.props.intl.formatMessage(messages.saved)} />
-          : null)) }
+            <Button onPress={this.ignore.bind(this)} className="saved" id="button-saved" title={this.props.intl.formatMessage(messages.saved)} />
+          : null))
+        }
+        </View>
       </View>
     );
   }

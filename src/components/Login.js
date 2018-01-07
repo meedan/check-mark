@@ -105,10 +105,12 @@ class Login extends Component {
       </View>
       :
       <View id="login">
-        <Text><FormattedMessage id="Login.addToCheck" defaultMessage="Add to Check" /></Text>
+        <Text id="title"><FormattedMessage id="Login.addToCheck" defaultMessage="Add to Check" /></Text>
         <Text><FormattedMessage id="Login.addLinks" defaultMessage="Add links to Check with one click. Links will be added to your selected project." /></Text>
         <Text><FormattedMessage id="Login.getStarted" defaultMessage="To get started, sign in." /></Text>
-        <Button onPress={this.signIn.bind(this)} title={this.props.intl.formatMessage(messages.signIn)} />
+        <View id="button">
+          <Button onPress={this.signIn.bind(this)} title={this.props.intl.formatMessage(messages.signIn)} />
+        </View>
       </View>
     );
   }
