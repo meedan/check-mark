@@ -31,8 +31,8 @@ shared_examples 'tests' do
     expect(@driver.page_source.include?('Claim: Test')).to be(true)
     expect(@driver.page_source.include?('Link: ')).to be(false)
     get_element('.Select-arrow').click
-    sleep 1
-    get_element('.Select-option > div').click
+    sleep 3
+    get_element('.Select-option').click
     sleep 1
     expect(@driver.page_source.include?('Saved')).to be(false)
     get_element('#button > div').click
