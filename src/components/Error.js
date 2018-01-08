@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { FormattedMessage } from 'react-intl';
 import util from 'util';
+import styles from './styles';
 import { View, Text } from 'react-native';
 
 class Error extends Component {
@@ -9,10 +10,10 @@ class Error extends Component {
 
     return (
       <View id="error">
-        <Text><FormattedMessage id="Error.thereWasAProblem" defaultMessage="Hmm, there was a problem" /></Text>
-        { this.props.message ? <Text className="code">{message}</Text> : null }
-        { this.props.messageComponent ? <Text className="code">{this.props.messageComponent}</Text> : null }
-        <Text>
+        <Text style={styles.title}><FormattedMessage id="Error.thereWasAProblem" defaultMessage="Hmm, there was a problem" /></Text>
+        { this.props.message ? <Text style={styles.p} className="code">{message}</Text> : null }
+        { this.props.messageComponent ? <Text style={styles.p} className="code">{this.props.messageComponent}</Text> : null }
+        <Text style={styles.p}>
           <FormattedMessage id="Error.tryAgain" defaultMessage="Please try again later." />
           <FormattedMessage id="Error.forHelp" defaultMessage="For help contact check@meedan.com." />
         </Text>

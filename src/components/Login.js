@@ -1,15 +1,9 @@
 import React, { Component } from 'react';
-import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import PropTypes from 'prop-types';
-import { WebView, View, Dimensions, Button, Text } from 'react-native';
+import { WebView, View, Dimensions, Text } from 'react-native';
+import styles from './styles';
 import config from './../config';
-
-const messages = defineMessages({
-  signIn: {
-    id: 'Login.signIn',
-    defaultMessage: 'Sign In',
-  },
-});
 
 class Login extends Component {
   constructor(props) {
@@ -105,11 +99,11 @@ class Login extends Component {
       </View>
       :
       <View id="login">
-        <Text id="title"><FormattedMessage id="Login.addToCheck" defaultMessage="Add to Check" /></Text>
-        <Text><FormattedMessage id="Login.addLinks" defaultMessage="Add links to Check with one click. Links will be added to your selected project." /></Text>
-        <Text><FormattedMessage id="Login.getStarted" defaultMessage="To get started, sign in." /></Text>
+        <Text id="title" style={styles.title}><FormattedMessage id="Login.addToCheck" defaultMessage="Add to Check" /></Text>
+        <Text style={styles.p}><FormattedMessage id="Login.addLinks" defaultMessage="Add links to Check with one click. Links will be added to your selected project." /></Text>
+        <Text style={styles.p}><FormattedMessage id="Login.getStarted" defaultMessage="To get started, sign in." /></Text>
         <View id="button">
-          <Button onPress={this.signIn.bind(this)} title={this.props.intl.formatMessage(messages.signIn)} />
+          <Text style={styles.button} onPress={this.signIn.bind(this)}><FormattedMessage id="Login.signIn" defaultMessage="Sign In" /></Text>
         </View>
       </View>
     );

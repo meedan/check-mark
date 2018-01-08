@@ -1,0 +1,108 @@
+#projects {
+  z-index: 1;
+}
+
+.Select-control {
+  width: 115px;
+  border: 0;
+  border-radius: 0;
+  -moz-border-radius: 0;
+  -webkit-border-radius: 0;
+  background: rgba(0, 0, 0, 0.05) !important;
+}
+
+.is-focused:not(.is-open) > .Select-control {
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+}
+
+.Select-placeholder, .Select-value {
+  font-size: 16px;
+  color: rgba(0, 0, 0, 0.87);
+}
+
+.Select-menu-outer {
+  border-radius: 0;
+  -moz-border-radius: 0;
+  -webkit-border-radius: 0;
+  -webkit-box-shadow: none;
+  -moz-box-shadow: none;
+  box-shadow: none;
+  border: 0;
+  background-color: #fafafa !important;
+  box-shadow: 0 0 16px 0 rgba(0, 0, 0, 0.12), 0 16px 16px 0 rgba(0, 0, 0, 0.24);
+  margin-bottom: 16px;
+}
+
+.Select-option-group {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.16);
+}
+
+.Select-option-group:last-child {
+  border-bottom: 0;
+}
+
+.Select-option-group-label {
+  background-color: transparent;
+  color: rgba(0, 0, 0, 0.87);
+  font-size: 16px;
+  font-weight: normal;
+  padding: 16px 10px;
+}
+
+.Select-option-group-label img {
+  display: none;
+}
+
+.Select-option {
+  font-size: 16px;
+  background-color: transparent !important;
+  color: rgba(0, 0, 0, 0.54) !important;
+  padding-left: 10px;
+  padding: 16px 10px;
+}
+
+.Select-option:last-child {
+  border-radius: 0;
+  -moz-border-radius: 0;
+  -webkit-border-radius: 0;
+}
+
+.Select-clear {
+  display: none;
+}
+
+#preview {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 190px;
+}
+
+#preview .saved {
+  cursor: pointer;
+}
+
+#preview:hover {
+  color: rgba(0, 0, 0, 0.87);
+}
+
+#menu-trigger {
+  cursor: pointer;
+}
+
+#menu .active {
+  cursor: pointer;
+}
+
+#menu .active:hover {
+  background: #fafafa; 
+}
+
+#project-title {
+  width: 75px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}

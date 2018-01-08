@@ -6,6 +6,7 @@ import Error from './Error';
 import { loggedIn } from './../helpers';
 import { createEnvironment } from './../relay/Environment'; 
 import { View } from 'react-native';
+import styles from './styles';
 
 class App extends Component {
   constructor(props) {
@@ -57,7 +58,7 @@ class App extends Component {
 
   render() {
     return (
-      <View id="app" className={this.props.direction}>
+      <View id="app" style={styles.body} className={this.props.direction}>
         {!this.state.loaded ? null : (this.state.user ? <Save url={this.props.url} text={this.props.text} callback={this.logoutCallback.bind(this)} /> : (this.state.error ? <Error message={this.state.error} /> : <Login callback={this.loginCallback.bind(this)} />))}
       </View>
     );

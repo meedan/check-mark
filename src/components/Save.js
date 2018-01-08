@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage, defineMessages, injectIntl, intlShape } from 'react-intl';
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import { commitMutation, graphql } from 'react-relay';
-import { View, Text, Linking, Button, Image } from 'react-native';
+import { View, Text, Linking, Image } from 'react-native';
 import Projects from './Projects';
 import Error from './Error';
 import config from './../config';
+import styles from './styles';
 import { logout } from './../helpers';
 import { createEnvironment } from './../relay/Environment'; 
 
@@ -31,21 +32,6 @@ const mutation = graphql`
     }
   }
 `;
-
-const messages = defineMessages({
-  save: {
-    id: 'Save.save',
-    defaultMessage: 'Save',
-  },
-  saving: {
-    id: 'Save.saving',
-    defaultMessage: 'Saving',
-  },
-  saved: {
-    id: 'Save.saved',
-    defaultMessage: 'Saved',
-  },
-});
 
 class Save extends Component {
   constructor(props) {
@@ -206,53 +192,54 @@ class Save extends Component {
 
     return (
      <View id="save" className={this.setClasses()}>
-        <Text id="title"><FormattedMessage id="Save.addToCheck" defaultMessage="Add to Check" /></Text>
+        <Text id="title" style={styles.title}><FormattedMessage id="Save.addToCheck" defaultMessage="Add to Check" /></Text>
 
-        <View id="menu-trigger" onPress={this.toggleMenu.bind(this)}><Text>|||</Text></View>
-        <View id="menu">
-          <Text onPress={this.menuAction.bind(this, '')} className={ this.state.state === 'saved' ? 'active' : '' }><FormattedMessage id="Save.openInNewTab" defaultMessage="Open in new tab" /></Text>
-          <Text onPress={this.menuAction.bind(this, 'edit-tags')} className={ this.state.state === 'saved' ? 'active' : '' }><FormattedMessage id="Save.editTags" defaultMessage="Edit tags" /></Text>
-          <Text onPress={this.menuAction.bind(this, 'move')} className={ this.state.state === 'saved' ? 'active' : '' }><FormattedMessage id="Save.moveToProject" defaultMessage="Move to project" /></Text>
-          <Text onPress={this.menuAction.bind(this, 'add-task')} className={ this.state.state === 'saved' ? 'active' : '' }><FormattedMessage id="Save.addTask" defaultMessage="Add task" /></Text>
-          <Text onPress={this.menuAction.bind(this, 'edit-title')} className={ this.state.state === 'saved' ? 'active' : '' }><FormattedMessage id="Save.editTitle" defaultMessage="Edit title" /></Text>
-          <View style={{ borderBottomColor: 'black', borderBottomWidth: 1 }}></View>
-          <Text onPress={this.openCheck.bind(this, 'check/me')} className="active"><FormattedMessage id="Save.myProfile" defaultMessage="My profile" /></Text>
-          <Text onPress={this.logout.bind(this)} className="active"><FormattedMessage id="Save.logOut" defaultMessage="Log out" /></Text>
+        <Text id="menu-trigger" onPress={this.toggleMenu.bind(this)} style={styles.trigger}>
+          <Image source={require('./../assets/menu.png')} style={{ width: 8, height: 20 }} />
+        </Text>
+        <View id="menu" style={[styles.menu, !this.state.showMenu && styles.menuClosed]}>
+          <Text style={[ styles.menuOption, this.state.saved && styles.menuOptionActive ]} onPress={this.menuAction.bind(this, '')} className={ this.state.state === 'saved' ? 'active' : '' }><FormattedMessage id="Save.openInNewTab" defaultMessage="Open in new tab" /></Text>
+          <Text style={[ styles.menuOption, this.state.saved && styles.menuOptionActive ]} onPress={this.menuAction.bind(this, 'edit-tags')} className={ this.state.state === 'saved' ? 'active' : '' }><FormattedMessage id="Save.editTags" defaultMessage="Edit tags" /></Text>
+          <Text style={[ styles.menuOption, this.state.saved && styles.menuOptionActive ]} onPress={this.menuAction.bind(this, 'move')} className={ this.state.state === 'saved' ? 'active' : '' }><FormattedMessage id="Save.moveToProject" defaultMessage="Move to project" /></Text>
+          <Text style={[ styles.menuOption, this.state.saved && styles.menuOptionActive ]} onPress={this.menuAction.bind(this, 'add-task')} className={ this.state.state === 'saved' ? 'active' : '' }><FormattedMessage id="Save.addTask" defaultMessage="Add task" /></Text>
+          <Text style={[ styles.menuOption, this.state.saved && styles.menuOptionActive ]} onPress={this.menuAction.bind(this, 'edit-title')} className={ this.state.state === 'saved' ? 'active' : '' }><FormattedMessage id="Save.editTitle" defaultMessage="Edit title" /></Text>
+          <View style={{ borderBottomColor: 'rgba(0, 0, 0, 0.16)', borderBottomWidth: 1 }}></View>
+          <Text style={[ styles.menuOption, styles.menuOptionActive ]} onPress={this.openCheck.bind(this, 'check/me')} className="active"><FormattedMessage id="Save.myProfile" defaultMessage="My profile" /></Text>
+          <Text style={[ styles.menuOption, styles.menuOptionActive ]} onPress={this.logout.bind(this)} className="active"><FormattedMessage id="Save.logOut" defaultMessage="Log out" /></Text>
         </View>
 
-        <View>
+        <View style={{ marginTop: 16 }}>
           {this.state.state != 'saved' ?
           <Projects onSelectProject={this.onSelectProject.bind(this)} 
                     onOpenSelect={this.onOpenSelect.bind(this)}
                     onCloseSelect={this.onCloseSelect.bind(this)} />
           :
           <View id="project">
-            <Text>Saved</Text>
-            <Image source={{ uri: this.state.result.createProjectMedia.project_media.project.team.avatar }} style={{ width: 50, height: 50 }} /> 
-            <Text title={this.state.result.createProjectMedia.project_media.project.title}>{this.state.result.createProjectMedia.project_media.project.title}</Text>
+            <Image source={{ uri: this.state.result.createProjectMedia.project_media.project.team.avatar }} style={styles.teamAvatar} /> 
+            <Text style={styles.projectTitle} id="project-title" numberOfLines={1} title={this.state.result.createProjectMedia.project_media.project.title}>{this.state.result.createProjectMedia.project_media.project.title}</Text>
           </View>
           }
 
-          <View id="preview">
-          { (this.state.state === 'saved' && this.state.result) ? <Text className="saved" onPress={this.openUrl.bind(this, this.getMetadata('permalink'))}>{this.getMetadata('title')}</Text> : (
+          <View id="preview" style={styles.preview}>
+          { (this.state.state === 'saved' && this.state.result) ? <Text numberOfLines={1} className="saved" onPress={this.openUrl.bind(this, this.getMetadata('permalink'))}>{this.getMetadata('title')}</Text> : (
             (this.props.text && this.props.text != '') ?
-              <View title={this.props.text}>
+              <Text numberOfLines={1} title={this.props.text}>
                 <FormattedMessage id="Save.claim" defaultMessage="Claim: {text}" values={{ text: this.props.text }} />
-              </View> :
-              <View title={this.props.url}>
+              </Text> :
+              <Text numberOfLines={1} title={this.props.url}>
                 <FormattedMessage id="Save.link" defaultMessage="Link: {link}" values={{ link: this.props.url }} />
-              </View>
+              </Text>
           )}
           </View>
         </View>
        
-        <View id="button"> 
+        <View id="button" style={{ zIndex: -1 }}> 
         { this.state.state === 'pending' ? 
-            <Button onPress={this.save.bind(this)} className="save" id="button-save" title={this.props.intl.formatMessage(messages.save)} />
+            <Text style={[styles.button2, styles[this.state.state]]} onPress={this.save.bind(this)} className="save" id="button-save"><FormattedMessage id="Save.save" defaultMessage="Save" /></Text>
           : (this.state.state === 'saving' ?
-            <Button onPress={this.ignore.bind(this)} className="saving" id="button-saving" title={this.props.intl.formatMessage(messages.saving)} />
+            <Text style={[styles.button2, styles[this.state.state]]} onPress={this.ignore.bind(this)} className="saving" id="button-saving"><FormattedMessage id="Save.saving" defaultMessage="Saving..." /></Text>
           : (this.state.state === 'saved' ?
-            <Button onPress={this.ignore.bind(this)} className="saved" id="button-saved" title={this.props.intl.formatMessage(messages.saved)} />
+            <Text style={[styles.button2, styles[this.state.state]]} onPress={this.ignore.bind(this)} className="saved" id="button-saved"><FormattedMessage id="Save.saved" defaultMessage="Saved" /></Text>
           : null))
         }
         </View>
