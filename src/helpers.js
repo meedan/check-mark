@@ -2,8 +2,8 @@ import superagent from 'superagent';
 import util from 'util';
 import config from './config';
 
-function request(path, callback) {
-  superagent.get(config.checkApiUrl + '/api/' + path).withCredentials().end(function(err, response) {
+export function loggedIn(callback) {
+  superagent.get(config.checkApiUrl + '/api/me').withCredentials().end(function(err, response) {
     let data = null;
     let error = false;
     
@@ -36,10 +36,6 @@ function request(path, callback) {
   });
 }
 
-export function loggedIn(callback) {
-  request('me', callback);
-}
-
 export function logout(callback) {
-  request('users/logout', callback);
+  fetch(config.checkApiUrl + '/api/users/logout', { headers: { credentials: 'include' } }).then(response => { callback(); });
 }

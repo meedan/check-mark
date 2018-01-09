@@ -13,3 +13,12 @@ releases/test
 webdriver-profile*
 FindGraphQLTags-*
 __generated__
+haste-map-*
+.expo
+metro-bundler-*
+src/localization/messages
+config.js.local
+src/style/*.css
+android/.gradle
+android/app/src/main/assets/*bundle*
+*.apk

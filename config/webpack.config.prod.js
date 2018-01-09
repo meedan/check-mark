@@ -163,11 +163,13 @@ module.exports = {
       // Process JS with Babel.
       {
         test: /\.(js|jsx)$/,
-        include: paths.appSrc,
+        include: [paths.appSrc, paths.webSrc],
         loader: require.resolve('babel-loader'),
         options: {
           metadataSubscribers: [ReactIntlPlugin.metadataContextFunctionName],
           compact: true,
+          plugins: ['react-native-web/babel'],
+          presets: ['react-native']
         },
       },
       // The notation here is somewhat confusing.
