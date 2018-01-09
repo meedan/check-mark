@@ -2,7 +2,7 @@ global.self = global;
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { AppState, AsyncStorage, View, Text, NativeModules, Platform, AppRegistry, Clipboard } from 'react-native';
+import { AppState, AsyncStorage, View, Text, NativeModules, Platform, AppRegistry, Clipboard, Dimensions } from 'react-native';
 import ReactApp from './src/components/App';
 import NoInput from './src/components/NoInput';
 import { IntlProvider, addLocaleData, FormattedMessage } from 'react-intl';
@@ -141,9 +141,11 @@ export default class App extends React.Component {
       }
     };
 
+    const windowHeight = Dimensions.get('window').height;
+
     return (
       <IntlProvider locale={locale} messages={translations[locale]} textComponent={Text}>
-        <View style={{ marginTop: 30 }}>
+        <View style={{ backgroundColor: 'white', height: windowHeight }}>
           { input ? <ReactApp direction={direction} url={url} text={text} platform="mobile" store={store} /> : <NoInput /> }
         </View>
       </IntlProvider>

@@ -73,11 +73,17 @@
   display: none;
 }
 
-#preview {
+#preview, #preview div {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   width: 190px;
+}
+
+#preview {
+  position: absolute;
+  left: 131px;
+  top: -8px;
 }
 
 #preview .saved {

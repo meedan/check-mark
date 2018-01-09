@@ -2,11 +2,12 @@ import { StyleSheet } from 'react-native';
 const styles = StyleSheet.create({
   body: {
     padding: 16,
-    minWidth: 356
+    minWidth: 356,
+    backgroundColor: 'white',
   },
 
   title: {
-    fontWeight: 500,
+    fontWeight: '500',
     fontFamily: 'Roboto',
     color: 'rgba(0, 0, 0, 0.87)',
     fontSize: 20,
@@ -27,7 +28,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     paddingTop: 10,
     paddingBottom: 10,
-    fontWeight: 700,
+    fontWeight: '700',
     color: '#2e77fc',
     marginTop: 36,
     textTransform: 'uppercase',
@@ -40,7 +41,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#2e77fc',
     paddingTop: 10,
     paddingBottom: 10,
-    fontWeight: 400,
+    fontWeight: '400',
     color: 'white',
     marginTop: 16,
     textTransform: 'uppercase',
@@ -61,7 +62,7 @@ const styles = StyleSheet.create({
   menu: {
     width: 235,
     padding: 0,
-    background: 'white',
+    backgroundColor: 'white',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.8,
@@ -71,16 +72,19 @@ const styles = StyleSheet.create({
     right: 16,
     zIndex: 1,
     maxHeight: 400,
-    marginBottom: 16,
-    borderTopColor: 'rgba(0, 0, 0, 0.16)',
-    borderTopWidth: 1
+    borderColor: 'rgba(0, 0, 0, 0.16)',
+    borderWidth: 1,
+    marginBottom: 16
   },
 
   menuOption: {
-    height: 48,
-    lineHeight: 48,
     fontSize: 16,
+    paddingTop: 8,
+    paddingBottom: 8,
     paddingLeft: 28,
+  },
+
+  menuOptionDisabled: {
     color: 'rgba(0, 0, 0, 0.05)',
   },
 
@@ -91,16 +95,33 @@ const styles = StyleSheet.create({
   preview: {
     fontSize: 12,
     color: 'rgba(0, 0, 0, 0.54)',
-    position: 'absolute',
-    left: 131,
     lineHeight: 16,
-    top: 8,
+    marginTop: 16,
+    marginBottom: 16,
   },
 
   trigger: {
     position: 'absolute',
-    right: 16,
-    top: 3
+    right: 0,
+    top: 0,
+  },
+
+  touchable: {
+    width: 32,
+    height: 32,
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    zIndex: 1,
+  },
+
+  triggerImage: {
+    width: 32,
+    height: 32,
+    position: 'absolute',
+    top: 0,
+    right: 0,
+    zIndex: 0,
   },
 
   teamAvatar: {
@@ -116,18 +137,24 @@ const styles = StyleSheet.create({
     color: 'rgba(0, 0, 0, 0.87)',
     height: 32,
     lineHeight: 32,
+    textAlignVertical: 'center',
     position: 'absolute',
     left: 40
   },
 
   saving: {
-    background: 'rgba(0, 0, 0, 0.40)'
+    backgroundColor: 'rgba(0, 0, 0, 0.40)'
   },
 
   saved: {
     color: 'rgba(0, 0, 0, 0.26)',
-    background: 'white',
+    backgroundColor: 'white',
     shadowOpacity: 0
   },
+
+  picker: {
+    backgroundColor: 'rgba(0, 0, 0, 0.05)',
+    color: '#333333'
+  }
 });
 export default styles;
