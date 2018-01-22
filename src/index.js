@@ -5,7 +5,7 @@ import ar from 'react-intl/locale-data/ar';
 import en from 'react-intl/locale-data/en';
 import fr from 'react-intl/locale-data/fr';
 import pt from 'react-intl/locale-data/pt';
-
+import es from 'react-intl/locale-data/es';
 import App from './components/App';
 import NoInput from './components/NoInput';
 
@@ -26,7 +26,8 @@ try {
     'en': en,
     'fr': fr,
     'ar': ar,
-    'pt': pt
+    'pt': pt,
+    'es': es,
   };
   addLocaleData([...localeData[locale]]);
 } catch (e) {

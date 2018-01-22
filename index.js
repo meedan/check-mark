@@ -10,6 +10,7 @@ import ar from 'react-intl/locale-data/ar';
 import en from 'react-intl/locale-data/en';
 import fr from 'react-intl/locale-data/fr';
 import pt from 'react-intl/locale-data/pt';
+import es from 'react-intl/locale-data/es';
 import ShareMenu from 'react-native-share-menu';
 import util from 'util';
 
@@ -34,7 +35,8 @@ try {
     'en': en,
     'fr': fr,
     'ar': ar,
-    'pt': pt
+    'pt': pt,
+    'es': es,
   };
   addLocaleData([...localeData[locale]]);
 } catch (e) {
@@ -66,12 +68,13 @@ const translations = {
   en: require('./src/localization/en.json'),
   fr: require('./src/localization/fr.json'),
   ar: require('./src/localization/ar.json'),
-  pt: require('./src/localization/pt.json')
+  pt: require('./src/localization/pt.json'),
+  es: require('./src/localization/es.json'),
 };
 
 export default class App extends React.Component {
   constructor(props) {
-    super(props); 
+    super(props);
     this.state = {
       sharedText: null,
       clipboard: null,
@@ -134,7 +137,7 @@ export default class App extends React.Component {
         const item = await AsyncStorage.getItem(key);
         callback(item);
       },
-    
+
       write: async function(key, value, callback) {
         await AsyncStorage.setItem(key, value);
         callback();
