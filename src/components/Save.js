@@ -244,7 +244,10 @@ class Save extends Component {
           : (this.state.state === 'saving' ?
             <Text style={[styles.button2, styles[this.state.state]]} onPress={this.ignore.bind(this)} className="saving" id="button-saving"><FormattedMessage id="Save.saving" defaultMessage="Saving..." /></Text>
           : (this.state.state === 'saved' ?
-            <Text style={[styles.button2, styles[this.state.state]]} onPress={this.ignore.bind(this)} className="saved" id="button-saved"><FormattedMessage id="Save.saved" defaultMessage="Saved" /></Text>
+            <View style={[styles.savedBar, { width: Dimensions.get('window').width }]} id="saved-bar">
+              <Text style={[styles.button3, styles[this.state.state]]} onPress={this.ignore.bind(this)} className="saved" id="button-saved"><FormattedMessage id="Save.saved" defaultMessage="Saved!" /></Text>
+              <Text style={styles.button3} id="button-view" onPress={this.openUrl.bind(this, this.getMetadata('permalink'))}><FormattedMessage id="Save.view" defaultMessage="View" /></Text>
+            </View>
           : null))
         }
         </View>

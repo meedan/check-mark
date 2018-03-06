@@ -1,4 +1,4 @@
-# Check Mark
+# Check
 
 [![Travis](https://travis-ci.org/meedan/check-mark.svg?branch=develop)](https://travis-ci.org/meedan/check-mark/)
 

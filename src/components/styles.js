@@ -33,7 +33,8 @@ const styles = StyleSheet.create({
     marginTop: 36,
     textTransform: 'uppercase',
     border: 0,
-    width: 'auto'
+    width: 'auto',
+    fontFamily: 'Roboto Mono'
   },
 
   button2: {
@@ -46,13 +47,32 @@ const styles = StyleSheet.create({
     marginTop: 16,
     textTransform: 'uppercase',
     border: 0,
-    width: 84,
+    width: 100,
     textAlign: 'center',
     shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.8,
     shadowRadius: 2,
+    fontFamily: 'Roboto Mono',
     zIndex: -1 
+  },
+
+  button3: {
+    fontSize: 14,
+    backgroundColor: '#363636',
+    paddingTop: 10,
+    paddingBottom: 10,
+    fontWeight: '400',
+    color: 'white',
+    textTransform: 'uppercase',
+    border: 0,
+    width: 100,
+    textAlign: 'center',
+    fontFamily: 'Roboto Mono',
+    zIndex: -1,
+    position: 'absolute',
+    right: 32,
+    top: 16 
   },
 
   menuClosed: {
@@ -93,8 +113,10 @@ const styles = StyleSheet.create({
   },
 
   preview: {
+    fontWeight: '500',
+    fontFamily: 'Roboto',
     fontSize: 12,
-    color: 'rgba(0, 0, 0, 0.54)',
+    color: '#666666',
     lineHeight: 16,
     marginTop: 16,
     marginBottom: 16,
@@ -139,7 +161,8 @@ const styles = StyleSheet.create({
     lineHeight: 32,
     textAlignVertical: 'center',
     position: 'absolute',
-    left: 40
+    left: 40,
+    fontWeight: '700'
   },
 
   saving: {
@@ -147,14 +170,23 @@ const styles = StyleSheet.create({
   },
 
   saved: {
-    color: 'rgba(0, 0, 0, 0.26)',
-    backgroundColor: 'white',
-    shadowOpacity: 0
+    shadowOpacity: 0,
+    textTransform: 'none',
+    left: 0
   },
 
   picker: {
-    backgroundColor: 'rgba(0, 0, 0, 0.05)',
-    color: '#333333'
+    backgroundColor: '#FFFFFF',
+    color: '#000000',
+    fontFamily: 'Roboto Mono',
+    borderColor: '#CBCBCB',
+    borderWidth: 1
+  },
+
+  savedBar: {
+    backgroundColor: '#363636',
+    height: 72,
+    marginTop: 100
   }
 });
 export default styles;
