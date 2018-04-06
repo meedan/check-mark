@@ -32,7 +32,7 @@ function createFetchQuery(token, teamSlug) {
       if (json.error) {
         return {
           data: null,
-          errors: [json.error]
+          errors: [json]
         };
       }
       return json;

@@ -124,9 +124,16 @@ class Save extends Component {
   failed(error) {
     let message = <FormattedMessage id="Save.error" defaultMessage="Sorry, we encountered a problem adding this to Check." />;
     // Show the error message from the backend
-    // if (error && error.source && error.source.errors && error.source.errors.length > 0) {
-    //   message = error.source.errors[0];
-    // }
+    if (error && error.source && error.source.errors && error.source.errors.length > 0) {
+      const info = error.source.errors[0].error_info;
+      if (info && info.code === 'ERR_OBJECT_EXISTS') {
+        const link = `${config.checkWebUrl}/${this.state.selectedTeamSlug}/project/${info.project_id}/${info.type}/${info.id}`;
+        const vals = {
+          link: <Text onPress={this.openUrl.bind(this, link)}>{link}</Text>
+        };
+        message = <FormattedMessage id="Save.exists" defaultMessage="This link has already been saved to your project. You can view it here: {link}" values={vals} />;
+      }
+    }
     this.setState({ state: 'failed', result: message });
   }
 
