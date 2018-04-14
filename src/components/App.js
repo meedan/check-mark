@@ -48,7 +48,7 @@ class App extends Component {
   }
 
   loginCallback(user, error) {
-    const environment = user ? createEnvironment(user.token, '') : null;
+    const environment = user ? createEnvironment(user.token, '', null) : null;
     this.setState({ loaded: true, user, error, environment });
   }
 
@@ -59,7 +59,7 @@ class App extends Component {
   render() {
     return (
       <View id="app" style={styles.body} className={this.props.direction}>
-        {!this.state.loaded ? null : (this.state.user ? <Save url={this.props.url} text={this.props.text} callback={this.logoutCallback.bind(this)} /> : (this.state.error ? <Error message={this.state.error} /> : <Login callback={this.loginCallback.bind(this)} />))}
+        {!this.state.loaded ? null : (this.state.user ? <Save url={this.props.url} text={this.props.text} image={this.props.image} callback={this.logoutCallback.bind(this)} /> : (this.state.error ? <Error message={this.state.error} /> : <Login callback={this.loginCallback.bind(this)} />))}
       </View>
     );
   }

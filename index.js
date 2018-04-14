@@ -2,7 +2,7 @@ global.self = global;
 
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { AppState, AsyncStorage, View, Text, NativeModules, Platform, AppRegistry, Clipboard, Dimensions } from 'react-native';
+import { AppState, AsyncStorage, View, Text, NativeModules, Platform, AppRegistry, Clipboard, Dimensions, Alert } from 'react-native';
 import ReactApp from './src/components/App';
 import NoInput from './src/components/NoInput';
 import { IntlProvider, addLocaleData, FormattedMessage } from 'react-intl';
@@ -77,6 +77,7 @@ export default class App extends React.Component {
     super(props);
     this.state = {
       sharedText: null,
+      sharedImage: null,
       clipboard: null,
       appState: AppState.currentState
     };
@@ -104,7 +105,17 @@ export default class App extends React.Component {
   getInput() {
     ShareMenu.getSharedText((text) => {
       if (text && text.length && this.state.sharedText != text) {
-        this.setState({ sharedText: text });
+        const state = { sharedText: text };
+        if (/^content:\/\/media\//.test(text)) {
+          const RNGRP = require('react-native-get-real-path');
+          RNGRP.getRealPathFromURI(text).then((path) => {
+            state.sharedImage = path;
+            this.setState(state);
+          });
+        }
+        else {
+          this.setState(state);
+        }
       }
     });
 
@@ -122,10 +133,14 @@ export default class App extends React.Component {
     }
     let url = null;
     let text = null;
+    let image = null;
 
     if (input) {
       if (/^https?:\/\//.test(input) && !/ /.test(input)) {
         url = input;
+      }
+      else if (/^content:\/\/media\//.test(input) && !/ /.test(input)) {
+        image = this.state.sharedImage;
       }
       else {
         text = input;
@@ -149,7 +164,7 @@ export default class App extends React.Component {
     return (
       <IntlProvider locale={locale} messages={translations[locale]} textComponent={Text}>
         <View style={{ backgroundColor: 'white', height: windowHeight }}>
-          { input ? <ReactApp direction={direction} url={url} text={text} platform="mobile" store={store} /> : <NoInput /> }
+          { input ? <ReactApp direction={direction} url={url} text={text} image={image} platform="mobile" store={store} /> : <NoInput /> }
         </View>
       </IntlProvider>
     );

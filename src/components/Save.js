@@ -146,11 +146,15 @@ class Save extends Component {
 
     let url = '';
     let text = '';
+    let image = null;
     if (this.props.url && this.props.url != '') {
       url = this.props.url;
     }
     if (this.props.text && this.props.text != '') {
       text = this.props.text;
+    }
+    if (this.props.image) {
+      image = this.props.image;
     }
 
     const variables = {
@@ -162,7 +166,7 @@ class Save extends Component {
       }
     };
 
-    const environment = createEnvironment(this.context.user.token, this.state.selectedTeamSlug);
+    const environment = createEnvironment(this.context.user.token, this.state.selectedTeamSlug, image);
 
     commitMutation(
       environment,
@@ -234,6 +238,7 @@ class Save extends Component {
 
           <View id="preview" style={styles.preview}>
           { (this.state.state === 'saved' && this.state.result) ? <Text className="saved" onPress={this.openUrl.bind(this, this.getMetadata('permalink'))}>{this.getMetadata('title')}</Text> : (
+            this.props.image ? <Image source={{ isStatic: true, uri: 'file://' + this.props.image }} style={{ width: Dimensions.get('window').width, height: 200 }} /> : (
             (this.props.text && this.props.text != '') ?
               <Text title={this.props.text}>
                 <FormattedMessage id="Save.claim" defaultMessage="Claim: {text}" values={{ text: this.props.text }} />
@@ -241,7 +246,7 @@ class Save extends Component {
               <Text title={this.props.url}>
                 <FormattedMessage id="Save.link" defaultMessage="Link: {link}" values={{ link: this.props.url }} />
               </Text>
-          )}
+          ))}
           </View>
         </View>
        
