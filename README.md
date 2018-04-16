@@ -64,6 +64,5 @@ You can also generate a APK that doesn't depend on the development server. In or
 
 ### TODO
 
-* Support image upload (https://github.com/meedan/react-native-share-menu/issues/19)
 * Avoid that a new instance of the app is triggered when sharing content with already running app (https://github.com/meedan/react-native-share-menu/issues/25)
 * Slack login currently doesn't work because Slack ask the user to use the mobile app
