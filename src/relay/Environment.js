@@ -46,6 +46,12 @@ function createFetchQuery(token, teamSlug, image) {
       let json = {};
       try {
         json = JSON.parse(text);
+        if (json.error) {
+          return {
+            data: null,
+            errors: [json]
+          };
+        }
         return json;
       }
       catch (e) {
@@ -54,13 +60,6 @@ function createFetchQuery(token, teamSlug, image) {
           errors: [{ error: 'Not a JSON: ' + text }]
         };
       }
-      if (json.error) {
-        return {
-          data: null,
-          errors: [json]
-        };
-      }
-      return text;
     }).catch(error => {
       return {
         data: null,

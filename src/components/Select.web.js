@@ -7,7 +7,6 @@ import './Select.css';
 
 class Select extends Component {
   render() {
-    const options = this.props.options;
     return <SelectPlus onChange={this.props.onValueChange}
                        options={this.props.groups}
                        placeholder={<FormattedMessage id="Select.select" defaultMessage="Select..." />}
