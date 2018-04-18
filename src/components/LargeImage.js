@@ -45,7 +45,7 @@ class LargeImage extends Component {
               return (
                 <View>
                   <Image source={{ isStatic: true, uri: image }} style={{ width: Dimensions.get('window').width, height: 200 }} />
-                  { this.state.size > bytes ? <Text style={{ color: '#AA0000' }}><FormattedMessage id="LargeImage.tooLarge" defaultMessage="Sorry, your file size ({size}) exceeds the maximum size of {max}" values={{ size: prettyBytes(this.state.size).toUpperCase(), max: props.about.upload_max_size.toUpperCase() }} /></Text> : null }
+                  { this.state.size > bytes ? <Text style={{ color: '#AA0000' }}><FormattedMessage id="LargeImage.tooLarge" defaultMessage="Sorry, this image is too large. Its size of {size} exceeds the maximum size of {max}." values={{ size: prettyBytes(this.state.size).toUpperCase(), max: props.about.upload_max_size.toUpperCase() }} /></Text> : null }
                 </View>
               );
             }

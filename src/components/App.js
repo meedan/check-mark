@@ -5,7 +5,7 @@ import Login from './Login';
 import Save from './Save';
 import Error from './Error';
 import { loggedIn } from './../helpers';
-import { createEnvironment } from './../relay/Environment'; 
+import { createEnvironment } from './../relay/Environment';
 import { View } from 'react-native';
 import styles from './styles';
 
@@ -33,7 +33,7 @@ class App extends Component {
   componentWillMount() {
     if (this.props.platform === 'mobile') {
       this.props.store.read('userToken', (token) => {
-        if (token && token != '') {
+        if (token && token !== '') {
           this.loginCallback({ token }, false);
         }
         else {

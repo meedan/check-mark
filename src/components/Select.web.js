@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import SelectPlus from 'react-select-plus';
 import { FormattedMessage } from 'react-intl';
 import 'react-select-plus/dist/react-select-plus.css';
-import './Select.css'; 
+import './Select.css';
 
 class Select extends Component {
   render() {

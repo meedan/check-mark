@@ -9,9 +9,7 @@ import Error from './Error';
 import config from './../config';
 import styles from './styles';
 import { logout } from './../helpers';
-import { createEnvironment } from './../relay/Environment'; 
-
-/*global chrome*/
+import { createEnvironment } from './../relay/Environment';
 
 const mutation = graphql`
   mutation SaveMutation(
@@ -58,7 +56,7 @@ class Save extends Component {
 
   onSelectProject(value) {
     const selected = value.split(':');
-    this.setState({ selectedTeamSlug: selected[0], selectedProject: parseInt(selected[1]) });
+    this.setState({ selectedTeamSlug: selected[0], selectedProject: parseInt(selected[1], 10) });
   }
 
   onOpenSelect() {
@@ -70,7 +68,7 @@ class Save extends Component {
   }
 
   toggleMenu(e) {
-    if (this.context.platform != 'mobile') {
+    if (this.context.platform !== 'mobile') {
       e.stopPropagation();
     }
     this.setState({ showMenu: !this.state.showMenu });
@@ -78,7 +76,7 @@ class Save extends Component {
 
   componentDidUpdate() {
     const that = this;
-    if (this.context.platform != 'mobile') {
+    if (this.context.platform !== 'mobile') {
       window.addEventListener('click', function() {
         that.setState({ showMenu: false });
       });
@@ -123,7 +121,7 @@ class Save extends Component {
   }
 
   failed(error) {
-    let message = <FormattedMessage id="Save.error" defaultMessage="Sorry, we encountered a problem adding this to Check." />;
+    let message = <FormattedMessage id="Save.error" defaultMessage="Sorry, we encountered a problem adding this item to Check." />;
     // Show the error message from the backend
     if (error && error.source && error.source.errors && error.source.errors.length > 0) {
       const info = error.source.errors[0].error_info;
@@ -135,7 +133,7 @@ class Save extends Component {
         message = <FormattedMessage id="Save.exists" defaultMessage="This link has already been saved to your project. You can view it here: {link}" values={vals} />;
       }
       else if (/413 Request Entity Too Large/.test(error.source.errors[0].error)) {
-        message = <FormattedMessage id="Save.imageTooLarge" defaultMessage="Sorry, this image is too large" />;
+        message = <FormattedMessage id="Save.imageTooLarge" defaultMessage="Sorry, this image is too large." />;
       }
     }
     this.setState({ state: 'failed', result: message });
@@ -151,10 +149,10 @@ class Save extends Component {
     let url = '';
     let text = '';
     let image = null;
-    if (this.props.url && this.props.url != '') {
+    if (this.props.url && this.props.url !== '') {
       url = this.props.url;
     }
-    if (this.props.text && this.props.text != '') {
+    if (this.props.text && this.props.text !== '') {
       text = this.props.text;
     }
     if (this.props.image) {
@@ -185,7 +183,7 @@ class Save extends Component {
         }
       },
     );
-    
+
     that.setState({ state: 'saving' });
   }
 
@@ -193,7 +191,7 @@ class Save extends Component {
     if (this.state.state === 'saved') {
       const media = this.state.result.createProjectMedia.project_media;
       let path = media.project.team.slug + '/project/' + media.project.dbid + '/media/' + media.dbid;
-      if (action != '') {
+      if (action !== '') {
         path += '#' + action;
       }
       this.openCheck(path);
@@ -204,10 +202,10 @@ class Save extends Component {
     if (this.state.state === 'failed') {
       return (<Error messageComponent={this.state.result} />);
     }
-    
+
     const windowHeight = this.context.platform === 'mobile' ? Dimensions.get('window').height : 'auto';
 
-    const menuStyle = [styles.menuOption, this.state.state != 'saved' && styles.menuOptionDisabled, this.state.state === 'saved' && styles.menuOptionActive];
+    const menuStyle = [styles.menuOption, this.state.state !== 'saved' && styles.menuOptionDisabled, this.state.state === 'saved' && styles.menuOptionActive];
 
     return (
      <View id="save" className={this.setClasses()} style={{ height: windowHeight }}>
@@ -229,13 +227,13 @@ class Save extends Component {
         </View>
 
         <View style={{ marginTop: 16 }}>
-          {this.state.state != 'saved' ?
-          <Projects onSelectProject={this.onSelectProject.bind(this)} 
+          {this.state.state !== 'saved' ?
+          <Projects onSelectProject={this.onSelectProject.bind(this)}
                     onOpenSelect={this.onOpenSelect.bind(this)}
                     onCloseSelect={this.onCloseSelect.bind(this)} />
           :
           <View id="project">
-            <Image source={{ uri: this.state.result.createProjectMedia.project_media.project.team.avatar }} style={styles.teamAvatar} /> 
+            <Image source={{ uri: this.state.result.createProjectMedia.project_media.project.team.avatar }} style={styles.teamAvatar} />
             <Text style={styles.projectTitle} id="project-title" title={this.state.result.createProjectMedia.project_media.project.title}>{this.state.result.createProjectMedia.project_media.project.title}</Text>
           </View>
           }
@@ -243,7 +241,7 @@ class Save extends Component {
           <View id="preview" style={styles.preview}>
           { (this.state.state === 'saved' && this.state.result) ? <Text className="saved" onPress={this.openUrl.bind(this, this.getMetadata('permalink'))}>{this.getMetadata('title')}</Text> : (
             this.props.image ? <LargeImage image={this.props.image} /> : (
-            (this.props.text && this.props.text != '') ?
+            (this.props.text && this.props.text !== '') ?
               <Text title={this.props.text}>
                 <FormattedMessage id="Save.claim" defaultMessage="Claim: {text}" values={{ text: this.props.text }} />
               </Text> :
@@ -253,9 +251,9 @@ class Save extends Component {
           ))}
           </View>
         </View>
-       
-        <View id="button" style={{ zIndex: -1 }}> 
-        { this.state.state === 'pending' ? 
+
+        <View id="button" style={{ zIndex: -1 }}>
+        { this.state.state === 'pending' ?
             <Text style={[styles.button2, styles[this.state.state]]} onPress={this.save.bind(this)} className="save" id="button-save"><FormattedMessage id="Save.save" defaultMessage="Save" /></Text>
           : (this.state.state === 'saving' ?
             <Text style={[styles.button2, styles[this.state.state]]} onPress={this.ignore.bind(this)} className="saving" id="button-saving"><FormattedMessage id="Save.saving" defaultMessage="Saving..." /></Text>

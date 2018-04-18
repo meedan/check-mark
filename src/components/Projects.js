@@ -2,11 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { QueryRenderer, graphql } from 'react-relay';
-import { Alert, Text, View, Picker } from 'react-native';
+import { Text, View } from 'react-native';
 import Select from './Select';
-import util from 'util';
-
-/*global chrome*/
 
 class Projects extends Component {
   constructor(props) {
