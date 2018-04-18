@@ -3,6 +3,7 @@ global.self = global;
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { AppState, AsyncStorage, View, Text, NativeModules, Platform, AppRegistry, Clipboard, Dimensions, Alert } from 'react-native';
+import RNExitApp from 'react-native-exit-app';
 import ReactApp from './src/components/App';
 import NoInput from './src/components/NoInput';
 import { IntlProvider, addLocaleData, FormattedMessage } from 'react-intl';
@@ -96,6 +97,9 @@ export default class App extends React.Component {
   }
 
   handleAppStateChange = (nextAppState) => {
+    if (nextAppState.match(/inactive|background/) || this.state.appState.match(/inactive|background/)) {
+      RNExitApp.exitApp();
+    }
     if (this.state.appState.match(/inactive|background/) && nextAppState === 'active') {
       this.getInput();
     }
@@ -106,7 +110,7 @@ export default class App extends React.Component {
     ShareMenu.getSharedText((text) => {
       if (text && text.length && this.state.sharedText != text) {
         const state = { sharedText: text };
-        if (/^content:\/\/media\//.test(text)) {
+        if (/^content:\/\//.test(text)) {
           const RNGRP = require('react-native-get-real-path');
           RNGRP.getRealPathFromURI(text).then((path) => {
             state.sharedImage = path;
@@ -139,7 +143,7 @@ export default class App extends React.Component {
       if (/^https?:\/\//.test(input) && !/ /.test(input)) {
         url = input;
       }
-      else if (/^content:\/\/media\//.test(input) && !/ /.test(input)) {
+      else if (/^content:\/\//.test(input) && !/ /.test(input)) {
         image = this.state.sharedImage;
       }
       else {

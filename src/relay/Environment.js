@@ -41,15 +41,31 @@ function createFetchQuery(token, teamSlug, image) {
       headers,
       body,
     }).then(response => {
-      return response.json();
-    }).then(json => {
+      return response.text();
+    }).then(text => {
+      let json = {};
+      try {
+        json = JSON.parse(text);
+        return json;
+      }
+      catch (e) {
+        return {
+          data: null,
+          errors: [{ error: 'Not a JSON: ' + text }]
+        };
+      }
       if (json.error) {
         return {
           data: null,
           errors: [json]
         };
       }
-      return json;
+      return text;
+    }).catch(error => {
+      return {
+        data: null,
+        errors: [{ error: error.message }]
+      };
     });
   };
 }

@@ -4,6 +4,7 @@ import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import { commitMutation, graphql } from 'react-relay';
 import { View, Text, Linking, Image, Dimensions } from 'react-native';
 import Projects from './Projects';
+import LargeImage from './LargeImage';
 import Error from './Error';
 import config from './../config';
 import styles from './styles';
@@ -133,6 +134,9 @@ class Save extends Component {
         };
         message = <FormattedMessage id="Save.exists" defaultMessage="This link has already been saved to your project. You can view it here: {link}" values={vals} />;
       }
+      else if (/413 Request Entity Too Large/.test(error.source.errors[0].error)) {
+        message = <FormattedMessage id="Save.imageTooLarge" defaultMessage="Sorry, this image is too large" />;
+      }
     }
     this.setState({ state: 'failed', result: message });
   }
@@ -238,7 +242,7 @@ class Save extends Component {
 
           <View id="preview" style={styles.preview}>
           { (this.state.state === 'saved' && this.state.result) ? <Text className="saved" onPress={this.openUrl.bind(this, this.getMetadata('permalink'))}>{this.getMetadata('title')}</Text> : (
-            this.props.image ? <Image source={{ isStatic: true, uri: 'file://' + this.props.image }} style={{ width: Dimensions.get('window').width, height: 200 }} /> : (
+            this.props.image ? <LargeImage image={this.props.image} /> : (
             (this.props.text && this.props.text != '') ?
               <Text title={this.props.text}>
                 <FormattedMessage id="Save.claim" defaultMessage="Claim: {text}" values={{ text: this.props.text }} />
@@ -271,7 +275,6 @@ class Save extends Component {
 Save.propTypes = {
   intl: intlShape.isRequired,
 };
-
 
 Save.contextTypes = {
   user: PropTypes.object,

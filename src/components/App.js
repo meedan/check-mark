@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import RNExitApp from 'react-native-exit-app';
 import Login from './Login';
 import Save from './Save';
 import Error from './Error';
@@ -54,6 +55,9 @@ class App extends Component {
 
   logoutCallback() {
     this.setState({ user: null });
+    if (this.props.platform === 'mobile') {
+      RNExitApp.exitApp();
+    }
   }
 
   render() {

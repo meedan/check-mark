@@ -62,6 +62,10 @@ class Login extends Component {
     }
     const script = `/* Get user */
       const waitForToken = function() {
+        const slackLoginButton = document.getElementById('slack-login');
+        if (slackLoginButton) {
+          slackLoginButton.style.display = 'none';
+        }
         let user = null;
         try {
           user = Check.store.getState().app.context.currentUser;
