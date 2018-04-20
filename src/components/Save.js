@@ -42,7 +42,8 @@ class Save extends Component {
       showMenu: false,
       showSelect: false,
       state: 'pending', // pending, saving, saved, failed
-      result: null
+      result: null,
+      filename: null
     };
   }
 
@@ -139,6 +140,10 @@ class Save extends Component {
     this.setState({ state: 'failed', result: message });
   }
 
+  setImage(valid, filename) {
+    this.setState({ filename });
+  }
+
   save() {
     const that = this;
 
@@ -149,6 +154,7 @@ class Save extends Component {
     let url = '';
     let text = '';
     let image = null;
+    let filename = null;
     if (this.props.url && this.props.url !== '') {
       url = this.props.url;
     }
@@ -157,6 +163,7 @@ class Save extends Component {
     }
     if (this.props.image) {
       image = this.props.image;
+      filename = this.state.filename;
     }
 
     const variables = {
@@ -168,7 +175,7 @@ class Save extends Component {
       }
     };
 
-    const environment = createEnvironment(this.context.user.token, this.state.selectedTeamSlug, image);
+    const environment = createEnvironment(this.context.user.token, this.state.selectedTeamSlug, image, filename);
 
     commitMutation(
       environment,
@@ -240,7 +247,7 @@ class Save extends Component {
 
           <View id="preview" style={styles.preview}>
           { (this.state.state === 'saved' && this.state.result) ? <Text className="saved" onPress={this.openUrl.bind(this, this.getMetadata('permalink'))}>{this.getMetadata('title')}</Text> : (
-            this.props.image ? <LargeImage image={this.props.image} /> : (
+            this.props.image ? <LargeImage image={this.props.image} callback={this.setImage.bind(this)} /> : (
             (this.props.text && this.props.text !== '') ?
               <Text title={this.props.text}>
                 <FormattedMessage id="Save.claim" defaultMessage="Claim: {text}" values={{ text: this.props.text }} />

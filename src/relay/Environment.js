@@ -6,7 +6,7 @@ import {
 } from 'relay-runtime';
 import config from '../config';
 
-function createFetchQuery(token, teamSlug, image) {
+function createFetchQuery(token, teamSlug, image, filename) {
   return function fetchQuery(
     operation,
     variables,
@@ -29,7 +29,7 @@ function createFetchQuery(token, teamSlug, image) {
       formData.append('query', operation.text);
       formData.append('variables', JSON.stringify(variables));
       formData.append('team', teamSlug);
-      formData.append('file', { uri: 'file://' + image, name: 'check.jpg', type: 'image/jpeg' });
+      formData.append('file', { uri: 'file://' + image, name: (filename || 'check.jpg'), type: 'image/jpeg' });
       body = formData;
     }
     else {
@@ -69,8 +69,8 @@ function createFetchQuery(token, teamSlug, image) {
   };
 }
 
-export function createEnvironment(token, teamSlug, image) {
-  const network = Network.create(createFetchQuery(token, teamSlug, image));
+export function createEnvironment(token, teamSlug, image, filename) {
+  const network = Network.create(createFetchQuery(token, teamSlug, image, filename));
   const source = new RecordSource();
   const store = new Store(source);
   const environment = new Environment({ network, store });

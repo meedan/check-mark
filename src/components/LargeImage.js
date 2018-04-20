@@ -18,6 +18,7 @@ class LargeImage extends Component {
 
   componentWillMount() {
     RNFetchBlob.fs.stat(this.props.image).then(stats => {
+      this.props.callback(true, stats.filename);
       this.setState({ size: stats.size });
     });
   }
