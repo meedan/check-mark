@@ -43,7 +43,8 @@ class Save extends Component {
       showSelect: false,
       state: 'pending', // pending, saving, saved, failed
       result: null,
-      filename: null
+      filename: null,
+      imageValid: false,
     };
   }
 
@@ -140,14 +141,14 @@ class Save extends Component {
     this.setState({ state: 'failed', result: message });
   }
 
-  setImage(valid, filename) {
-    this.setState({ filename });
+  setImage(state) {
+    this.setState(state);
   }
 
   save() {
     const that = this;
 
-    if (!this.state.selectedProject) {
+    if (!this.state.selectedProject || (this.props.image && !this.state.imageValid)) {
       return false;
     }
 

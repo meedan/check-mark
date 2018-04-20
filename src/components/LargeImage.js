@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
 import { QueryRenderer, graphql } from 'react-relay';
-import { View, Text, Image, Dimensions } from 'react-native';
+import { View, Text } from 'react-native';
 import filesizeParser from 'filesize-parser';
 import prettyBytes from 'pretty-bytes';
 import RNFetchBlob from 'react-native-fetch-blob';
+import ImagePreview from './ImagePreview';
 
 class LargeImage extends Component {
   constructor(props) {
@@ -18,7 +18,7 @@ class LargeImage extends Component {
 
   componentWillMount() {
     RNFetchBlob.fs.stat(this.props.image).then(stats => {
-      this.props.callback(true, stats.filename);
+      this.props.callback({ filename: stats.filename });
       this.setState({ size: stats.size });
     });
   }
@@ -42,12 +42,12 @@ class LargeImage extends Component {
           render={({error, props}) => {
             if (!error && props && props.about && this.state.size) {
               const bytes = filesizeParser(props.about.upload_max_size);
+              const valid = this.state.size <= bytes ? true : false;
+              const size = prettyBytes(this.state.size).toUpperCase();
+              const max = props.about.upload_max_size.toUpperCase();
 
               return (
-                <View>
-                  <Image source={{ isStatic: true, uri: image }} style={{ width: Dimensions.get('window').width, height: 200 }} />
-                  { this.state.size > bytes ? <Text style={{ color: '#AA0000' }}><FormattedMessage id="LargeImage.tooLarge" defaultMessage="Sorry, this image is too large. Its size of {size} exceeds the maximum size of {max}." values={{ size: prettyBytes(this.state.size).toUpperCase(), max: props.about.upload_max_size.toUpperCase() }} /></Text> : null }
-                </View>
+                <ImagePreview image={image} size={size} max={max} valid={valid} callback={this.props.callback} />
               );
             }
             else {
