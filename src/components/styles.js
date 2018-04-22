@@ -187,6 +187,13 @@ const styles = StyleSheet.create({
     backgroundColor: '#363636',
     height: 72,
     marginTop: 100
+  },
+
+  invalid: {
+    color: 'rgba(0, 0, 0, 0.30)',
+    backgroundColor: '#FFFFFF',
+    borderWidth: 1,
+    borderColor: 'rgba(0, 0, 0, 0.30)'
   }
 });
 export default styles;

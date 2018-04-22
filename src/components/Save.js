@@ -41,7 +41,7 @@ class Save extends Component {
       selectedTeamSlug: null,
       showMenu: false,
       showSelect: false,
-      state: 'pending', // pending, saving, saved, failed
+      state: 'invalid', // invalid, pending, saving, saved, failed
       result: null,
       filename: null,
       imageValid: false,
@@ -58,7 +58,11 @@ class Save extends Component {
 
   onSelectProject(value) {
     const selected = value.split(':');
-    this.setState({ selectedTeamSlug: selected[0], selectedProject: parseInt(selected[1], 10) });
+    let state = 'invalid';
+    if (selected[1] && (!this.props.image || this.state.imageValid)) {
+      state = 'pending';
+    }
+    this.setState({ state: state, selectedTeamSlug: selected[0], selectedProject: parseInt(selected[1], 10) });
   }
 
   onOpenSelect() {
@@ -142,7 +146,11 @@ class Save extends Component {
   }
 
   setImage(state) {
-    this.setState(state);
+    const newState = state;
+    if (state.imageValid && this.state.selectedProject) {
+      newState.state = 'pending';
+    }
+    this.setState(newState);
   }
 
   save() {
@@ -261,7 +269,7 @@ class Save extends Component {
         </View>
 
         <View id="button" style={{ zIndex: -1 }}>
-        { this.state.state === 'pending' ?
+        { (this.state.state === 'pending' || this.state.state === 'invalid') ?
             <Text style={[styles.button2, styles[this.state.state]]} onPress={this.save.bind(this)} className="save" id="button-save"><FormattedMessage id="Save.save" defaultMessage="Save" /></Text>
           : (this.state.state === 'saving' ?
             <Text style={[styles.button2, styles[this.state.state]]} onPress={this.ignore.bind(this)} className="saving" id="button-saving"><FormattedMessage id="Save.saving" defaultMessage="Saving..." /></Text>
