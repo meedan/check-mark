@@ -6,6 +6,7 @@ RUN apt-get update -qq && apt-get install -y zip unzip autoconf automake libtool
 
 # node modules
 ADD package.json /tmp/package.json
+ADD react-native-get-real-path /tmp/react-native-get-real-path
 RUN cd /tmp && npm install
 RUN mkdir -p /app && cp -a /tmp/node_modules /app/
 
@@ -20,9 +21,6 @@ RUN git clone https://github.com/facebook/watchman.git /tmp/watchman && \
     ./autogen.sh && \
     ./configure --without-python && \
     make && make install
-
-# tx client
-RUN pip install transifex-client
 
 # android sdk
 ENV ANDROID_HOME="/opt/android-sdk" \
@@ -40,9 +38,8 @@ ENV NODE_VERSION="8.x"
 ENV LANG="en_US.UTF-8" \
     LANGUAGE="en_US.UTF-8" \
     LC_ALL="en_US.UTF-8"
-    
-ENV DEBIAN_FRONTEND="noninteractive" \
-    TERM=dumb \
+
+ENV TERM=dumb \
     DEBIAN_FRONTEND=noninteractive
 
 ENV ANDROID_SDK_HOME="$ANDROID_HOME"
@@ -138,6 +135,9 @@ RUN echo "installing sdk tools" && \
     echo "installing system image with android 25 and google apis" && \
     yes | "$ANDROID_HOME"/tools/bin/sdkmanager \
         "system-images;android-25;google_apis;x86_64"
+
+# tx client
+RUN pip install --upgrade transifex-client
 
 # install code
 WORKDIR /app
