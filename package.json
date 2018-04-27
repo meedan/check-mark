@@ -66,7 +66,7 @@
     "react-native-scripts": "1.8.1",
     "react-native-share-menu": "2.1.1",
     "react-native-web": "0.1.16",
-    "react-relay": "^1.1.0",
+    "react-relay": "1.4.1",
     "react-select-plus": "^1.0.0-rc.5",
     "react-test-renderer": "16.0.0",
     "style-loader": "0.18.2",
