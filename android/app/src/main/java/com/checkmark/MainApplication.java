@@ -1,4 +1,4 @@
-package com.checkmark;
+package com.meedan.{APP_ID};
 
 import android.app.Application;
 

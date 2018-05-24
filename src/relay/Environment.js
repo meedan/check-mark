@@ -29,7 +29,7 @@ function createFetchQuery(token, teamSlug, image, filename) {
       formData.append('query', operation.text);
       formData.append('variables', JSON.stringify(variables));
       formData.append('team', teamSlug);
-      formData.append('file', { uri: 'file://' + image, name: (filename || 'check.jpg'), type: 'image/jpeg' });
+      formData.append('file', { uri: 'file://' + image, name: (filename || 'file.jpg'), type: 'image/jpeg' });
       body = formData;
     }
     else {

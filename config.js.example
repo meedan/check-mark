@@ -1,4 +1,9 @@
 const config = {
+  appName: 'My App',
+  appId: 'my_app',
+  appEmail: 'something@email.com',
+  appColor: '#cccccc',
+  appDescription: '',
   checkRelayPath: '/local/or/remote/path/to/relay.json',
   checkApiUrl: 'http://localhost:3000',
   checkWebUrl: 'http://localhost:3333'

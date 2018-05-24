@@ -1,6 +1,6 @@
 {
-  "name": "checkmark",
-  "displayName": "Check",
+  "name": "{APP_ID}",
+  "displayName": "{APP_NAME}",
   "expo": {
     "sdkVersion": "23.0.0"
   }

@@ -55,7 +55,8 @@ function popWindow(info, tab) {
 }
 
 function createMenu() {
-  addToMenu(MENU_APP, 'Check', ['all'], popWindow);
+  var config = require('./config');
+  addToMenu(MENU_APP, config.appName, ['all'], popWindow);
 }
 
 export default createMenu;

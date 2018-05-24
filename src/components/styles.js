@@ -1,4 +1,5 @@
 import { StyleSheet } from 'react-native';
+import config from '../config';
 const styles = StyleSheet.create({
   body: {
     padding: 16,
@@ -29,7 +30,7 @@ const styles = StyleSheet.create({
     paddingTop: 10,
     paddingBottom: 10,
     fontWeight: '700',
-    color: '#2e77fc',
+    color: config.appColor,
     marginTop: 36,
     textTransform: 'uppercase',
     border: 0,
@@ -39,7 +40,7 @@ const styles = StyleSheet.create({
 
   button2: {
     fontSize: 14,
-    backgroundColor: '#2e77fc',
+    backgroundColor: config.appColor,
     paddingTop: 10,
     paddingBottom: 10,
     fontWeight: '400',

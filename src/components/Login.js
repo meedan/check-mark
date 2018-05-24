@@ -103,8 +103,8 @@ class Login extends Component {
       </View>
       :
       <View id="login">
-        <Text id="title" style={styles.title}><FormattedMessage id="Login.addToCheck" defaultMessage="Add to Check" /></Text>
-        <Text style={styles.p}><FormattedMessage id="Login.addLinks" defaultMessage="Add links to Check with one click. Links will be added to your selected project." /></Text>
+        <Text id="title" style={styles.title}><FormattedMessage id="Login.addToApp" defaultMessage="Add to {app}" values={{ app: config.appName }}/></Text>
+        <Text style={styles.p}><FormattedMessage id="Login.addLinksToApp" defaultMessage="Add links to {app} with one click. Links will be added to your selected project." values={{ app: config.appName }} /></Text>
         <Text style={styles.p}><FormattedMessage id="Login.getStarted" defaultMessage="To get started, sign in." /></Text>
         <View id="button">
           <Text style={styles.button} onPress={this.signIn.bind(this)}><FormattedMessage id="Login.signIn" defaultMessage="Sign In" /></Text>

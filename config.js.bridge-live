@@ -1,0 +1,11 @@
+const config = {
+  appName: 'Bridge',
+  appId: 'bridge',
+  appEmail: 'hello@speakbridge.io',
+  appColor: '#ff674a',
+  appDescription: 'Translate the web',
+  checkRelayPath: 'https://check-api.speakbridge.io/relay.json',
+  checkApiUrl: 'https://check-api.speakbridge.io',
+  checkWebUrl: 'https://translator.speakbridge.io'
+};
+export default config;

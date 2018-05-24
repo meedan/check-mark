@@ -127,7 +127,7 @@ class Save extends Component {
   }
 
   failed(error) {
-    let message = <FormattedMessage id="Save.error" defaultMessage="Sorry, we encountered a problem adding this item to Check." />;
+    let message = <FormattedMessage id="Save.error" defaultMessage="Sorry, we encountered a problem adding this item to {app}." values={{ app: config.appName }} />;
     // Show the error message from the backend
     if (error && error.source && error.source.errors && error.source.errors.length > 0) {
       const info = error.source.errors[0].error_info;
@@ -225,7 +225,7 @@ class Save extends Component {
 
     return (
      <View id="save" className={this.setClasses()} style={{ height: windowHeight }}>
-        <Text id="title" style={styles.title}><FormattedMessage id="Save.addToCheck" defaultMessage="Add to Check" /></Text>
+        <Text id="title" style={styles.title}><FormattedMessage id="Save.addToApp" defaultMessage="Add to {app}" values={{ app: config.appName }} /></Text>
 
         <View id="menu-trigger" style={styles.trigger}>
           <Image source={require('./../assets/menu-trigger.png')} style={styles.triggerImage} />
