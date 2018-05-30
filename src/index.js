@@ -5,9 +5,9 @@ import ar from 'react-intl/locale-data/ar';
 import en from 'react-intl/locale-data/en';
 import fr from 'react-intl/locale-data/fr';
 import pt from 'react-intl/locale-data/pt';
-
-import './style/index.css';
+import es from 'react-intl/locale-data/es';
 import App from './components/App';
+import NoInput from './components/NoInput';
 
 let locale = navigator.languages || navigator.language || navigator.userLanguage || 'en';
 if (locale.constructor === Array) {
@@ -26,7 +26,8 @@ try {
     'en': en,
     'fr': fr,
     'ar': ar,
-    'pt': pt
+    'pt': pt,
+    'es': es,
   };
   addLocaleData([...localeData[locale]]);
 } catch (e) {
@@ -58,6 +59,22 @@ const translations = require(`./localization/${locale}.json`);
 
 /*global chrome*/
 
+const store = {
+  read: function(key, callback) {
+    chrome.storage.sync.get(key, (data) => {
+      callback(data[key]);
+    });
+  },
+
+  write: function(key, value, callback) {
+    const set = {};
+    set[key] = value;
+    chrome.storage.sync.set(set, () => {
+      callback();
+    });
+  }
+};
+
 chrome.tabs.query({ active: true, lastFocusedWindow: true }, function(tabs) {
   const urlParam = window.location.search.match(/^\?url=(.*)/);
   const url = urlParam ? decodeURI(urlParam[1]) : tabs[0].url;
@@ -71,7 +88,7 @@ chrome.tabs.query({ active: true, lastFocusedWindow: true }, function(tabs) {
 
     ReactDOM.render(
       <IntlProvider locale={locale} messages={translations}>
-        <App direction={direction} url={url} text={text} />
+        { (text || url) ? <App direction={direction} url={url} text={text} store={store} /> : <NoInput /> }
       </IntlProvider>,
       document.getElementById('root')
     );

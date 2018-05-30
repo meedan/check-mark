@@ -2,11 +2,8 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import { QueryRenderer, graphql } from 'react-relay';
-import Select from 'react-select-plus';
-import '../style/Projects.css';
-import 'react-select-plus/dist/react-select-plus.css';
-
-/*global chrome*/
+import { Text, View } from 'react-native';
+import Select from './Select';
 
 class Projects extends Component {
   constructor(props) {
@@ -18,25 +15,26 @@ class Projects extends Component {
   }
 
   componentWillMount() {
-    chrome.storage.sync.get('lastProject', (data) => {
-      const value = data.lastProject;
+    this.context.store.read('lastProject', (value) => {
       if (value) {
-        this.props.onSelectProject({ value });
-        this.setState({ selectedProject: value });
+        this.onChange(value, null);
       }
     });
   }
 
-  onChange(value) {
-    this.props.onSelectProject(value);
-    this.setState({ selectedProject: value });
+  onChange(selected, index) {
+    const value = selected.value || selected;
+    if (value) {
+      this.props.onSelectProject(value);
+      this.setState({ selectedProject: value });
+    }
   }
 
   render() {
     const environment = this.context.environment;
 
     return (
-      <div id="projects">
+      <View id="projects">
         <QueryRenderer environment={environment}
           query={graphql`
             query ProjectsQuery {
@@ -68,39 +66,47 @@ class Projects extends Component {
 
           render={({error, props}) => {
             let groups = [];
-            
+            let options = [];
+
             if (!error && props && props.me) {
               props.me.team_users.edges.forEach(function(teamUserNode) {
                 if (teamUserNode.node.status === 'member') {
                   const team = teamUserNode.node.team;
                   if (team.limits.browser_extension !== false) {
-                    let group = { label: <span><img src={team.avatar} alt="" /> {team.name}</span>, options: [] };
+                    let group = { label: team.name, options: [] };
                     team.projects.edges.forEach(function(projectNode) {
                       const project = projectNode.node;
                       const option = { label: project.title, value: team.slug + ':' + project.dbid };
                       group.options.push(option);
+                      option.label = team.name + ': ' + project.title;
+                      options.push(option);
                     });
                     groups.push(group);
                   }
                 }
               });
-            }
 
-            return <Select onChange={this.onChange.bind(this)}
-                           onOpen={this.props.onOpenSelect ? this.props.onOpenSelect : null}
-                           onClose={this.props.onCloseSelect ? this.props.onCloseSelect : null}
-                           options={groups}
-                           placeholder={<FormattedMessage id="Projects.select" defaultMessage="Select..." />}
-                           value={this.state.selectedProject} />;
+              if (groups.length > 0) {
+                return (<Select selectedValue={this.state.selectedProject} onValueChange={this.onChange.bind(this)} options={options} groups={groups} />);
+              }
+              else {
+                return <Text><FormattedMessage id="Projects.noTeams" defaultMessage="You are not a member of any team allowed to use the mobile application." /></Text>;
+              }
+            }
+            else {
+              return <Text>...</Text>;
+            }
           }}
         />
-      </div>
+      </View>
     );
   }
 }
 
 Projects.contextTypes = {
-  environment: PropTypes.object
+  environment: PropTypes.object,
+  store: PropTypes.object,
+  platform: PropTypes.string
 };
 
 export default Projects;

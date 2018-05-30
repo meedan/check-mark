@@ -1,16 +1,15 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import { FormattedMessage } from 'react-intl';
+import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import { commitMutation, graphql } from 'react-relay';
+import { View, Text, Linking, Image, Dimensions } from 'react-native';
 import Projects from './Projects';
-import Button from './Button';
+import LargeImage from './LargeImage';
 import Error from './Error';
-import config from '../config';
-import { logout } from '../helpers';
-import { createEnvironment } from '../relay/Environment'; 
-import '../style/Save.css';
-
-/*global chrome*/
+import config from './../config';
+import styles from './styles';
+import { logout } from './../helpers';
+import { createEnvironment } from './../relay/Environment';
 
 const mutation = graphql`
   mutation SaveMutation(
@@ -42,8 +41,10 @@ class Save extends Component {
       selectedTeamSlug: null,
       showMenu: false,
       showSelect: false,
-      state: 'pending', // pending, saving, saved, failed
-      result: null
+      state: 'invalid', // invalid, pending, saving, saved, failed
+      result: null,
+      filename: null,
+      imageValid: false,
     };
   }
 
@@ -55,9 +56,13 @@ class Save extends Component {
     return null;
   }
 
-  onSelectProject(option) {
-    const selected = option.value.split(':');
-    this.setState({ selectedTeamSlug: selected[0], selectedProject: parseInt(selected[1]) });
+  onSelectProject(value) {
+    const selected = value.split(':');
+    let state = 'invalid';
+    if (selected[1] && (!this.props.image || this.state.imageValid)) {
+      state = 'pending';
+    }
+    this.setState({ state: state, selectedTeamSlug: selected[0], selectedProject: parseInt(selected[1], 10) });
   }
 
   onOpenSelect() {
@@ -69,15 +74,19 @@ class Save extends Component {
   }
 
   toggleMenu(e) {
-    e.stopPropagation();
+    if (this.context.platform !== 'mobile') {
+      e.stopPropagation();
+    }
     this.setState({ showMenu: !this.state.showMenu });
   }
 
   componentDidUpdate() {
     const that = this;
-    window.addEventListener('click', function() {
-      that.setState({ showMenu: false });
-    });
+    if (this.context.platform !== 'mobile') {
+      window.addEventListener('click', function() {
+        that.setState({ showMenu: false });
+      });
+    }
   }
 
   setClasses() {
@@ -92,40 +101,78 @@ class Save extends Component {
   }
 
   openUrl(url) {
-    window.open(url);
+    this.context.platform === 'mobile' ? Linking.openURL(url) : window.open(url);
   }
 
   logout() {
-    logout();
-    this.openCheck('');
+    if (this.context.platform === 'mobile') {
+      this.context.store.write('userToken', '', () => {
+        logout(this.props.callback);
+      });
+    }
+    else {
+      logout();
+      this.openCheck('');
+    }
+  }
+
+  ignore() {
   }
 
   saved(response) {
     const project = response.createProjectMedia.project_media.project;
-    chrome.storage.sync.set({ 'lastProject': project.team.slug + ':' + project.dbid }, () => {
+    this.context.store.write('lastProject', project.team.slug + ':' + project.dbid, () => {
       this.setState({ state: 'saved', result: response });
     });
   }
 
   failed(error) {
-    let message = <FormattedMessage id="Save.error" defaultMessage="Sorry, we encountered a problem adding this to Check." />;
+    let message = <FormattedMessage id="Save.error" defaultMessage="Sorry, we encountered a problem adding this item to {app}." values={{ app: config.appName }} />;
     // Show the error message from the backend
-    // if (error && error.source && error.source.errors && error.source.errors.length > 0) {
-    //   message = error.source.errors[0];
-    // }
+    if (error && error.source && error.source.errors && error.source.errors.length > 0) {
+      const info = error.source.errors[0].error_info;
+      if (info && info.code === 'ERR_OBJECT_EXISTS') {
+        const link = `${config.checkWebUrl}/${this.state.selectedTeamSlug}/project/${info.project_id}/${info.type}/${info.id}`;
+        const vals = {
+          link: <Text onPress={this.openUrl.bind(this, link)}>{link}</Text>
+        };
+        message = <FormattedMessage id="Save.exists" defaultMessage="This link has already been saved to your project. You can view it here: {link}" values={vals} />;
+      }
+      else if (/413 Request Entity Too Large/.test(error.source.errors[0].error)) {
+        message = <FormattedMessage id="Save.imageTooLarge" defaultMessage="Sorry, this image is too large." />;
+      }
+    }
     this.setState({ state: 'failed', result: message });
+  }
+
+  setImage(state) {
+    const newState = state;
+    if (state.imageValid && this.state.selectedProject) {
+      newState.state = 'pending';
+    }
+    this.setState(newState);
   }
 
   save() {
     const that = this;
 
+    if (!this.state.selectedProject || (this.props.image && !this.state.imageValid)) {
+      return false;
+    }
+
     let url = '';
     let text = '';
-    if (this.props.url && this.props.url != '') {
+    let image = null;
+    let filename = null;
+    if (this.props.url && this.props.url !== '') {
       url = this.props.url;
     }
-    if (this.props.text && this.props.text != '') {
+    if (this.props.text && this.props.text !== '') {
       text = this.props.text;
+    }
+    if (this.props.image) {
+      image = this.props.image;
+      filename = this.state.filename;
     }
 
     const variables = {
@@ -137,7 +184,7 @@ class Save extends Component {
       }
     };
 
-    const environment = createEnvironment(this.context.user.token, this.state.selectedTeamSlug);
+    const environment = createEnvironment(this.context.user.token, this.state.selectedTeamSlug, image, filename);
 
     commitMutation(
       environment,
@@ -152,7 +199,7 @@ class Save extends Component {
         }
       },
     );
-    
+
     that.setState({ state: 'saving' });
   }
 
@@ -160,7 +207,7 @@ class Save extends Component {
     if (this.state.state === 'saved') {
       const media = this.state.result.createProjectMedia.project_media;
       let path = media.project.team.slug + '/project/' + media.project.dbid + '/media/' + media.dbid;
-      if (action != '') {
+      if (action !== '') {
         path += '#' + action;
       }
       this.openCheck(path);
@@ -172,62 +219,81 @@ class Save extends Component {
       return (<Error messageComponent={this.state.result} />);
     }
 
+    const windowHeight = this.context.platform === 'mobile' ? Dimensions.get('window').height : 'auto';
+
+    const menuStyle = [styles.menuOption, this.state.state !== 'saved' && styles.menuOptionDisabled, this.state.state === 'saved' && styles.menuOptionActive];
+
     return (
-      <div id="save" className={this.setClasses()}>
-        <h2><FormattedMessage id="Save.addToCheck" defaultMessage="Add to Check" /></h2>
+     <View id="save" className={this.setClasses()} style={{ height: windowHeight }}>
+        <Text id="title" style={styles.title}><FormattedMessage id="Save.addToApp" defaultMessage="Add to {app}" values={{ app: config.appName }} /></Text>
 
-        <div id="menu-trigger" onClick={this.toggleMenu.bind(this)}></div>
-        <ul id="menu">
-          <li onClick={this.menuAction.bind(this, '')} className={ this.state.state === 'saved' ? 'active' : '' }><FormattedMessage id="Save.openInNewTab" defaultMessage="Open in new tab" /></li>
-          <li onClick={this.menuAction.bind(this, 'edit-tags')} className={ this.state.state === 'saved' ? 'active' : '' }><FormattedMessage id="Save.editTags" defaultMessage="Edit tags" /></li>
-          <li onClick={this.menuAction.bind(this, 'move')} className={ this.state.state === 'saved' ? 'active' : '' }><FormattedMessage id="Save.moveToProject" defaultMessage="Move to project" /></li>
-          <li onClick={this.menuAction.bind(this, 'add-task')} className={ this.state.state === 'saved' ? 'active' : '' }><FormattedMessage id="Save.addTask" defaultMessage="Add task" /></li>
-          <li onClick={this.menuAction.bind(this, 'edit-title')} className={ this.state.state === 'saved' ? 'active' : '' }><FormattedMessage id="Save.editTitle" defaultMessage="Edit title" /></li>
-          <hr />
-          <li onClick={this.openCheck.bind(this, 'check/me')} className="active"><FormattedMessage id="Save.myProfile" defaultMessage="My profile" /></li>
-          <li onClick={this.logout.bind(this)} className="active"><FormattedMessage id="Save.logOut" defaultMessage="Log out" /></li>
-        </ul>
+        <View id="menu-trigger" style={styles.trigger}>
+          <Image source={require('./../assets/menu-trigger.png')} style={styles.triggerImage} />
+          <Text onPress={this.toggleMenu.bind(this)} style={styles.touchable}></Text>
+        </View>
+        <View id="menu" style={[styles.menu, !this.state.showMenu && styles.menuClosed]}>
+          <Text style={menuStyle} onPress={this.menuAction.bind(this, '')} className={ this.state.state === 'saved' ? 'active' : '' }><FormattedMessage id="Save.openInNewTab" defaultMessage="Open in new tab" /></Text>
+          <Text style={menuStyle} onPress={this.menuAction.bind(this, 'edit-tags')} className={ this.state.state === 'saved' ? 'active' : '' }><FormattedMessage id="Save.editTags" defaultMessage="Edit tags" /></Text>
+          <Text style={menuStyle} onPress={this.menuAction.bind(this, 'move')} className={ this.state.state === 'saved' ? 'active' : '' }><FormattedMessage id="Save.moveToProject" defaultMessage="Move to project" /></Text>
+          <Text style={menuStyle} onPress={this.menuAction.bind(this, 'add-task')} className={ this.state.state === 'saved' ? 'active' : '' }><FormattedMessage id="Save.addTask" defaultMessage="Add task" /></Text>
+          <Text style={menuStyle} onPress={this.menuAction.bind(this, 'edit-title')} className={ this.state.state === 'saved' ? 'active' : '' }><FormattedMessage id="Save.editTitle" defaultMessage="Edit title" /></Text>
+          <View style={{ borderBottomColor: 'rgba(0, 0, 0, 0.16)', borderBottomWidth: 1 }}></View>
+          <Text style={[ styles.menuOption, styles.menuOptionActive ]} onPress={this.openCheck.bind(this, 'check/me')} className="active"><FormattedMessage id="Save.myProfile" defaultMessage="My profile" /></Text>
+          <Text style={[ styles.menuOption, styles.menuOptionActive ]} onPress={this.logout.bind(this)} className="active"><FormattedMessage id="Save.logOut" defaultMessage="Log out" /></Text>
+        </View>
 
-        <div>
-
-          {this.state.state != 'saved' ?
-          <Projects onSelectProject={this.onSelectProject.bind(this)} 
+        <View style={{ marginTop: 16 }}>
+          {this.state.state !== 'saved' ?
+          <Projects onSelectProject={this.onSelectProject.bind(this)}
                     onOpenSelect={this.onOpenSelect.bind(this)}
                     onCloseSelect={this.onCloseSelect.bind(this)} />
           :
-          <div id="project">
-            <img src={this.state.result.createProjectMedia.project_media.project.team.avatar} alt="" /> 
-            <span title={this.state.result.createProjectMedia.project_media.project.title}>{this.state.result.createProjectMedia.project_media.project.title}</span>
-          </div>
+          <View id="project">
+            <Image source={{ uri: this.state.result.createProjectMedia.project_media.project.team.avatar }} style={styles.teamAvatar} />
+            <Text style={styles.projectTitle} id="project-title" title={this.state.result.createProjectMedia.project_media.project.title}>{this.state.result.createProjectMedia.project_media.project.title}</Text>
+          </View>
           }
 
-          <span id="preview">
-          { (this.state.state === 'saved' && this.state.result) ? <span className="saved" onClick={this.openUrl.bind(this, this.getMetadata('permalink'))}>{this.getMetadata('title')}</span> : (
-            (this.props.text && this.props.text != '') ?
-              <span title={this.props.text}>
+          <View id="preview" style={styles.preview}>
+          { (this.state.state === 'saved' && this.state.result) ? <Text className="saved" onPress={this.openUrl.bind(this, this.getMetadata('permalink'))}>{this.getMetadata('title')}</Text> : (
+            this.props.image ? <LargeImage image={this.props.image} callback={this.setImage.bind(this)} /> : (
+            (this.props.text && this.props.text !== '') ?
+              <Text title={this.props.text}>
                 <FormattedMessage id="Save.claim" defaultMessage="Claim: {text}" values={{ text: this.props.text }} />
-              </span> :
-              <span title={this.props.url}>
+              </Text> :
+              <Text title={this.props.url}>
                 <FormattedMessage id="Save.link" defaultMessage="Link: {link}" values={{ link: this.props.url }} />
-              </span>
-          )}
-          </span>
-        </div>
+              </Text>
+          ))}
+          </View>
+        </View>
 
-        { this.state.state === 'pending' ? 
-            <Button onClick={this.save.bind(this)} label={<FormattedMessage id="Save.save" defaultMessage="Save" />} />
+        <View id="button" style={{ zIndex: -1 }}>
+        { (this.state.state === 'pending' || this.state.state === 'invalid') ?
+            <Text style={[styles.button2, styles[this.state.state]]} onPress={this.save.bind(this)} className="save" id="button-save"><FormattedMessage id="Save.save" defaultMessage="Save" /></Text>
           : (this.state.state === 'saving' ?
-            <Button onClick={null} className="saving" label={<FormattedMessage id="Save.saving" defaultMessage="Saving..." />} />
+            <Text style={[styles.button2, styles[this.state.state]]} onPress={this.ignore.bind(this)} className="saving" id="button-saving"><FormattedMessage id="Save.saving" defaultMessage="Saving..." /></Text>
           : (this.state.state === 'saved' ?
-            <Button onClick={null} className="saved" label={<FormattedMessage id="Save.saved" defaultMessage="Saved" />} />
-          : null)) }
-      </div>
+            <View style={[styles.savedBar, { width: Dimensions.get('window').width }]} id="saved-bar">
+              <Text style={[styles.button3, styles[this.state.state]]} onPress={this.ignore.bind(this)} className="saved" id="button-saved"><FormattedMessage id="Save.saved" defaultMessage="Saved!" /></Text>
+              <Text style={styles.button3} id="button-view" onPress={this.openUrl.bind(this, this.getMetadata('permalink'))}><FormattedMessage id="Save.view" defaultMessage="View" /></Text>
+            </View>
+          : null))
+        }
+        </View>
+      </View>
     );
   }
 }
 
-Save.contextTypes = {
-  user: PropTypes.object
+Save.propTypes = {
+  intl: intlShape.isRequired,
 };
 
-export default Save;
+Save.contextTypes = {
+  user: PropTypes.object,
+  store: PropTypes.object,
+  platform: PropTypes.string
+};
+
+export default injectIntl(Save);

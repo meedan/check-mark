@@ -1,4 +1,9 @@
 const config = {
+  appName: 'Check',
+  appId: 'check',
+  appEmail: 'check@meedan.com',
+  appColor: '#2e77fc',
+  appDescription: 'Verify breaking news online',
   checkRelayPath: '/api/public/relay.json',
   checkApiUrl: 'http://api.test:13000',
   checkWebUrl: 'http://web.test:13333'
