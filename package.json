@@ -80,7 +80,7 @@
   "scripts": {
     "prepare-android": "echo fs.inotify.max_user_watches=524288 | sudo tee -a /etc/sysctl.conf && sudo sysctl -p",
     "build-android": "npm i && npm run relay && cp config.js src/ && react-native run-android",
-    "generate-apk": "npm i && npm run relay && cp config.js src/ && babel-node scripts/brand.js brand && cd android && ./gradlew assembleRelease --stacktrace --debug && cd - && cp android/app/build/outputs/apk/app-release.apk build.apk && babel-node scripts/brand.js unbrand && echo 'APK generated at build.apk'",
+    "generate-apk": "npm run relay && cp config.js src/ && babel-node scripts/brand.js brand && cd android && ./gradlew assembleRelease --stacktrace --debug && cd - && cp android/app/build/outputs/apk/app-release.apk build.apk && babel-node scripts/brand.js unbrand && echo 'APK generated at build.apk'",
     "clean-localization": "rm -rf src/localization/messages",
     "build": "npm i && npm run relay && cp config.js src/ && babel-node scripts/brand.js brand && babel-node scripts/build.js && npm run clean-localization && babel-node scripts/brand.js unbrand && rm -f src/config.js",
     "test": "npm run release:test && cd test && bundle install && bundle exec rspec && cd ..",
