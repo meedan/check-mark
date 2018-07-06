@@ -65,4 +65,3 @@ You can also generate a APK that doesn't depend on the development server. In or
 ### TODO
 
 * Avoid that a new instance of the app is triggered when sharing content with already running app (https://github.com/meedan/react-native-share-menu/issues/25)
-* Slack login currently doesn't work because Slack ask the user to use the mobile app
