@@ -8,6 +8,7 @@ RUN apt-get update -qq && apt-get install -y zip unzip autoconf automake libtool
 RUN npm i -g npm
 ADD package.json /tmp/package.json
 ADD react-native-get-real-path /tmp/react-native-get-real-path
+RUN npm cache clean
 RUN cd /tmp/react-native-get-real-path && npm install
 RUN cd /tmp && npm install
 RUN mkdir -p /app && cp -a /tmp/node_modules/. /app/
