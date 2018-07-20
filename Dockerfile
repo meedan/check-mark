@@ -5,12 +5,13 @@ MAINTAINER Meedan <sysops@meedan.com>
 RUN apt-get update -qq && apt-get install -y zip unzip autoconf automake libtool python-pip inotify-tools && rm -rf /var/lib/apt/lists/*
 
 # node modules
+RUN npm i -g npm
 ADD package.json /tmp/package.json
 ADD react-native-get-real-path /tmp/react-native-get-real-path
 RUN cd /tmp/react-native-get-real-path && npm install
 RUN cd /tmp && npm install
-RUN mkdir -p /app && cp -a /tmp/node_modules /app/
-RUN mkdir -p /app/react-native-get-real-path && cp -a /tmp/react-native-get-real-path/node_modules /app/react-native-get-real-path/
+RUN mkdir -p /app && cp -a /tmp/node_modules/. /app/
+RUN mkdir -p /app/react-native-get-real-path/node_modules && cp -a /tmp/react-native-get-real-path/node_modules/bluebird/. /app/react-native-get-real-path/node_modules/
 
 # ruby gems
 COPY test/Gemfile test/Gemfile.lock /app/test/
