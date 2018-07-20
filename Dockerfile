@@ -5,7 +5,6 @@ MAINTAINER Meedan <sysops@meedan.com>
 RUN apt-get update -qq && apt-get install -y zip unzip autoconf automake libtool python-pip inotify-tools && rm -rf /var/lib/apt/lists/*
 
 # node modules
-RUN npm i -g npm
 ADD package.json /tmp/package.json
 ADD react-native-get-real-path /tmp/react-native-get-real-path
 RUN npm cache clean
