@@ -9,6 +9,7 @@ ADD package.json /tmp/package.json
 ADD react-native-get-real-path /tmp/react-native-get-real-path
 RUN cd /tmp && npm install
 RUN mkdir -p /app && cp -a /tmp/node_modules /app/
+RUN mkdir -p /app/react-native-get-real-path && cp -a /tmp/react-native-get-real-path/node_modules /app/react-native-get-real-path/
 
 # ruby gems
 COPY test/Gemfile test/Gemfile.lock /app/test/
