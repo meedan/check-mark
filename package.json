@@ -88,7 +88,7 @@
     "transifex:parse": "npm run build && babel-node scripts/localize.js",
     "transifex:upload": "npm run transifex:parse && tx push -s",
     "transifex:download": "tx pull -a -f",
-    "release": "npm run build; find build -name \"*.map\" -exec rm -f {} \";\"; cd build && zip -r build.zip * && mv build.zip .. && cd - && echo 'ZIP generated at build.zip' && ls -lah build.zip",
+    "generate-extension": "npm run build; find build -name \"*.map\" -exec rm -f {} \";\"; cd build && zip -r build.zip * && mv build.zip .. && cd - && echo 'ZIP generated at build.zip' && ls -lah build.zip",
     "release:qa": "mv config.js config.js.bkp; cp config.js.qa config.js; npm run build; rm -rf releases/qa; cp -r build releases/qa; find releases/qa -name \"*.map\" -exec rm -f {} \";\"; mv config.js.bkp config.js && cd releases/qa && zip -r qa.zip * && cd -",
     "release:live": "mv config.js config.js.bkp; cp config.js.live config.js; npm run build; rm -rf releases/live; cp -r build releases/live; find releases/live -name \"*.map\" -exec rm -f {} \";\"; mv config.js.bkp config.js && cd releases/live && zip -r live.zip * && cd -",
     "release:test": "mv config.js config.js.bkp; cp config.js.test config.js; npm run build; rm -rf releases/test; cp -r build releases/test; find releases/test -name \"*.map\" -exec rm -f {} \";\"; mv config.js.bkp config.js"
