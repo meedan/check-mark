@@ -10,7 +10,7 @@ ADD react-native-get-real-path /tmp/react-native-get-real-path
 RUN npm cache clean
 RUN cd /tmp/react-native-get-real-path && npm install
 RUN cd /tmp && npm install
-RUN mkdir -p /app && cp -a /tmp/node_modules /app/ && cp -a /tmp/node_modules/.* /app/node_modules/
+RUN mkdir -p /app && cp -a /tmp/node_modules /app/ && cp -a /tmp/node_modules/.[^.]* /app/node_modules/
 RUN mkdir -p /app/react-native-get-real-path/node_modules && cp -a /tmp/react-native-get-real-path/node_modules/bluebird /app/react-native-get-real-path/node_modules/
 
 # ruby gems
