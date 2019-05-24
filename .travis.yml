@@ -18,8 +18,8 @@ before_install:
 # dependencies
 - sudo apt-get -qq update
 - sudo apt-get install ruby ruby-dev xvfb autoconf automake libtool redis-server -y
-- rvm install 2.3.1
-- rvm --default use 2.3.1
+- rvm install 2.3.3
+- rvm --default use 2.3.3
 - gem install bundler -v "< 2.0"
 # check api
 - 'echo "127.0.0.1 postgres" | sudo tee -a /etc/hosts'
