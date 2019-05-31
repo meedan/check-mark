@@ -33,7 +33,9 @@ before_install:
 - sudo service elasticsearch restart
 - sleep 15
 - sudo service elasticsearch status
-- git clone https://github.com/meedan/check-api.git
+- export CHECK_API_BRANCH=$((git ls-remote --exit-code --heads https://github.com/meedan/check-api.git $TRAVIS_BRANCH >/dev/null && echo $TRAVIS_BRANCH) || echo 'develop')
+- echo "Using branch $CHECK_API_BRANCH for Check API"
+- git clone --branch=$CHECK_API_BRANCH https://github.com/meedan/check-api.git
 - cp check-api/config/config.yml.example check-api/config/config.yml
 - cp check-api/config/initializers/secret_token.rb.example check-api/config/initializers/secret_token.rb
 - cp check-api/config/database.yml.example check-api/config/database.yml

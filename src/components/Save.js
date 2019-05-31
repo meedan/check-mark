@@ -18,7 +18,7 @@ const mutation = graphql`
     createProjectMedia(input: $input) {
       project_media {
         dbid
-        metadata
+        oembed_metadata
         project {
           dbid
           title
@@ -50,7 +50,7 @@ class Save extends Component {
 
   getMetadata(key) {
     if (this.state.result) {
-      const media = JSON.parse(this.state.result.createProjectMedia.project_media.metadata);
+      const media = JSON.parse(this.state.result.createProjectMedia.project_media.oembed_metadata);
       return media[key];
     }
     return null;
