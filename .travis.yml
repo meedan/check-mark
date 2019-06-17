@@ -46,6 +46,7 @@ before_install:
 - rails s -p 3000 >/dev/null &
 - cd -
 # watchman (relay-compiler dependency)
+- echo 999999 | sudo tee -a /proc/sys/fs/inotify/max_user_watches && echo 999999 | sudo tee -a /proc/sys/fs/inotify/max_queued_events && echo 999999 | sudo tee -a /proc/sys/fs/inotify/max_user_instances && sudo sysctl -p
 - git clone https://github.com/facebook/watchman.git
 - cd watchman
 - git checkout v4.7.0
