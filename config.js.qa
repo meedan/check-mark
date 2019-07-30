@@ -1,0 +1,11 @@
+const config = {
+  appName: 'Check',
+  appId: 'check',
+  appEmail: 'check@meedan.com',
+  appColor: '#2e77fc',
+  appDescription: 'Verify breaking news online',
+  checkRelayPath: 'https://check-api-qa.checkmedia.org/relay.json',
+  checkApiUrl: 'https://check-api-qa.checkmedia.org',
+  checkWebUrl: 'https://qa.checkmedia.org'
+};
+export default config;
