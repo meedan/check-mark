@@ -4,42 +4,6 @@
     "defaultMessage": "Please invoke this application from the share menu of another application, or copy something to the clipboard and open this application again."
   },
   {
-    "id": "Login.registerOrRecover",
-    "defaultMessage": "Register or recover password?"
-  },
-  {
-    "id": "Login.addToApp",
-    "defaultMessage": "Add to {app}"
-  },
-  {
-    "id": "Login.addLinksToApp",
-    "defaultMessage": "Add links to {app} with one click. Links will be added to your selected project."
-  },
-  {
-    "id": "Login.getStarted",
-    "defaultMessage": "To get started, sign in."
-  },
-  {
-    "id": "Login.signIn",
-    "defaultMessage": "Sign In"
-  },
-  {
-    "id": "SaveOrUpdate.update",
-    "defaultMessage": "Update on {app}"
-  },
-  {
-    "id": "Error.thereWasAProblem",
-    "defaultMessage": "Hmm, there was a problem"
-  },
-  {
-    "id": "Error.forHelp",
-    "defaultMessage": "For help contact {email}."
-  },
-  {
-    "id": "Select.select",
-    "defaultMessage": "Select..."
-  },
-  {
     "id": "Save.error",
     "defaultMessage": "Sorry, we encountered a problem adding this item to {app}."
   },
@@ -108,8 +72,40 @@
     "defaultMessage": "View"
   },
   {
+    "id": "Login.registerOrRecover",
+    "defaultMessage": "Register or recover password?"
+  },
+  {
+    "id": "Login.addToApp",
+    "defaultMessage": "Add to {app}"
+  },
+  {
+    "id": "Login.addLinksToApp",
+    "defaultMessage": "Add links to {app} with one click. Links will be added to your selected project."
+  },
+  {
+    "id": "Login.getStarted",
+    "defaultMessage": "To get started, sign in."
+  },
+  {
+    "id": "Login.signIn",
+    "defaultMessage": "Sign In"
+  },
+  {
+    "id": "Error.thereWasAProblem",
+    "defaultMessage": "Hmm, there was a problem"
+  },
+  {
+    "id": "Error.forHelp",
+    "defaultMessage": "For help contact {email}."
+  },
+  {
     "id": "Projects.noTeams",
     "defaultMessage": "You are not a member of any team allowed to use the mobile application."
+  },
+  {
+    "id": "Select.select",
+    "defaultMessage": "Select..."
   },
   {
     "id": "LargeImage.tooLarge",

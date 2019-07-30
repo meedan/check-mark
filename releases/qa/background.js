@@ -75,12 +75,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 const config = {
   appName: 'Check',
   appId: 'check',
-  appEmail: 'local@checkmedia.org',
+  appEmail: 'check@meedan.com',
   appColor: '#2e77fc',
   appDescription: 'Verify breaking news online',
-  checkRelayPath: '/home/caiosba/Meedan/check/check-api/public/relay.json',
-  checkApiUrl: 'https://check-api-caiosba.ngrok.io',
-  checkWebUrl: 'https://check-web-caiosba.ngrok.io'
+  checkRelayPath: 'https://check-api-qa.checkmedia.org/relay.json',
+  checkApiUrl: 'https://check-api-qa.checkmedia.org',
+  checkWebUrl: 'https://qa.checkmedia.org'
 };
 /* harmony default export */ __webpack_exports__["default"] = (config);
 
@@ -170,8 +170,7 @@ function popWindow(info, tab) {
 
 function createMenu() {
   var config = __webpack_require__(0);
-  var name = config.appName || 'Check';
-  addToMenu(MENU_APP, name, ['all'], popWindow);
+  addToMenu(MENU_APP, config.appName, ['all'], popWindow);
 }
 
 /* harmony default export */ __webpack_exports__["a"] = (createMenu);
@@ -3161,12 +3160,6 @@ if (chrome.runtime && chrome.runtime.onStartup && chrome.runtime.onInstalled) {
   chrome.runtime.onStartup.addListener(function() { onNavigate({ firstTime: true }); });
   chrome.runtime.onInstalled.addListener(function() { onNavigate({ firstTime: true }); });
 }
-
-chrome.browserAction.onClicked.addListener(function() {
-  chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
-    chrome.tabs.sendMessage(tabs[0].id, 'toggle');
-  })
-});
 
 
 /***/ })
