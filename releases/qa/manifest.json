@@ -17,9 +17,16 @@
   },
   "browser_action": {
     "default_icon": "check19-out.png",
-    "default_popup": "popup.html",
     "default_title": "Check"
   },
+  "content_scripts": [{
+    "run_at": "document_end",
+    "matches": [
+      "https://*/*",
+      "http://*/*"
+    ],
+    "js": ["content.js"]
+  }],
   "icons": {
     "128": "check128.png",
     "48": "check48.png"
@@ -33,5 +40,9 @@
     "contextMenus",
     "https://fonts.googleapis.com/",
     "https://check-api-qa.checkmedia.org/"
-  ]
+  ],
+  "web_accessible_resources": ["popup.html"],
+  "externally_connectable": {
+    "matches": ["https://qa.checkmedia.org/"]
+  }
 }
