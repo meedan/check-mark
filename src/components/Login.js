@@ -100,7 +100,7 @@ class Login extends Component {
       this.setState({ checkOpened: true });
     }
     else {
-      window.open(config.checkWebUrl);
+      window.open(config.checkWebUrl, 'Check Web');
     }
   }
 
@@ -146,8 +146,8 @@ class Login extends Component {
       </View>
       :
       <View id="login">
-        <Text id="title" style={styles.title}><FormattedMessage id="Login.addToApp" defaultMessage="Add to {app}" values={{ app: config.appName }}/></Text>
-        <Text style={styles.p}><FormattedMessage id="Login.addLinksToApp" defaultMessage="Add links to {app} with one click. Links will be added to your selected project." values={{ app: config.appName }} /></Text>
+        <Text id="title" style={styles.title}><FormattedMessage id="Login.addToApp" defaultMessage="Add to {app}" values={{ app: config.appName }} /></Text>
+        <Text style={styles.p}><FormattedMessage id="Login.addLinksToApp" defaultMessage="Add links to {app} with one click. Links will be added to your selected project. If the link already exists in one of your projects, you are able to answer tasks associated with it." values={{ app: config.appName }} /></Text>
         <Text style={styles.p}><FormattedMessage id="Login.getStarted" defaultMessage="To get started, sign in." /></Text>
         <View id="button">
           <Text style={styles.button} onPress={this.signIn.bind(this)}><FormattedMessage id="Login.signIn" defaultMessage="Sign In" /></Text>

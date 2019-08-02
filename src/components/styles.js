@@ -4,7 +4,7 @@ const styles = StyleSheet.create({
   body: {
     padding: 16,
     minWidth: 356,
-    backgroundColor: 'white',
+    backgroundColor: '#FAFAFA',
   },
 
   title: {
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
 
   button: {
     fontSize: 14,
-    backgroundColor: 'white',
+    backgroundColor: 'transparent',
     paddingTop: 10,
     paddingBottom: 10,
     fontWeight: '700',
@@ -145,6 +145,13 @@ const styles = StyleSheet.create({
     top: 0,
     right: 0,
     zIndex: 0,
+  },
+
+  linkImage: {
+    width: 16,
+    height: 16,
+    marginLeft: 16,
+    cursor: 'pointer',
   },
 
   teamAvatar: {

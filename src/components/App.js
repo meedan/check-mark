@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import RNExitApp from 'react-native-exit-app';
 import Login from './Login';
-import Save from './Save';
+import SaveOrUpdate from './SaveOrUpdate';
 import Error from './Error';
 import { loggedIn } from './../helpers';
 import { createEnvironment } from './../relay/Environment';
@@ -48,6 +48,19 @@ class App extends Component {
     }
   }
 
+  componentDidMount() {
+    if (this.context.platform !== 'mobile') {
+      const receiveMessage = (event) => {
+        if (event.data === 'loggedIn') {
+          loggedIn((user, error) => {
+            this.loginCallback(user, error);
+          });
+        }
+      };
+      window.addEventListener('message', receiveMessage, false);
+    }
+  }
+
   loginCallback(user, error) {
     const environment = user ? createEnvironment(user.token, '', null) : null;
     this.setState({ loaded: true, user, error, environment });
@@ -60,10 +73,16 @@ class App extends Component {
     }
   }
 
+  saveCallback() {
+    loggedIn((user, error) => {
+      this.loginCallback(user, error);
+    });
+  }
+
   render() {
     return (
       <View id="app" style={styles.body} className={this.props.direction}>
-        {!this.state.loaded ? null : (this.state.user ? <Save url={this.props.url} text={this.props.text} image={this.props.image} callback={this.logoutCallback.bind(this)} /> : (this.state.error ? <Error message={this.state.error} /> : <Login callback={this.loginCallback.bind(this)} />))}
+        {!this.state.loaded ? null : (this.state.user ? <SaveOrUpdate url={this.props.url} text={this.props.text} image={this.props.image} callback={this.logoutCallback.bind(this)} saveCallback={this.saveCallback.bind(this)} /> : (this.state.error ? <Error message={this.state.error} /> : <Login callback={this.loginCallback.bind(this)} />))}
       </View>
     );
   }

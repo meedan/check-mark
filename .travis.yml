@@ -16,6 +16,8 @@ before_install:
 - export CI=false
 - export RAILS_ENV=test
 # dependencies
+- sudo rm -f /etc/apt/sources.list.d/mongodb*
+- sudo rm -f /etc/apt/sources.list.d/google*
 - sudo apt-get -qq update
 - sudo apt-get install ruby ruby-dev xvfb autoconf automake libtool redis-server -y
 - rvm install 2.3.3

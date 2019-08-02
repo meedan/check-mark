@@ -122,7 +122,12 @@ class Save extends Component {
   saved(response) {
     const project = response.createProjectMedia.project_media.project;
     this.context.store.write('lastProject', project.team.slug + ':' + project.dbid, () => {
-      this.setState({ state: 'saved', result: response });
+      if (this.context.platform !== 'mobile' && this.props.saveCallback) {
+        this.props.saveCallback();
+      }
+      else {
+        this.setState({ state: 'saved', result: response });
+      }
     });
   }
 

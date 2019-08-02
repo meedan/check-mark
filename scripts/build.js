@@ -152,6 +152,7 @@ function copyPublicFolder() {
 function setManifest() {
   const manifest = paths.appBuild + '/manifest.json'
   const data = fs.readFileSync(manifest, 'utf8');
-  const result = data.replace(/{apiUrl}/g, appConfig.checkApiUrl + '/');
+  let result = data.replace(/{apiUrl}/g, appConfig.checkApiUrl + '/');
+  result = result.replace(/{webUrl}/g, appConfig.checkWebUrl + '/');
   fs.writeFileSync(manifest, result, 'utf8');
 }
