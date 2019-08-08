@@ -24,6 +24,18 @@
     "defaultMessage": "Sign In"
   },
   {
+    "id": "saveOrUpdate.header",
+    "defaultMessage": "This link exists in one or more projects, you can choose one of them below and answer the tasks. You can also {linkAdd} or {linkOpen}."
+  },
+  {
+    "id": "saveOrUpdate.linkAdd",
+    "defaultMessage": "add it to another project"
+  },
+  {
+    "id": "saveOrUpdate.linkOpen",
+    "defaultMessage": "open it in Check"
+  },
+  {
     "id": "Error.thereWasAProblem",
     "defaultMessage": "Hmm, there was a problem"
   },
