@@ -16,7 +16,14 @@ class SaveOrUpdate extends Component {
     this.state = {
       selectedProject: null,
       selectedProjectId: null,
+      createNew: false,
     };
+  }
+
+  componentWillReceiveProps(nextProps) {
+    if (nextProps.saved) {
+      this.setState({ createNew: false, selectedProject: null, selectedProjectId: null });
+    }
   }
 
   onChange(selected, index) {
@@ -32,11 +39,19 @@ class SaveOrUpdate extends Component {
     window.open(config.checkWebUrl + '/' + path);
   }
 
+  newItem() {
+    this.setState({ createNew: true });
+  }
+
   render() {
     if (this.context.platform === 'mobile' || this.props.text || this.props.image) {
       const props = Object.assign({}, this.props);
       delete props.saveCallback;
       return (<Save {...props} />);
+    }
+
+    if (this.state.createNew) {
+      return (<Save {...this.props} />);
     }
 
     const environment = this.context.environment;
@@ -82,6 +97,10 @@ class SaveOrUpdate extends Component {
             let selectedProjectId = this.state.selectedProjectId;
             let projectMedia = null;
 
+            let lastProject = null;
+            let lastProjectId = null;
+            let lastProjectMedia = null;
+
             if (!error && props && props.project_medias) {
               props.project_medias.edges.forEach(function(pmNode) {
                 const pm = pmNode.node;
@@ -92,14 +111,23 @@ class SaveOrUpdate extends Component {
                 if (!teams[team.dbid].projects[pm.project_id]) {
                   teams[team.dbid].projects[pm.project_id] = pm.project;
                 }
-                if (!selectedProject && !selectedProjectId) {
-                  selectedProject = team.slug + ':' + pm.project.dbid;
-                  selectedProjectId = pm.project.dbid;
-                }
+                lastProject = team.slug + ':' + pm.project.dbid;
+                lastProjectId = pm.project.dbid;
+                lastProjectMedia = pm;
                 if (pm.project_id === selectedProjectId) {
                   projectMedia = pm;
                 }
               });
+
+              if (!selectedProject) {
+                selectedProject = lastProject;
+              }
+              if (!selectedProjectId) {
+                selectedProjectId = lastProjectId;
+              }
+              if (!projectMedia) {
+                projectMedia = lastProjectMedia;
+              }
 
               for (let tid in teams) {
                 const team = teams[tid];
@@ -122,12 +150,19 @@ class SaveOrUpdate extends Component {
                 <div>
                   <Text id="title" style={styles.title}>
                     {projectMedia.title}
-                    <Image
-                      source={require('./../assets/link.png')}
-                      style={styles.linkImage}
-                      onClick={this.openItem.bind(this, projectMedia)}
-                    />
                   </Text>
+                  <View style={{ marginTop: 16 }}>
+                    <Text style={styles.p}>
+                      <FormattedMessage
+                        id="saveOrUpdate.header"
+                        defaultMessage="This link exists in one or more projects, you can choose one of them below and answer the tasks. You can also {linkAdd} or {linkOpen}."
+                        values={{
+                          linkAdd: <Text onClick={this.newItem.bind(this)} style={styles.link}><FormattedMessage id="saveOrUpdate.linkAdd" defaultMessage="add it to another project" /></Text>,
+                          linkOpen: <Text onClick={this.openItem.bind(this, projectMedia)} style={styles.link}><FormattedMessage id="saveOrUpdate.linkOpen" defaultMessage="open it in Check" /></Text>,
+                        }}
+                      />                
+                    </Text>
+                  </View>
                   <View style={{ marginTop: 16 }}>
                     <Select selectedValue={selectedProject} onValueChange={this.onChange.bind(this)} options={options} groups={groups} />
                     <Update projectMedia={projectMedia} />

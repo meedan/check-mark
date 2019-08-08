@@ -147,6 +147,11 @@ const styles = StyleSheet.create({
     zIndex: 0,
   },
 
+  link: {
+    textDecoration: 'underline',
+    cursor: 'pointer',
+  },
+
   linkImage: {
     width: 16,
     height: 16,

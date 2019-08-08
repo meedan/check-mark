@@ -17,7 +17,8 @@ class App extends Component {
       user: null,
       error: false,
       loaded: this.props.platform === 'mobile',
-      environment: null
+      environment: null,
+      saved: false,
     };
   }
 
@@ -74,15 +75,17 @@ class App extends Component {
   }
 
   saveCallback() {
-    loggedIn((user, error) => {
-      this.loginCallback(user, error);
+    this.setState({ saved: true }, () => {
+      loggedIn((user, error) => {
+        this.loginCallback(user, error);
+      });
     });
   }
 
   render() {
     return (
       <View id="app" style={styles.body} className={this.props.direction}>
-        {!this.state.loaded ? null : (this.state.user ? <SaveOrUpdate url={this.props.url} text={this.props.text} image={this.props.image} callback={this.logoutCallback.bind(this)} saveCallback={this.saveCallback.bind(this)} /> : (this.state.error ? <Error message={this.state.error} /> : <Login callback={this.loginCallback.bind(this)} />))}
+        {!this.state.loaded ? null : (this.state.user ? <SaveOrUpdate url={this.props.url} saved={this.state.saved} text={this.props.text} image={this.props.image} callback={this.logoutCallback.bind(this)} saveCallback={this.saveCallback.bind(this)} /> : (this.state.error ? <Error message={this.state.error} /> : <Login callback={this.loginCallback.bind(this)} />))}
       </View>
     );
   }
