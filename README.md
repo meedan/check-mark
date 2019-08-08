@@ -23,7 +23,10 @@ You can compile the code with `npm run build`. It was developed and tested with 
 * Visit `chrome://extensions`
 * Enable "Developer mode"
 * Click "Load unpacked extension..."
-* Pick the `build` directory
+* Pick one of the directories:
+  * `build`, if you are a developer and has compiled the extension locally in your machine
+  * `releases/qa`, to use the QA version
+  * `releases/live`, to use the live version
 * The extension will appear on the toolbar
 
 #### Running the extension in Firefox

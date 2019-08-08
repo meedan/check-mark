@@ -73,8 +73,8 @@
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 const config = {
-  appName: 'Check',
-  appId: 'check',
+  appName: 'Check QA',
+  appId: 'checkqa',
   appEmail: 'check@meedan.com',
   appColor: '#2e77fc',
   appDescription: 'Verify breaking news online',
