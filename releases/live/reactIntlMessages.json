@@ -1,11 +1,19 @@
 [
   {
-    "id": "Login.addToCheck",
-    "defaultMessage": "Add to Check"
+    "id": "NoInput.noInput",
+    "defaultMessage": "Please invoke this application from the share menu of another application, or copy something to the clipboard and open this application again."
   },
   {
-    "id": "Login.addLinks",
-    "defaultMessage": "Add links to Check with one click. Links will be added to your selected project."
+    "id": "Login.registerOrRecover",
+    "defaultMessage": "Register or recover password?"
+  },
+  {
+    "id": "Login.addToApp",
+    "defaultMessage": "Add to {app}"
+  },
+  {
+    "id": "Login.addLinksToApp",
+    "defaultMessage": "Add links to {app} with one click. Links will be added to your selected project. If the link already exists in one of your projects, you are able to answer tasks associated with it."
   },
   {
     "id": "Login.getStarted",
@@ -20,20 +28,28 @@
     "defaultMessage": "Hmm, there was a problem"
   },
   {
-    "id": "Error.tryAgain",
-    "defaultMessage": "Please try again later."
+    "id": "Error.forHelp",
+    "defaultMessage": "For help contact {email}."
   },
   {
-    "id": "Error.forHelp",
-    "defaultMessage": "For help contact check@meedan.com."
+    "id": "Select.select",
+    "defaultMessage": "Select..."
   },
   {
     "id": "Save.error",
-    "defaultMessage": "Sorry, we encountered a problem adding this to Check."
+    "defaultMessage": "Sorry, we encountered a problem adding this item to {app}."
   },
   {
-    "id": "Save.addToCheck",
-    "defaultMessage": "Add to Check"
+    "id": "Save.exists",
+    "defaultMessage": "This link has already been saved to your project. You can view it here: {link}"
+  },
+  {
+    "id": "Save.imageTooLarge",
+    "defaultMessage": "Sorry, this image is too large."
+  },
+  {
+    "id": "Save.addToApp",
+    "defaultMessage": "Add to {app}"
   },
   {
     "id": "Save.openInNewTab",
@@ -81,10 +97,18 @@
   },
   {
     "id": "Save.saved",
-    "defaultMessage": "Saved"
+    "defaultMessage": "Saved!"
   },
   {
-    "id": "Projects.select",
-    "defaultMessage": "Select..."
+    "id": "Save.view",
+    "defaultMessage": "View"
+  },
+  {
+    "id": "Projects.noTeams",
+    "defaultMessage": "You are not a member of any team allowed to use the mobile application."
+  },
+  {
+    "id": "LargeImage.tooLarge",
+    "defaultMessage": "Sorry, this image is too large. Its size of {size} exceeds the maximum size of {max}."
   }
 ]
