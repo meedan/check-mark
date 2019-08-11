@@ -15,6 +15,8 @@ before_install:
 - export DISPLAY=':99.0'
 - export CI=false
 - export RAILS_ENV=test
+# extract configs
+- git clone https://${TOKEN}:x-oauth-basic@github.com/meedan/configurator ./configurator
 # dependencies
 - sudo rm -f /etc/apt/sources.list.d/mongodb*
 - sudo rm -f /etc/apt/sources.list.d/google*
@@ -38,9 +40,7 @@ before_install:
 - export CHECK_API_BRANCH=$((git ls-remote --exit-code --heads https://github.com/meedan/check-api.git $TRAVIS_BRANCH >/dev/null && echo $TRAVIS_BRANCH) || echo 'develop')
 - echo "Using branch $CHECK_API_BRANCH for Check API"
 - git clone --branch=$CHECK_API_BRANCH https://github.com/meedan/check-api.git
-- cp check-api/config/config.yml.example check-api/config/config.yml
-- cp check-api/config/initializers/secret_token.rb.example check-api/config/initializers/secret_token.rb
-- cp check-api/config/database.yml.example check-api/config/database.yml
+- d=configurator/$APP/travis/check-api/; for f in $(find $d -type f); do cp "$f" "check-api/${f/$d/}"; done
 - cd check-api
 - bundle install
 - bundle exec rake db:migrate
