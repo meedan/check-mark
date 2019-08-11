@@ -26,6 +26,7 @@ before_install:
 - rvm --default use 2.3.3
 - gem install bundler -v "< 2.0"
 # check api
+- docker run -d -p 9000:9000 -e "MINIO_ACCESS_KEY=AKIAIOSFODNN7EXAMPLE" -e "MINIO_SECRET_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY" minio/minio server /data
 - 'echo "127.0.0.1 postgres" | sudo tee -a /etc/hosts'
 - psql -c 'create database checkdesk_test;' -U postgres
 - redis-server 2>&1 >/dev/null &
