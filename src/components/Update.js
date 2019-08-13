@@ -44,6 +44,7 @@ class Update extends Component {
           src={`${config.checkWebUrl}/${pm.project.team.slug}/project/${pm.project_id}/media/${pm.dbid}/tasks`}
           frameborder="none"
           style={{
+            border: 0,
             boxSizing: 'border-box',
             minHeight: 400,
             height: this.state.frameHeight,

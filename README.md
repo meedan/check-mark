@@ -33,7 +33,10 @@ You can compile the code with `npm run build`. It was developed and tested with 
 
 * Visit `about:debugging`
 * Click "Load Temporary Add-on"
-* Pick the `manifest.json` file inside `build` directory
+* Pick the `manifest.json` file inside one of the following directories:
+  * `build`, if you are a developer and has compiled the extension locally in your machine
+  * `releases/qa`, to use the QA version
+  * `releases/live`, to use the live version
 * The extension will appear on the toolbar
 
 #### Localization

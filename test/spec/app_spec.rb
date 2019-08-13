@@ -24,9 +24,6 @@ shared_examples 'tests' do
 
   it 'should create media' do
     login
-    expect(@driver.page_source.include?('Claim: Test')).to be(false)
-    expect(@driver.page_source.include?('Link: ')).to be(true)
-    @driver.navigate.to @driver.current_url + '?text=Test'
     sleep 2
     expect(@driver.page_source.include?('Claim: Test')).to be(true)
     expect(@driver.page_source.include?('Link: ')).to be(false)
@@ -141,7 +138,7 @@ describe 'app' do
       # @driver.switch_to.window(window)
       @driver.navigate.to 'about:debugging'
       id = get_element('.internal-uuid span')
-      @driver.navigate.to "moz-extension://#{id.text}/popup.html"
+      @driver.navigate.to "moz-extension://#{id.text}/popup.html?text=Test"
       get_element('#app')
     end
     
@@ -173,7 +170,7 @@ describe 'app' do
       get_element('#toggle-dev-on').click
       sleep 1
       id = get_element('.extension-id')
-      @driver.navigate.to "chrome-extension://#{id.text}/popup.html"
+      @driver.navigate.to "chrome-extension://#{id.text}/popup.html?text=Test"
       get_element('#app')
     end
 

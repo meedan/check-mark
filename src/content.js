@@ -1,6 +1,7 @@
 chrome.runtime.onMessage.addListener(function(msg, sender) {
-  if (msg === 'toggle') {
-    toggle();
+  var data = JSON.parse(msg);
+  if (data.message === 'toggle') {
+    toggle(data.url, data.text);
   }
 });
 
@@ -10,7 +11,7 @@ var checkMarkSidebarActive = false;
 var checkMarkSidebarTask = null;
 var checkMarkSidebarIframe = null;
 
-function toggle() {
+function toggle(url, text) {
   checkMarkSidebarActive = !checkMarkSidebarActive;
   if (checkMarkSidebarActive) {
     window.addEventListener('message', receiveMessage, false);
@@ -37,6 +38,7 @@ function toggle() {
     body.style.paddingRight = paddingRight + 'px';
     checkMarkSidebarIframe = null;
   }
+
   else {
     iframe = document.createElement('iframe'); 
     iframe.style.borderLeft = '1px solid #cbcbcb';
@@ -54,7 +56,7 @@ function toggle() {
     iframe.style.display = 'block';
     iframe.frameBorder = 'none';
     iframe.id = id;
-    iframe.src = chrome.extension.getURL('popup.html');
+    iframe.src = chrome.extension.getURL('popup.html') + '?url=' + url + '&text=' + text;
     document.body.appendChild(iframe);
     body.style.paddingRight = paddingRight + width + 'px';
     checkMarkSidebarIframe = iframe;

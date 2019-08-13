@@ -75,22 +75,15 @@ const store = {
   }
 };
 
-chrome.tabs.query({ active: true, lastFocusedWindow: true }, function(tabs) {
-  const urlParam = window.location.search.match(/^\?url=(.*)/);
-  const url = urlParam ? decodeURI(urlParam[1]) : tabs[0].url;
+const urlParam = window.location.search.match(/^\?url=(.*)/);
+const url = urlParam ? decodeURI(urlParam[1]) : null;
 
-  chrome.tabs.executeScript( {
-    code: "window.getSelection().toString();"
-  }, function(selection) {
+const textParam = window.location.search.match(/^\?text=(.*)/);
+const text = textParam ? decodeURIComponent(decodeURI(textParam[1])) : '';
 
-    const textParam = window.location.search.match(/^\?text=(.*)/);
-    const text = textParam ? decodeURIComponent(decodeURI(textParam[1])) : (selection ? selection[0] : '');
-
-    ReactDOM.render(
-      <IntlProvider locale={locale} messages={translations}>
-        { (text || url) ? <App direction={direction} url={url} text={text} store={store} /> : <NoInput /> }
-      </IntlProvider>,
-      document.getElementById('root')
-    );
-  });
-});
+ReactDOM.render(
+  <IntlProvider locale={locale} messages={translations}>
+    { (text || url) ? <App direction={direction} url={url} text={text} store={store} /> : <NoInput /> }
+  </IntlProvider>,
+  document.getElementById('root')
+);
