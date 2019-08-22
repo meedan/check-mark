@@ -29,6 +29,8 @@ You can compile the code with `npm run build`. It was developed and tested with 
   * `releases/live`, to use the live version
 * The extension will appear on the toolbar
 
+If you are not able to login using the browser extension on Chrome, make sure that the option "Block third-party cookies", under your browser configurations, is *disabled*. If you use an extension like AdBlock, you need to disable the extension and re-enable the "Block third-party cookies" option.
+
 #### Running the extension in Firefox
 
 * Visit `about:debugging`
