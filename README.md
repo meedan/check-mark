@@ -29,7 +29,7 @@ You can compile the code with `npm run build`. It was developed and tested with 
   * `releases/live`, to use the live version
 * The extension will appear on the toolbar
 
-If you are not able to login using the browser extension on Chrome, make sure that the option "Block third-party cookies", under your browser configurations, is *disabled*. If you use an extension like AdBlock, you need to disable the extension and re-enable the "Block third-party cookies" option.
+If you are not able to login using the browser extension on Chrome, make sure that the option "Block third-party cookies", under your browser configurations, is *disabled*. If you use an extension like AdBlock, you first need to disable the extension, then disable the "Block third-party cookies" option.
 
 #### Running the extension in Firefox
 
@@ -68,7 +68,7 @@ For the first time only, run `npm run prepare-android`. You may also need to ope
 
 Copy `config.js.example` to `config.js` and define your configurations. Connect your device to your computer and run `npm run build-android`. This command must keep running. If it exits, run again. The application will be launched on your phone.
 
-You can also generate a APK that doesn't depend on the development server. In order to do that, execute `npm run generate-apk` and the APK will be at `android/app/build/outputs/apk/app-release.apk`. 
+You can also generate a APK that doesn't depend on the development server. In order to do that, execute `npm run generate-apk` and the APK will be at `android/app/build/outputs/apk/app-release.apk`.
 
 ### TODO
 
