@@ -40,6 +40,13 @@ function toggle(url, text) {
   }
 
   else {
+    var params = '';
+    if (text) {
+      params = '?text=' + text;
+    }
+    else if (url) {
+      params = '?url=' + url;
+    }
     iframe = document.createElement('iframe'); 
     iframe.style.borderLeft = '1px solid #cbcbcb';
     iframe.style.background = '#fff';
@@ -56,7 +63,7 @@ function toggle(url, text) {
     iframe.style.display = 'block';
     iframe.frameBorder = 'none';
     iframe.id = id;
-    iframe.src = chrome.extension.getURL('popup.html') + '?url=' + url + '&text=' + text;
+    iframe.src = chrome.extension.getURL('popup.html') + params;
     document.body.appendChild(iframe);
     body.style.paddingRight = paddingRight + width + 'px';
     checkMarkSidebarIframe = iframe;

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import { View } from 'react-native';
 import config from './../config';
 
@@ -41,7 +42,7 @@ class Update extends Component {
       <View id="update">
         <iframe
           id="check-web-frame"
-          src={`${config.checkWebUrl}/${pm.project.team.slug}/project/${pm.project_id}/media/${pm.dbid}/tasks`}
+          src={`${config.checkWebUrl}/${pm.project.team.slug}/project/${pm.project_id}/media/${pm.dbid}/tasks?token=${this.context.user.token}`}
           frameborder="none"
           style={{
             border: 0,
@@ -54,5 +55,9 @@ class Update extends Component {
     );
   }
 }
+
+Update.contextTypes = {
+  user: PropTypes.object,
+};
 
 export default Update;

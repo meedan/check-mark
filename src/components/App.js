@@ -32,29 +32,30 @@ class App extends Component {
   }
 
   componentWillMount() {
-    if (this.props.platform === 'mobile') {
-      this.props.store.read('userToken', (token) => {
-        if (token && token !== '') {
-          this.loginCallback({ token }, false);
-        }
-        else {
+    this.props.store.read('userToken', (token) => {
+      if (token && token !== '') {
+        this.loginCallback({ token }, false);
+      }
+      else {
+        if (this.props.platform === 'mobile') {
           this.loginCallback(null, false);
         }
-      });
-    }
-    else {
-      loggedIn((user, error) => {
-        this.loginCallback(user, error);
-      });
-    }
+        else {
+          loggedIn((user, error) => {
+            this.loginCallback(user, error);
+          });
+        }
+      }
+    });
   }
 
   componentDidMount() {
     if (this.context.platform !== 'mobile') {
       const receiveMessage = (event) => {
-        if (event.data === 'loggedIn') {
-          loggedIn((user, error) => {
-            this.loginCallback(user, error);
+        const data = event.data.split(':');
+        if (!this.state.user && data[0] === 'loggedIn' && data[1]) {
+          this.props.store.write('userToken', data[1], () => {
+            this.loginCallback({ token: data[1] }, false);
           });
         }
       };
@@ -76,9 +77,7 @@ class App extends Component {
 
   saveCallback() {
     this.setState({ saved: true }, () => {
-      loggedIn((user, error) => {
-        this.loginCallback(user, error);
-      });
+      this.loginCallback(this.state.user, false);
     });
   }
 

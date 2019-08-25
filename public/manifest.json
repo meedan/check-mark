@@ -2,7 +2,13 @@
   "manifest_version": 2,
   "name": "{APP_NAME}",
   "description": "{APP_DESCRIPTION}",
-  "version": "1.0.7",
+  "version": "1.0.9",
+  "applications": {
+    "gecko": {
+      "id": "{APP_ID}-mark-{APP_ID}@meedan.com",
+      "strict_min_version": "42.0"
+    }
+  },
   "commands": {
     "_execute_browser_action": {
       "suggested_key": {

@@ -36,6 +36,6 @@ export function loggedIn(callback) {
   });
 }
 
-export function logout(callback) {
-  fetch(config.checkApiUrl + '/api/users/logout', { headers: { credentials: 'include' } }).then(response => { callback(); });
+export function logout(callback, token) {
+  fetch(config.checkApiUrl + '/api/users/logout', { headers: { credentials: 'include', 'X-Check-Token': token } }).then(response => { callback(); });
 }

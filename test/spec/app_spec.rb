@@ -76,6 +76,7 @@ describe 'app' do
 
     # Open extension and assert that the user is not logged in
     open_extension
+    sleep 5
     expect(@driver.window_handles.size == 1).to be(true)
     expect(@driver.page_source.include?('sign in')).to be(true)
 

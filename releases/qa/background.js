@@ -227,8 +227,8 @@ function loggedIn(callback) {
   });
 }
 
-function logout(callback) {
-  fetch(__WEBPACK_IMPORTED_MODULE_2__config__["default"].checkApiUrl + '/api/users/logout', { headers: { credentials: 'include' } }).then(response => { callback(); });
+function logout(callback, token) {
+  fetch(__WEBPACK_IMPORTED_MODULE_2__config__["default"].checkApiUrl + '/api/users/logout', { headers: { credentials: 'include', 'X-Check-Token': token } }).then(response => { callback(); });
 }
 
 

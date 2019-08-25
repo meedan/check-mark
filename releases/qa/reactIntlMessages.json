@@ -4,6 +4,18 @@
     "defaultMessage": "Please invoke this application from the share menu of another application, or copy something to the clipboard and open this application again."
   },
   {
+    "id": "saveOrUpdate.header",
+    "defaultMessage": "This link exists in one or more projects, you can choose one of them below and answer the tasks. You can also {linkAdd} or {linkOpen}."
+  },
+  {
+    "id": "saveOrUpdate.linkAdd",
+    "defaultMessage": "add it to another project"
+  },
+  {
+    "id": "saveOrUpdate.linkOpen",
+    "defaultMessage": "open it in Check"
+  },
+  {
     "id": "Login.registerOrRecover",
     "defaultMessage": "Register or recover password?"
   },
@@ -22,18 +34,6 @@
   {
     "id": "Login.signIn",
     "defaultMessage": "Sign In"
-  },
-  {
-    "id": "saveOrUpdate.header",
-    "defaultMessage": "This link exists in one or more projects, you can choose one of them below and answer the tasks. You can also {linkAdd} or {linkOpen}."
-  },
-  {
-    "id": "saveOrUpdate.linkAdd",
-    "defaultMessage": "add it to another project"
-  },
-  {
-    "id": "saveOrUpdate.linkOpen",
-    "defaultMessage": "open it in Check"
   },
   {
     "id": "Error.thereWasAProblem",

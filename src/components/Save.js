@@ -105,13 +105,10 @@ class Save extends Component {
   }
 
   logout() {
-    if (this.context.platform === 'mobile') {
-      this.context.store.write('userToken', '', () => {
-        logout(this.props.callback);
-      });
-    }
-    else {
-      logout();
+    this.context.store.write('userToken', '', () => {
+      logout(this.props.callback, this.context.user.token);
+    });
+    if (this.context.platform !== 'mobile') {
       this.openCheck('');
     }
   }
