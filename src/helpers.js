@@ -6,12 +6,12 @@ export function loggedIn(callback) {
   superagent.get(config.checkApiUrl + '/api/me').withCredentials().end(function(err, response) {
     let data = null;
     let error = false;
-    
+
     try {
       if (err) {
         if (err.response) {
           const json = JSON.parse(err.response.text);
-          error = json.data.message;
+          error = json.errors[0].message;
         }
         else {
           error = err;
@@ -24,7 +24,7 @@ export function loggedIn(callback) {
           data = json.data;
         }
         else {
-          error = json.data.message;
+          error = json.errors[0].message;
         }
       }
     }

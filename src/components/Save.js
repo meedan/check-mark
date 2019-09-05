@@ -10,6 +10,7 @@ import config from './../config';
 import styles from './styles';
 import { logout } from './../helpers';
 import { createEnvironment } from './../relay/Environment';
+import CheckError from '../CheckError';
 
 const mutation = graphql`
   mutation SaveMutation(
@@ -131,10 +132,11 @@ class Save extends Component {
   failed(error) {
     let message = <FormattedMessage id="Save.error" defaultMessage="Sorry, we encountered a problem adding this item to {app}." values={{ app: config.appName }} />;
     // Show the error message from the backend
-    if (error && error.source && error.source.errors && error.source.errors.length > 0) {
-      const info = error.source.errors[0].error_info;
-      if (info && info.code === 'ERR_OBJECT_EXISTS') {
-        const link = `${config.checkWebUrl}/${this.state.selectedTeamSlug}/project/${info.project_id}/${info.type}/${info.id}`;
+    const { source } = error;
+    if (source && source.errors && source.errors.length > 0) {
+      const info = source.errors[0];
+      if (info && info.code === CheckError.codes.DUPLICATED) {
+        const link = `${config.checkWebUrl}/${this.state.selectedTeamSlug}/project/${info.data.project_id}/${info.data.type}/${info.data.id}`;
         const vals = {
           link: <Text onPress={this.openUrl.bind(this, link)}>{link}</Text>
         };
