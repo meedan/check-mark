@@ -2,10 +2,10 @@
   "manifest_version": 2,
   "name": "Check",
   "description": "Verify breaking news online",
-  "version": "1.0.9",
+  "version": "1.0.11",
   "applications": {
     "gecko": {
-      "id": "check-mark-check@meedan.com",
+      "id": "{2070efa6-8cd3-4318-b3d3-ff4c87ea564c}",
       "strict_min_version": "42.0"
     }
   },

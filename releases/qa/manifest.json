@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Check QA",
   "description": "Verify breaking news online",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "applications": {
     "gecko": {
       "id": "checkqa-mark-checkqa@meedan.com",

@@ -197,12 +197,12 @@ function loggedIn(callback) {
   __WEBPACK_IMPORTED_MODULE_0_superagent___default.a.get(__WEBPACK_IMPORTED_MODULE_2__config__["default"].checkApiUrl + '/api/me').withCredentials().end(function(err, response) {
     let data = null;
     let error = false;
-    
+
     try {
       if (err) {
         if (err.response) {
           const json = JSON.parse(err.response.text);
-          error = json.data.message;
+          error = json.errors[0].message;
         }
         else {
           error = err;
@@ -215,7 +215,7 @@ function loggedIn(callback) {
           data = json.data;
         }
         else {
-          error = json.data.message;
+          error = json.errors[0].message;
         }
       }
     }
