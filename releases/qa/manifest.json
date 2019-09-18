@@ -2,10 +2,10 @@
   "manifest_version": 2,
   "name": "Check QA",
   "description": "Verify breaking news online",
-  "version": "1.0.10",
+  "version": "1.0.11",
   "applications": {
     "gecko": {
-      "id": "checkqa-mark-checkqa@meedan.com",
+      "id": "{2070efa6-8cd3-4318-b3d3-ff4c87ea564c}",
       "strict_min_version": "42.0"
     }
   },
@@ -45,7 +45,7 @@
     "webRequest",
     "contextMenus",
     "https://fonts.googleapis.com/",
-    "https://check-api-qa.checkmedia.org/"
+    "https://qa-check-api.checkmedia.org/"
   ],
   "web_accessible_resources": ["popup.html"],
   "externally_connectable": {
