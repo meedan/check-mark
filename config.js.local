@@ -1,0 +1,12 @@
+const config = {
+  appName: 'Check Local',
+  appId: 'checkqa',
+  appEmail: 'check@local.com',
+  appColor: '#2e77fc',
+  appDescription: 'Verify breaking news online',
+  checkRelayPath: 'http://localhost:3000/relay.json',
+  checkApiUrl: 'http://localhost:3000',
+  checkWebUrl: 'http://localhost:3333'
+
+};
+export default config;
