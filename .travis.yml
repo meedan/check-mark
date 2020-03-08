@@ -6,7 +6,7 @@ services:
 node_js:
 - '7'
 rvm:
-- 2.3.1
+- 2.4
 addons:
   firefox: '56.0b1'
   postgresql: '9.4'
@@ -22,8 +22,6 @@ before_install:
 - sudo rm -f /etc/apt/sources.list.d/google*
 - sudo apt-get -qq update
 - sudo apt-get install ruby ruby-dev xvfb autoconf automake libtool redis-server -y
-- rvm install 2.3.3
-- rvm --default use 2.3.3
 - gem install bundler -v "< 2.0"
 # check api
 - docker run -d -p 9000:9000 -e "MINIO_ACCESS_KEY=AKIAIOSFODNN7EXAMPLE" -e "MINIO_SECRET_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY" minio/minio server /data
