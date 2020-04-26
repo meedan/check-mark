@@ -6,8 +6,7 @@ import styles from './styles';
 import config from './../config';
 
 const logos = {
-  check: require('./../assets/check.png'),
-  bridge: require('./../assets/bridge.png')
+  check: require('./../assets/check.png')
 };
 
 const staticLoginUrl = 'file:///android_asset/login.html';
@@ -74,7 +73,7 @@ class Login extends Component {
           }, 1000);
         });
       }
-      
+
       // Avoid Twitter "Invalid request token being sent" error
       if (!/twitter/.test(url) && url !== this.state.url) {
         state.url = url;
@@ -118,7 +117,7 @@ class Login extends Component {
       const dimensions = Dimensions.get('window');
       style.height = dimensions.height;
     }
-      
+
     return (
       this.state.checkOpened ?
       <View style={style}>
