@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Check QA",
   "description": "Verify breaking news online",
-  "version": "1.0.12",
+  "version": "1.0.13",
   "applications": {
     "gecko": {
       "id": "{2070efa6-8cd3-4318-b3d3-ff4c87ea564c}",
