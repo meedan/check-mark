@@ -34,17 +34,17 @@ class LargeImage extends Component {
           query={graphql`
             query LargeImageQuery {
               about {
-                upload_max_size
+                image_max_size
               }
             }
           `}
 
           render={({error, props}) => {
             if (!error && props && props.about && this.state.size) {
-              const bytes = filesizeParser(props.about.upload_max_size);
+              const bytes = filesizeParser(props.about.image_max_size);
               const valid = this.state.size <= bytes ? true : false;
               const size = prettyBytes(this.state.size).toUpperCase();
-              const max = props.about.upload_max_size.toUpperCase();
+              const max = props.about.image_max_size.toUpperCase();
 
               return (
                 <ImagePreview image={image} size={size} max={max} valid={valid} callback={this.props.callback} />
