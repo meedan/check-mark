@@ -20,14 +20,11 @@ const mutation = graphql`
       project_media {
         dbid
         oembed_metadata
-        project {
-          dbid
-          title
-          team {
-            slug
-            avatar
-          }
+        team {
+          slug
+          avatar
         }
+        project_ids
       }
     }
   }
@@ -118,8 +115,8 @@ class Save extends Component {
   }
 
   saved(response) {
-    const project = response.createProjectMedia.project_media.project;
-    this.context.store.write('lastProject', project.team.slug + ':' + project.dbid, () => {
+    const projectMedia = response.createProjectMedia.project_media;
+    this.context.store.write('lastProject', projectMedia.team.slug + ':' + '2751', () => {
       if (this.context.platform !== 'mobile' && this.props.saveCallback) {
         this.props.saveCallback();
       }
@@ -136,7 +133,7 @@ class Save extends Component {
     if (source && source.errors && source.errors.length > 0) {
       const info = source.errors[0];
       if (info && info.code === CheckError.codes.DUPLICATED) {
-        const link = `${config.checkWebUrl}/${this.state.selectedTeamSlug}/project/${info.data.project_id}/${info.data.type}/${info.data.id}`;
+        const link = `${config.checkWebUrl}/${this.state.selectedTeamSlug}/${info.data.type}/${info.data.id}`;
         const vals = {
           link: <Text onPress={this.openUrl.bind(this, link)}>{link}</Text>
         };
@@ -183,7 +180,7 @@ class Save extends Component {
       input: {
         url: url,
         quote: text,
-        project_id: this.state.selectedProject,
+        add_to_project_id: this.state.selectedProject,
         clientMutationId: "1"
       }
     };
@@ -210,7 +207,7 @@ class Save extends Component {
   menuAction(action) {
     if (this.state.state === 'saved') {
       const media = this.state.result.createProjectMedia.project_media;
-      let path = media.project.team.slug + '/project/' + media.project.dbid + '/media/' + media.dbid;
+      let path = media.team.slug  + '/media/' + media.dbid;
       if (action !== '') {
         path += '#' + action;
       }
@@ -253,7 +250,7 @@ class Save extends Component {
                     onCloseSelect={this.onCloseSelect.bind(this)} />
           :
           <View id="project">
-            <Image source={{ uri: this.state.result.createProjectMedia.project_media.project.team.avatar }} style={styles.teamAvatar} />
+            <Image source={{ uri: this.state.result.createProjectMedia.project_media.team.avatar }} style={styles.teamAvatar} />
             <Text style={styles.projectTitle} id="project-title" title={this.state.result.createProjectMedia.project_media.project.title}>{this.state.result.createProjectMedia.project_media.project.title}</Text>
           </View>
           }

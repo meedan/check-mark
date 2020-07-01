@@ -34,8 +34,9 @@ class SaveOrUpdate extends Component {
     }
   }
 
-  openItem(projectMedia) {
-    const path = projectMedia.project.team.slug + '/project/' + projectMedia.project_id + '/media/' + projectMedia.dbid;
+  openItem(projectMedia, project) {
+    const projectPath = project ? '/project/' + project.dbid : ''
+    const path = projectMedia.team.slug + projectPath + '/media/' + projectMedia.dbid;
     window.open(config.checkWebUrl + '/' + path);
   }
 
@@ -67,16 +68,20 @@ class SaveOrUpdate extends Component {
                     id
                     dbid
                     title
-                    project_id
-                    project {
+                    project_ids
+                    team {
+                      name
                       id
                       dbid
-                      title
-                      team {
-                        name
-                        id
-                        dbid
-                        slug
+                      slug
+                    }
+                    projects(first: 10000) {
+                      edges {
+                        node {
+                          title,
+                          dbid,
+                          id,
+                        }
                       }
                     }
                   }
@@ -100,21 +105,24 @@ class SaveOrUpdate extends Component {
             let lastProject = null;
             let lastProjectId = null;
             let lastProjectMedia = null;
+            let mediaLastProject = null
 
             if (!error && props && props.project_medias) {
               props.project_medias.edges.forEach(function(pmNode) {
                 const pm = pmNode.node;
-                const team = pm.project.team;
+                const team = pm.team;
                 if (!teams[team.dbid]) {
                   teams[team.dbid] = Object.assign(team, { projects: {} });
                 }
-                if (!teams[team.dbid].projects[pm.project_id]) {
-                  teams[team.dbid].projects[pm.project_id] = pm.project;
+                mediaLastProject = pm.projects.edges;
+                mediaLastProject = mediaLastProject.pop().node;
+                if (!teams[team.dbid].projects[mediaLastProject.dbid]) {
+                  teams[team.dbid].projects[mediaLastProject.dbid] = mediaLastProject;
                 }
-                lastProject = team.slug + ':' + pm.project.dbid;
-                lastProjectId = pm.project.dbid;
+                lastProject = team.slug + ':' + mediaLastProject.dbid;
+                lastProjectId = mediaLastProject.dbid;
                 lastProjectMedia = pm;
-                if (pm.project_id === selectedProjectId) {
+                if (mediaLastProject.dbid === selectedProjectId) {
                   projectMedia = pm;
                 }
               });
@@ -158,7 +166,7 @@ class SaveOrUpdate extends Component {
                         defaultMessage="This link exists in one or more projects, you can choose one of them below and answer the tasks. You can also {linkAdd} or {linkOpen}."
                         values={{
                           linkAdd: <Text onClick={this.newItem.bind(this)} style={styles.link}><FormattedMessage id="saveOrUpdate.linkAdd" defaultMessage="add it to another project" /></Text>,
-                          linkOpen: <Text onClick={this.openItem.bind(this, projectMedia)} style={styles.link}><FormattedMessage id="saveOrUpdate.linkOpen" defaultMessage="open it in Check" /></Text>,
+                          linkOpen: <Text onClick={this.openItem.bind(this, projectMedia, mediaLastProject)} style={styles.link}><FormattedMessage id="saveOrUpdate.linkOpen" defaultMessage="open it in Check" /></Text>,
                         }}
                       />                
                     </Text>

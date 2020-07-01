@@ -37,12 +37,13 @@ class Update extends Component {
 
   render() {
     const pm = this.props.projectMedia;
+    const projectPath = pm.project_ids.length ? '/project/' + pm.project_ids.pop() : ''
 
     return (
       <View id="update">
         <iframe
           id="check-web-frame"
-          src={`${config.checkWebUrl}/${pm.project.team.slug}/project/${pm.project_id}/media/${pm.dbid}/tasks?token=${this.context.user.token}`}
+          src={`${config.checkWebUrl}/${pm.team.slug}${projectPath}/media/${pm.dbid}/tasks?token=${this.context.user.token}`}
           frameborder="none"
           style={{
             border: 0,
