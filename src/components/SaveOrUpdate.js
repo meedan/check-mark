@@ -115,7 +115,7 @@ class SaveOrUpdate extends Component {
                   teams[team.dbid] = Object.assign(team, { projects: {} });
                 }
                 mediaLastProject = pm.projects.edges;
-                mediaLastProject = mediaLastProject.pop().node;
+                mediaLastProject = mediaLastProject[mediaLastProject.length - 1].node;
                 if (!teams[team.dbid].projects[mediaLastProject.dbid]) {
                   teams[team.dbid].projects[mediaLastProject.dbid] = mediaLastProject;
                 }

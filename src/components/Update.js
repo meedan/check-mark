@@ -37,7 +37,7 @@ class Update extends Component {
 
   render() {
     const pm = this.props.projectMedia;
-    const projectPath = pm.project_ids.length ? '/project/' + pm.project_ids.pop() : ''
+    const projectPath = pm.project_ids.length ? '/project/' + pm.project_ids[pm.project_ids.length - 1] : '';
 
     return (
       <View id="update">
