@@ -25,6 +25,15 @@ const mutation = graphql`
           avatar
         }
         project_ids
+        projects(last: 1) {
+          edges {
+            node {
+              title,
+              dbid,
+              id,
+            }
+          }
+        }
       }
     }
   }
@@ -226,6 +235,14 @@ class Save extends Component {
 
     const menuStyle = [styles.menuOption, this.state.state !== 'saved' && styles.menuOptionDisabled, this.state.state === 'saved' && styles.menuOptionActive];
 
+    let lastProjectTitle = '';
+    if (this.state.state === 'saved') {
+      const projects = this.state.result.createProjectMedia.project_media.projects;
+      if (projects.edges && projects.edges.length) {
+        lastProjectTitle = projects.edges[0].node.title;
+      }
+    }
+
     return (
      <View id="save" className={this.setClasses()} style={{ height: windowHeight }}>
         <Text id="title" style={styles.title}><FormattedMessage id="Save.addToApp" defaultMessage="Add to {app}" values={{ app: config.appName }} /></Text>
@@ -253,7 +270,7 @@ class Save extends Component {
           :
           <View id="project">
             <Image source={{ uri: this.state.result.createProjectMedia.project_media.team.avatar }} style={styles.teamAvatar} />
-            <Text style={styles.projectTitle} id="project-title" title={this.state.result.createProjectMedia.project_media.project.title}>{this.state.result.createProjectMedia.project_media.project.title}</Text>
+            <Text style={styles.projectTitle} id="project-title" title={lastProjectTitle}>{lastProjectTitle}</Text>
           </View>
           }
 
