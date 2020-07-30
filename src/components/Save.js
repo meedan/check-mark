@@ -19,7 +19,7 @@ const mutation = graphql`
     createProjectMedia(input: $input) {
       project_media {
         dbid
-        oembed_metadata
+        oembed
         team {
           slug
           avatar
@@ -55,10 +55,9 @@ class Save extends Component {
     };
   }
 
-  getMetadata(key) {
+  getEmbed(key) {
     if (this.state.result) {
-      const media = JSON.parse(this.state.result.createProjectMedia.project_media.oembed_metadata);
-      return media[key];
+      return this.state.result.createProjectMedia.project_media.oembed[key];
     }
     return null;
   }
@@ -275,7 +274,7 @@ class Save extends Component {
           }
 
           <View id="preview" style={styles.preview}>
-          { (this.state.state === 'saved' && this.state.result) ? <Text className="saved" onPress={this.openUrl.bind(this, this.getMetadata('permalink'))}>{this.getMetadata('title')}</Text> : (
+          { (this.state.state === 'saved' && this.state.result) ? <Text className="saved" onPress={this.openUrl.bind(this, this.getEmbed('permalink'))}>{this.getEmbed('title')}</Text> : (
             this.props.image ? <LargeImage image={this.props.image} callback={this.setImage.bind(this)} /> : (
             (this.props.text && this.props.text !== '') ?
               <Text title={this.props.text}>
@@ -296,7 +295,7 @@ class Save extends Component {
           : (this.state.state === 'saved' ?
             <View style={[styles.savedBar, { width: Dimensions.get('window').width }]} id="saved-bar">
               <Text style={[styles.button3, styles[this.state.state]]} onPress={this.ignore.bind(this)} className="saved" id="button-saved"><FormattedMessage id="Save.saved" defaultMessage="Saved!" /></Text>
-              <Text style={styles.button3} id="button-view" onPress={this.openUrl.bind(this, this.getMetadata('permalink'))}><FormattedMessage id="Save.view" defaultMessage="View" /></Text>
+              <Text style={styles.button3} id="button-view" onPress={this.openUrl.bind(this, this.getEmbed('permalink'))}><FormattedMessage id="Save.view" defaultMessage="View" /></Text>
             </View>
           : null))
         }
