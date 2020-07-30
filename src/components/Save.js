@@ -20,12 +20,18 @@ const mutation = graphql`
       project_media {
         dbid
         oembed_metadata
-        project {
-          dbid
-          title
-          team {
-            slug
-            avatar
+        team {
+          slug
+          avatar
+        }
+        project_ids
+        projects(last: 1) {
+          edges {
+            node {
+              title,
+              dbid,
+              id,
+            }
           }
         }
       }
@@ -118,8 +124,10 @@ class Save extends Component {
   }
 
   saved(response) {
-    const project = response.createProjectMedia.project_media.project;
-    this.context.store.write('lastProject', project.team.slug + ':' + project.dbid, () => {
+    const projectMedia = response.createProjectMedia.project_media;
+    const projectIds = projectMedia.project_ids;
+    const lastProject = projectIds.length ? projectIds[projectIds - 1] : 0;
+    this.context.store.write('lastProject', projectMedia.team.slug + ':' + lastProject, () => {
       if (this.context.platform !== 'mobile' && this.props.saveCallback) {
         this.props.saveCallback();
       }
@@ -136,7 +144,7 @@ class Save extends Component {
     if (source && source.errors && source.errors.length > 0) {
       const info = source.errors[0];
       if (info && info.code === CheckError.codes.DUPLICATED) {
-        const link = `${config.checkWebUrl}/${this.state.selectedTeamSlug}/project/${info.data.project_id}/${info.data.type}/${info.data.id}`;
+        const link = `${config.checkWebUrl}/${this.state.selectedTeamSlug}/${info.data.type}/${info.data.id}`;
         const vals = {
           link: <Text onPress={this.openUrl.bind(this, link)}>{link}</Text>
         };
@@ -183,7 +191,7 @@ class Save extends Component {
       input: {
         url: url,
         quote: text,
-        project_id: this.state.selectedProject,
+        add_to_project_id: this.state.selectedProject,
         clientMutationId: "1"
       }
     };
@@ -210,7 +218,7 @@ class Save extends Component {
   menuAction(action) {
     if (this.state.state === 'saved') {
       const media = this.state.result.createProjectMedia.project_media;
-      let path = media.project.team.slug + '/project/' + media.project.dbid + '/media/' + media.dbid;
+      let path = media.team.slug  + '/media/' + media.dbid;
       if (action !== '') {
         path += '#' + action;
       }
@@ -226,6 +234,14 @@ class Save extends Component {
     const windowHeight = this.context.platform === 'mobile' ? Dimensions.get('window').height : 'auto';
 
     const menuStyle = [styles.menuOption, this.state.state !== 'saved' && styles.menuOptionDisabled, this.state.state === 'saved' && styles.menuOptionActive];
+
+    let lastProjectTitle = '';
+    if (this.state.state === 'saved') {
+      const projects = this.state.result.createProjectMedia.project_media.projects;
+      if (projects.edges && projects.edges.length) {
+        lastProjectTitle = projects.edges[0].node.title;
+      }
+    }
 
     return (
      <View id="save" className={this.setClasses()} style={{ height: windowHeight }}>
@@ -253,8 +269,8 @@ class Save extends Component {
                     onCloseSelect={this.onCloseSelect.bind(this)} />
           :
           <View id="project">
-            <Image source={{ uri: this.state.result.createProjectMedia.project_media.project.team.avatar }} style={styles.teamAvatar} />
-            <Text style={styles.projectTitle} id="project-title" title={this.state.result.createProjectMedia.project_media.project.title}>{this.state.result.createProjectMedia.project_media.project.title}</Text>
+            <Image source={{ uri: this.state.result.createProjectMedia.project_media.team.avatar }} style={styles.teamAvatar} />
+            <Text style={styles.projectTitle} id="project-title" title={lastProjectTitle}>{lastProjectTitle}</Text>
           </View>
           }
 
