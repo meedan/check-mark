@@ -21,5 +21,4 @@ src/style/*.css
 android/.gradle
 android/app/src/main/assets/*bundle*
 *.apk
-*.zip
 .transifexrc
