@@ -11,11 +11,11 @@ class Error extends Component {
 
     return (
       <View id="error">
-        <Text style={styles.title}><FormattedMessage id="Error.thereWasAProblem" defaultMessage="Hmm, there was a problem" /></Text>
+        <Text style={styles.title}><FormattedMessage id="Error.thereWasAProblem" defaultMessage="Sorry, an error occurred." /></Text>
         { this.props.message ? <Text style={styles.p} className="code">{message}</Text> : null }
         { this.props.messageComponent ? <Text style={styles.p} className="code">{this.props.messageComponent}</Text> : null }
         <Text style={styles.p}>
-          <FormattedMessage id="Error.forHelp" defaultMessage="For help contact {email}." values={{ email: config.appEmail }} />
+          <FormattedMessage id="Error.forHelp" defaultMessage="Please try again and contact {email} if the condition persists." values={{ email: config.appEmail }} />
         </Text>
       </View>
     );
