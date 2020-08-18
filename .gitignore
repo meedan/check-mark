@@ -22,3 +22,6 @@ android/.gradle
 android/app/src/main/assets/*bundle*
 *.apk
 .transifexrc
+build.zip
+dist
+config.js.test

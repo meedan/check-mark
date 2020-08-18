@@ -1,3 +1,4 @@
 source 'https://rubygems.org'
-gem 'selenium-webdriver', '3.4.4'
+gem 'selenium-webdriver'
 gem 'rspec'
+gem 'httparty'

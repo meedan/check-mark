@@ -2,6 +2,7 @@ require 'selenium-webdriver'
 require 'yaml'
 require 'net/http'
 require 'json'
+require 'httparty'
 
 shared_examples 'tests' do
   it 'should open extension' do
@@ -102,6 +103,26 @@ describe 'app' do
     expect(@driver.page_source.include?('sign in')).to be(false)
   end
 
+  def save_screenshot(title)
+    if @config['imgur_client_id']
+      path = '/tmp/' + (0...8).map{ (65 + rand(26)).chr }.join + '.png'
+      @driver.save_screenshot(path)
+
+      auth_header =  {'Authorization' => 'Client-ID ' + @config['imgur_client_id']}
+      image = File.new(path)
+      body = { image: image, type: 'file' }
+      response = HTTParty.post('https://api.imgur.com/3/upload', body: body, headers: auth_header)
+      JSON.parse(response.body)['data']['link']
+    end
+  end
+
+  def close_browser
+    begin
+      @driver.quit
+    rescue
+    end
+  end
+
   context 'firefox' do
     before :all do
       `cd #{@config['extension_path']} && zip -r -FS #{@config['extension_path']}/test.xpi * && cd -`
@@ -122,21 +143,10 @@ describe 'app' do
       req = Net::HTTP::Post.new(uri.path, 'Content-Type' => 'application/json')
       req.body = { path: "#{@config['extension_path']}/test.xpi", temporary: true }.to_json
       res = http.request(req)
-      puts 'Tried to install extension, here is the response from geckodriver: ' + res.body
       sleep 3
     end
 
-    def close_browser
-      begin
-        @driver.close
-      rescue
-      end
-    end
-
     def open_extension
-      # @driver.action.key_down(:control).key_down(:shift).send_keys('l').key_up(:shift).key_up(:control).perform
-      # window = @driver.window_handles.last
-      # @driver.switch_to.window(window)
       @driver.navigate.to 'about:debugging'
       id = get_element('.internal-uuid span')
       @driver.navigate.to "moz-extension://#{id.text}/popup.html?text=Test"
@@ -151,27 +161,26 @@ describe 'app' do
       close_browser
       prefs = { 'intl.accept_languages' => language }
       path = @config['extension_path']
-      caps = Selenium::WebDriver::Remote::Capabilities.chrome(chromeOptions: { args: ["--load-extension=#{path}"], prefs: prefs })
-      @driver = Selenium::WebDriver.for :remote, url: @config['chromedriver_url'], desired_capabilities: caps
-    end
-
-    def close_browser
-      begin
-        @driver.quit
-      rescue
-      end
+      args = ["disable-gpu", "no-sandbox", "disable-dev-shm-usage", "--load-extension=#{path}"]
+      chrome_options = {
+        prefs: prefs,
+        args: args
+      }
+      desired_capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
+        'goog:chromeOptions': chrome_options,
+      )
+      Selenium::WebDriver.logger.level = :debug
+      @driver = Selenium::WebDriver.for(:chrome, desired_capabilities: desired_capabilities, url: @config['chromedriver_url'])
     end
 
     def open_extension
-      # @driver.action.key_down(:control).key_down(:shift).send_keys('l').key_up(:shift).key_up(:control).perform
-      # window = @driver.window_handles.last
-      # @driver.switch_to.window(window)
-      @driver.navigate.to 'chrome://extensions-frame'
+      @driver.navigate.to 'chrome://extensions'
       sleep 1
-      get_element('#toggle-dev-on').click
+      @driver.execute_script("document.getElementsByTagName('extensions-manager')[0].shadowRoot.querySelector('extensions-toolbar').shadowRoot.querySelector('#devMode').click()")
       sleep 1
-      id = get_element('.extension-id')
-      @driver.navigate.to "chrome-extension://#{id.text}/popup.html?text=Test"
+      id = @driver.execute_script("return document.getElementsByTagName('extensions-manager')[0].shadowRoot.querySelector('#items-list').shadowRoot.querySelector('extensions-item').getAttribute('id')")
+      @driver.navigate.to "chrome-extension://#{id}/popup.html?text=Test"
+      sleep 5
       get_element('#app')
     end
 
