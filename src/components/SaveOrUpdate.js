@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { QueryRenderer, graphql } from 'react-relay';
-import { View, Text, Image } from 'react-native';
+import { View, Text } from 'react-native';
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import config from './../config';
 import styles from './styles';
@@ -45,7 +45,7 @@ class SaveOrUpdate extends Component {
   }
 
   render() {
-    if (this.context.platform === 'mobile' || this.props.text || this.props.image) {
+    if (this.props.text || this.props.image) {
       const props = Object.assign({}, this.props);
       delete props.saveCallback;
       return (<Save {...props} />);

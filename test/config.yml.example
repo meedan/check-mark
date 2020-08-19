@@ -2,3 +2,4 @@ chromedriver_url: http://chromedriver:4444/wd/hub
 geckodriver_url: http://geckodriver:4444
 extension_path: /app/releases/test
 check_api_url: http://api:3000
+imgur_client_id:

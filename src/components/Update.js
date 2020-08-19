@@ -45,6 +45,7 @@ class Update extends Component {
           id="check-web-frame"
           src={`${config.checkWebUrl}/${pm.team.slug}${projectPath}/media/${pm.dbid}/tasks?token=${this.context.user.token}`}
           frameborder="none"
+          title="check-web"
           style={{
             border: 0,
             boxSizing: 'border-box',

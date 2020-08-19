@@ -169,7 +169,6 @@ describe 'app' do
       desired_capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
         'goog:chromeOptions': chrome_options,
       )
-      Selenium::WebDriver.logger.level = :debug
       @driver = Selenium::WebDriver.for(:chrome, desired_capabilities: desired_capabilities, url: @config['chromedriver_url'])
     end
 

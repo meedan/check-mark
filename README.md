@@ -2,7 +2,7 @@
 
 [![Travis](https://travis-ci.org/meedan/check-mark.svg?branch=develop)](https://travis-ci.org/meedan/check-mark/)
 
-A browser extension and mobile application for [Check](https://meedan.com/en/check/).
+A browser extension for [Check](https://meedan.com/en/check/).
 
 ## Browser Extension
 
@@ -74,17 +74,3 @@ As usual, localization is done on [Transifex](https://www.transifex.com/meedan/c
 #### Firefox Store
 
 You will be asked to submit the source code of the extension because we're using `webpack` to bundle the code. You can download a zipped version of the `master` branch for this purpose.
-
-## Mobile Application
-
-### Development
-
-For the first time only, run `npm run prepare-android`. You may also need to open the application on your device, shake it, and set the IP of the host computer and port 8081 at "Dev Settings".
-
-Copy `config.js.example` to `config.js` and define your configurations. Connect your device to your computer and run `npm run build-android`. This command must keep running. If it exits, run again. The application will be launched on your phone.
-
-You can also generate a APK that doesn't depend on the development server. In order to do that, execute `npm run generate-apk` and the APK will be at `android/app/build/outputs/apk/app-release.apk`.
-
-### TODO
-
-* Avoid that a new instance of the app is triggered when sharing content with already running app (https://github.com/meedan/react-native-share-menu/issues/25)

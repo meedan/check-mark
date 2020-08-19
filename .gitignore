@@ -24,4 +24,3 @@ android/app/src/main/assets/*bundle*
 .transifexrc
 build.zip
 dist
-config.js.test

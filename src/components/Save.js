@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
 import { commitMutation, graphql } from 'react-relay';
-import { View, Text, Linking, Image, Dimensions } from 'react-native';
+import { View, Text, Image, Dimensions } from 'react-native';
 import Projects from './Projects';
 import LargeImage from './LargeImage';
 import Error from './Error';
@@ -81,19 +81,15 @@ class Save extends Component {
   }
 
   toggleMenu(e) {
-    if (this.context.platform !== 'mobile') {
-      e.stopPropagation();
-    }
+    e.stopPropagation();
     this.setState({ showMenu: !this.state.showMenu });
   }
 
   componentDidUpdate() {
     const that = this;
-    if (this.context.platform !== 'mobile') {
-      window.addEventListener('click', function() {
-        that.setState({ showMenu: false });
-      });
-    }
+    window.addEventListener('click', function() {
+      that.setState({ showMenu: false });
+    });
   }
 
   setClasses() {
@@ -108,16 +104,14 @@ class Save extends Component {
   }
 
   openUrl(url) {
-    this.context.platform === 'mobile' ? Linking.openURL(url) : window.open(url);
+    window.open(url);
   }
 
   logout() {
     this.context.store.write('userToken', '', () => {
       logout(this.props.callback, this.context.user.token);
     });
-    if (this.context.platform !== 'mobile') {
-      this.openCheck('');
-    }
+    this.openCheck('');
   }
 
   ignore() {
@@ -128,7 +122,7 @@ class Save extends Component {
     const projectIds = projectMedia.project_ids;
     const lastProject = projectIds.length ? projectIds[projectIds - 1] : 0;
     this.context.store.write('lastProject', projectMedia.team.slug + ':' + lastProject, () => {
-      if (this.context.platform !== 'mobile' && this.props.saveCallback) {
+      if (this.props.saveCallback) {
         this.props.saveCallback();
       }
       else {
@@ -231,7 +225,7 @@ class Save extends Component {
       return (<Error messageComponent={this.state.result} />);
     }
 
-    const windowHeight = this.context.platform === 'mobile' ? Dimensions.get('window').height : 'auto';
+    const windowHeight = 'auto';
 
     const menuStyle = [styles.menuOption, this.state.state !== 'saved' && styles.menuOptionDisabled, this.state.state === 'saved' && styles.menuOptionActive];
 

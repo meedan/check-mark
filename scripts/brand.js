@@ -5,12 +5,6 @@ console.log('Application is ' + config.appName + '...');
 const files = [
   'app.json',
   'public/manifest.json',
-  'android/app/src/main/res/values/strings.xml',
-  'android/app/src/main/AndroidManifest.xml',
-  'android/app/build.gradle',
-  'android/app/src/main/java/com/checkmark/MainApplication.java',
-  'android/app/src/main/java/com/checkmark/MainActivity.java',
-  'android/app/src/main/assets/login.html'
 ];
 
 const operation = process.argv[2];
@@ -24,11 +18,6 @@ if (operation === 'brand') {
     output = output.replace(new RegExp('{APP_DESCRIPTION}', 'g'), config.appDescription);
     output = output.replace(new RegExp('{APP_ID}', 'g'), config.appId);
     fs.writeFileSync(file, output);
-  });
-
-  // Android images
-  ['xxh', 'm', 'xh', 'h'].forEach((size) => {
-    fs.createReadStream(`android/app/src/main/res/${config.appId}/mipmap-${size}dpi/ic_launcher.png`).pipe(fs.createWriteStream(`android/app/src/main/res/mipmap-${size}dpi/ic_launcher.png`));
   });
 }
 
