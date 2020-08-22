@@ -4,10 +4,6 @@
     "defaultMessage": "Please invoke this application from the share menu of another application, or copy something to the clipboard and open this application again."
   },
   {
-    "id": "Login.registerOrRecover",
-    "defaultMessage": "Register or recover password?"
-  },
-  {
     "id": "Login.addToApp",
     "defaultMessage": "Add to {app}"
   },
@@ -24,6 +20,14 @@
     "defaultMessage": "Sign In"
   },
   {
+    "id": "Error.thereWasAProblem",
+    "defaultMessage": "Sorry, an error occurred."
+  },
+  {
+    "id": "Error.forHelp",
+    "defaultMessage": "Please try again and contact {email} if the condition persists."
+  },
+  {
     "id": "saveOrUpdate.header",
     "defaultMessage": "This link exists in one or more projects, you can choose one of them below and answer the tasks. You can also {linkAdd} or {linkOpen}."
   },
@@ -34,14 +38,6 @@
   {
     "id": "saveOrUpdate.linkOpen",
     "defaultMessage": "open it in Check"
-  },
-  {
-    "id": "Error.thereWasAProblem",
-    "defaultMessage": "Hmm, there was a problem"
-  },
-  {
-    "id": "Error.forHelp",
-    "defaultMessage": "For help contact {email}."
   },
   {
     "id": "Select.select",
@@ -117,7 +113,7 @@
   },
   {
     "id": "Projects.noTeams",
-    "defaultMessage": "You are not a member of any team allowed to use the mobile application."
+    "defaultMessage": "You are not a member of any team."
   },
   {
     "id": "LargeImage.tooLarge",
