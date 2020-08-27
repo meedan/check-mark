@@ -63,7 +63,6 @@ As usual, localization is done on [Transifex](https://www.transifex.com/meedan/c
   * `activeTab`: Send the current URL to Check
   * `tabs`: Send any URL to Check
   * `cookies`: Authenticate user on Check
-  * `storage`: Remember the last list that the user selected
   * `webRequest`: Make requests to Check API
   * `contextMenus`: Invoke the extension from a link on right-click
   * Host Permission: Render Check application inside a sidebar

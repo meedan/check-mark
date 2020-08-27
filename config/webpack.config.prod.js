@@ -89,13 +89,6 @@ module.exports = {
     // `web` extension prefixes have been added for better support
     // for React Native Web.
     extensions: ['.web.js', '.js', '.json', '.web.jsx', '.jsx'],
-    alias: {
-      
-      // Support React Native Web
-      // https://www.smashingmagazine.com/2016/08/a-glimpse-into-the-future-with-react-native-for-web/
-      'react-native': 'react-native-web',
-      'react-native-fetch-blob': 'react-native-web',
-    },
     plugins: [
       // Prevents users from importing files from outside of src/ (or node_modules/).
       // This often causes confusion because we only process files within src/ with babel.
@@ -165,13 +158,13 @@ module.exports = {
       // Process JS with Babel.
       {
         test: /\.(js|jsx)$/,
-        include: [paths.appSrc, paths.webSrc],
+        include: [paths.appSrc],
         loader: require.resolve('babel-loader'),
         options: {
           metadataSubscribers: [ReactIntlPlugin.metadataContextFunctionName],
           compact: true,
-          plugins: ['react-native-web/babel'],
-          presets: ['react-native']
+          plugins: ['relay'],
+          presets: ['react']
         },
       },
       // The notation here is somewhat confusing.

@@ -1,96 +1,53 @@
-import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
+import { FormattedMessage } from 'react-intl';
+import Box from '@material-ui/core/Box';
 import Login from './Login';
 import SaveOrUpdate from './SaveOrUpdate';
-import Error from './Error';
+import Loading from './Loading';
 import { loggedIn } from './../helpers';
 import { createEnvironment } from './../relay/Environment';
-import { View } from 'react-native';
-import styles from './styles';
 
-class App extends Component {
-  constructor(props) {
-    super(props);
+const App = (props) => {
+  const [user, setUser] = useState(null);
+  const [loaded, setLoaded] = useState(false);
 
-    this.state = {
-      user: null,
-      error: false,
-      loaded: false,
-      environment: null,
-      saved: false,
-    };
-  }
-
-  getChildContext() {
-    return {
-      user: this.state.user,
-      environment: this.state.environment,
-      platform: this.props.platform,
-      store: this.props.store
-    };
-  }
-
-  componentWillMount() {
-    this.props.store.read('userToken', (token) => {
-      if (token && token !== '') {
-        this.loginCallback({ token }, false);
-      }
-      else {
-        if (this.props.platform === 'mobile') {
-          this.loginCallback(null, false);
-        }
-        else {
-          loggedIn((user, error) => {
-            this.loginCallback(user, error);
-          });
-        }
-      }
+  useEffect(() => {
+    loggedIn((user) => {
+      setUser(user);
+      setLoaded(true);
     });
+  }, []);
+
+  let environment = null;
+  if (user) {
+    environment = createEnvironment(user.token, '', null);
   }
 
-  componentDidMount() {
-    if (this.context.platform !== 'mobile') {
-      const receiveMessage = (event) => {
-        const data = event.data.split(':');
-        if (!this.state.user && data[0] === 'loggedIn' && data[1]) {
-          this.props.store.write('userToken', data[1], () => {
-            this.loginCallback({ token: data[1] }, false);
-          });
-        }
-      };
-      window.addEventListener('message', receiveMessage, false);
-    }
-  }
+  const handleLogout = () => {
+    setUser(null);
+  };
+  
+  return (
+    <Box id="app" style={{ direction: props.direction }}>
+      { user ?
+        <SaveOrUpdate
+          user={user}
+          environment={environment}
+          url={props.url}
+          text={props.text}
+          onLogout={handleLogout}
+        /> :
+        (loaded ? <Login /> : <Loading message={<FormattedMessage id="app.loading" defaultMessage="Authenticating on Check..." />} />)
+      }
+    </Box>
+  );
+};
 
-  loginCallback(user, error) {
-    const environment = user ? createEnvironment(user.token, '', null) : null;
-    this.setState({ loaded: true, user, error, environment });
-  }
-
-  logoutCallback() {
-    this.setState({ user: null });
-  }
-
-  saveCallback() {
-    this.setState({ saved: true }, () => {
-      this.loginCallback(this.state.user, false);
-    });
-  }
-
-  render() {
-    return (
-      <View id="app" style={styles.body} className={this.props.direction}>
-        {!this.state.loaded ? null : (this.state.user ? <SaveOrUpdate url={this.props.url} saved={this.state.saved} text={this.props.text} image={this.props.image} callback={this.logoutCallback.bind(this)} saveCallback={this.saveCallback.bind(this)} /> : (this.state.error ? <Error message={this.state.error} /> : <Login callback={this.loginCallback.bind(this)} />))}
-      </View>
-    );
-  }
-}
-
-App.childContextTypes = {
-  user: PropTypes.object,
-  environment: PropTypes.object,
-  platform: PropTypes.string,
-  store: PropTypes.object
+App.propTypes = {
+  direction: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired,
+  text: PropTypes.string.isRequired,
 };
 
 export default App;

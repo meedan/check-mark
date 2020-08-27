@@ -2,6 +2,8 @@ import superagent from 'superagent';
 import util from 'util';
 import config from './config';
 
+/* global fetch */
+
 export function loggedIn(callback) {
   superagent.get(config.checkApiUrl + '/api/me').withCredentials().end(function(err, response) {
     let data = null;
@@ -36,6 +38,6 @@ export function loggedIn(callback) {
   });
 }
 
-export function logout(callback, token) {
-  fetch(config.checkApiUrl + '/api/users/logout', { headers: { credentials: 'include', 'X-Check-Token': token } }).then(response => { callback(); });
+export function logout(callback) {
+  fetch(config.checkApiUrl + '/api/users/logout', { headers: { credentials: 'include' } }).then(() => { callback(); });
 }

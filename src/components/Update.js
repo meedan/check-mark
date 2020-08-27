@@ -1,30 +1,98 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { View } from 'react-native';
+import { FormattedMessage } from 'react-intl';
+import Box from '@material-ui/core/Box';
+import Typography from '@material-ui/core/Typography';
+import Tabs from '@material-ui/core/Tabs';
+import Tab from '@material-ui/core/Tab';
+import { makeStyles } from '@material-ui/core/styles';
+import Title from './Title';
+import Menu from './Menu';
+import colors from './colors';
 import config from './../config';
 
-class Update extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      frameHeight: 400,
-      currentTaskId: 0,
-    };
-  }
+/* global window, document */
 
-  componentDidMount() {
+const useStyles = makeStyles(theme => ({
+  root: {
+    padding: theme.spacing(2),
+  },
+  header: {
+    padding: theme.spacing(2),
+    background: colors.lightGray,
+  },
+  heading: {
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1),
+    fontWeight: 'bold',
+  },
+  spaced: {
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1),
+  },
+  select: {
+    background: 'white',
+    borderWidth: 2,
+    outline: 0,
+  },
+  link: {
+    textDecoration: 'underline',
+    color: colors.blue,
+    cursor: 'pointer',
+  },
+  frameContainer: {
+    width: '100%',
+    boxSizing: 'border-box',
+    overflowY: 'auto',
+    height: 'calc(100vh - 250px)',
+    padding: theme.spacing(2),
+    paddingTop: 0,
+    position: 'relative',
+  },
+  frame: {
+    border: 0,
+    width: '100%',
+    boxSizing: 'border-box',
+    overflowY: 'hidden',
+    position: 'absolute',
+    top: -32,
+    left: 0,
+  },
+}));
+
+const Update = ({ projectMedia, projectId, onLogout, justSaved, user }) => {
+  const classes = useStyles();
+
+  const [tab, setTab] = React.useState('metadata');
+  const [frameHeight, setFrameHeight] = React.useState(0);
+
+  const baseUrl = projectId ?
+    `${config.checkWebUrl}/${projectMedia.team.slug}/project/${projectId}/media/${projectMedia.dbid}` :
+    `${config.checkWebUrl}/${projectMedia.team.slug}/media/${projectMedia.dbid}`;
+
+  const handleOpen = () => {
+    window.open(baseUrl);
+  };
+
+  const handleChangeTab = (event, newTab) => {
+    setFrameHeight(0);
+    setTab(newTab);
+  };
+
+  React.useEffect(() => {
     const receiveMessage = (event) => {
       const data = JSON.parse(event.data);
       
       if (event.origin === config.checkWebUrl) {
         const data = JSON.parse(event.data);
         if (data.height) {
-          const frameHeight = data.height;
-          this.setState({ frameHeight });
+          let { height } = data;
+          if (height > 0 && height < 400) {
+            height = 400;
+          }
+          setFrameHeight(height);
         } else if (data.task || data.task === 0) {
           window.parent.postMessage(JSON.stringify({ task: data.task }), '*');
-          const currentTaskId = data.task;
-          this.setState({ currentTaskId });
         }
       }
 
@@ -33,33 +101,71 @@ class Update extends Component {
       }
     }
     window.addEventListener('message', receiveMessage, false);
-  }
+  }, []);
 
-  render() {
-    const pm = this.props.projectMedia;
-    const projectPath = pm.project_ids.length ? '/project/' + pm.project_ids[pm.project_ids.length - 1] : '';
+  return (
+    <Box id="update">
+      <Box className={classes.header}>
+        <Box display="flex" justifyContent="space-between" alignItems="center">
+          <Title />
+          <Menu onLogout={onLogout} />
+        </Box>
+        <Typography variant="body1" className={classes.heading}>
+          {projectMedia.team.name}
+        </Typography>
+        <Box display="flex" justifyContent="space-between" alignItems="center">
+          { justSaved ?
+            <Typography variant="body1" className={classes.spaced}>
+              <FormattedMessage id="update.saved" defaultMessage="Saved!" />
+            </Typography> :
+            <Typography variant="body1" className={classes.spaced}>
+              <FormattedMessage id="update.alreadyAdded" defaultMessage="This link has already been added." />
+            </Typography> }
+          <Typography variant="body1" className={[classes.spaced, classes.link].join(' ')} onClick={handleOpen}>
+            <FormattedMessage id="update.openInCheck" defaultMessage="Open in Check" />
+          </Typography>
+        </Box>
+      </Box>
+      <Box className={classes.root}>
+        <Tabs
+          value={tab}
+          onChange={handleChangeTab}
+          indicatorColor="primary"
+          textColor="primary"
+        >
+          <Tab value="metadata" label={<FormattedMessage id="update.metadata" defaultMessage="Metadata" />} />
+          <Tab value="tasks" label={<FormattedMessage id="update.tasks" defaultMessage="Tasks" />} />
+        </Tabs>
+        <Box className={classes.frameContainer}>
+          { frameHeight === 0 ?
+            <Typography variant="body1" className={classes.spaced}>
+              <FormattedMessage id="update.loading" defaultMessage="Loading..." />
+            </Typography> : null }
+          <iframe
+            id="check-web-frame"
+            className={classes.frame}
+            src={`${baseUrl}/${tab}?token=${user.token}`}
+            frameBorder="none"
+            scrolling="no"
+            style={{ height: frameHeight }}
+          />
+        </Box>
+      </Box>
+    </Box>
+  );
+};
 
-    return (
-      <View id="update">
-        <iframe
-          id="check-web-frame"
-          src={`${config.checkWebUrl}/${pm.team.slug}${projectPath}/media/${pm.dbid}/tasks?token=${this.context.user.token}`}
-          frameborder="none"
-          title="check-web"
-          style={{
-            border: 0,
-            boxSizing: 'border-box',
-            minHeight: 400,
-            height: this.state.frameHeight,
-          }}
-        />
-      </View>
-    );
-  }
-}
+Update.defaultProps = {
+  justSaved: false,
+  projectId: null,
+};
 
-Update.contextTypes = {
-  user: PropTypes.object,
+Update.propTypes = {
+  projectMedia: PropTypes.object.isRequired,
+  user: PropTypes.object.isRequired,
+  onLogout: PropTypes.func.isRequired,
+  justSaved: PropTypes.bool,
+  projectId: PropTypes.number,
 };
 
 export default Update;

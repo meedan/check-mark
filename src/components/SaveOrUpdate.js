@@ -1,79 +1,55 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import { QueryRenderer, graphql } from 'react-relay';
-import { View, Text } from 'react-native';
-import { FormattedMessage, injectIntl, intlShape } from 'react-intl';
-import config from './../config';
-import styles from './styles';
+import { FormattedMessage } from 'react-intl';
+import Box from '@material-ui/core/Box';
+import Typography from '@material-ui/core/Typography';
+import { makeStyles } from '@material-ui/core/styles';
+import Loading from './Loading';
+import Message from './Message';
 import Save from './Save';
 import Update from './Update';
-import Select from './Select';
 
-class SaveOrUpdate extends Component {
-  constructor(props) {
-    super(props);
+const useStyles = makeStyles(theme => ({
+  paragraph: {
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(2),
+  },
+}));
 
-    this.state = {
-      selectedProject: null,
-      selectedProjectId: null,
-      createNew: false,
-    };
-  }
+const SaveOrUpdate = ({ environment, url, text, user, onLogout }) => {
+  const classes = useStyles();
+  const [projectMediaCreated, setProjectMediaCreated] = React.useState(null);
 
-  componentWillReceiveProps(nextProps) {
-    if (nextProps.saved) {
-      this.setState({ createNew: false, selectedProject: null, selectedProjectId: null });
-    }
-  }
+  const handleSave = (newProjectMediaCreated, project) => {
+    setProjectMediaCreated({ projectMedia: newProjectMediaCreated, project });
+  };
 
-  onChange(selected, index) {
-    const value = selected.value || selected;
-    if (value) {
-      const id = parseInt(value.split(':')[1], 10);
-      this.setState({ selectedProject: value, selectedProjectId: id });
-    }
-  }
-
-  openItem(projectMedia, project) {
-    const projectPath = project ? '/project/' + project.dbid : ''
-    const path = projectMedia.team.slug + projectPath + '/media/' + projectMedia.dbid;
-    window.open(config.checkWebUrl + '/' + path);
-  }
-
-  newItem() {
-    this.setState({ createNew: true });
-  }
-
-  render() {
-    if (this.props.text || this.props.image) {
-      const props = Object.assign({}, this.props);
-      delete props.saveCallback;
-      return (<Save {...props} />);
-    }
-
-    if (this.state.createNew) {
-      return (<Save {...this.props} />);
-    }
-
-    const environment = this.context.environment;
-
+  if (projectMediaCreated) {
     return (
-      <View id="saveorupdate">
+      <Update projectMedia={projectMediaCreated.projectMedia} projectId={projectMediaCreated.project.dbid} onLogout={onLogout} user={user} justSaved />
+    );
+  }
+
+  if (text) {
+    return (
+      <Save text={text} environment={environment} user={user} onSave={handleSave} onLogout={onLogout} />
+    );
+  }
+
+  if (url) {
+    return (
+      <Box id="saveorupdate">
         <QueryRenderer environment={environment}
           query={graphql`
             query SaveOrUpdateQuery($url: String!) {
               project_medias(url: $url) {
                 edges {
                   node {
-                    id
                     dbid
-                    title
-                    project_ids
                     team {
-                      name
-                      id
-                      dbid
                       slug
+                      name
                     }
                     projects(first: 10000) {
                       edges {
@@ -91,111 +67,67 @@ class SaveOrUpdate extends Component {
           `}
 
           variables={{
-            url: this.props.url,
+            url,
           }}
 
-          render={({error, props}) => {
-            const groups = [];
-            const options = [];
-            const teams = {};
-            let selectedProject = this.state.selectedProject;
-            let selectedProjectId = this.state.selectedProjectId;
-            let projectMedia = null;
-
-            let lastProject = null;
-            let lastProjectId = null;
-            let lastProjectMedia = null;
-            let mediaLastProject = null
-
-            if (!error && props && props.project_medias) {
-              props.project_medias.edges.forEach(function(pmNode) {
-                const pm = pmNode.node;
-                const team = pm.team;
-                if (!teams[team.dbid]) {
-                  teams[team.dbid] = Object.assign(team, { projects: {} });
-                }
-                mediaLastProject = pm.projects.edges;
-                mediaLastProject = mediaLastProject[mediaLastProject.length - 1].node;
-                if (!teams[team.dbid].projects[mediaLastProject.dbid]) {
-                  teams[team.dbid].projects[mediaLastProject.dbid] = mediaLastProject;
-                }
-                lastProject = team.slug + ':' + mediaLastProject.dbid;
-                lastProjectId = mediaLastProject.dbid;
-                lastProjectMedia = pm;
-                if (mediaLastProject.dbid === selectedProjectId) {
-                  projectMedia = pm;
+          render={(response) => {
+            const { error } = response;
+            const data = response.props;
+            if (!error && data && data.project_medias.edges.length > 0) {
+              let team = null;
+              if (user && user.current_team) {
+                team = user.current_team;
+              }
+              let projectMedia = null;
+              data.project_medias.edges.forEach((projectMediaEdge) => {
+                if (team && team.slug === projectMediaEdge.node.team.slug) {
+                  if (!projectMedia) {
+                    projectMedia = projectMediaEdge.node;
+                  }
                 }
               });
-
-              if (!selectedProject) {
-                selectedProject = lastProject;
+              let projectId = null;
+              if (projectMedia && projectMedia.projects.edges.length > 0) {
+                projectId = projectMedia.projects.edges[0].node.dbid;
               }
-              if (!selectedProjectId) {
-                selectedProjectId = lastProjectId;
-              }
-              if (!projectMedia) {
-                projectMedia = lastProjectMedia;
-              }
-
-              for (let tid in teams) {
-                const team = teams[tid];
-                let group = { label: team.name, options: [] };
-                for (let pid in team.projects) {
-                  const project = team.projects[pid];
-                  const option = { label: project.title, value: team.slug + ':' + project.dbid };
-                  group.options.push(option);
-                  option.label = team.name + ': ' + project.title;
-                  options.push(option);
-                }
-                groups.push(group);
-              }
-
-              if (groups.length === 0) {
-                return (<Save {...this.props} />);
-              }
-
               return (
-                <div>
-                  <Text id="title" style={styles.title}>
-                    {projectMedia.title}
-                  </Text>
-                  <View style={{ marginTop: 16 }}>
-                    <Text style={styles.p}>
-                      <FormattedMessage
-                        id="saveOrUpdate.header"
-                        defaultMessage="This link exists in one or more projects, you can choose one of them below and answer the tasks. You can also {linkAdd} or {linkOpen}."
-                        values={{
-                          linkAdd: <Text onClick={this.newItem.bind(this)} style={styles.link}><FormattedMessage id="saveOrUpdate.linkAdd" defaultMessage="add it to another project" /></Text>,
-                          linkOpen: <Text onClick={this.openItem.bind(this, projectMedia, mediaLastProject)} style={styles.link}><FormattedMessage id="saveOrUpdate.linkOpen" defaultMessage="open it in Check" /></Text>,
-                        }}
-                      />                
-                    </Text>
-                  </View>
-                  <View style={{ marginTop: 16 }}>
-                    <Select selectedValue={selectedProject} onValueChange={this.onChange.bind(this)} options={options} groups={groups} />
-                    <Update projectMedia={projectMedia} />
-                  </View>
-                </div>
+                <Update projectMedia={projectMedia} projectId={projectId} user={user} onLogout={onLogout} />
+              );
+            } else if (!error && data && data.project_medias.edges.length === 0) {
+              return (
+                <Save url={url} environment={environment} user={user} onSave={handleSave} onLogout={onLogout} />
+              );
+            } else if (error) {
+              return (
+                <Message>
+                  <FormattedMessage id="saveOrUpdate.error" defaultMessage="Sorry, could not look for this URL in Check." />
+                </Message>
               );
             }
-            else {
-              return <Text>...</Text>;
-            }
+            return (
+              <Loading message={<FormattedMessage id="saveOrUpdate.loading" defaultMessage="Looking for this URL in Check..." />} />
+            );
           }}
         />
-      </View>
+      </Box>
     );
   }
-}
 
-SaveOrUpdate.contextTypes = {
-  environment: PropTypes.object,
-  store: PropTypes.object,
-  platform: PropTypes.string
+  return (
+    <Message>
+      <Typography variant="body1" className={classes.paragraph}>
+        <FormattedMessage id="saveOrUpdate.errorNoUrlOrText" defaultMessage="You need to pass at least a URL or a piece of text." />
+      </Typography>
+    </Message>
+  );
 };
 
 SaveOrUpdate.propTypes = {
-  intl: intlShape.isRequired,
+  user: PropTypes.object.isRequired,
+  environment: PropTypes.object.isRequired,
+  text: PropTypes.string.isRequired,
+  url: PropTypes.string.isRequired,
+  onLogout: PropTypes.func.isRequired,
 };
 
-export default injectIntl(SaveOrUpdate);
+export default SaveOrUpdate;

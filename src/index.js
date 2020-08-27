@@ -7,7 +7,8 @@ import fr from 'react-intl/locale-data/fr';
 import pt from 'react-intl/locale-data/pt';
 import es from 'react-intl/locale-data/es';
 import App from './components/App';
-import NoInput from './components/NoInput';
+
+/* global navigator, global, require, window, document */
 
 let locale = navigator.languages || navigator.language || navigator.userLanguage || 'en';
 if (locale.constructor === Array) {
@@ -57,24 +58,6 @@ const direction = rtlLanguages.indexOf(locale) > -1 ? 'rtl' : 'ltr';
 
 const translations = require(`./localization/${locale}.json`);
 
-/*global chrome*/
-
-const store = {
-  read: function(key, callback) {
-    chrome.storage.sync.get(key, (data) => {
-      callback(data[key]);
-    });
-  },
-
-  write: function(key, value, callback) {
-    const set = {};
-    set[key] = value;
-    chrome.storage.sync.set(set, () => {
-      callback();
-    });
-  }
-};
-
 const urlParam = window.location.search.match(/^\?url=(.*)/);
 const url = urlParam ? decodeURI(urlParam[1]) : null;
 
@@ -83,7 +66,7 @@ const text = textParam ? decodeURIComponent(decodeURI(textParam[1])) : '';
 
 ReactDOM.render(
   <IntlProvider locale={locale} messages={translations}>
-    { (text || url) ? <App direction={direction} url={url} text={text} store={store} /> : <NoInput /> }
+    { (text || url) ? <App direction={direction} url={url} text={text} /> : null }
   </IntlProvider>,
   document.getElementById('root')
 );

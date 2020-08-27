@@ -13,16 +13,15 @@
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
     "babel-preset-react-app": "^3.0.1",
-    "babel-preset-react-native": "4.0.0",
     "babel-preset-stage-0": "^6.24.1",
     "babel-runtime": "6.23.0",
-    "eslint": "4.18.2",
-    "eslint-config-react-app": "^1.0.5",
-    "eslint-loader": "1.7.1",
-    "eslint-plugin-flowtype": "2.34.0",
-    "eslint-plugin-import": "2.2.0",
-    "eslint-plugin-jsx-a11y": "5.0.3",
-    "eslint-plugin-react": "7.1.0",
+    "eslint": "^7.7.0",
+    "eslint-config-airbnb": "^18.2.0",
+    "eslint-loader": "^4.0.2",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jsx-a11y": "^6.3.1",
+    "eslint-plugin-react": "^7.20.6",
+    "eslint-plugin-react-hooks": "^4.1.0",
     "extract-text-webpack-plugin": "2.1.2",
     "relay-compiler": "1.4.1",
     "uglifyjs-webpack-plugin": "^1.2.4",
@@ -31,6 +30,9 @@
     "webpack-manifest-plugin": "1.1.0"
   },
   "dependencies": {
+    "@material-ui/core": "^4.11.0",
+    "@material-ui/icons": "^4.9.1",
+    "@material-ui/lab": "^4.0.0-alpha.56",
     "async-to-generator": "^1.1.0",
     "autoprefixer": "7.1.1",
     "case-sensitive-paths-webpack-plugin": "2.1.1",
@@ -51,14 +53,12 @@
     "postcss-loader": "2.0.6",
     "pretty-bytes": "^4.0.2",
     "promise": "7.1.1",
-    "react": "16.0.0",
+    "react": "^16.13.1",
     "react-dev-utils": "^3.0.2",
-    "react-dom": "16.0.1",
+    "react-dom": "^16.13.1",
     "react-error-overlay": "^1.0.9",
     "react-intl": "^2.3.0",
     "react-intl-webpack-plugin": "0.0.3",
-    "react-native-web": "0.1.16",
-    "react-native-fetch-blob": "^0.10.8",
     "react-relay": "1.4.1",
     "react-select-plus": "^1.0.0-rc.5",
     "react-test-renderer": "16.0.0",
@@ -70,13 +70,14 @@
     "whatwg-fetch": "2.0.3"
   },
   "scripts": {
-    "build": "npm i && npm run relay && cp config.js src/ && babel-node scripts/brand.js brand && babel-node scripts/build.js && rm -rf src/localization/messages && babel-node scripts/brand.js unbrand && rm -f src/config.js",
+    "clean-localization": "rm -rf src/localization/messages",
+    "build": "npm run relay && cp config.js src/ && babel-node scripts/brand.js brand && babel-node scripts/build.js && npm run clean-localization && babel-node scripts/brand.js unbrand && rm -f src/config.js",
     "test": "npm run release:test && cd test && bundle install && bundle exec rspec && cd ..",
     "relay": "babel-node scripts/relay.js && relay-compiler --src ./src --schema ./src/relay/relay.json",
     "transifex:parse": "npm run build && babel-node scripts/localize.js",
     "transifex:upload": "npm run transifex:parse && tx push -s",
     "transifex:download": "tx pull -a -f",
-    "generate-extension": "npm run build; find build -name \"*.map\" -exec rm -f {} \";\"",
+    "generate-extension": "npm run build; find build -name \"*.map\" -exec rm -f {} \";\"; echo 'Code generate at directory called build'",
     "release:qa": "mv config.js config.js.bkp; cp config.js.qa config.js; npm run build; rm -rf releases/qa; cp -r build releases/qa; find releases/qa -name \"*.map\" -exec rm -f {} \";\"; mv config.js.bkp config.js && cd releases/qa && zip -r qa.zip * && cd -",
     "release:live": "mv config.js config.js.bkp; cp config.js.live config.js; npm run build; rm -rf releases/live; cp -r build releases/live; find releases/live -name \"*.map\" -exec rm -f {} \";\"; mv config.js.bkp config.js && cd releases/live && zip -r live.zip * && cd -",
     "release:test": "mv config.js config.js.bkp; cp config.js.test config.js; npm run build; rm -rf releases/test; cp -r build releases/test; find releases/test -name \"*.map\" -exec rm -f {} \";\"; mv config.js.bkp config.js"
@@ -97,9 +98,6 @@
     "transformIgnorePatterns": [
       "[/\\\\]node_modules[/\\\\].+\\.(js|jsx)$"
     ],
-    "moduleNameMapper": {
-      "^react-native$": "react-native-web"
-    },
     "moduleFileExtensions": [
       "web.js",
       "js",
@@ -112,8 +110,5 @@
     "presets": [
       "react-app"
     ]
-  },
-  "eslintConfig": {
-    "extends": "react-app"
   }
 }

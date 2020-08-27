@@ -1,122 +1,94 @@
 [
   {
-    "id": "NoInput.noInput",
-    "defaultMessage": "Please invoke this application from the share menu of another application, or copy something to the clipboard and open this application again."
-  },
-  {
-    "id": "Login.addToApp",
-    "defaultMessage": "Add to {app}"
+    "id": "app.loading",
+    "defaultMessage": "Authenticating on Check..."
   },
   {
     "id": "Login.addLinksToApp",
-    "defaultMessage": "Add links to {app} with one click. Links will be added to your selected project. If the link already exists in one of your projects, you are able to answer tasks associated with it."
+    "defaultMessage": "Add links to Check with one click. Links will be added to your selected list. If the link already exists, you are able to annotate it."
   },
   {
-    "id": "Login.getStarted",
-    "defaultMessage": "To get started, sign in."
+    "id": "Login.start",
+    "defaultMessage": "To get started, sign in and then reload the page."
   },
   {
     "id": "Login.signIn",
     "defaultMessage": "Sign In"
   },
   {
-    "id": "Error.thereWasAProblem",
-    "defaultMessage": "Sorry, an error occurred."
+    "id": "saveOrUpdate.error",
+    "defaultMessage": "Sorry, could not look for this URL in Check."
   },
   {
-    "id": "Error.forHelp",
-    "defaultMessage": "Please try again and contact {email} if the condition persists."
+    "id": "saveOrUpdate.loading",
+    "defaultMessage": "Looking for this URL in Check..."
   },
   {
-    "id": "saveOrUpdate.header",
-    "defaultMessage": "This link exists in one or more projects, you can choose one of them below and answer the tasks. You can also {linkAdd} or {linkOpen}."
+    "id": "saveOrUpdate.errorNoUrlOrText",
+    "defaultMessage": "You need to pass at least a URL or a piece of text."
   },
   {
-    "id": "saveOrUpdate.linkAdd",
-    "defaultMessage": "add it to another project"
+    "id": "loading.loading",
+    "defaultMessage": "Loading..."
   },
   {
-    "id": "saveOrUpdate.linkOpen",
-    "defaultMessage": "open it in Check"
+    "id": "save.noTeam",
+    "defaultMessage": "You must be a member of at least one team in order to use the browser extension."
   },
   {
-    "id": "Select.select",
-    "defaultMessage": "Select..."
+    "id": "save.error",
+    "defaultMessage": "Error"
   },
   {
-    "id": "Save.error",
-    "defaultMessage": "Sorry, we encountered a problem adding this item to {app}."
+    "id": "save.saveTo",
+    "defaultMessage": "Save to:"
   },
   {
-    "id": "Save.exists",
-    "defaultMessage": "This link has already been saved to your project. You can view it here: {link}"
+    "id": "save.url",
+    "defaultMessage": "Link URL"
   },
   {
-    "id": "Save.imageTooLarge",
-    "defaultMessage": "Sorry, this image is too large."
+    "id": "save.text",
+    "defaultMessage": "Text claim"
   },
   {
-    "id": "Save.addToApp",
-    "defaultMessage": "Add to {app}"
-  },
-  {
-    "id": "Save.openInNewTab",
-    "defaultMessage": "Open in new tab"
-  },
-  {
-    "id": "Save.editTags",
-    "defaultMessage": "Edit tags"
-  },
-  {
-    "id": "Save.moveToProject",
-    "defaultMessage": "Move to project"
-  },
-  {
-    "id": "Save.addTask",
-    "defaultMessage": "Add task"
-  },
-  {
-    "id": "Save.editTitle",
-    "defaultMessage": "Edit title"
-  },
-  {
-    "id": "Save.myProfile",
-    "defaultMessage": "My profile"
-  },
-  {
-    "id": "Save.logOut",
-    "defaultMessage": "Log out"
-  },
-  {
-    "id": "Save.claim",
-    "defaultMessage": "Claim: {text}"
-  },
-  {
-    "id": "Save.link",
-    "defaultMessage": "Link: {link}"
-  },
-  {
-    "id": "Save.save",
-    "defaultMessage": "Save"
-  },
-  {
-    "id": "Save.saving",
+    "id": "save.saving",
     "defaultMessage": "Saving..."
   },
   {
-    "id": "Save.saved",
+    "id": "save.save",
+    "defaultMessage": "Save"
+  },
+  {
+    "id": "update.saved",
     "defaultMessage": "Saved!"
   },
   {
-    "id": "Save.view",
-    "defaultMessage": "View"
+    "id": "update.alreadyAdded",
+    "defaultMessage": "This link has already been added."
   },
   {
-    "id": "Projects.noTeams",
-    "defaultMessage": "You are not a member of any team."
+    "id": "update.openInCheck",
+    "defaultMessage": "Open in Check"
   },
   {
-    "id": "LargeImage.tooLarge",
-    "defaultMessage": "Sorry, this image is too large. Its size of {size} exceeds the maximum size of {max}."
+    "id": "update.metadata",
+    "defaultMessage": "Metadata"
+  },
+  {
+    "id": "update.tasks",
+    "defaultMessage": "Tasks"
+  },
+  {
+    "id": "update.loading",
+    "defaultMessage": "Loading..."
+  },
+  {
+    "id": "menu.changeWorkspace",
+    "defaultMessage": "Change workspace"
+  },
+  {
+    "id": "menu.logout",
+    "defaultMessage": "Log out"
   }
 ]
