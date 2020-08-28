@@ -85,10 +85,12 @@ const Save = ({ user, environment, text, url, onSave, onLogout }) => {
       input: {
         url: url,
         quote: text,
-        add_to_project_id: project.dbid,
         clientMutationId: '1',
       }
     };
+    if (project) {
+      variables.input.add_to_project_id = project.dbid;
+    }
 
     commitMutation(
       environment,

@@ -26,8 +26,12 @@ const SaveOrUpdate = ({ environment, url, text, user, onLogout }) => {
   };
 
   if (projectMediaCreated) {
+    let projectId = null;
+    if (projectMediaCreated.project) {
+      projectId = projectMediaCreated.project.dbid;
+    }
     return (
-      <Update projectMedia={projectMediaCreated.projectMedia} projectId={projectMediaCreated.project.dbid} onLogout={onLogout} user={user} justSaved />
+      <Update projectMedia={projectMediaCreated.projectMedia} projectId={projectId} onLogout={onLogout} user={user} justSaved />
     );
   }
 
