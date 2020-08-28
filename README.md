@@ -8,7 +8,7 @@ A browser extension for [Check](https://meedan.com/en/check/).
 
 ### Download
 
-Available for [Mozilla Firefox](https://addons.mozilla.org/firefox/addon/check/) and [Google Chrome](https://chrome.google.com/webstore/detail/check/afafaiilokmpfmkfjjgfenfneoafojie).
+Available for [Mozilla Firefox](https://addons.mozilla.org/firefox/addon/check/) and [Google Chrome](https://chrome.google.com/webstore/detail/check/pjfgpbclkfjkfiljlcfehjmpafeoafdi).
 
 ### Development
 
