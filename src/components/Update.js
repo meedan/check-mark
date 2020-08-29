@@ -8,6 +8,7 @@ import Tab from '@material-ui/core/Tab';
 import { makeStyles } from '@material-ui/core/styles';
 import Title from './Title';
 import Menu from './Menu';
+import Media from './Media';
 import colors from './colors';
 import config from './../config';
 
@@ -63,7 +64,8 @@ const useStyles = makeStyles(theme => ({
 const Update = ({ projectMedia, projectId, onLogout, justSaved, user }) => {
   const classes = useStyles();
 
-  const [tab, setTab] = React.useState('metadata');
+  const defaultTab = projectMedia.type === 'Link' ? 'media' : 'metadata';
+  const [tab, setTab] = React.useState(defaultTab);
   const [frameHeight, setFrameHeight] = React.useState(0);
 
   const baseUrl = projectId ?
@@ -133,23 +135,26 @@ const Update = ({ projectMedia, projectId, onLogout, justSaved, user }) => {
           indicatorColor="primary"
           textColor="primary"
         >
+        { projectMedia.type === 'Link' ? <Tab value="media" label={<FormattedMessage id="update.media" defaultMessage="Media" />} /> : null }
           <Tab value="metadata" label={<FormattedMessage id="update.metadata" defaultMessage="Metadata" />} />
           <Tab value="tasks" label={<FormattedMessage id="update.tasks" defaultMessage="Tasks" />} />
         </Tabs>
-        <Box className={classes.frameContainer}>
-          { frameHeight === 0 ?
-            <Typography variant="body1" className={classes.spaced}>
-              <FormattedMessage id="update.loading" defaultMessage="Loading..." />
-            </Typography> : null }
-          <iframe
-            id="check-web-frame"
-            className={classes.frame}
-            src={`${baseUrl}/${tab}?token=${user.token}`}
-            frameBorder="none"
-            scrolling="no"
-            style={{ height: frameHeight }}
-          />
-        </Box>
+        { tab === 'media' ? <Media metadata={projectMedia.media.metadata} /> : null }
+        { tab === 'tasks' || tab === 'metadata' ?
+          <Box className={classes.frameContainer}>
+            { frameHeight === 0 ?
+              <Typography variant="body1" className={classes.spaced}>
+                <FormattedMessage id="update.loading" defaultMessage="Loading..." />
+              </Typography> : null }
+            <iframe
+              id="check-web-frame"
+              className={classes.frame}
+              src={`${baseUrl}/${tab}?token=${user.token}`}
+              frameBorder="none"
+              scrolling="no"
+              style={{ height: frameHeight }}
+            />
+          </Box> : null }
       </Box>
     </Box>
   );

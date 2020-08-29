@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "{APP_NAME}",
   "description": "{APP_DESCRIPTION}",
-  "version": "2.0.1",
+  "version": "2.1.1",
   "applications": {
     "gecko": {
       "id": "{2070efa6-8cd3-4318-b3d3-ff4c87ea564c}",

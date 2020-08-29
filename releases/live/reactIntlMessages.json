@@ -4,18 +4,6 @@
     "defaultMessage": "Authenticating on Check..."
   },
   {
-    "id": "Login.addLinksToApp",
-    "defaultMessage": "Add links to Check with one click. Links will be added to your selected list. If the link already exists, you are able to annotate it."
-  },
-  {
-    "id": "Login.start",
-    "defaultMessage": "To get started, sign in and then reload the page."
-  },
-  {
-    "id": "Login.signIn",
-    "defaultMessage": "Sign In"
-  },
-  {
     "id": "saveOrUpdate.error",
     "defaultMessage": "Sorry, could not look for this URL in Check."
   },
@@ -26,6 +14,18 @@
   {
     "id": "saveOrUpdate.errorNoUrlOrText",
     "defaultMessage": "You need to pass at least a URL or a piece of text."
+  },
+  {
+    "id": "Login.addLinksToApp",
+    "defaultMessage": "Add links to Check with one click. Links will be added to your selected list. If the link already exists, you are able to annotate it."
+  },
+  {
+    "id": "Login.start",
+    "defaultMessage": "To get started, sign in and then reload the page."
+  },
+  {
+    "id": "Login.signIn",
+    "defaultMessage": "Sign In"
   },
   {
     "id": "loading.loading",
@@ -72,6 +72,10 @@
     "defaultMessage": "Open in Check"
   },
   {
+    "id": "update.media",
+    "defaultMessage": "Media"
+  },
+  {
     "id": "update.metadata",
     "defaultMessage": "Metadata"
   },
@@ -90,5 +94,41 @@
   {
     "id": "menu.logout",
     "defaultMessage": "Log out"
+  },
+  {
+    "id": "media.title",
+    "defaultMessage": "Title"
+  },
+  {
+    "id": "media.source",
+    "defaultMessage": "Source"
+  },
+  {
+    "id": "media.publishedOn",
+    "defaultMessage": "Published on"
+  },
+  {
+    "id": "media.url",
+    "defaultMessage": "URL"
+  },
+  {
+    "id": "media.shares",
+    "defaultMessage": "Shares"
+  },
+  {
+    "id": "media.reactions",
+    "defaultMessage": "Reactions"
+  },
+  {
+    "id": "media.comments",
+    "defaultMessage": "Comments"
+  },
+  {
+    "id": "media.description",
+    "defaultMessage": "Description"
+  },
+  {
+    "id": "mediaCell.notAvailable",
+    "defaultMessage": "Not available"
   }
 ]

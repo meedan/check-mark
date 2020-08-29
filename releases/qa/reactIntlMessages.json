@@ -72,6 +72,10 @@
     "defaultMessage": "Open in Check"
   },
   {
+    "id": "update.media",
+    "defaultMessage": "Media"
+  },
+  {
     "id": "update.metadata",
     "defaultMessage": "Metadata"
   },
@@ -90,5 +94,41 @@
   {
     "id": "menu.logout",
     "defaultMessage": "Log out"
+  },
+  {
+    "id": "media.title",
+    "defaultMessage": "Title"
+  },
+  {
+    "id": "media.source",
+    "defaultMessage": "Source"
+  },
+  {
+    "id": "media.publishedOn",
+    "defaultMessage": "Published on"
+  },
+  {
+    "id": "media.url",
+    "defaultMessage": "URL"
+  },
+  {
+    "id": "media.shares",
+    "defaultMessage": "Shares"
+  },
+  {
+    "id": "media.reactions",
+    "defaultMessage": "Reactions"
+  },
+  {
+    "id": "media.comments",
+    "defaultMessage": "Comments"
+  },
+  {
+    "id": "media.description",
+    "defaultMessage": "Description"
+  },
+  {
+    "id": "mediaCell.notAvailable",
+    "defaultMessage": "Not available"
   }
 ]

@@ -51,6 +51,13 @@ const SaveOrUpdate = ({ environment, url, text, user, onLogout }) => {
                 edges {
                   node {
                     dbid
+                    type
+                    media {
+                      metadata
+                    }
+                    metrics: annotation(annotation_type: "metrics") {
+                      data
+                    }
                     team {
                       slug
                       name

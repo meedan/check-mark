@@ -72,6 +72,13 @@ const Save = ({ user, environment, text, url, onSave, onLogout }) => {
         createProjectMedia(input: $input) {
           project_media {
             dbid
+            type
+            media {
+              metadata
+            }
+            metrics: annotation(annotation_type: "metrics") {
+              data
+            }
             team {
               name
               slug
