@@ -32,34 +32,6 @@
     "defaultMessage": "Loading..."
   },
   {
-    "id": "save.noTeam",
-    "defaultMessage": "You must be a member of at least one team in order to use the browser extension."
-  },
-  {
-    "id": "save.error",
-    "defaultMessage": "Error"
-  },
-  {
-    "id": "save.saveTo",
-    "defaultMessage": "Save to:"
-  },
-  {
-    "id": "save.url",
-    "defaultMessage": "Link URL"
-  },
-  {
-    "id": "save.text",
-    "defaultMessage": "Text claim"
-  },
-  {
-    "id": "save.saving",
-    "defaultMessage": "Saving..."
-  },
-  {
-    "id": "save.save",
-    "defaultMessage": "Save"
-  },
-  {
     "id": "update.saved",
     "defaultMessage": "Saved!"
   },
@@ -86,6 +58,34 @@
   {
     "id": "update.loading",
     "defaultMessage": "Loading..."
+  },
+  {
+    "id": "save.noTeam",
+    "defaultMessage": "You must be a member of at least one team in order to use the browser extension."
+  },
+  {
+    "id": "save.error",
+    "defaultMessage": "Error"
+  },
+  {
+    "id": "save.saveTo",
+    "defaultMessage": "Save to:"
+  },
+  {
+    "id": "save.url",
+    "defaultMessage": "Link URL"
+  },
+  {
+    "id": "save.text",
+    "defaultMessage": "Text claim"
+  },
+  {
+    "id": "save.saving",
+    "defaultMessage": "Saving..."
+  },
+  {
+    "id": "save.save",
+    "defaultMessage": "Save"
   },
   {
     "id": "menu.changeWorkspace",

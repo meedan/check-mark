@@ -4,18 +4,6 @@
     "defaultMessage": "Authenticating on Check..."
   },
   {
-    "id": "saveOrUpdate.error",
-    "defaultMessage": "Sorry, could not look for this URL in Check."
-  },
-  {
-    "id": "saveOrUpdate.loading",
-    "defaultMessage": "Looking for this URL in Check..."
-  },
-  {
-    "id": "saveOrUpdate.errorNoUrlOrText",
-    "defaultMessage": "You need to pass at least a URL or a piece of text."
-  },
-  {
     "id": "Login.addLinksToApp",
     "defaultMessage": "Add links to Check with one click. Links will be added to your selected list. If the link already exists, you are able to annotate it."
   },
@@ -30,6 +18,18 @@
   {
     "id": "loading.loading",
     "defaultMessage": "Loading..."
+  },
+  {
+    "id": "saveOrUpdate.error",
+    "defaultMessage": "Sorry, could not look for this URL in Check."
+  },
+  {
+    "id": "saveOrUpdate.loading",
+    "defaultMessage": "Looking for this URL in Check..."
+  },
+  {
+    "id": "saveOrUpdate.errorNoUrlOrText",
+    "defaultMessage": "You need to pass at least a URL or a piece of text."
   },
   {
     "id": "save.noTeam",

@@ -76,9 +76,6 @@ const Save = ({ user, environment, text, url, onSave, onLogout }) => {
             media {
               metadata
             }
-            metrics: annotation(annotation_type: "metrics") {
-              data
-            }
             team {
               name
               slug
