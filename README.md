@@ -20,6 +20,8 @@ You can compile the code with `npm run build`. It was developed and tested with 
 
 #### Running the extension on Google Chrome
 
+Follow the steps below or our [video-tutorial](https://www.youtube.com/watch?v=kp90m3jY7HA).
+
 * Visit `chrome://extensions`
 * Enable "Developer mode"
 * Click "Load unpacked extension..."
