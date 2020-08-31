@@ -65,15 +65,15 @@ const Media = ({ metadata }) => {
       />
       <Box display="flex" justifyContent="space-between">
         <MediaCell
-          label={<FormattedMessage id="media.shares" defaultMessage="Shares" />}
+          label={<FormattedMessage id="media.shares" defaultMessage="FB Shares" />}
           value={metrics.shares}
         />
         <MediaCell
-          label={<FormattedMessage id="media.reactions" defaultMessage="Reactions" />}
+          label={<FormattedMessage id="media.reactions" defaultMessage="FB Reactions" />}
           value={metrics.reactions}
         />
         <MediaCell
-          label={<FormattedMessage id="media.comments" defaultMessage="Comments" />}
+          label={<FormattedMessage id="media.comments" defaultMessage="FB Comments" />}
           value={metrics.comments}
         />
       </Box>
