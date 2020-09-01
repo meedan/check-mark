@@ -33,8 +33,6 @@ Follow the steps below or our [video-tutorial](https://www.youtube.com/watch?v=k
 
 If you are not able to login using the browser extension on Chrome, make sure that the option "Block third-party cookies", under your browser configurations, is *disabled*. If you use an extension like AdBlock, you first need to disable the extension, then disable the "Block third-party cookies" option.
 
-When you load the extension on Google Chrome, you'll see an error like `Unrecognized manifest key 'applications'.`. This is related to a section of the code that is recognized (and required) only by Mozilla Firefox, that's why Google Chrome shows that message... but it's harmless and doesn't affect the way the extension works.
-
 #### Running the extension on Mozilla Firefox
 
 * Visit `about:debugging`

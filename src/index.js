@@ -6,6 +6,8 @@ import en from 'react-intl/locale-data/en';
 import fr from 'react-intl/locale-data/fr';
 import pt from 'react-intl/locale-data/pt';
 import es from 'react-intl/locale-data/es';
+import sw from 'react-intl/locale-data/sw';
+import fil from 'react-intl/locale-data/fil';
 import App from './components/App';
 
 /* global navigator, global, require, window, document */
@@ -29,6 +31,8 @@ try {
     'ar': ar,
     'pt': pt,
     'es': es,
+    'sw': sw,
+    'fil': fil,
   };
   addLocaleData([...localeData[locale]]);
 } catch (e) {
