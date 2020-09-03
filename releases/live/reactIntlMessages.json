@@ -16,6 +16,10 @@
     "defaultMessage": "Sign In"
   },
   {
+    "id": "loading.loading",
+    "defaultMessage": "Loading..."
+  },
+  {
     "id": "saveOrUpdate.error",
     "defaultMessage": "Sorry, could not look for this URL in Check."
   },
@@ -26,10 +30,6 @@
   {
     "id": "saveOrUpdate.errorNoUrlOrText",
     "defaultMessage": "You need to pass at least a URL or a piece of text."
-  },
-  {
-    "id": "loading.loading",
-    "defaultMessage": "Loading..."
   },
   {
     "id": "save.noTeam",
@@ -126,9 +126,5 @@
   {
     "id": "media.description",
     "defaultMessage": "Description"
-  },
-  {
-    "id": "mediaCell.notAvailable",
-    "defaultMessage": "Not available"
   }
 ]

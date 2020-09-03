@@ -25,10 +25,22 @@ const useStyles = makeStyles(theme => ({
 const Media = ({ metadata }) => {
   const classes = useStyles();
 
-  const publishedOn = metadata.published_at ? new Date(metadata.published_at).toLocaleString() : null;
+  let publishedOn = null;
+  if (metadata.published_at) {
+    // Don't show the time if we couldn't parse it OR if it's from Facebook, since Pender doesn't get the timezone correctly
+    if (/T00:00:00\.000\+00:00$/.test(metadata.published_at) || metadata.provider === 'facebook') {
+      publishedOn = new Date(metadata.published_at).toLocaleDateString();
+    }
+    else {
+      const { locale } = (new window.Intl.NumberFormat()).resolvedOptions();
+      publishedOn = new Date(metadata.published_at).toLocaleString(locale, { timeZoneName: 'short' });
+    }
+  }
+
   const author = (metadata.author_name && metadata.author_url) ?
     `${metadata.author_name} (${metadata.author_url.replace(/^https?:\/\//, '')})` :
     (metadata.author_name || metadata.author_url);
+
   const metrics = {
     shares: 0,
     reactions: 0,

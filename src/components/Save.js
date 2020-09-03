@@ -11,6 +11,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Title from './Title';
 import Message from './Message';
 import Menu from './Menu';
+import MediaCell from './MediaCell';
 import colors from './colors';
 
 const useStyles = makeStyles(theme => ({
@@ -38,6 +39,11 @@ const useStyles = makeStyles(theme => ({
   button: {
     background: colors.blue,
   },
+  link: {
+    overflowWrap: 'break-word',
+    wordWrap: 'break-word',
+    wordBreak: 'break-word',
+  },
 }));
 
 const Save = ({ user, environment, text, url, onSave, onLogout }) => {
@@ -54,7 +60,8 @@ const Save = ({ user, environment, text, url, onSave, onLogout }) => {
     );
   }
   
-  const [project, setProject] = React.useState(team.projects[0]);
+  const projects = team.projects.sort((a, b) => (a.title.localeCompare(b.title)));
+  const [project, setProject] = React.useState(projects[0]);
   const [saving, setSaving] = React.useState(false);
   const [message, setMessage] = React.useState(null);
 
@@ -140,7 +147,7 @@ const Save = ({ user, environment, text, url, onSave, onLogout }) => {
               handleChangeProject(newValue);
             }}
             className={classes.select}
-            options={team.projects}
+            options={projects}
             getOptionLabel={(project) => project.title}
             renderInput={(params) => <TextField {...params} variant="outlined" fullWidth />}
             fullWidth
@@ -149,20 +156,18 @@ const Save = ({ user, environment, text, url, onSave, onLogout }) => {
       </Box>
       <Box className={classes.root}>
         <Box className={classes.spaced}>
-          <TextField
+          <MediaCell
             label={
               url ?
                 <FormattedMessage id="save.url" defaultMessage="Link URL" /> :
                 <FormattedMessage id="save.text" defaultMessage="Text claim" />
             }
-            defaultValue={url || text}
-            variant="outlined"
-            multiline={Boolean(text)}
-            rowsMax={8}
-            fullWidth
-            InputProps={{
-              readOnly: true,
-            }}
+            value={
+              url ?
+                <span className={classes.link}>{url}</span> :
+                text
+            }
+            bold={false}
           />
         </Box>
         <Box className={classes.spaced}>
