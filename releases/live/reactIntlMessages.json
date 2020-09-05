@@ -4,10 +4,6 @@
     "defaultMessage": "Authenticating on Check..."
   },
   {
-    "id": "loading.loading",
-    "defaultMessage": "Loading..."
-  },
-  {
     "id": "Login.addLinksToApp",
     "defaultMessage": "Add links to Check with one click. Links will be added to your selected list. If the link already exists, you are able to annotate it."
   },
@@ -30,6 +26,10 @@
   {
     "id": "saveOrUpdate.errorNoUrlOrText",
     "defaultMessage": "You need to pass at least a URL or a piece of text."
+  },
+  {
+    "id": "loading.loading",
+    "defaultMessage": "Loading..."
   },
   {
     "id": "save.noTeam",
