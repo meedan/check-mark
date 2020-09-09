@@ -30,13 +30,13 @@ const Menu = ({ onLogout }) => {
   const handleLogout = () => {
     logout(() => {
       onLogout();
-    }); 
+    });
   };
 
   return (
     <Box>
       <IconButton color={colors.darkGray} onClick={handleClick}>
-        <MoreVertIcon />        
+        <MoreVertIcon />
       </IconButton>
       <MaterialMenu
         anchorEl={anchorEl}
@@ -45,7 +45,7 @@ const Menu = ({ onLogout }) => {
         onClose={handleClose}
       >
         <MenuItem onClick={handleChangeWorkspace}>
-          <FormattedMessage id="menu.changeWorkspace" defaultMessage="Change workspace" />
+          <FormattedMessage id="menu.changeWorkspace" defaultMessage="Switch workspace" />
         </MenuItem>
         <MenuItem onClick={handleLogout}>
           <FormattedMessage id="menu.logout" defaultMessage="Log out" />
