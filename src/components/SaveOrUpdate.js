@@ -124,7 +124,7 @@ const SaveOrUpdate = ({ environment, url, text, user, onLogout }) => {
   return (
     <Message>
       <Typography variant="body1" className={classes.paragraph}>
-        <FormattedMessage id="saveOrUpdate.errorNoUrlOrText" defaultMessage="You need to pass at least a URL or a piece of text." />
+        <FormattedMessage id="saveOrUpdate.errorNoUrlOrText" defaultMessage="You need to enter at least a URL or a piece of text." />
       </Typography>
     </Message>
   );
