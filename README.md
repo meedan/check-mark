@@ -63,15 +63,8 @@ As usual, localization is done on [Transifex](https://www.transifex.com/meedan/c
 
 - Some permissions will require justification:
   * `activeTab`: Send the current URL to Check
-  * `tabs`: Send any URL to Check
-  * `cookies`: Authenticate user on Check
-  * `webRequest`: Make requests to Check API
   * `contextMenus`: Invoke the extension from a link on right-click
-  * Host Permission: Render Check application inside a sidebar
-  * Remote Code:
-    - Embed an iframe from our web application at https://checkmedia.org to show input controls for user annotations
-    - Refer to external Google fonts
 
 #### Firefox Store
 
-You will be asked to submit the source code of the extension because we're using `webpack` to bundle the code. You can download a zipped version of the `master` branch for this purpose.
+- Nothing special is needed, just upload the ZIP
