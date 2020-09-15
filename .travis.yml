@@ -51,6 +51,26 @@ before_install:
 - bundle exec rake lapis:api_keys:create_default
 - rails s -p 3000 >/dev/null &
 - cd -
+- export RAILS_ENV=development
+# pender
+- git clone https://github.com/meedan/pender.git
+- d=configurator/$APP/travis/pender/; for f in $(find $d -type f); do cp "$f" "pender/${f/$d/}"; done
+- cd pender
+- bundle install --path=/tmp/bundler
+- bundle exec rake db:migrate
+- bundle exec rails runner 'a = ApiKey.create!; a.access_token = "test"; a.save!'
+- bundle exec rails s -p 3005 >/dev/null &
+- cd -
+#check web
+- git clone https://github.com/meedan/check-web.git
+- d=configurator/$APP/travis/check-web/; for f in $(find $d -type f); do cp "$f" "${f/$d/}"; done
+- cd check-web 
+- bundle install
+- npm install
+- npm run build
+- export SERVER_PORT=3333
+- npm run publish
+- cd -
 # xvfb
 - sudo service xvfb start
 # google chrome
