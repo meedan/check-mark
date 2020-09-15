@@ -53,7 +53,9 @@ before_install:
 - cd -
 - export RAILS_ENV=development
 # pender
-- git clone https://github.com/meedan/pender.git
+- export PENDER_BRANCH=$((git ls-remote --exit-code --heads https://github.com/meedan/pender.git $TRAVIS_BRANCH >/dev/null && echo $TRAVIS_BRANCH) || echo 'develop')
+- echo "Using branch $PENDER_BRANCH for Pender"
+- git clone --branch=$PENDER_BRANCH https://github.com/meedan/pender.git
 - d=configurator/check/travis/pender/; for f in $(find $d -type f); do cp "$f" "pender/${f/$d/}"; done
 - cd pender
 - bundle install --path=/tmp/bundler
@@ -70,7 +72,7 @@ before_install:
 - npm install
 - npm run build
 - export SERVER_PORT=3333
-- npm run publish
+- npm run publish &
 - cd -
 # xvfb
 - sudo service xvfb start
