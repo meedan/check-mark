@@ -62,7 +62,9 @@ before_install:
 - bundle exec rails s -p 3005 >/dev/null &
 - cd -
 #check web
-- git clone https://github.com/meedan/check-web.git
+- export CHECK_WEB_BRANCH=$((git ls-remote --exit-code --heads https://github.com/meedan/check-web.git $TRAVIS_BRANCH >/dev/null && echo $TRAVIS_BRANCH) || echo 'develop')
+- echo "Using branch $CHECK_WEB_BRANCH for Check Web"
+- git clone --branch=$CHECK_WEB_BRANCH https://github.com/meedan/check-web.git
 - d=configurator/check/travis/check-web/; for f in $(find $d -type f); do cp "$f" "check-web/${f/$d/}"; done
 - cd check-web 
 - npm install
