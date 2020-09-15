@@ -65,7 +65,6 @@ before_install:
 - git clone https://github.com/meedan/check-web.git
 - d=configurator/check/travis/check-web/; for f in $(find $d -type f); do cp "$f" "check-web/${f/$d/}"; done
 - cd check-web 
-- bundle install
 - npm install
 - npm run build
 - export SERVER_PORT=3333
