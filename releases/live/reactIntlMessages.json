@@ -1,7 +1,7 @@
 [
   {
     "id": "app.loading",
-    "defaultMessage": "Authenticating on Check..."
+    "defaultMessage": "Authenticating on Check…"
   },
   {
     "id": "Login.addLinksToApp",
@@ -21,15 +21,15 @@
   },
   {
     "id": "saveOrUpdate.loading",
-    "defaultMessage": "Looking for this URL in Check..."
+    "defaultMessage": "Looking for this URL in Check…"
   },
   {
     "id": "saveOrUpdate.errorNoUrlOrText",
-    "defaultMessage": "You need to pass at least a URL or a piece of text."
+    "defaultMessage": "You need to enter at least a URL or a piece of text."
   },
   {
     "id": "loading.loading",
-    "defaultMessage": "Loading..."
+    "defaultMessage": "Loading…"
   },
   {
     "id": "save.noTeam",
@@ -53,7 +53,7 @@
   },
   {
     "id": "save.saving",
-    "defaultMessage": "Saving..."
+    "defaultMessage": "Saving…"
   },
   {
     "id": "save.save",
@@ -85,11 +85,11 @@
   },
   {
     "id": "update.loading",
-    "defaultMessage": "Loading..."
+    "defaultMessage": "Loading…"
   },
   {
     "id": "menu.changeWorkspace",
-    "defaultMessage": "Change workspace"
+    "defaultMessage": "Switch workspace"
   },
   {
     "id": "menu.logout",
