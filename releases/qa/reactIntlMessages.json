@@ -1,7 +1,7 @@
 [
   {
     "id": "app.loading",
-    "defaultMessage": "Authenticating on Check..."
+    "defaultMessage": "Authenticating on Check…"
   },
   {
     "id": "Login.addLinksToApp",
@@ -21,43 +21,15 @@
   },
   {
     "id": "saveOrUpdate.loading",
-    "defaultMessage": "Looking for this URL in Check..."
+    "defaultMessage": "Looking for this URL in Check…"
   },
   {
     "id": "saveOrUpdate.errorNoUrlOrText",
-    "defaultMessage": "You need to pass at least a URL or a piece of text."
+    "defaultMessage": "You need to enter at least a URL or a piece of text."
   },
   {
     "id": "loading.loading",
-    "defaultMessage": "Loading..."
-  },
-  {
-    "id": "save.noTeam",
-    "defaultMessage": "You must be a member of at least one team in order to use the browser extension."
-  },
-  {
-    "id": "save.error",
-    "defaultMessage": "Error"
-  },
-  {
-    "id": "save.saveTo",
-    "defaultMessage": "Save to:"
-  },
-  {
-    "id": "save.url",
-    "defaultMessage": "Link URL"
-  },
-  {
-    "id": "save.text",
-    "defaultMessage": "Text claim"
-  },
-  {
-    "id": "save.saving",
-    "defaultMessage": "Saving..."
-  },
-  {
-    "id": "save.save",
-    "defaultMessage": "Save"
+    "defaultMessage": "Loading…"
   },
   {
     "id": "update.saved",
@@ -85,11 +57,39 @@
   },
   {
     "id": "update.loading",
-    "defaultMessage": "Loading..."
+    "defaultMessage": "Loading…"
+  },
+  {
+    "id": "save.noTeam",
+    "defaultMessage": "You must be a member of at least one team in order to use the browser extension."
+  },
+  {
+    "id": "save.error",
+    "defaultMessage": "Error"
+  },
+  {
+    "id": "save.saveTo",
+    "defaultMessage": "Save to:"
+  },
+  {
+    "id": "save.url",
+    "defaultMessage": "Link URL"
+  },
+  {
+    "id": "save.text",
+    "defaultMessage": "Text claim"
+  },
+  {
+    "id": "save.saving",
+    "defaultMessage": "Saving…"
+  },
+  {
+    "id": "save.save",
+    "defaultMessage": "Save"
   },
   {
     "id": "menu.changeWorkspace",
-    "defaultMessage": "Change workspace"
+    "defaultMessage": "Switch workspace"
   },
   {
     "id": "menu.logout",
