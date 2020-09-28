@@ -32,15 +32,9 @@ before_install:
 - 'echo "127.0.0.1 postgres" | sudo tee -a /etc/hosts'
 - psql -c 'create database checkdesk_test;' -U postgres
 - redis-server 2>&1 >/dev/null &
-- wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.8.9.deb
-- wget https://artifacts.elastic.co/downloads/elasticsearch/elasticsearch-6.8.9.deb.sha512
-  && shasum -a 512 -c elasticsearch-6.8.9.deb.sha512 && sudo dpkg -i --force-confnew elasticsearch-6.8.9.deb && sudo service elasticsearch
-  restart
-- sudo /usr/share/elasticsearch/bin/elasticsearch-plugin install analysis-icu
-- sudo chown -R elasticsearch:elasticsearch /etc/default/elasticsearch
-- sudo service elasticsearch restart
-- sleep 15
-- sudo service elasticsearch status
+- docker run -d --name elasticsearch -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:7.9.2
+- docker exec elasticsearch elasticsearch-plugin install analysis-icu
+- docker restart elasticsearch
 - export CHECK_API_BRANCH=$((git ls-remote --exit-code --heads https://github.com/meedan/check-api.git $TRAVIS_BRANCH >/dev/null && echo $TRAVIS_BRANCH) || echo 'develop')
 - echo "Using branch $CHECK_API_BRANCH for Check API"
 - git clone --branch=$CHECK_API_BRANCH https://github.com/meedan/check-api.git
