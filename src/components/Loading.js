@@ -25,7 +25,7 @@ const Loading = ({ message }) => {
 };
 
 Loading.defaultProps = {
-  message: <FormattedMessage id="loading.loading" defaultMessage="Loading..." />,
+  message: <FormattedMessage id="loading.loading" defaultMessage="Loading…" />,
 };
 
 Loading.propTypes = {

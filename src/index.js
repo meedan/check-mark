@@ -8,7 +8,9 @@ import pt from 'react-intl/locale-data/pt';
 import es from 'react-intl/locale-data/es';
 import sw from 'react-intl/locale-data/sw';
 import fil from 'react-intl/locale-data/fil';
+import { MuiThemeProvider, createMuiTheme } from '@material-ui/core/styles';
 import App from './components/App';
+import colors from './components/colors';
 
 /* global navigator, global, require, window, document */
 
@@ -68,9 +70,22 @@ const url = urlParam ? decodeURI(urlParam[1]) : null;
 const textParam = window.location.search.match(/^\?text=(.*)/);
 const text = textParam ? decodeURIComponent(decodeURI(textParam[1])) : '';
 
+const MuiTheme = {
+  palette: {
+    type: 'light',
+    primary: {
+      main: colors.blue,
+    },
+  },
+};
+
+const muiTheme = createMuiTheme({ direction, ...MuiTheme });
+
 ReactDOM.render(
-  <IntlProvider locale={locale} messages={translations}>
-    { (text || url) ? <App direction={direction} url={url} text={text} /> : null }
-  </IntlProvider>,
+  <MuiThemeProvider theme={muiTheme}>
+    <IntlProvider locale={locale} messages={translations}>
+      { (text || url) ? <App direction={direction} url={url} text={text} /> : null }
+    </IntlProvider>
+  </MuiThemeProvider>,
   document.getElementById('root')
 );

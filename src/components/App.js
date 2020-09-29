@@ -27,7 +27,7 @@ const App = (props) => {
   const handleLogout = () => {
     setUser(null);
   };
-  
+
   return (
     <Box id="app" style={{ direction: props.direction }}>
       { user ?
@@ -38,7 +38,7 @@ const App = (props) => {
           text={props.text}
           onLogout={handleLogout}
         /> :
-        (loaded ? <Login /> : <Loading message={<FormattedMessage id="app.loading" defaultMessage="Authenticating on Check..." />} />)
+        (loaded ? <Login /> : <Loading message={<FormattedMessage id="app.loading" defaultMessage="Authenticating on Check…" />} />)
       }
     </Box>
   );

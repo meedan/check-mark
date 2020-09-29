@@ -113,7 +113,7 @@ const SaveOrUpdate = ({ environment, url, text, user, onLogout }) => {
               );
             }
             return (
-              <Loading message={<FormattedMessage id="saveOrUpdate.loading" defaultMessage="Looking for this URL in Check..." />} />
+              <Loading message={<FormattedMessage id="saveOrUpdate.loading" defaultMessage="Looking for this URL in Check…" />} />
             );
           }}
         />

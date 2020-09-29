@@ -36,9 +36,6 @@ const useStyles = makeStyles(theme => ({
     borderWidth: 2,
     outline: 0,
   },
-  button: {
-    background: colors.blue,
-  },
   link: {
     overflowWrap: 'break-word',
     wordWrap: 'break-word',
@@ -59,7 +56,7 @@ const Save = ({ user, environment, text, url, onSave, onLogout }) => {
       </Message>
     );
   }
-  
+
   const projects = team.projects.sort((a, b) => (a.title.localeCompare(b.title)));
   const [project, setProject] = React.useState(projects[0]);
   const [saving, setSaving] = React.useState(false);
@@ -171,9 +168,9 @@ const Save = ({ user, environment, text, url, onSave, onLogout }) => {
           />
         </Box>
         <Box className={classes.spaced}>
-          <Button id="save-button" variant="contained" color="primary" className={classes.button} onClick={handleSave} disabled={saving}>
+          <Button id="save-button" variant="contained" color="primary" onClick={handleSave} disabled={saving}>
           { saving ?
-            <FormattedMessage id="save.saving" defaultMessage="Saving..." /> :
+            <FormattedMessage id="save.saving" defaultMessage="Saving…" /> :
             <FormattedMessage id="save.save" defaultMessage="Save" />
           }
           </Button>

@@ -84,7 +84,7 @@ const Update = ({ projectMedia, projectId, onLogout, justSaved, user }) => {
   React.useEffect(() => {
     const receiveMessage = (event) => {
       const data = JSON.parse(event.data);
-      
+
       if (event.origin === config.checkWebUrl) {
         const data = JSON.parse(event.data);
         if (data.height) {
@@ -144,7 +144,7 @@ const Update = ({ projectMedia, projectId, onLogout, justSaved, user }) => {
           <Box className={classes.frameContainer}>
             { frameHeight === 0 ?
               <Typography variant="body1" className={classes.spaced}>
-                <FormattedMessage id="update.loading" defaultMessage="Loading..." />
+                <FormattedMessage id="update.loading" defaultMessage="Loading…" />
               </Typography> : null }
             <iframe
               id="check-web-frame"

@@ -18,9 +18,6 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(2),
     background: colors.lightGray,
   },
-  button: {
-    background: colors.blue,
-  },
   paragraph: {
     marginTop: theme.spacing(2),
     marginBottom: theme.spacing(2),
@@ -51,7 +48,7 @@ const Login = () => {
           <FormattedMessage id="Login.start" defaultMessage="To get started, sign in and then reload the page." />
         </Typography>
         <Box>
-          <Button id="login-button" variant="contained" color="primary" onClick={signIn} className={classes.button}>
+          <Button id="login-button" variant="contained" color="primary" onClick={signIn}>
             <FormattedMessage id="Login.signIn" defaultMessage="Sign In" />
           </Button>
         </Box>
