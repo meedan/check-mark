@@ -3,81 +3,40 @@ require 'yaml'
 require 'net/http'
 require 'json'
 require 'httparty'
+require 'app_spec_helpers.rb'
+require 'task_spec_helpers.rb'
+
+include AppSpecHelpers
+include TaskSpecHelpers
 
 shared_examples 'tests' do
   it 'should open extension' do
-    open_extension
+    open_extension("text", "Test")
     expect(@driver.page_source.include?('Sign In')).to be(true)
     expect(@driver.page_source.include?('Entrar')).to be(false)
   end
 
   it 'should localize' do
     open_browser 'pt'
-    open_extension
+    open_extension("text", "Test")
     expect(@driver.page_source.include?('Sign In')).to be(false)
     expect(@driver.page_source.include?('Entrar')).to be(true)
     open_browser 'en'
   end
 
   it 'should login' do
-    login
-  end
-
-  it 'should create media' do
-    login
-    sleep 2
-    expect(@driver.page_source.include?('Text claim')).to be(true)
-    expect(@driver.page_source.include?('Saved!')).to be(false)
-    get_element('#save-button').click
-    sleep 10
-    expect(@driver.page_source.include?('Saved!')).to be(true)
-  end
-end
-
-describe 'app' do
-  @driver = @config = nil
-
-  before :all do
-    @config = YAML.load_file('config.yml')
-  end
-
-  before :each do
-    open_browser
-  end
-
-  after :each do
-    close_browser
-  end
-
-  def get_element(selector, visible = true)
-    wait = Selenium::WebDriver::Wait.new(timeout: 5)
-    wait.until {
-      element = @driver.find_element(:css, selector)
-      element if visible && element.displayed?
-    }
-  end
-
-  def request_api(path, params)
-    require 'net/http'
-    uri = URI("#{@config['check_api_url']}/test/#{path}")
-    uri.query = URI.encode_www_form(params)
-    Net::HTTP.get_response(uri)
-  end
-
-  def login
     # Create user and confirm account
     email = "test-#{Time.now.to_i}@test.com"
     user = request_api 'user', { name: 'Test', email: email, password: '12345678', password_confirmation: '12345678', provider: '' }
     request_api 'confirm_user', { email: email }
 
     # Open extension and assert that the user is not logged in
-    open_extension
-    sleep 5
+    open_extension("text", "Test")
     expect(@driver.window_handles.size == 1).to be(true)
     expect(@driver.page_source.include?('sign in')).to be(true)
 
     # Click on "sign in" and make sure that a new window is opened
-    get_element('#login-button').click
+    wait_for_selector('#login-button').click
     sleep 3
     expect(@driver.window_handles.size == 2).to be(true)
     window = @driver.window_handles.last
@@ -94,28 +53,109 @@ describe 'app' do
     window = @driver.window_handles.first
     @driver.switch_to.window(window)
     @driver.navigate.refresh
-    sleep 3
+    wait_for_selector('#save-button')
     expect(@driver.page_source.include?('sign in')).to be(false)
   end
 
-  def save_screenshot(title)
-    if @config['imgur_client_id']
-      path = '/tmp/' + (0...8).map{ (65 + rand(26)).chr }.join + '.png'
-      @driver.save_screenshot(path)
-
-      auth_header =  {'Authorization' => 'Client-ID ' + @config['imgur_client_id']}
-      image = File.new(path)
-      body = { image: image, type: 'file' }
-      response = HTTParty.post('https://api.imgur.com/3/upload', body: body, headers: auth_header)
-      JSON.parse(response.body)['data']['link']
-    end
+  it 'should create media' do
+    login(media_type:"url",media_content:"https://meedan.com")
+    wait_for_selector("//span[contains(text(), 'Link URL')]", :xpath)
+    expect(@driver.page_source.include?('Saved!')).to be(false)
+    wait_for_selector('#save-button').click
+    wait_for_selector("#media")
+    expect(@driver.page_source.include?('Saved!')).to be(true)
+    expect(@driver.page_source.include?('Media')).to be(true)
+    expect(@driver.page_source.include?('Meedan')).to be(true)
+    expect(@driver.page_source.include?('@meedan')).to be(true)
+    expect(@driver.page_source.include?('https://meedan.com')).to be(true)
+    #verify that the team doesn't have task and metadata
+    @driver.switch_to.default_content
+    wait_for_selector("//span[contains(text(), 'Tasks')]", :xpath).click
+    @driver.switch_to.frame "check-web-frame"
+    wait_for_selector("//span[contains(text(), 'Nothing')]", :xpath)
+    expect(@driver.page_source.include?('Nothing to show')).to be(true)
+    @driver.switch_to.default_content
+    wait_for_selector("//span[contains(text(), 'Metadata')]", :xpath).click
+    @driver.switch_to.frame "check-web-frame"
+    wait_for_selector("//span[contains(text(), 'Nothing')]", :xpath)
+    expect(@driver.page_source.include?('Nothing to show')).to be(true)
   end
 
-  def close_browser
-    begin
-      @driver.quit
-    rescue
-    end
+  it 'should not create a media from a url profile' do
+    login(media_type:"url",media_content:"https://twitter.com/meedan")
+    wait_for_selector("//span[contains(text(), 'Link URL')]", :xpath)
+    expect(@driver.page_source.include?('Saved!')).to be(false)
+    wait_for_selector('#save-button').click
+    wait_for_selector("//div[contains(text(), 'Sorry')]", :xpath)
+    expect(@driver.page_source.include?('Sorry, this is not a media')).to be(true)
+    expect(@driver.page_source.include?('Saved!')).to be(false)
+  end
+
+  it 'should manage a team task' do
+    login(media_type:"text",media_content:"Test",data_field_name:"tasks")
+    wait_for_selector("//span[contains(text(), 'Text claim')]", :xpath)
+    expect(@driver.page_source.include?('Saved!')).to be(false)
+    wait_for_selector('#save-button').click
+    wait_for_selector("//span[contains(text(), 'Saved')]", :xpath)
+    expect(@driver.page_source.include?('Saved!')).to be(true)
+    wait_for_selector("//span[contains(text(), 'Tasks')]", :xpath).click
+    @driver.switch_to.frame "check-web-frame"
+    wait_for_selector("#task__response-input")
+    expect(@driver.page_source.include?('Team-task')).to be(true)
+    # Answer task
+    answer_task("answer")
+    wait_for_selector("//span[contains(text(), 'Completed by')]", :xpath)
+    expect(@driver.page_source.include?('Completed by')).to be(true)
+    expect(@driver.page_source.include?('answer')).to be(true)
+    # Edit task answer
+    edit_task_response("-edited")
+    expect(@driver.page_source.include?('answer-edited')).to be(true)
+    # Delete task answer
+    delete_task_response
+    expect(@driver.page_source.include?('answer-edited')).to be(false)
+    #delete task
+    delete_task
+    expect(@driver.page_source.include?('Team-task')).to be(false)
+    expect(@driver.page_source.include?('Nothing to show')).to be(true)
+  end
+
+  it 'should add, edit and delete a metadata response' do
+    login(media_type:"text", media_content:"Test", data_field_name:"metadata")
+    wait_for_selector("//span[contains(text(), 'Text claim')]", :xpath)
+    expect(@driver.page_source.include?('Saved!')).to be(false)
+    wait_for_selector('#save-button').click
+    wait_for_selector("//span[contains(text(), 'Saved')]", :xpath)
+    expect(@driver.page_source.include?('Saved!')).to be(true)
+    wait_for_selector("iframe")
+    @driver.switch_to.frame "check-web-frame"
+    wait_for_selector("#task__response-input")
+    expect(@driver.page_source.include?('Team-metadata')).to be(true)
+    #answer the metadata
+    answer_task("answer")
+    expect(@driver.page_source.include?('answer')).to be(true)
+    #edit response
+    edit_task_response("-edited")
+    expect(@driver.page_source.include?('answer-edited')).to be(true)
+     #delete response
+    delete_task_response
+    expect(@driver.page_source.include?('answer-edited')).to be(false)
+  end
+
+end
+
+describe 'app' do
+  @driver = @config = nil
+
+  before :all do
+    @config = YAML.load_file('config.yml')
+  end
+
+  before :each do
+    open_browser
+  end
+
+  after :each do
+    close_browser
   end
 
   context 'firefox' do
@@ -141,14 +181,14 @@ describe 'app' do
       sleep 3
     end
 
-    def open_extension
+    def open_extension(type, content)
       @driver.navigate.to 'about:debugging'
-      id = get_element('.internal-uuid span')
-      @driver.navigate.to "moz-extension://#{id.text}/popup.html?text=Test"
-      get_element('#app')
+      id = wait_for_selector('.internal-uuid span')
+      @driver.navigate.to "moz-extension://#{id.text}/popup.html?#{type}=#{content}"
+      wait_for_selector('#app')
     end
     
-    include_examples 'tests'
+    # include_examples 'tests'
   end
 
   context 'chrome' do
@@ -167,15 +207,14 @@ describe 'app' do
       @driver = Selenium::WebDriver.for(:chrome, desired_capabilities: desired_capabilities, url: @config['chromedriver_url'])
     end
 
-    def open_extension
+    def open_extension(type, content)
       @driver.navigate.to 'chrome://extensions'
       sleep 1
       @driver.execute_script("document.getElementsByTagName('extensions-manager')[0].shadowRoot.querySelector('extensions-toolbar').shadowRoot.querySelector('#devMode').click()")
       sleep 1
       id = @driver.execute_script("return document.getElementsByTagName('extensions-manager')[0].shadowRoot.querySelector('#items-list').shadowRoot.querySelector('extensions-item').getAttribute('id')")
-      @driver.navigate.to "chrome-extension://#{id}/popup.html?text=Test"
-      sleep 5
-      get_element('#app')
+      @driver.navigate.to "chrome-extension://#{id}/popup.html?#{type}=#{content}"
+      wait_for_selector('#app')
     end
 
     include_examples 'tests'
