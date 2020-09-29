@@ -62,6 +62,7 @@ shared_examples 'tests' do
     wait_for_selector("//span[contains(text(), 'Link URL')]", :xpath)
     expect(@driver.page_source.include?('Saved!')).to be(false)
     wait_for_selector('#save-button').click
+    wait_for_selector_none("#save-button")
     wait_for_selector("#media")
     expect(@driver.page_source.include?('Saved!')).to be(true)
     expect(@driver.page_source.include?('Media')).to be(true)
@@ -81,11 +82,12 @@ shared_examples 'tests' do
     expect(@driver.page_source.include?('Nothing to show')).to be(true)
   end
 
-  it 'should not create a media from a url profile' do
+  it 'should not create media from a url profile' do
     login(media_type:"url",media_content:"https://twitter.com/meedan")
     wait_for_selector("//span[contains(text(), 'Link URL')]", :xpath)
     expect(@driver.page_source.include?('Saved!')).to be(false)
     wait_for_selector('#save-button').click
+    wait_for_selector('#save-button')
     wait_for_selector("//div[contains(text(), 'Sorry')]", :xpath)
     expect(@driver.page_source.include?('Sorry, this is not a media')).to be(true)
     expect(@driver.page_source.include?('Saved!')).to be(false)
@@ -154,7 +156,11 @@ describe 'app' do
     open_browser
   end
 
-  after :each do
+  after :each do |example|
+    if example.exception
+      link = save_screenshot("Test failed: #{example.description}")
+      puts "[Test \"#{example.description}\" failed! Check screenshot at #{link}]"
+    end
     close_browser
   end
 
