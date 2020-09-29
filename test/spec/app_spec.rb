@@ -3,11 +3,11 @@ require 'yaml'
 require 'net/http'
 require 'json'
 require 'httparty'
-require 'app_spec_helpers.rb'
-require 'task_spec_helpers.rb'
+require_relative './app_spec_helpers.rb'
+require_relative './data_field_spec_helpers.rb'
 
 include AppSpecHelpers
-include TaskSpecHelpers
+include DataFieldSpecHelpers
 
 shared_examples 'tests' do
   it 'should open extension' do
@@ -103,18 +103,18 @@ shared_examples 'tests' do
     wait_for_selector("#task__response-input")
     expect(@driver.page_source.include?('Team-task')).to be(true)
     # Answer task
-    answer_task("answer")
+    answer_data_field("answer")
     wait_for_selector("//span[contains(text(), 'Completed by')]", :xpath)
     expect(@driver.page_source.include?('Completed by')).to be(true)
     expect(@driver.page_source.include?('answer')).to be(true)
     # Edit task answer
-    edit_task_response("-edited")
+    edit_data_field_response("-edited")
     expect(@driver.page_source.include?('answer-edited')).to be(true)
     # Delete task answer
-    delete_task_response
+    delete_data_field_response
     expect(@driver.page_source.include?('answer-edited')).to be(false)
     #delete task
-    delete_task
+    delete_data_field
     expect(@driver.page_source.include?('Team-task')).to be(false)
     expect(@driver.page_source.include?('Nothing to show')).to be(true)
   end
@@ -131,13 +131,13 @@ shared_examples 'tests' do
     wait_for_selector("#task__response-input")
     expect(@driver.page_source.include?('Team-metadata')).to be(true)
     #answer the metadata
-    answer_task("answer")
+    answer_data_field("answer")
     expect(@driver.page_source.include?('answer')).to be(true)
     #edit response
-    edit_task_response("-edited")
+    edit_data_field_response("-edited")
     expect(@driver.page_source.include?('answer-edited')).to be(true)
      #delete response
-    delete_task_response
+    delete_data_field_response
     expect(@driver.page_source.include?('answer-edited')).to be(false)
   end
 
@@ -188,7 +188,7 @@ describe 'app' do
       wait_for_selector('#app')
     end
     
-    # include_examples 'tests'
+    include_examples 'tests'
   end
 
   context 'chrome' do
