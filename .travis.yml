@@ -27,6 +27,15 @@ before_install:
 - sudo apt-get -qq update
 - sudo apt-get install ruby ruby-dev xvfb autoconf automake libtool redis-server libtag1-dev libgconf-2-4 -y
 - gem install bundler -v "2.1.4"
+# pender
+- git clone https://github.com/meedan/pender.git
+- d=configurator/$APP/travis/pender/; for f in $(find $d -type f); do cp "$f" "pender/${f/$d/}"; done
+- cd pender
+- bundle install --path=/tmp/bundler
+- bundle exec rake db:migrate
+- bundle exec rails runner 'a = ApiKey.create!; a.access_token = "test"; a.save!'
+- bundle exec rails s -p 3005 >/dev/null &
+- cd -
 # check api
 - docker run -d -p 9000:9000 -e "MINIO_ACCESS_KEY=AKIAIOSFODNN7EXAMPLE" -e "MINIO_SECRET_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY" minio/minio server /data
 - 'echo "127.0.0.1 postgres" | sudo tee -a /etc/hosts'
@@ -46,17 +55,6 @@ before_install:
 - rails s -p 3000 >/dev/null &
 - cd -
 - export RAILS_ENV=development
-# pender
-- export PENDER_BRANCH=$((git ls-remote --exit-code --heads https://github.com/meedan/pender.git $TRAVIS_BRANCH >/dev/null && echo $TRAVIS_BRANCH) || echo 'develop')
-- echo "Using branch $PENDER_BRANCH for Pender"
-- git clone --branch=$PENDER_BRANCH https://github.com/meedan/pender.git
-- d=configurator/check/travis/pender/; for f in $(find $d -type f); do cp "$f" "pender/${f/$d/}"; done
-- cd pender
-- bundle install --path=/tmp/bundler
-- bundle exec rake db:migrate
-- bundle exec rails runner 'a = ApiKey.create!; a.access_token = "test"; a.save!'
-- bundle exec rails s -p 3005 >/dev/null &
-- cd -
 #check web
 - export CHECK_WEB_BRANCH=$((git ls-remote --exit-code --heads https://github.com/meedan/check-web.git $TRAVIS_BRANCH >/dev/null && echo $TRAVIS_BRANCH) || echo 'develop')
 - echo "Using branch $CHECK_WEB_BRANCH for Check Web"
