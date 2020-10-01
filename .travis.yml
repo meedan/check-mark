@@ -29,7 +29,7 @@ before_install:
 - gem install bundler -v "2.1.4"
 # pender
 - git clone https://github.com/meedan/pender.git
-- d=configurator/$APP/travis/pender/; for f in $(find $d -type f); do cp "$f" "pender/${f/$d/}"; done
+- d=configurator/check/travis/pender/; for f in $(find $d -type f); do cp "$f" "pender/${f/$d/}"; done
 - cd pender
 - bundle install --path=/tmp/bundler
 - bundle exec rake db:migrate
