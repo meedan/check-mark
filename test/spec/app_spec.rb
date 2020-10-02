@@ -223,6 +223,6 @@ describe 'app' do
       wait_for_selector('#app')
     end
 
-    # include_examples 'tests'
+    include_examples 'tests'
   end
 end
