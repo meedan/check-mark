@@ -44,7 +44,8 @@ before_install:
 - bundle install
 - bundle exec rake db:migrate
 - bundle exec rake lapis:api_keys:create_default
-- rails s -p 3000 >/dev/null &
+- rails s -p 3000 & 
+- tail -f log/test.log &
 - cd -
 # pender
 - export PENDER_BRANCH=$((git ls-remote --exit-code --heads https://github.com/meedan/pender.git $TRAVIS_BRANCH >/dev/null && echo $TRAVIS_BRANCH) || echo 'develop')
@@ -55,7 +56,8 @@ before_install:
 - bundle install 
 - bundle exec rake db:migrate
 - bundle exec rails runner 'a = ApiKey.create!; a.access_token = "test"; a.save!'
-- bundle exec rails s -p 3005 >/dev/null &
+- bundle exec rails s -p 3005 &
+- tail -f log/test.log &
 - cd -
 #check web
 - export CHECK_WEB_BRANCH=$((git ls-remote --exit-code --heads https://github.com/meedan/check-web.git $TRAVIS_BRANCH >/dev/null && echo $TRAVIS_BRANCH) || echo 'develop')
