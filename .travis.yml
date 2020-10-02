@@ -29,6 +29,7 @@ before_install:
 - sudo rm -f /etc/apt/sources.list.d/mongodb*
 - sudo rm -f /etc/apt/sources.list.d/google*
 - sudo apt-get -qq update
+- sudo apt-get install ruby ruby-dev xvfb autoconf automake libtool libtag1-dev libgconf-2-4 -y
 - gem install bundler -v "2.1.4"
 #minio
 - docker run -d -p 9000:9000 -e "MINIO_ACCESS_KEY=AKIAIOSFODNN7EXAMPLE" -e "MINIO_SECRET_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY" minio/minio server /data
