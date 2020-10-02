@@ -5,7 +5,7 @@
 A browser extension for [Check](https://meedan.com/en/check/).
 
 ## Browser Extension
-
+![Extension_Header](/extension_header.png)
 ### About
 Firefox will ask you for permission to read your browsing history. This allows the browser extension to add your current tab to Check when you click on the browser icon. Meedan does not log any other data on our servers.
 
