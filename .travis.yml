@@ -47,10 +47,12 @@ before_install:
 - rails s -p 3000 >/dev/null &
 - cd -
 # pender
+- export PENDER_BRANCH=$((git ls-remote --exit-code --heads https://github.com/meedan/pender.git $TRAVIS_BRANCH >/dev/null && echo $TRAVIS_BRANCH) || echo 'develop')
+- echo "Using branch $PENDER_BRANCH for Pender"
 - git clone https://github.com/meedan/pender.git
 - d=configurator/check/travis/pender/; for f in $(find $d -type f); do cp "$f" "pender/${f/$d/}"; done
 - cd pender
-- bundle install --path=/tmp/bundler
+- bundle install 
 - bundle exec rake db:migrate
 - bundle exec rails runner 'a = ApiKey.create!; a.access_token = "test"; a.save!'
 - bundle exec rails s -p 3005 >/dev/null &
