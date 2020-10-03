@@ -7,7 +7,7 @@ module AppSpecHelpers
     Net::HTTP.get_response(uri)
   end
 
-  def login(params={})
+  def login(params = {})
     # Create user and confirm account
     email = "test-#{Time.now.to_i}@test.com"
     user = request_api 'user', { name: 'Test', email: email, password: '12345678', password_confirmation: '12345678', provider: '' }

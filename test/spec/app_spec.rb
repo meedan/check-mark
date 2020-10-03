@@ -58,7 +58,7 @@ shared_examples 'tests' do
   end
 
   it 'should create media' do
-    login(media_type:"url",media_content:"https://meedan.com")
+    login(media_type: "url", media_content: "https://meedan.com")
     wait_for_selector("//span[contains(text(), 'Link URL')]", :xpath)
     expect(@driver.page_source.include?('Saved!')).to be(false)
     wait_for_selector('#save-button').click
@@ -69,7 +69,7 @@ shared_examples 'tests' do
     expect(@driver.page_source.include?('Meedan')).to be(true)
     expect(@driver.page_source.include?('@meedan')).to be(true)
     expect(@driver.page_source.include?('https://meedan.com')).to be(true)
-    #verify that the team doesn't have task and metadata
+    # verify that the team doesn't have task and metadata
     @driver.switch_to.default_content
     wait_for_selector("//span[contains(text(), 'Tasks')]", :xpath).click
     @driver.switch_to.frame "check-web-frame"
@@ -82,8 +82,8 @@ shared_examples 'tests' do
     expect(@driver.page_source.include?('Nothing to show')).to be(true)
   end
 
-  it 'should not create media from a url profile' do
-    login(media_type:"url",media_content:"https://twitter.com/meedan")
+  it 'should not create media from a profile URL' do
+    login(media_type: "url", media_content: "https://twitter.com/meedan")
     wait_for_selector("//span[contains(text(), 'Link URL')]", :xpath)
     expect(@driver.page_source.include?('Saved!')).to be(false)
     wait_for_selector('#save-button').click
@@ -94,7 +94,7 @@ shared_examples 'tests' do
   end
 
   it 'should manage a team task' do
-    login(media_type:"text",media_content:"Test",data_field_name:"tasks")
+    login(media_type: "text", media_content: "Test", data_field_name: "tasks")
     wait_for_selector("//span[contains(text(), 'Text claim')]", :xpath)
     expect(@driver.page_source.include?('Saved!')).to be(false)
     wait_for_selector('#save-button').click
@@ -122,7 +122,7 @@ shared_examples 'tests' do
   end
 
   it 'should add, edit and delete a metadata response' do
-    login(media_type:"text", media_content:"Test", data_field_name:"metadata")
+    login(media_type: "text", media_content: "Test", data_field_name: "metadata")
     wait_for_selector("//span[contains(text(), 'Text claim')]", :xpath)
     expect(@driver.page_source.include?('Saved!')).to be(false)
     wait_for_selector('#save-button').click
