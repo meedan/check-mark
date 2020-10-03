@@ -3,6 +3,7 @@ dist: bionic
 language: ruby
 services:
 - postgresql
+- redis
 node_js:
 - '7'
 rvm:
@@ -10,6 +11,9 @@ rvm:
 addons:
   firefox: '56.0b1'
   postgresql: '9.4'
+  hosts:
+    - minio
+    - redis
   snaps:
     - name: node
       channel: 12/stable
@@ -25,13 +29,13 @@ before_install:
 - sudo rm -f /etc/apt/sources.list.d/mongodb*
 - sudo rm -f /etc/apt/sources.list.d/google*
 - sudo apt-get -qq update
-- sudo apt-get install ruby ruby-dev xvfb autoconf automake libtool redis-server libtag1-dev libgconf-2-4 -y
+- sudo apt-get install ruby ruby-dev xvfb autoconf automake libtool libtag1-dev libgconf-2-4 -y
 - gem install bundler -v "2.1.4"
-# check api
+#minio
 - docker run -d -p 9000:9000 -e "MINIO_ACCESS_KEY=AKIAIOSFODNN7EXAMPLE" -e "MINIO_SECRET_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY" minio/minio server /data
+# check api
 - 'echo "127.0.0.1 postgres" | sudo tee -a /etc/hosts'
 - psql -c 'create database checkdesk_test;' -U postgres
-- redis-server 2>&1 >/dev/null &
 - docker run -d --name elasticsearch -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:7.9.2
 - docker exec elasticsearch elasticsearch-plugin install analysis-icu
 - docker restart elasticsearch
@@ -44,6 +48,29 @@ before_install:
 - bundle exec rake db:migrate
 - bundle exec rake lapis:api_keys:create_default
 - rails s -p 3000 >/dev/null &
+- cd -
+# pender
+- export PENDER_BRANCH=$((git ls-remote --exit-code --heads https://github.com/meedan/pender.git $TRAVIS_BRANCH >/dev/null && echo $TRAVIS_BRANCH) || echo 'develop')
+- echo "Using branch $PENDER_BRANCH for Pender"
+- git clone https://github.com/meedan/pender.git
+- d=configurator/check/travis/pender/; for f in $(find $d -type f); do cp "$f" "pender/${f/$d/}"; done
+- cd pender
+- bundle install 
+- bundle exec rake db:migrate
+- bundle exec rails runner 'a = ApiKey.create!; a.access_token = "test"; a.save!'
+- bundle exec rails s -p 3005 >/dev/null &
+- cd -
+# check web
+- export CHECK_WEB_BRANCH=$((git ls-remote --exit-code --heads https://github.com/meedan/check-web.git $TRAVIS_BRANCH >/dev/null && echo $TRAVIS_BRANCH) || echo 'develop')
+- echo "Using branch $CHECK_WEB_BRANCH for Check Web"
+- git clone --branch=$CHECK_WEB_BRANCH https://github.com/meedan/check-web.git
+- d=configurator/check/travis/check-web/; for f in $(find $d -type f); do cp "$f" "check-web/${f/$d/}"; done
+- sed -i '/relay/s/check-web/check-mark/' /home/travis/build/meedan/check-mark/check-web/config-build.js
+- cd check-web 
+- npm install
+- npm run build
+- export SERVER_PORT=3333
+- npm run publish &
 - cd -
 # xvfb
 - sudo service xvfb start
