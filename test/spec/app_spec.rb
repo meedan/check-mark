@@ -13,14 +13,14 @@ shared_examples 'tests' do
   it 'should open extension' do
     open_extension("text", "Test")
     expect(@driver.page_source.include?('Sign In')).to be(true)
-    expect(@driver.page_source.include?('Entrar')).to be(false)
+    expect(@driver.page_source.include?('Iniciar uma sessão')).to be(false)
   end
 
   it 'should localize' do
     open_browser 'pt'
     open_extension("text", "Test")
     expect(@driver.page_source.include?('Sign In')).to be(false)
-    expect(@driver.page_source.include?('Entrar')).to be(true)
+    expect(@driver.page_source.include?('Iniciar uma sessão')).to be(true)
     open_browser 'en'
   end
 
@@ -193,7 +193,7 @@ describe 'app' do
       @driver.navigate.to "moz-extension://#{id.text}/popup.html?#{type}=#{content}"
       wait_for_selector('#app')
     end
-    
+
     include_examples 'tests'
   end
 
