@@ -57,7 +57,7 @@ const Media = ({ metadata }) => {
         value={metadata.title}
       />
       <MediaCell
-        label={<FormattedMessage id="media.source" defaultMessage="Source" />}
+        label={<FormattedMessage id="media.author" defaultMessage="Author" />}
         value={author}
       />
       <MediaCell

@@ -100,8 +100,8 @@
     "defaultMessage": "Title"
   },
   {
-    "id": "media.source",
-    "defaultMessage": "Source"
+    "id": "media.author",
+    "defaultMessage": "Author"
   },
   {
     "id": "media.publishedOn",

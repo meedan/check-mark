@@ -16,6 +16,10 @@
     "defaultMessage": "Sign In"
   },
   {
+    "id": "loading.loading",
+    "defaultMessage": "Loading…"
+  },
+  {
     "id": "saveOrUpdate.error",
     "defaultMessage": "Sorry, could not look for this URL in Check."
   },
@@ -28,7 +32,31 @@
     "defaultMessage": "You need to enter at least a URL or a piece of text."
   },
   {
-    "id": "loading.loading",
+    "id": "update.saved",
+    "defaultMessage": "Saved!"
+  },
+  {
+    "id": "update.alreadyAdded",
+    "defaultMessage": "This link has already been added."
+  },
+  {
+    "id": "update.openInCheck",
+    "defaultMessage": "Open in Check"
+  },
+  {
+    "id": "update.media",
+    "defaultMessage": "Media"
+  },
+  {
+    "id": "update.metadata",
+    "defaultMessage": "Metadata"
+  },
+  {
+    "id": "update.tasks",
+    "defaultMessage": "Tasks"
+  },
+  {
+    "id": "update.loading",
     "defaultMessage": "Loading…"
   },
   {
@@ -60,34 +88,6 @@
     "defaultMessage": "Save"
   },
   {
-    "id": "update.saved",
-    "defaultMessage": "Saved!"
-  },
-  {
-    "id": "update.alreadyAdded",
-    "defaultMessage": "This link has already been added."
-  },
-  {
-    "id": "update.openInCheck",
-    "defaultMessage": "Open in Check"
-  },
-  {
-    "id": "update.media",
-    "defaultMessage": "Media"
-  },
-  {
-    "id": "update.metadata",
-    "defaultMessage": "Metadata"
-  },
-  {
-    "id": "update.tasks",
-    "defaultMessage": "Tasks"
-  },
-  {
-    "id": "update.loading",
-    "defaultMessage": "Loading…"
-  },
-  {
     "id": "menu.changeWorkspace",
     "defaultMessage": "Switch workspace"
   },
@@ -100,8 +100,8 @@
     "defaultMessage": "Title"
   },
   {
-    "id": "media.source",
-    "defaultMessage": "Source"
+    "id": "media.author",
+    "defaultMessage": "Author"
   },
   {
     "id": "media.publishedOn",
