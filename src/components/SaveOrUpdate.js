@@ -55,6 +55,9 @@ const SaveOrUpdate = ({ environment, url, text, user, onLogout }) => {
                     media {
                       metadata
                     }
+                    metrics: annotation(annotation_type: "metrics") {
+                      data
+                    }
                     team {
                       slug
                       name

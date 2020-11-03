@@ -139,7 +139,7 @@ const Update = ({ projectMedia, projectId, onLogout, justSaved, user }) => {
           <Tab value="metadata" label={<FormattedMessage id="update.metadata" defaultMessage="Metadata" />} />
           <Tab value="tasks" label={<FormattedMessage id="update.tasks" defaultMessage="Tasks" />} />
         </Tabs>
-        { tab === 'media' ? <Media metadata={projectMedia.media.metadata} /> : null }
+        { tab === 'media' ? <Media projectMedia={projectMedia} /> : null }
         { tab === 'tasks' || tab === 'metadata' ?
           <Box className={classes.frameContainer}>
             { frameHeight === 0 ?

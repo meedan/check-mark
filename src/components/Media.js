@@ -22,8 +22,9 @@ const useStyles = makeStyles(theme => ({
 
 /* global window */
 
-const Media = ({ metadata }) => {
+const Media = ({ projectMedia }) => {
   const classes = useStyles();
+  const metadata = projectMedia.media.metadata;
 
   let publishedOn = null;
   if (metadata.published_at) {
@@ -40,10 +41,12 @@ const Media = ({ metadata }) => {
     reactions: 0,
     comments: 0,
   };
-  if (metadata.metrics && metadata.metrics.facebook) {
-    metrics.shares = metadata.metrics.facebook.share_count;
-    metrics.reactions = metadata.metrics.facebook.reaction_count;
-    metrics.comments = metadata.metrics.facebook.comment_count + metadata.metrics.facebook.comment_plugin_count;
+
+  if (projectMedia.metrics && projectMedia.metrics.data.fields[0].value_json.facebook) {
+    const facebook = projectMedia.metrics.data.fields[0].value_json.facebook
+    metrics.shares = facebook.share_count;
+    metrics.reactions = facebook.reaction_count;
+    metrics.comments = facebook.comment_count + facebook.comment_plugin_count;
   }
 
   const openUrl = () => {
@@ -93,7 +96,7 @@ const Media = ({ metadata }) => {
 };
 
 Media.propTypes = {
-  metadata: PropTypes.object.isRequired,
+  projectMedia: PropTypes.object.isRequired,
 };
 
 export default Media;
