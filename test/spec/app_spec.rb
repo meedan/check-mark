@@ -10,7 +10,7 @@ shared_examples 'tests' do
   include AppSpecHelpers
   include DataFieldSpecHelpers
 
-  it "should open extension" do
+  it 'should open extension' do
     open_extension('text', 'Test')
     expect(@driver.page_source.include?('Sign In')).to be(true)
     expect(@driver.page_source.include?('Iniciar uma sessão')).to be(false)
