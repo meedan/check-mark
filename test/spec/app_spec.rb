@@ -3,22 +3,22 @@ require 'yaml'
 require 'net/http'
 require 'json'
 require 'httparty'
-require_relative './app_spec_helpers.rb'
-require_relative './data_field_spec_helpers.rb'
-
-include AppSpecHelpers
-include DataFieldSpecHelpers
+require_relative './app_spec_helpers'
+require_relative './data_field_spec_helpers'
 
 shared_examples 'tests' do
+  include AppSpecHelpers
+  include DataFieldSpecHelpers
+
   it 'should open extension' do
-    open_extension("text", "Test")
+    open_extension('text', 'Test')
     expect(@driver.page_source.include?('Sign In')).to be(true)
     expect(@driver.page_source.include?('Iniciar uma sessão')).to be(false)
   end
 
   it 'should localize' do
     open_browser 'pt'
-    open_extension("text", "Test")
+    open_extension('text', 'Test')
     expect(@driver.page_source.include?('Sign In')).to be(false)
     expect(@driver.page_source.include?('Iniciar uma sessão')).to be(true)
     open_browser 'en'
@@ -27,11 +27,11 @@ shared_examples 'tests' do
   it 'should login' do
     # Create user and confirm account
     email = "test-#{Time.now.to_i}@test.com"
-    user = request_api 'user', { name: 'Test', email: email, password: '12345678', password_confirmation: '12345678', provider: '' }
+    request_api 'user', { name: 'Test', email: email, password: '12345678', password_confirmation: '12345678', provider: '' }
     request_api 'confirm_user', { email: email }
 
     # Open extension and assert that the user is not logged in
-    open_extension("text", "Test")
+    open_extension('text', 'Test')
     expect(@driver.window_handles.size == 1).to be(true)
     expect(@driver.page_source.include?('sign in')).to be(true)
 
@@ -46,7 +46,7 @@ shared_examples 'tests' do
     @driver.navigate.to "#{@config['check_api_url']}/test/session?email=#{email}"
     team = request_api 'team', { name: "Test Team #{Time.now.to_i}", email: email }
     team_id = JSON.parse(team.body)['data']['dbid']
-    project = request_api 'project', { title: "Test Project #{Time.now.to_i}", team_id: team_id }
+    request_api 'project', { title: "Test Project #{Time.now.to_i}", team_id: team_id }
     @driver.close if @driver.respond_to?(:close)
 
     # Go back to the extension and make sure that user is logged in
@@ -58,12 +58,12 @@ shared_examples 'tests' do
   end
 
   it 'should create media' do
-    login(media_type: "url", media_content: "https://meedan.com")
+    login(media_type: 'url', media_content: 'https://meedan.com')
     wait_for_selector("//span[contains(text(), 'Link URL')]", :xpath)
     expect(@driver.page_source.include?('Saved!')).to be(false)
     wait_for_selector('#save-button').click
-    wait_for_selector_none("#save-button")
-    wait_for_selector("#media")
+    wait_for_selector_none('#save-button')
+    wait_for_selector('#media')
     expect(@driver.page_source.include?('Saved!')).to be(true)
     expect(@driver.page_source.include?('Media')).to be(true)
     expect(@driver.page_source.include?('Meedan')).to be(true)
@@ -72,18 +72,18 @@ shared_examples 'tests' do
     # verify that the team doesn't have task and metadata
     @driver.switch_to.default_content
     wait_for_selector("//span[contains(text(), 'Tasks')]", :xpath).click
-    @driver.switch_to.frame "check-web-frame"
+    @driver.switch_to.frame 'check-web-frame'
     wait_for_selector("//span[contains(text(), 'Nothing')]", :xpath)
     expect(@driver.page_source.include?('Nothing to show')).to be(true)
     @driver.switch_to.default_content
     wait_for_selector("//span[contains(text(), 'Metadata')]", :xpath).click
-    @driver.switch_to.frame "check-web-frame"
+    @driver.switch_to.frame 'check-web-frame'
     wait_for_selector("//span[contains(text(), 'Nothing')]", :xpath)
     expect(@driver.page_source.include?('Nothing to show')).to be(true)
   end
 
   it 'should not create media from a profile URL' do
-    login(media_type: "url", media_content: "https://twitter.com/meedan")
+    login(media_type: 'url', media_content: 'https://twitter.com/meedan')
     wait_for_selector("//span[contains(text(), 'Link URL')]", :xpath)
     expect(@driver.page_source.include?('Saved!')).to be(false)
     wait_for_selector('#save-button').click
@@ -94,55 +94,54 @@ shared_examples 'tests' do
   end
 
   it 'should manage a team task' do
-    login(media_type: "text", media_content: "Test", data_field_name: "tasks")
+    login(media_type: 'text', media_content: 'Test', data_field_name: 'tasks')
     wait_for_selector("//span[contains(text(), 'Text claim')]", :xpath)
     expect(@driver.page_source.include?('Saved!')).to be(false)
     wait_for_selector('#save-button').click
     wait_for_selector("//span[contains(text(), 'Saved')]", :xpath)
     expect(@driver.page_source.include?('Saved!')).to be(true)
     wait_for_selector("//span[contains(text(), 'Tasks')]", :xpath).click
-    @driver.switch_to.frame "check-web-frame"
-    wait_for_selector("#task__response-input")
+    @driver.switch_to.frame 'check-web-frame'
+    wait_for_selector('#task__response-input')
     expect(@driver.page_source.include?('Team-task')).to be(true)
     # Answer task
-    answer_data_field("answer")
+    answer_data_field('answer')
     wait_for_selector("//span[contains(text(), 'Completed by')]", :xpath)
     expect(@driver.page_source.include?('Completed by')).to be(true)
     expect(@driver.page_source.include?('answer')).to be(true)
     # Edit task answer
-    edit_data_field_response("-edited")
+    edit_data_field_response('-edited')
     expect(@driver.page_source.include?('answer-edited')).to be(true)
     # Delete task answer
     delete_data_field_response
     expect(@driver.page_source.include?('answer-edited')).to be(false)
-    #delete task
+    # delete task
     delete_data_field
     expect(@driver.page_source.include?('Team-task')).to be(false)
     expect(@driver.page_source.include?('Nothing to show')).to be(true)
   end
 
   it 'should add, edit and delete a metadata response' do
-    login(media_type: "text", media_content: "Test", data_field_name: "metadata")
+    login(media_type: 'text', media_content: 'Test', data_field_name: 'metadata')
     wait_for_selector("//span[contains(text(), 'Text claim')]", :xpath)
     expect(@driver.page_source.include?('Saved!')).to be(false)
     wait_for_selector('#save-button').click
     wait_for_selector("//span[contains(text(), 'Saved')]", :xpath)
     expect(@driver.page_source.include?('Saved!')).to be(true)
-    wait_for_selector("iframe")
-    @driver.switch_to.frame "check-web-frame"
-    wait_for_selector("#task__response-input")
+    wait_for_selector('iframe')
+    @driver.switch_to.frame 'check-web-frame'
+    wait_for_selector('#task__response-input')
     expect(@driver.page_source.include?('Team-metadata')).to be(true)
-    #answer the metadata
-    answer_data_field("answer")
+    # answer the metadata
+    answer_data_field('answer')
     expect(@driver.page_source.include?('answer')).to be(true)
-    #edit response
-    edit_data_field_response("-edited")
+    # edit response
+    edit_data_field_response('-edited')
     expect(@driver.page_source.include?('answer-edited')).to be(true)
-     #delete response
+    # delete response
     delete_data_field_response
     expect(@driver.page_source.include?('answer-edited')).to be(false)
   end
-
 end
 
 describe 'app' do
@@ -159,7 +158,7 @@ describe 'app' do
   after :each do |example|
     if example.exception
       link = save_screenshot("Test failed: #{example.description}")
-      puts "[Test \"#{example.description}\" failed! Check screenshot at #{link}]"
+      puts "[Test #{example.description} failed! Check screenshot at #{link}]"
     end
     close_browser
   end
@@ -179,11 +178,11 @@ describe 'app' do
       caps = Selenium::WebDriver::Remote::Capabilities.firefox(marionette: true, 'moz:firefoxOptions' => { prefs: prefs })
       @driver = Selenium::WebDriver.for :remote, url: @config['geckodriver_url'], desired_capabilities: caps
       bridge = @driver.send(:bridge)
-      uri = URI(bridge.http.send(:server_url).to_s + 'session/' + bridge.session_id + '/moz/addon/install')
+      uri = URI("#{bridge.http.send(:server_url)}session/#{bridge.session_id}/moz/addon/install")
       http = Net::HTTP.new(uri.host, uri.port)
       req = Net::HTTP::Post.new(uri.path, 'Content-Type' => 'application/json')
       req.body = { path: "#{@config['extension_path']}/test.xpi", temporary: true }.to_json
-      res = http.request(req)
+      http.request(req)
       sleep 3
     end
 
@@ -202,13 +201,13 @@ describe 'app' do
       close_browser
       prefs = { 'intl.accept_languages' => language }
       path = @config['extension_path']
-      args = ["disable-gpu", "no-sandbox", "disable-dev-shm-usage", "--load-extension=#{path}"]
+      args = ['disable-gpu', 'no-sandbox', 'disable-dev-shm-usage', "--load-extension=#{path}"]
       chrome_options = {
         prefs: prefs,
         args: args
       }
       desired_capabilities = Selenium::WebDriver::Remote::Capabilities.chrome(
-        'goog:chromeOptions': chrome_options,
+        'goog:chromeOptions': chrome_options
       )
       @driver = Selenium::WebDriver.for(:chrome, desired_capabilities: desired_capabilities, url: @config['chromedriver_url'])
     end

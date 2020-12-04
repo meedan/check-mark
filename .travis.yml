@@ -99,6 +99,8 @@ before_install:
 - cp configurator/check/travis/check-mark/test/config.yml test/config.yml
 before_script:
 - npm install
+- cd test/spec && bundle exec rubocop || travis_terminate 1;
+- cd -
 script: npm run test
 notifications:
   slack:
