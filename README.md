@@ -6,6 +6,31 @@ A browser extension for [Check](https://meedan.com/en/check/).
 
 ## Browser Extension
 
+### About
+Firefox will ask you for permission to read your browsing history. This allows the browser extension to add your current tab to Check when you click on the browser icon. Meedan does not log any other data on our servers.
+
+Check, developed by Meedan, is a platform for collaborative verification of digital media. The Check project builds online tools to improve the investigative quality of citizen journalism and help limit the rapid spread of rumors and misinformation online. Using Check you can quickly build a team, add social media links to fact-check them, set key questions for investigating news items gathered amongst your team.
+
+Check’s browser extension allows you to quickly add media items that you come across on the internet to your Check team for investigation, and answer tasks concerning these items right from within the extension’s sidebar. Here’s how you can use it:
+
+Browse the internet, and find a Tweet, YouTube video, Facebook post or an Instagram photo that you want your team to fact-check and investigate. Click the Check icon, choose one of the projects you want to add this item to, and save it.
+
+The extension also detects if the item already exists in Check, and shows you the relevant tasks to be answered concerning it in the sidebar. Select a task, then highlight text from the page: the text will automatically populate the task answer.
+
+You can also highlight text from an article, a web page, or an incoming WhatsApp Web message. Right click, select the Check icon, and choose one of the projects you want to add this text to.
+
+The extension works on Tweetdeck for web and other tools that operate on the browser.
+
+On Check, you can see this item added as media on your team and you can start the verification process right away. Here’s what you can do on Check for fact-checking:
+
+Add journalists and citizen journalists to your team so that they can contribute to the verification process.
+
+Ask questions about media items, like date, time, location and evidence to help deciding if it’s true or fake.
+
+Add a verification status to each media item you have on your team to reflect the result of the fact-checking process like, verified, false or in progress.
+
+
+
 ### Download
 
 Available for [Mozilla Firefox](https://addons.mozilla.org/firefox/addon/check/) and [Google Chrome](https://chrome.google.com/webstore/detail/check/pjfgpbclkfjkfiljlcfehjmpafeoafdi).
