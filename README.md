@@ -31,7 +31,9 @@ Follow the steps below or our [video-tutorial](https://www.youtube.com/watch?v=k
   * `releases/live`, to use the live version
 * The extension will appear on the toolbar
 
-If you are not able to login using the browser extension on Chrome, make sure that the option "Block third-party cookies", under your browser configurations, is *disabled*. If you use an extension like AdBlock, you first need to disable the extension, then disable the "Block third-party cookies" option.
+If you are not able to login using the browser extension on Chrome, make sure that the option
+**ALLOW COOKIES* is selected in site settings on chrome browser.
+*Also disable Adblock extension on particular webpage , if still not working, try to disable adblock or any extension interfering with web modification access.
 
 #### Running the extension on Mozilla Firefox
 
