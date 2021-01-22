@@ -3,14 +3,20 @@ dist: bionic
 language: ruby
 services:
 - postgresql
-- redis
 node_js:
 - '7'
 rvm:
 - 2.4
+cache:
+  directories:
+    - "/tmp/bundler"
 addons:
   firefox: '56.0b1'
   postgresql: '9.4'
+  apt:
+    packages:
+    - curl
+    - libidn11-dev
   hosts:
     - minio
     - redis
@@ -35,34 +41,33 @@ before_install:
 - sudo apt-get -qq update
 - sudo apt-get install libidn11-dev ruby ruby-dev xvfb autoconf automake libtool libtag1-dev libgconf-2-4 -y
 - gem install bundler -v "2.1.4"
-#minio
-- docker run -d -p 9000:9000 -e "MINIO_ACCESS_KEY=AKIAIOSFODNN7EXAMPLE" -e "MINIO_SECRET_KEY=wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY" minio/minio server /data
+# pender
+# also starts minio and redis
+- export PENDER_BRANCH=$((git ls-remote --exit-code --heads https://github.com/meedan/pender.git $TRAVIS_BRANCH >/dev/null && echo $TRAVIS_BRANCH) || echo 'develop')
+- echo "Using branch $PENDER_BRANCH for Pender"
+- git clone --branch=$PENDER_BRANCH https://github.com/meedan/pender.git
+- d=configurator/check/travis/pender/; for f in $(find $d -type f); do cp "$f" "pender/${f/$d/}"; done
+- cd pender
+- docker-compose build
+- docker-compose -f docker-compose.yml -f docker-test.yml up -d
+- cd -
 # check api
 - 'echo "127.0.0.1 postgres" | sudo tee -a /etc/hosts'
 - psql -c 'create database checkdesk_test;' -U postgres
 - docker run -d --name elasticsearch -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:7.9.2
 - docker exec elasticsearch elasticsearch-plugin install analysis-icu
 - docker restart elasticsearch
+- until curl --silent -XGET --fail http://localhost:9200; do printf '.'; sleep 1; done
+- curl --silent -XPUT http://localhost:9200/check_api_tests0
 - export CHECK_API_BRANCH=$((git ls-remote --exit-code --heads https://github.com/meedan/check-api.git $TRAVIS_BRANCH >/dev/null && echo $TRAVIS_BRANCH) || echo 'develop')
 - echo "Using branch $CHECK_API_BRANCH for Check API"
 - git clone --branch=$CHECK_API_BRANCH https://github.com/meedan/check-api.git
 - d=configurator/check/travis/check-api/; for f in $(find $d -type f); do cp "$f" "check-api/${f/$d/}"; done
 - cd check-api
-- bundle install
-- bundle exec rake db:migrate
-- bundle exec rake lapis:api_keys:create_default
-- rails s -p 3000 >/dev/null &
-- cd -
-# pender
-- export PENDER_BRANCH=$((git ls-remote --exit-code --heads https://github.com/meedan/pender.git $TRAVIS_BRANCH >/dev/null && echo $TRAVIS_BRANCH) || echo 'develop')
-- echo "Using branch $PENDER_BRANCH for Pender"
-- git clone https://github.com/meedan/pender.git
-- d=configurator/check/travis/pender/; for f in $(find $d -type f); do cp "$f" "pender/${f/$d/}"; done
-- cd pender
-- bundle install 
-- bundle exec rake db:migrate
-- bundle exec rails runner 'a = ApiKey.create!; a.access_token = "test"; a.save!'
-- bundle exec rails s -p 3005 >/dev/null &
+- bundle install --path=/tmp/bundler
+- bundle exec rake db:migrate RAILS_ENV=test
+- bundle exec rake lapis:api_keys:create_default RAILS_ENV=test
+- RAILS_ENV=test bundle exec puma -w 3 -t 8:60 --preload -b tcp://127.0.0.1:3000 >/dev/null &
 - cd -
 # check web
 - export CHECK_WEB_BRANCH=$((git ls-remote --exit-code --heads https://github.com/meedan/check-web.git $TRAVIS_BRANCH >/dev/null && echo $TRAVIS_BRANCH) || echo 'develop')
