@@ -56,7 +56,6 @@ const useStyles = makeStyles(theme => ({
     boxSizing: 'border-box',
     overflowY: 'hidden',
     position: 'absolute',
-    top: -32,
     left: 0,
   },
 }));
