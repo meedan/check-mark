@@ -73,13 +73,13 @@ shared_examples 'tests' do
     @driver.switch_to.default_content
     wait_for_selector("//span[contains(text(), 'Tasks')]", :xpath).click
     @driver.switch_to.frame 'check-web-frame'
-    wait_for_selector("//span[contains(text(), 'Nothing')]", :xpath)
-    expect(@driver.page_source.include?('Nothing to show')).to be(true)
+    wait_for_selector("//span[contains(text(), 'No tasks')]", :xpath)
+    expect(@driver.page_source.include?('No tasks')).to be(true)
     @driver.switch_to.default_content
     wait_for_selector("//span[contains(text(), 'Metadata')]", :xpath).click
     @driver.switch_to.frame 'check-web-frame'
-    wait_for_selector("//span[contains(text(), 'Nothing')]", :xpath)
-    expect(@driver.page_source.include?('Nothing to show')).to be(true)
+    wait_for_selector("//span[contains(text(), 'No metadata fields')]", :xpath)
+    expect(@driver.page_source.include?('No metadata fields')).to be(true)
   end
 
   it 'should not create media from a profile URL' do
@@ -118,7 +118,7 @@ shared_examples 'tests' do
     # delete task
     delete_data_field
     expect(@driver.page_source.include?('Team-task')).to be(false)
-    expect(@driver.page_source.include?('Nothing to show')).to be(true)
+    expect(@driver.page_source.include?('No tasks')).to be(true)
   end
 
   it 'should add, edit and delete a metadata response' do
