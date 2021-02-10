@@ -4,6 +4,10 @@
     "defaultMessage": "Authenticating on Check…"
   },
   {
+    "id": "loading.loading",
+    "defaultMessage": "Loading…"
+  },
+  {
     "id": "Login.addLinksToApp",
     "defaultMessage": "Add links to Check with one click. Links will be added to your selected list. If the link already exists, you are able to annotate it."
   },
@@ -14,10 +18,6 @@
   {
     "id": "Login.signIn",
     "defaultMessage": "Sign In"
-  },
-  {
-    "id": "loading.loading",
-    "defaultMessage": "Loading…"
   },
   {
     "id": "saveOrUpdate.error",
