@@ -16,10 +16,6 @@
     "defaultMessage": "Sign In"
   },
   {
-    "id": "loading.loading",
-    "defaultMessage": "Loading…"
-  },
-  {
     "id": "saveOrUpdate.error",
     "defaultMessage": "Sorry, could not look for this URL in Check."
   },
@@ -30,6 +26,10 @@
   {
     "id": "saveOrUpdate.errorNoUrlOrText",
     "defaultMessage": "You need to enter at least a URL or a piece of text."
+  },
+  {
+    "id": "loading.loading",
+    "defaultMessage": "Loading…"
   },
   {
     "id": "save.noTeam",
@@ -82,6 +82,10 @@
   {
     "id": "update.tasks",
     "defaultMessage": "Tasks"
+  },
+  {
+    "id": "update.source",
+    "defaultMessage": "Source"
   },
   {
     "id": "update.loading",

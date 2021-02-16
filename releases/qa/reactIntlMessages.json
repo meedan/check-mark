@@ -84,6 +84,10 @@
     "defaultMessage": "Tasks"
   },
   {
+    "id": "update.source",
+    "defaultMessage": "Source"
+  },
+  {
     "id": "update.loading",
     "defaultMessage": "Loading…"
   },
