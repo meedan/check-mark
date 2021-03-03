@@ -197,7 +197,6 @@ describe 'app' do
   end
 
   context 'chrome' do
-
     before :all do
       @profile_url = 'https://twitter.com/meedan'
     end
