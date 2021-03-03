@@ -62,7 +62,6 @@ shared_examples 'tests' do
     wait_for_selector("//span[contains(text(), 'Link URL')]", :xpath)
     expect(@driver.page_source.include?('Saved!')).to be(false)
     wait_for_selector('#save-button').click
-    wait_for_selector_none('#save-button')
     wait_for_selector('#media')
     expect(@driver.page_source.include?('Saved!')).to be(true)
     expect(@driver.page_source.include?('Media')).to be(true)
@@ -83,7 +82,7 @@ shared_examples 'tests' do
   end
 
   it 'should not create media from a profile URL' do
-    login(media_type: 'url', media_content: 'https://twitter.com/meedan')
+    login(media_type: 'url', media_content: @profile_url)
     wait_for_selector("//span[contains(text(), 'Link URL')]", :xpath)
     expect(@driver.page_source.include?('Saved!')).to be(false)
     wait_for_selector('#save-button').click
@@ -166,6 +165,7 @@ describe 'app' do
   context 'firefox' do
     before :all do
       `cd #{@config['extension_path']} && zip -r -FS #{@config['extension_path']}/test.xpi * && cd -`
+      @profile_url = 'https://twitter.com/nytimes'
     end
 
     after :all do
@@ -197,6 +197,11 @@ describe 'app' do
   end
 
   context 'chrome' do
+
+    before :all do
+      @profile_url = 'https://twitter.com/meedan'
+    end
+
     def open_browser(language = 'en')
       close_browser
       prefs = { 'intl.accept_languages' => language }
