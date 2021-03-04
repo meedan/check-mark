@@ -72,6 +72,7 @@
   "scripts": {
     "clean-localization": "rm -rf src/localization/messages",
     "build": "npm i && npm run relay && cp config.js src/ && babel-node scripts/brand.js brand && babel-node scripts/build.js && npm run clean-localization && babel-node scripts/brand.js unbrand && rm -f src/config.js",
+    "test:lint": "cd test/spec && bundle install && bundle exec rubocop && cd ..",
     "test": "npm run release:test && cd test && bundle install && bundle exec rspec && cd ..",
     "relay": "babel-node scripts/relay.js && relay-compiler --src ./src --schema ./src/relay/relay.json",
     "transifex:parse": "npm run build && babel-node scripts/localize.js",
