@@ -15,8 +15,13 @@ RUN true \
         graphicsmagick \
         python-pip \
         python-setuptools \
+        python-wheel \
         tini \
         zip \
+        libidn11-dev \
+        libtag1-dev \
+        libtool \
+        libgconf-2-4 \
     && gem install bundler:2.1.4 \
     && rm -rf /var/lib/apt/lists/*
 

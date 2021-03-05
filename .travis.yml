@@ -33,8 +33,8 @@ before_install:
 before_script:
 - docker-compose build
 - docker-compose -f docker-compose.yml -f docker-test.yml up -d
-- until curl --silent -I -f --fail http://localhost:3000 ; do printf .; sleep 1; done
-- until curl --silent -I -f --fail http://localhost:3333 ; do printf .; sleep 1; done
+- until curl --silent -I -f http://localhost:3000 ; do printf .; sleep 1; done
+- until curl --silent -I -f http://localhost:3333 ; do printf .; sleep 1; done
 - docker-compose exec mark npm install
 - docker-compose exec mark npm run test:lint || travis_terminate 1;
 script: docker-compose exec mark npm run test
