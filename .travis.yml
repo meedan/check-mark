@@ -32,7 +32,7 @@ before_install:
 - cp configurator/check/travis/check-mark/test/config.yml test/config.yml
 before_script:
 - docker-compose build
-- docker-compose -f docker-compose.yml -f docker-test.yml up -d
+- docker-compose -f docker-compose.yml -f docker-test.yml up
 - until curl --silent -I -f http://localhost:3000 ; do printf .; sleep 1; done
 - until curl --silent -I -f http://localhost:3333 ; do printf .; sleep 1; done
 - docker-compose exec mark npm install
