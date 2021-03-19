@@ -22,6 +22,9 @@ RUN true \
         libtag1-dev \
         libtool \
         libgconf-2-4 \
+        xvfb \
+        autoconf \
+        automake \
     && gem install bundler:2.1.4 \
     && rm -rf /var/lib/apt/lists/*
 

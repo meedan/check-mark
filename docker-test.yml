@@ -4,7 +4,7 @@ networks:
     name: dev
 services:
   chromedriver:
-    build: chromedriver
+    build: check-web/chromedriver
     ports:
       - 5900:5900
       - 4444:4444

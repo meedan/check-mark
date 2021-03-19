@@ -25,11 +25,8 @@ before_install:
 - echo "Using branch $CHECK_WEB_BRANCH for Check Web"
 - git clone --branch=$CHECK_WEB_BRANCH https://github.com/meedan/check-web.git
 - d=configurator/check/travis/check-web/; for f in $(find $d -type f); do cp "$f" "check-web/${f/$d/}"; done
-- sed -i '/relay/s/check-web/check-mark/' /home/travis/build/meedan/check-mark/check-web/config-build.js
 # configs
 - cp config.js.travis config.js
-- cp config.js.travis config.js.test
-- cp configurator/check/travis/check-mark/test/config.yml test/config.yml
 before_script:
 - docker-compose build
 - docker-compose -f docker-compose.yml -f docker-test.yml up
