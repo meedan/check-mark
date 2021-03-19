@@ -29,7 +29,7 @@ before_install:
 - cp config.js.travis config.js
 before_script:
 - docker-compose build
-- docker-compose -f docker-compose.yml -f docker-test.yml up
+- docker-compose -f docker-compose.yml -f docker-test.yml up -d
 - until curl --silent -I -f http://localhost:3000 ; do printf .; sleep 1; done
 - until curl --silent -I -f http://localhost:3333 ; do printf .; sleep 1; done
 - docker-compose exec mark npm install
