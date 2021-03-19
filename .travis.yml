@@ -27,6 +27,7 @@ before_install:
 - d=configurator/check/travis/check-web/; for f in $(find $d -type f); do cp "$f" "check-web/${f/$d/}"; done
 # configs
 - cp config.js.travis config.js
+- cp configurator/check/travis/check-mark/test/config.yml test/config.yml
 before_script:
 - docker-compose build
 - docker-compose -f docker-compose.yml -f docker-test.yml up -d
