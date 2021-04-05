@@ -4,7 +4,7 @@ const config = {
   appEmail: 'check@meedan.com',
   appColor: '#2e77fc',
   appDescription: 'Verify breaking news online',
-  checkRelayPath: '/home/travis/build/meedan/check-mark/check-api/public/relay.json',
+  checkRelayPath: '/api/public/relay.json',
   checkApiUrl: 'http://localhost:3000',
   checkWebUrl: 'http://localhost:3333'
 };

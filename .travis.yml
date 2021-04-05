@@ -1,114 +1,41 @@
-sudo: required
+language: minimal
 dist: bionic
-language: ruby
-services:
-- postgresql
-node_js:
-- '7'
-rvm:
-- 2.4
-cache:
-  directories:
-    - "/tmp/bundler"
-addons:
-  firefox: '56.0b1'
-  postgresql: '9.4'
-  apt:
-    packages:
-    - curl
-    - libidn11-dev
-  hosts:
-    - minio
-    - redis
-    - elasticsearch
-    - postgres
-  snaps:
-    - name: node
-      channel: 12/stable
-      confinement: classic
 before_install:
 # env
 - export DISPLAY=':99.0'
 - export CI=false
-- export RAILS_ENV=test
 # Needed to fix error when installing Pender gems
 # Error: `There was an error while loading `rswag.gemspec`: Illformed requirement`
 # https://github.com/jetpackworkflow/rswag/blob/master/rswag/rswag.gemspec#L18
 - export TRAVIS_TAG=0.0.0
 # extract configs
 - git clone https://${TOKEN}:x-oauth-basic@github.com/meedan/configurator ./configurator
-# dependencies
-- sudo rm -f /etc/apt/sources.list.d/mongodb*
-- sudo rm -f /etc/apt/sources.list.d/google*
-- sudo apt-get -qq update
-- sudo apt-get install libidn11-dev ruby ruby-dev xvfb autoconf automake libtool libtag1-dev libgconf-2-4 -y
-- gem install bundler -v "2.1.4"
 # pender
-# also starts minio and redis
 - export PENDER_BRANCH=$((git ls-remote --exit-code --heads https://github.com/meedan/pender.git $TRAVIS_BRANCH >/dev/null && echo $TRAVIS_BRANCH) || echo 'develop')
 - echo "Using branch $PENDER_BRANCH for Pender"
 - git clone --branch=$PENDER_BRANCH https://github.com/meedan/pender.git
 - d=configurator/check/travis/pender/; for f in $(find $d -type f); do cp "$f" "pender/${f/$d/}"; done
-- cd pender
-- docker-compose build
-- docker-compose -f docker-compose.yml -f docker-test.yml up -d
-- cd -
 # check api
-- 'echo "127.0.0.1 postgres" | sudo tee -a /etc/hosts'
-- psql -c 'create database checkdesk_test;' -U postgres
-- docker run -d --name elasticsearch -p 9200:9200 -p 9300:9300 -e "discovery.type=single-node" docker.elastic.co/elasticsearch/elasticsearch:7.9.2
-- docker exec elasticsearch elasticsearch-plugin install analysis-icu
-- docker restart elasticsearch
-- until curl --silent -XGET --fail http://localhost:9200; do printf '.'; sleep 1; done
-- curl --silent -XPUT http://localhost:9200/check_api_tests0
 - export CHECK_API_BRANCH=$((git ls-remote --exit-code --heads https://github.com/meedan/check-api.git $TRAVIS_BRANCH >/dev/null && echo $TRAVIS_BRANCH) || echo 'develop')
 - echo "Using branch $CHECK_API_BRANCH for Check API"
 - git clone --branch=$CHECK_API_BRANCH https://github.com/meedan/check-api.git
 - d=configurator/check/travis/check-api/; for f in $(find $d -type f); do cp "$f" "check-api/${f/$d/}"; done
-- cd check-api
-- bundle install --path=/tmp/bundler
-- bundle exec rake db:migrate RAILS_ENV=test
-- bundle exec rake lapis:api_keys:create_default RAILS_ENV=test
-- RAILS_ENV=test bundle exec puma -w 3 -t 8:60 --preload -b tcp://127.0.0.1:3000 >/dev/null &
-- cd -
 # check web
 - export CHECK_WEB_BRANCH=$((git ls-remote --exit-code --heads https://github.com/meedan/check-web.git $TRAVIS_BRANCH >/dev/null && echo $TRAVIS_BRANCH) || echo 'develop')
 - echo "Using branch $CHECK_WEB_BRANCH for Check Web"
 - git clone --branch=$CHECK_WEB_BRANCH https://github.com/meedan/check-web.git
 - d=configurator/check/travis/check-web/; for f in $(find $d -type f); do cp "$f" "check-web/${f/$d/}"; done
-- sed -i '/relay/s/check-web/check-mark/' /home/travis/build/meedan/check-mark/check-web/config-build.js
-- cd check-web 
-- npm install
-- npm run build
-- export SERVER_PORT=3333
-- npm run publish &
-- cd -
-# xvfb
-- sudo service xvfb start
-# google chrome
-- sudo apt-get -qq update
-- sudo apt-get install chromium-browser chromium-chromedriver -y
-- sudo apt-get remove google-chrome-stable
-- export TEST_ENV_NUMBER=0
-- export CHROMEDRIVER_URL=http://localhost:9515
-- chromedriver --port=9515 &
-# geckodriver
-- wget https://github.com/mozilla/geckodriver/releases/download/v0.18.0/geckodriver-v0.18.0-linux64.tar.gz
-- mkdir geckodriver
-- tar -xzf geckodriver-v0.18.0-linux64.tar.gz -C geckodriver
-- export PATH=$PATH:$PWD/geckodriver
-- geckodriver -p 4445 >/dev/null 2>/dev/null &
-# test dependencies
-- cd test && bundle install && cd -
 # configs
 - cp config.js.travis config.js
-- cp config.js.travis config.js.test
 - cp configurator/check/travis/check-mark/test/config.yml test/config.yml
 before_script:
-- npm install
-- cd test/spec && bundle exec rubocop || travis_terminate 1;
-- cd -
-script: npm run test
+- docker-compose build
+- docker-compose -f docker-compose.yml -f docker-test.yml up -d
+- until curl --silent -I -f http://localhost:3000 ; do printf .; sleep 1; done
+- until curl --silent -I -f http://localhost:3333 ; do printf .; sleep 1; done
+- docker-compose exec mark npm install
+- docker-compose exec mark npm run test:lint || travis_terminate 1;
+script: docker-compose exec mark npm run test
 notifications:
   slack:
     secure: wzi63JuQ4w+fiQTa4Qtp9chX3NqDTumqv7E5EGcPtRUeh0hv4mHcfmvWZ2/PVAE1Os3b/3fuDDoyNCzAed6/NogMJh9ef0jogjBB3ZA0UodbvASoZBHlBkan7cYJe8+0xkSpDezKqxV99iUWD9KB+Owin7tMckPTUnG0fn/jCP9wH6SkCVo4K84Rw/7FH2ziEWZ3LnDLwHIuMmvuTWYQMvr+Qp/N7sZY9jBsqM/darBe1P9NwnM3gleN5FyOkQzv6ILptObYtB8aH669GnJFVPkNqVvbEXzKD9Uvy0ohiuyDD2pKFj1WvFk0N8XhnvEKFG++TEnskrdPyumbKvPT8lj/xDxGahk9bh1pmyoySy81XBMWV0egYyYSfvB0FISYaKRx6b3lRY/AyVEKZ5YwsGD+UGAyhjmpJSKSTQ+t+tvFfZQMEvxFuHWRFNG8Bk3hSkw676Md4XRefzZZrC6o2Hs0ntOrpeZKMc1EDrDuGPsO4WiGN2W4yQX78w+CWoLcVngCFkvn6DJ12QM0qjNHPds7GTa/bUbXdsMhzwCTs3Ykb2g+C22SpaaoRKVEvILzosKHF954P4g1c+HPgIF6d7sjgsmwLdXn5zW+GT/ED1iZ9Woj+lUiGecaoxSjP/leuFZrgwLkAWvdTpZfCE7NzoNY6i7tvX2H80+it0kpyW4=

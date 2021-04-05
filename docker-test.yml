@@ -1,0 +1,49 @@
+version: "2.1"
+networks:
+  default:
+    name: dev
+services:
+  chromedriver:
+    build: check-web/chromedriver
+    ports:
+      - 5900:5900
+      - 4444:4444
+    volumes:
+      - "./check-web/test/spec/test.png:/app/test/spec/test.png"
+      - ".:/check-mark"
+    networks:
+      - dev
+  geckodriver:
+    build: geckodriver
+    ports:
+      - 4445:4444
+      - 5901:5900
+    volumes:
+      - ".:/check-mark"
+    networks:
+      - dev
+  api:
+    environment:
+      RAILS_ENV: test
+      SERVER_PORT: 3000
+  api-background:
+    environment:
+      RAILS_ENV: test
+      SERVER_PORT: 3000
+  pender:
+    environment:
+      RAILS_ENV: test
+      SERVER_PORT: 3200
+  pender-background:
+    environment:
+      RAILS_ENV: test
+      SERVER_PORT: 3200
+  web:
+    depends_on:
+      - api
+      - chromedriver
+    environment:
+      PLATFORM: web
+      NODE_ENV: development
+      SERVER_PORT: 3333
+      MODE: test
