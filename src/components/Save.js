@@ -97,7 +97,7 @@ const Save = ({ user, environment, text, url, onSave, onLogout }) => {
       }
     };
     if (project) {
-      variables.input.add_to_project_id = project.dbid;
+      variables.input.project_id = project.dbid;
     }
 
     commitMutation(
