@@ -4,18 +4,6 @@
     "defaultMessage": "Authenticating on Check…"
   },
   {
-    "id": "Login.addLinksToApp",
-    "defaultMessage": "Add links to Check with one click. Links will be added to your selected list. If the link already exists, you are able to annotate it."
-  },
-  {
-    "id": "Login.start",
-    "defaultMessage": "To get started, sign in and then reload the page."
-  },
-  {
-    "id": "Login.signIn",
-    "defaultMessage": "Sign In"
-  },
-  {
     "id": "saveOrUpdate.error",
     "defaultMessage": "Sorry, could not look for this URL in Check."
   },
@@ -26,6 +14,18 @@
   {
     "id": "saveOrUpdate.errorNoUrlOrText",
     "defaultMessage": "You need to enter at least a URL or a piece of text."
+  },
+  {
+    "id": "Login.addLinksToApp",
+    "defaultMessage": "Add links to Check with one click. Links will be added to your selected list. If the link already exists, you are able to annotate it."
+  },
+  {
+    "id": "Login.start",
+    "defaultMessage": "To get started, sign in and then reload the page."
+  },
+  {
+    "id": "Login.signIn",
+    "defaultMessage": "Sign In"
   },
   {
     "id": "loading.loading",

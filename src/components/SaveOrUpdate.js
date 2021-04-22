@@ -62,14 +62,11 @@ const SaveOrUpdate = ({ environment, url, text, user, onLogout }) => {
                       slug
                       name
                     }
-                    projects(first: 10000) {
-                      edges {
-                        node {
-                          title,
-                          dbid,
-                          id,
-                        }
-                      }
+                    project_id
+                    project {
+                      title,
+                      dbid,
+                      id,
                     }
                   }
                 }
@@ -98,8 +95,8 @@ const SaveOrUpdate = ({ environment, url, text, user, onLogout }) => {
                 }
               });
               let projectId = null;
-              if (projectMedia && projectMedia.projects.edges.length > 0) {
-                projectId = projectMedia.projects.edges[0].node.dbid;
+              if (projectMedia && projectMedia.project_id) {
+                projectId = projectMedia.project_id;
               }
               return (
                 <Update projectMedia={projectMedia} projectId={projectId} user={user} onLogout={onLogout} />
