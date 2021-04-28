@@ -81,16 +81,15 @@ shared_examples 'tests' do
     expect(@driver.page_source.include?('No metadata fields')).to be(true)
   end
 
-  # it 'should create media from a profile URL' do
-  #   login(media_type: 'url', media_content: @profile_url)
-  #   wait_for_selector("//span[contains(text(), 'Link URL')]", :xpath)
-  #   expect(@driver.page_source.include?('Saved!')).to be(false)
-  #   wait_for_selector('#save-button').click
-  #   wait_for_selector('#media')
-  #   expect(@driver.page_source.include?('Saved!')).to be(true)
-  #   expect(@driver.page_source.include?('Published on')).to be(true)
-  #   expect(@driver.page_source.include?('Description')).to be(true)
-  # end
+  it 'should create media from a profile URL' do
+    login(media_type: 'url', media_content: @profile_url)
+    wait_for_selector("//span[contains(text(), 'Link URL')]", :xpath)
+    expect(@driver.page_source.include?('Saved!')).to be(false)
+    wait_for_selector('#save-button').click
+    wait_for_selector('#media')
+    expect(@driver.page_source.include?(@profile_url)).to be(true)
+    expect(@driver.page_source.include?('Title')).to be(true)
+  end
 
   it 'should manage a team task' do
     login(media_type: 'text', media_content: 'Test', data_field_name: 'tasks')
