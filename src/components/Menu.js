@@ -10,8 +10,6 @@ import colors from './colors';
 import { logout } from './../helpers';
 import config from './../config';
 
-/* global window */
-
 const Menu = ({ onLogout }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
 

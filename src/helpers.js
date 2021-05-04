@@ -2,8 +2,6 @@ import superagent from 'superagent';
 import util from 'util';
 import config from './config';
 
-/* global fetch */
-
 export function loggedIn(callback) {
   superagent.get(config.checkApiUrl + '/api/me').withCredentials().end(function(err, response) {
     let data = null;

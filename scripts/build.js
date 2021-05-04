@@ -7,8 +7,8 @@ process.env.NODE_ENV = 'production';
 // Makes the script crash on unhandled rejections instead of silently
 // ignoring them. In the future, promise rejections that are not handled will
 // terminate the Node.js process with a non-zero exit code.
-process.on('unhandledRejection', err => {
-  throw err;
+process.on('unhandledRejection', (err) => {
+	throw err;
 });
 
 // Ensure environment variables are read.
@@ -28,7 +28,7 @@ const FileSizeReporter = require('react-dev-utils/FileSizeReporter');
 import appConfig from '../config';
 
 const measureFileSizesBeforeBuild =
-  FileSizeReporter.measureFileSizesBeforeBuild;
+	FileSizeReporter.measureFileSizesBeforeBuild;
 const printFileSizesAfterBuild = FileSizeReporter.printFileSizesAfterBuild;
 const useYarn = fs.existsSync(paths.yarnLockFile);
 
@@ -38,121 +38,126 @@ const WARN_AFTER_CHUNK_GZIP_SIZE = 1024 * 1024;
 
 // Warn and crash if required files are missing
 if (!checkRequiredFiles([paths.appHtml, paths.appIndexJs])) {
-  process.exit(1);
+	process.exit(1);
 }
 
 // First, read the current file sizes in build directory.
 // This lets us display how much they changed later.
 measureFileSizesBeforeBuild(paths.appBuild)
-  .then(previousFileSizes => {
-    // Remove all content but keep the directory so that
-    // if you're in it, you don't end up in Trash
-    fs.emptyDirSync(paths.appBuild);
-    // Merge with the public folder
-    copyPublicFolder();
-    // Set manifest
-    setManifest();
-    // Compile background.js
-    build(previousFileSizes, configBg);
-    // Start the webpack build
-    return build(previousFileSizes, config);
-  })
-  .then(
-    ({ stats, previousFileSizes, warnings }) => {
-      if (warnings.length) {
-        console.log(chalk.yellow('Compiled with warnings.\n'));
-        console.log(warnings.join('\n\n'));
-        console.log(
-          '\nSearch for the ' +
-            chalk.underline(chalk.yellow('keywords')) +
-            ' to learn more about each warning.'
-        );
-        console.log(
-          'To ignore, add ' +
-            chalk.cyan('// eslint-disable-next-line') +
-            ' to the line before.\n'
-        );
-      } else {
-        console.log(chalk.green('Compiled successfully.\n'));
-      }
+	.then((previousFileSizes) => {
+		// Remove all content but keep the directory so that
+		// if you're in it, you don't end up in Trash
+		fs.emptyDirSync(paths.appBuild);
+		// Merge with the public folder
+		copyPublicFolder();
+		// Set manifest
+		setManifest();
+		// Compile background.js
+		build(previousFileSizes, configBg);
+		// Start the webpack build
+		return build(previousFileSizes, config);
+	})
+	.then(
+		({ stats, previousFileSizes, warnings }) => {
+			if (warnings.length) {
+				console.log(chalk.yellow('Compiled with warnings.\n'));
+				console.log(warnings.join('\n\n'));
+				console.log(
+					'\nSearch for the ' +
+						chalk.underline(chalk.yellow('keywords')) +
+						' to learn more about each warning.',
+				);
+				console.log(
+					'To ignore, add ' +
+						chalk.cyan('// eslint-disable-next-line') +
+						' to the line before.\n',
+				);
+			} else {
+				console.log(chalk.green('Compiled successfully.\n'));
+			}
 
-      console.log('File sizes after gzip:\n');
-      printFileSizesAfterBuild(
-        stats,
-        previousFileSizes,
-        paths.appBuild,
-        WARN_AFTER_BUNDLE_GZIP_SIZE,
-        WARN_AFTER_CHUNK_GZIP_SIZE
-      );
-      console.log();
+			console.log('File sizes after gzip:\n');
+			printFileSizesAfterBuild(
+				stats,
+				previousFileSizes,
+				paths.appBuild,
+				WARN_AFTER_BUNDLE_GZIP_SIZE,
+				WARN_AFTER_CHUNK_GZIP_SIZE,
+			);
+			console.log();
 
-      const appPackage = require(paths.appPackageJson);
-      const publicUrl = paths.publicUrl;
-      const publicPath = config.output.publicPath;
-      const buildFolder = path.relative(process.cwd(), paths.appBuild);
-      printHostingInstructions(
-        appPackage,
-        publicUrl,
-        publicPath,
-        buildFolder,
-        useYarn
-      );
-    },
-    err => {
-      console.log(chalk.red('Failed to compile.\n'));
-      console.log((err.message || err) + '\n');
-      process.exit(1);
-    }
-  );
+			const appPackage = require(paths.appPackageJson);
+			const publicUrl = paths.publicUrl;
+			const publicPath = config.output.publicPath;
+			const buildFolder = path.relative(process.cwd(), paths.appBuild);
+			printHostingInstructions(
+				appPackage,
+				publicUrl,
+				publicPath,
+				buildFolder,
+				useYarn,
+			);
+		},
+		(err) => {
+			console.log(chalk.red('Failed to compile.\n'));
+			console.log((err.message || err) + '\n');
+			process.exit(1);
+		},
+	);
 
 // Create the production build and print the deployment instructions.
 function build(previousFileSizes, cfg) {
-  console.log('Creating an optimized production build...');
+	console.log('Creating an optimized production build...');
 
-  let compiler = webpack(cfg);
-  return new Promise((resolve, reject) => {
-    compiler.run((err, stats) => {
-      if (err) {
-        return reject(err);
-      }
-      const messages = formatWebpackMessages(stats.toJson({}, true));
-      if (messages.errors.length) {
-        return reject(new Error(messages.errors.join('\n\n')));
-      }
-      if (
-        process.env.CI &&
-        (typeof process.env.CI !== 'string' ||
-          process.env.CI.toLowerCase() !== 'false') &&
-        messages.warnings.length
-      ) {
-        console.log(
-          chalk.yellow(
-            '\nTreating warnings as errors because process.env.CI = true.\n' +
-              'Most CI servers set it automatically.\n'
-          )
-        );
-        return reject(new Error(messages.warnings.join('\n\n')));
-      }
-      return resolve({
-        stats,
-        previousFileSizes,
-        warnings: messages.warnings,
-      });
-    });
-  });
+	let compiler = webpack(cfg);
+	return new Promise((resolve, reject) => {
+		compiler.run((err, stats) => {
+			if (err) {
+				return reject(err);
+			}
+			const rawMessages = stats.toJson({ moduleTrace: false }, true);
+			const messages = formatWebpackMessages({
+				errors: rawMessages.errors.map((e) => e.message),
+				warnings: rawMessages.warnings.map((e) => e.message),
+			});
+
+			if (messages.errors.length) {
+				return reject(new Error(messages.errors.join('\n\n')));
+			}
+			if (
+				process.env.CI &&
+				(typeof process.env.CI !== 'string' ||
+					process.env.CI.toLowerCase() !== 'false') &&
+				messages.warnings.length
+			) {
+				console.log(
+					chalk.yellow(
+						'\nTreating warnings as errors because process.env.CI = true.\n' +
+							'Most CI servers set it automatically.\n',
+					),
+				);
+				return reject(new Error(messages.warnings.join('\n\n')));
+			}
+			return resolve({
+				stats,
+				previousFileSizes,
+				warnings: messages.warnings,
+			});
+		});
+	});
 }
 
 function copyPublicFolder() {
-  fs.copySync(paths.appPublic, paths.appBuild, {
-    dereference: true,
-    filter: file => file !== paths.appHtml,
-  });
+	fs.copySync(paths.appPublic, paths.appBuild, {
+		dereference: true,
+		filter: (file) => file !== paths.appHtml,
+	});
 }
 
 function setManifest() {
-  const manifest = paths.appBuild + '/manifest.json'
-  const data = fs.readFileSync(manifest, 'utf8');
-  let result = data.replace(/{apiUrl}/g, appConfig.checkApiUrl + '/');
-  result = result.replace(/{webUrl}/g, appConfig.checkWebUrl + '/');
-  fs.writeFileSync(manifest, result, 'utf8');
+	const manifest = paths.appBuild + '/manifest.json';
+	const data = fs.readFileSync(manifest, 'utf8');
+	let result = data.replace(/{apiUrl}/g, appConfig.checkApiUrl + '/');
+	result = result.replace(/{webUrl}/g, appConfig.checkWebUrl + '/');
+	fs.writeFileSync(manifest, result, 'utf8');
 }

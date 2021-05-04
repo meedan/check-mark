@@ -1,4 +1,4 @@
-chrome.runtime.onMessage.addListener(function(msg, sender) {
+chrome.runtime.onMessage.addListener(function(msg) {
   var data = JSON.parse(msg);
   if (data.message === 'toggle') {
     toggle(data.url, data.text);
@@ -87,7 +87,7 @@ function receiveMessage(event) {
   }
 }
 
-function textSelected(event) {
+function textSelected() {
   var selectedText = window.getSelection().toString();
   if (selectedText !== '' && checkMarkSidebarTask && checkMarkSidebarIframe) {
     var response = JSON.stringify({ selectedText, task: checkMarkSidebarTask });

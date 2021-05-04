@@ -1,11 +1,38 @@
 {
-  "presets": ["es2015", "stage-0", "react"],
+  "presets": ["@babel/preset-react", "@babel/preset-env"],
+  "plugins": [
+    [
+      "formatjs",
+      {
+        "idInterpolationPattern": "[sha512:contenthash:base64:6]",
+        "ast": true
+      }
+    ]
+  ],
   "env": {
     "production": {
-      "plugins": [["react-intl", { "messagesDir": "./src/localization/messages/" }], ["relay"], ["transform-react-jsx-source"]]
+      "plugins": [
+        [
+          "formatjs",
+          {
+            "idInterpolationPattern": "[sha512:contenthash:base64:6]",
+            "ast": true
+          }
+        ],
+        ["relay"]
+      ]
     },
     "development": {
-      "plugins": [["react-intl", { "messagesDir": "./src/localization/messages/" }], ["relay"], ["transform-react-jsx-source"]]
+      "plugins": [
+        [
+          "formatjs",
+          {
+            "idInterpolationPattern": "[sha512:contenthash:base64:6]",
+            "ast": true
+          }
+        ],
+        ["relay"]
+      ]
     }
   }
 }
