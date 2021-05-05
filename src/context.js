@@ -1,5 +1,3 @@
-/*global chrome*/
-
 let windows = {app: 0, devtools: 0};
 
 const MENU_APP = 'MENU_APP';
@@ -22,7 +20,7 @@ function closeIfExist(type) {
   }
 }
 
-function popWindow(info, tab) {
+function popWindow(info) {
   var action = 'open',
       url = 'popup.html',
       type = 'app';

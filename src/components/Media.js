@@ -20,8 +20,6 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-/* global window */
-
 const Media = ({ projectMedia }) => {
   const classes = useStyles();
   const metadata = projectMedia.media.metadata;

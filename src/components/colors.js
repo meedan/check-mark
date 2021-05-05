@@ -1,4 +1,3 @@
-/* global module */
 const colors = {
   lightGray: '#F4F4F4',
   gray: '#D5D5D5',

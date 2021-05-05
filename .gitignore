@@ -6,6 +6,8 @@ build
 npm-debug.log
 test/config.yml
 test/C:\\nppdf32Log\\debuglog.txt
+test/.bundle/
+test/vendor/
 config.js
 .config.js.bkp
 src/relay/relay.json
