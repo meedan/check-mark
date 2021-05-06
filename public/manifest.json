@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "{APP_NAME}",
   "description": "{APP_DESCRIPTION}",
-  "version": "2.3.0",
+  "version": "2.4.0",
   "commands": {
     "_execute_browser_action": {
       "suggested_key": {
@@ -19,22 +19,18 @@
     "default_icon": "{APP_ID}19-in.png",
     "default_title": "{APP_NAME}"
   },
-  "content_scripts": [{
-    "run_at": "document_end",
-    "matches": [
-      "https://*/*",
-      "http://*/*"
-    ],
-    "js": ["content.js"]
-  }],
+  "content_scripts": [
+    {
+      "run_at": "document_end",
+      "matches": ["https://*/*", "http://*/*"],
+      "js": ["content.js"]
+    }
+  ],
   "icons": {
     "128": "{APP_ID}128.png",
     "48": "{APP_ID}48.png"
   },
-  "permissions": [
-    "activeTab",
-    "contextMenus"
-  ],
+  "permissions": ["activeTab", "contextMenus"],
   "web_accessible_resources": ["popup.html"],
   "externally_connectable": {
     "matches": ["{webUrl}"]

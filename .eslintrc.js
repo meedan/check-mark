@@ -1,6 +1,9 @@
 module.exports = {
     "env": {
-        "es2020": true
+        "es2020": true,
+        "node": true,
+        "webextensions": true,
+        "browser": true,
     },
     "extends": [
         "eslint:recommended",
@@ -17,5 +20,10 @@ module.exports = {
         "react"
     ],
     "rules": {
-    }
+    },
+    "settings": {
+      "react": {
+        "version": "detect",
+      },
+    },
 };

@@ -8,8 +8,6 @@ import Title from './Title';
 import config from './../config';
 import colors from './colors';
 
-/* global window */
-
 const useStyles = makeStyles(theme => ({
   root: {
     padding: theme.spacing(2),

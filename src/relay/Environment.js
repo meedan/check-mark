@@ -6,8 +6,6 @@ import {
 } from 'relay-runtime';
 import config from '../config';
 
-/* global FormData, fetch */
-
 function createFetchQuery(token, teamSlug, image, filename) {
   return function fetchQuery(
     operation,

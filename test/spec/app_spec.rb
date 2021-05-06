@@ -96,7 +96,7 @@ shared_examples 'tests' do
     wait_for_selector("//span[contains(text(), 'Text claim')]", :xpath)
     expect(@driver.page_source.include?('Saved!')).to be(false)
     wait_for_selector('#save-button').click
-    wait_for_selector("//span[contains(text(), 'Saved')]", :xpath)
+    wait_for_selector("//p[contains(text(), 'Saved')]", :xpath)
     expect(@driver.page_source.include?('Saved!')).to be(true)
     wait_for_selector("//span[contains(text(), 'Tasks')]", :xpath).click
     @driver.switch_to.frame 'check-web-frame'
@@ -124,7 +124,7 @@ shared_examples 'tests' do
     wait_for_selector("//span[contains(text(), 'Text claim')]", :xpath)
     expect(@driver.page_source.include?('Saved!')).to be(false)
     wait_for_selector('#save-button').click
-    wait_for_selector("//span[contains(text(), 'Saved')]", :xpath)
+    wait_for_selector("//p[contains(text(), 'Saved')]", :xpath)
     expect(@driver.page_source.include?('Saved!')).to be(true)
     wait_for_selector('iframe')
     @driver.switch_to.frame 'check-web-frame'

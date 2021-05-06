@@ -12,8 +12,6 @@ import Media from './Media';
 import colors from './colors';
 import config from './../config';
 
-/* global window, document */
-
 const useStyles = makeStyles(theme => ({
   root: {
     padding: theme.spacing(2),
