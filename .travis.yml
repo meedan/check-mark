@@ -9,25 +9,39 @@ before_install:
 # https://github.com/jetpackworkflow/rswag/blob/master/rswag/rswag.gemspec#L18
 - export TRAVIS_TAG=0.0.0
 # extract configs
-- git clone https://${TOKEN}:x-oauth-basic@github.com/meedan/configurator ./configurator
+# - git clone https://${TOKEN}:x-oauth-basic@github.com/meedan/configurator ./configurator
 # pender
 - export PENDER_BRANCH=$((git ls-remote --exit-code --heads https://github.com/meedan/pender.git $TRAVIS_BRANCH >/dev/null && echo $TRAVIS_BRANCH) || echo 'develop')
 - echo "Using branch $PENDER_BRANCH for Pender"
 - git clone --branch=$PENDER_BRANCH https://github.com/meedan/pender.git
-- d=configurator/check/travis/pender/; for f in $(find $d -type f); do cp "$f" "pender/${f/$d/}"; done
+- cd pender
+- cp config/config.yml.example config/config.yml
+- cp config/database.yml.example config/database.yml
+- cp config/sidekiq.yml.example config/sidekiq.yml
+- cd -
 # check api
 - export CHECK_API_BRANCH=$((git ls-remote --exit-code --heads https://github.com/meedan/check-api.git $TRAVIS_BRANCH >/dev/null && echo $TRAVIS_BRANCH) || echo 'develop')
 - echo "Using branch $CHECK_API_BRANCH for Check API"
 - git clone --branch=$CHECK_API_BRANCH https://github.com/meedan/check-api.git
-- d=configurator/check/travis/check-api/; for f in $(find $d -type f); do cp "$f" "check-api/${f/$d/}"; done
+- cd check-api
+- cp config/config.yml.example config/config.yml
+- cp config/database.yml.example config/database.yml
+- cp config/sidekiq.yml.example config/sidekiq.yml
+- cd -
 # check web
 - export CHECK_WEB_BRANCH=$((git ls-remote --exit-code --heads https://github.com/meedan/check-web.git $TRAVIS_BRANCH >/dev/null && echo $TRAVIS_BRANCH) || echo 'develop')
 - echo "Using branch $CHECK_WEB_BRANCH for Check Web"
 - git clone --branch=$CHECK_WEB_BRANCH https://github.com/meedan/check-web.git
-- d=configurator/check/travis/check-web/; for f in $(find $d -type f); do cp "$f" "check-web/${f/$d/}"; done
+- cd check-web
+- cp test/config.js.example config.js
+- cp test/config.js.example test/config.js
+- cp config-build.js.example config-build.js
+- cp config-server.js.example config-server.js
+- cp test/config.yml.example test/config.yml
+- cd -
 # configs
-- cp config.js.travis config.js
-- cp configurator/check/travis/check-mark/test/config.yml test/config.yml
+- cp config.js.example config.js
+- cp test/config.yml.example test/config.yml
 before_script:
 - docker-compose build
 - docker-compose -f docker-compose.yml -f docker-test.yml up -d
@@ -35,7 +49,7 @@ before_script:
 - until curl --silent -I -f http://localhost:3333 ; do printf .; sleep 1; done
 - docker-compose exec mark npm install
 - docker-compose exec mark npm run test:lint || travis_terminate 1;
-script: docker-compose exec mark npm run test
+script: docker-compose exec -e IMGUR_CLIENT_ID=$IMGUR_CLIENT_ID mark npm run test
 notifications:
   slack:
     secure: wzi63JuQ4w+fiQTa4Qtp9chX3NqDTumqv7E5EGcPtRUeh0hv4mHcfmvWZ2/PVAE1Os3b/3fuDDoyNCzAed6/NogMJh9ef0jogjBB3ZA0UodbvASoZBHlBkan7cYJe8+0xkSpDezKqxV99iUWD9KB+Owin7tMckPTUnG0fn/jCP9wH6SkCVo4K84Rw/7FH2ziEWZ3LnDLwHIuMmvuTWYQMvr+Qp/N7sZY9jBsqM/darBe1P9NwnM3gleN5FyOkQzv6ILptObYtB8aH669GnJFVPkNqVvbEXzKD9Uvy0ohiuyDD2pKFj1WvFk0N8XhnvEKFG++TEnskrdPyumbKvPT8lj/xDxGahk9bh1pmyoySy81XBMWV0egYyYSfvB0FISYaKRx6b3lRY/AyVEKZ5YwsGD+UGAyhjmpJSKSTQ+t+tvFfZQMEvxFuHWRFNG8Bk3hSkw676Md4XRefzZZrC6o2Hs0ntOrpeZKMc1EDrDuGPsO4WiGN2W4yQX78w+CWoLcVngCFkvn6DJ12QM0qjNHPds7GTa/bUbXdsMhzwCTs3Ykb2g+C22SpaaoRKVEvILzosKHF954P4g1c+HPgIF6d7sjgsmwLdXn5zW+GT/ED1iZ9Woj+lUiGecaoxSjP/leuFZrgwLkAWvdTpZfCE7NzoNY6i7tvX2H80+it0kpyW4=

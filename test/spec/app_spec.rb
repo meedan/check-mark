@@ -87,9 +87,8 @@ shared_examples 'tests' do
     expect(@driver.page_source.include?('Saved!')).to be(false)
     wait_for_selector('#save-button').click
     wait_for_selector('#media')
-    expect(@driver.page_source.include?('Saved!')).to be(true)
-    expect(@driver.page_source.include?('Published on')).to be(true)
-    expect(@driver.page_source.include?('Description')).to be(true)
+    expect(@driver.page_source.include?(@profile_url)).to be(true)
+    expect(@driver.page_source.include?('Title')).to be(true)
   end
 
   it 'should manage a team task' do
