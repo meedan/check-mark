@@ -8,8 +8,6 @@ before_install:
 # Error: `There was an error while loading `rswag.gemspec`: Illformed requirement`
 # https://github.com/jetpackworkflow/rswag/blob/master/rswag/rswag.gemspec#L18
 - export TRAVIS_TAG=0.0.0
-# extract configs
-# - git clone https://${TOKEN}:x-oauth-basic@github.com/meedan/configurator ./configurator
 # pender
 - export PENDER_BRANCH=$((git ls-remote --exit-code --heads https://github.com/meedan/pender.git $TRAVIS_BRANCH >/dev/null && echo $TRAVIS_BRANCH) || echo 'develop')
 - echo "Using branch $PENDER_BRANCH for Pender"
@@ -43,6 +41,7 @@ before_install:
 - cp config.js.example config.js
 - cp test/config.yml.example test/config.yml
 before_script:
+- echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 - docker-compose build
 - docker-compose -f docker-compose.yml -f docker-test.yml up -d
 - until curl --silent -I -f http://localhost:3000 ; do printf .; sleep 1; done
@@ -53,3 +52,7 @@ script: docker-compose exec -e IMGUR_CLIENT_ID=$IMGUR_CLIENT_ID mark npm run tes
 notifications:
   slack:
     secure: wzi63JuQ4w+fiQTa4Qtp9chX3NqDTumqv7E5EGcPtRUeh0hv4mHcfmvWZ2/PVAE1Os3b/3fuDDoyNCzAed6/NogMJh9ef0jogjBB3ZA0UodbvASoZBHlBkan7cYJe8+0xkSpDezKqxV99iUWD9KB+Owin7tMckPTUnG0fn/jCP9wH6SkCVo4K84Rw/7FH2ziEWZ3LnDLwHIuMmvuTWYQMvr+Qp/N7sZY9jBsqM/darBe1P9NwnM3gleN5FyOkQzv6ILptObYtB8aH669GnJFVPkNqVvbEXzKD9Uvy0ohiuyDD2pKFj1WvFk0N8XhnvEKFG++TEnskrdPyumbKvPT8lj/xDxGahk9bh1pmyoySy81XBMWV0egYyYSfvB0FISYaKRx6b3lRY/AyVEKZ5YwsGD+UGAyhjmpJSKSTQ+t+tvFfZQMEvxFuHWRFNG8Bk3hSkw676Md4XRefzZZrC6o2Hs0ntOrpeZKMc1EDrDuGPsO4WiGN2W4yQX78w+CWoLcVngCFkvn6DJ12QM0qjNHPds7GTa/bUbXdsMhzwCTs3Ykb2g+C22SpaaoRKVEvILzosKHF954P4g1c+HPgIF6d7sjgsmwLdXn5zW+GT/ED1iZ9Woj+lUiGecaoxSjP/leuFZrgwLkAWvdTpZfCE7NzoNY6i7tvX2H80+it0kpyW4=
+env:
+  global:
+  - secure: ruijo8L8FVJdtxpYC1rZdRDRLrG7B3qgZMPecsKOHsZ3+4gziLuwlgF6zSz3MEmGWUMBBVRFIhpGlfMi937RHjBCOlDhGV5mJIULnKdTTcl7l4rTjHuXTt+jw0LtV1lj68NNDrTDMbp1bu2gfR9pH6lyy/9/xu/IU9bLgWJvB1EENjdcWf6NEzro5/eP6Pc+umtwJRib1Ke69hLz2oPtvOmct6o8CrD41DC0Y+T85r6KP9teRjI+A1IepnSv2OSnELnn0JpTczAmO0ncopWlruyF/nY2reNwXWU8nZndaQxRiP0szVTZGlQO/aSKceV87rPSgVn7vBrk6OOCUwFPjw1Fm+nrIhJjfU4NTC3yHkpIXsWPgp0vAgrBfsspJXBYfsLmnco8BHAkBawrT98U8wJycvUKw9ZiwdLTW1lPSkirD4IWinKEQyvkHZ+MCMQ5+Ut/qSiCjU68CK7l4RyYmc4Hjnm+S2DbGhA9hG9ynAG3Hw1YEa6bfceG9JjfdXfHURpyaaQEX/aZ+RfqJ8uzug9e3DzRTpNcFV4sr7Sru5xFqKVgBqtDGcMOz7ET7JTIOJK2srvJBikFkOXir3KoFClwOSjuTzdQJW1ujtlUVRv4uOV4+YaTZC2a1likWami4KdsvnfSsSSlWskXQNn/O7v/ik2N7ljgarCiym7bCto=
+  - secure: aeBcAt7EkT0nT+G/s+1bm/hv4rY1xvNdAkrT/rzuX4VxQbXmaIjzR5IJfWbo4b1GwIct1Z2FLqwC/8ikZw/By750eKPbFtkbtxiBJuPIx6i5mPJJLXU6gu50oPnJPIZw9h0hmQeYtBejUggxTezqDhEcjRWOtcRwQmQFrGuUd/Hrizvgg8Tu1fJX2MiY0YkQ8ZduKnFmkEQjYDAMhldXFDJiQ98IxUhI4jzoHzPuplxnJyXR0jREybSK58exvBPsHVv6JtZBqXLZ6W3cAv+/b6qkkXMeRXBr597gjYhq4fU68MnyuG46sYTqNzwTQdzkudW7oDMRICt98nAY4+2jWUSBI48dz0qGmJu4gxHmOW7yCdMzC76eYs4K7kSrZPsFBR6ZXnn78V0Kyn/sDDQpWD4TRJ1GTPBOorXY7Oo7QHdbptMG2fY4WRpDTiUg3E7T12KNBz2ofMdP3F5gNXfEXexlb2zYMiU3u2hmvWewTR9/LCgixClxS8HSOUbAHjjX/kXu/zMWkgkjw6+KuNpxLxcfI0+HPwvmxW2a0NED3RWOeXidUg73WQnBGAQqpihac4o67mC/gN1efnbP05fKQfXHqpIUGhhSoJzyEMN7Uk80YsI8Y/qOOa/852eUWgZU0/aUiJ03W4cZDpqBBao3OlV1O9FaCeqpBQXM5B6dmqo=
