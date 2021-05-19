@@ -99,7 +99,7 @@ const SaveOrUpdate = ({ environment, url, text, user, onLogout }) => {
                 projectId = projectMedia.project_id;
               }
               return (
-                <Update projectMedia={projectMedia} projectId={projectId} user={user} onLogout={onLogout} />
+                <Update environment={environment} projectMedia={projectMedia} projectId={projectId} user={user} onLogout={onLogout} />
               );
             } else if (!error && data && data.project_medias.edges.length === 0) {
               return (

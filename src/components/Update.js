@@ -9,6 +9,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import Title from './Title';
 import Menu from './Menu';
 import Media from './Media';
+import Metadata from './Metadata';
 import colors from './colors';
 import config from './../config';
 
@@ -58,7 +59,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Update = ({ projectMedia, projectId, onLogout, justSaved, user }) => {
+const Update = ({ projectMedia, projectId, onLogout, justSaved, user, environment }) => {
   const classes = useStyles();
 
   const defaultTab = projectMedia.type === 'Link' ? 'media' : 'metadata';
@@ -134,10 +135,12 @@ const Update = ({ projectMedia, projectId, onLogout, justSaved, user }) => {
         >
         { projectMedia.type === 'Link' ? <Tab value="media" label={<FormattedMessage id="update.media" defaultMessage="Media" />} /> : null }
           <Tab value="metadata" label={<FormattedMessage id="update.metadata" defaultMessage="Metadata" />} />
+          <Tab value="metadata-2" label="New" />
           <Tab value="tasks" label={<FormattedMessage id="update.tasks" defaultMessage="Tasks" />} />
           <Tab value="source" label={<FormattedMessage id="update.source" defaultMessage="Source" />} />
         </Tabs>
         { tab === 'media' ? <Media projectMedia={projectMedia} /> : null }
+        { tab === 'metadata-2' ? <Metadata {...{projectMedia, environment}}/> : null }
         { tab === 'tasks' || tab === 'metadata' || tab === 'source' ?
           <Box className={classes.frameContainer}>
             { frameHeight === 0 ?

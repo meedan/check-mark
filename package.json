@@ -58,6 +58,7 @@
     "test:eslint": "eslint src",
     "test": "npm run release:test && cd test && bundle install && bundle exec rspec && cd ..",
     "relay": "babel-node scripts/relay.js && relay-compiler --src ./src --schema ./src/relay/relay.json",
+    "relay:watch": "babel-node scripts/relay.js && relay-compiler --src ./src --schema ./src/relay/relay.json --watch -- ls -l",
     "transifex:parse": "npm run build && babel-node scripts/localize.js",
     "transifex:upload": "npm run transifex:parse && tx push -s",
     "transifex:download": "tx pull -a -f",

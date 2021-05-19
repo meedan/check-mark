@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
 import Box from '@material-ui/core/Box';
+import { RelayEnvironmentProvider } from 'react-relay';
 import Login from './Login';
 import SaveOrUpdate from './SaveOrUpdate';
 import Loading from './Loading';
@@ -29,18 +30,30 @@ const App = (props) => {
   };
 
   return (
-    <Box id="app" style={{ direction: props.direction }}>
-      { user ?
-        <SaveOrUpdate
-          user={user}
-          environment={environment}
-          url={props.url}
-          text={props.text}
-          onLogout={handleLogout}
-        /> :
-        (loaded ? <Login /> : <Loading message={<FormattedMessage id="app.loading" defaultMessage="Authenticating on Check…" />} />)
-      }
-    </Box>
+    <RelayEnvironmentProvider environment={environment}>
+      <Box id="app" style={{ direction: props.direction }}>
+        {user ? (
+          <SaveOrUpdate
+            user={user}
+            environment={environment}
+            url={props.url}
+            text={props.text}
+            onLogout={handleLogout}
+          />
+        ) : loaded ? (
+          <Login />
+        ) : (
+          <Loading
+            message={
+              <FormattedMessage
+                id="app.loading"
+                defaultMessage="Authenticating on Check…"
+              />
+            }
+          />
+        )}
+      </Box>
+    </RelayEnvironmentProvider>
   );
 };
 
