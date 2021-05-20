@@ -26,7 +26,6 @@ module.exports = {
       // Relax, React!
       "react/jsx-filename-extension": "off",
       "react/jsx-no-bind": "off",
-      "react/prop-types": "off",
       "react/forbid-prop-types": "off",
       "react/no-children-prop": "off",
       "react/jsx-props-no-spreading": "off",

@@ -21,7 +21,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import config from './../config';
 import UpdateQuery from './__generated__/UpdateQuery.graphql';
 
-const getAnnotationQuery = graphql`
+const getMetadataItemQuery = graphql`
   query MetadataTaskItemQuery($id: ID!) {
     node(id: $id) {
       ... on Task {
@@ -52,7 +52,12 @@ const getAnnotationQuery = graphql`
 const updateAnnotationMutation = graphql`
   mutation MetadataTaskMutation($input: UpdateTaskInput!) {
     updateTask(input: $input) {
-      clientMutationId
+      taskEdge {
+        node {
+          id
+          first_response_value
+        }
+      }
     }
   }
 `;
@@ -84,8 +89,8 @@ const Metadata = (props) => {
 
   const [updateQueryRef] = useQueryLoader(UpdateQuery, initialQueryRef);
 
-  function TextType(props) {
-    const { item, itemInitQueryRef } = props;
+  function MetadataContainer(props) {
+    const { render, item, itemInitQueryRef } = props;
     const node = item.node;
     const [isEditing, setIsEditing] = React.useState(false);
     const hasData = !!item.node?.first_response_value;
@@ -99,11 +104,9 @@ const Metadata = (props) => {
     const id = node?.id;
 
     const [, loadItemQuery] = useQueryLoader(
-      getAnnotationQuery,
+      getMetadataItemQuery,
       itemInitQueryRef,
     );
-
-    let output = null;
 
     function handleSave() {
       commit({
@@ -144,9 +147,48 @@ const Metadata = (props) => {
       });
     }
 
+    return (
+      <>
+        {render({
+          node,
+          classes,
+          handleEdit,
+          handleDelete,
+          handleCancel,
+          handleSave,
+          isDeleteInFlight,
+          isInFlight,
+          hasData,
+          isEditing,
+          textValue,
+          setTextValue,
+        })}
+      </>
+    );
+  }
+
+  // TODO: externalize this to a file, add proptypes (eslint will flag these now), probably either rename textValue and setTextValue to value and setValue OR internalize these on the *Type functions themselves
+  function TextType(props) {
+    const {
+      node,
+      classes,
+      handleEdit,
+      handleDelete,
+      handleCancel,
+      handleSave,
+      isDeleteInFlight,
+      isInFlight,
+      hasData,
+      isEditing,
+      textValue,
+      setTextValue,
+    } = props;
+
     function handleChange(e) {
       setTextValue(e.target.value);
     }
+
+    let output = null;
 
     if (hasData && !isEditing) {
       output = (
@@ -226,13 +268,17 @@ const Metadata = (props) => {
           // a query just for this one element
           const itemInitQueryRef = loadQuery(
             environment,
-            getAnnotationQuery,
+            getMetadataItemQuery,
             { id: item.node?.id },
             { fetchPolicy: 'network-only' },
           );
           return (
             <>
-              <TextType {...{ item, itemInitQueryRef }} />
+              <MetadataContainer
+                item={item}
+                itemInitQueryRef={itemInitQueryRef}
+                render={(props) => <TextType {...props} />}
+              />
               <Divider />
             </>
           );
