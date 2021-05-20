@@ -3,6 +3,7 @@ import {
   graphql,
   loadQuery,
   usePreloadedQuery,
+  useQueryLoader,
   useRelayEnvironment,
   useMutation,
 } from 'react-relay';
@@ -17,34 +18,30 @@ import {
   Divider,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
-import colors from './colors';
 import config from './../config';
+import UpdateQuery from './__generated__/UpdateQuery.graphql';
 
-const tasksQuery = graphql`
-  query MetadataQuery($ids: String!) {
-    project_media(ids: $ids) {
-      tasks(first: 10) {
-        edges {
-          node {
-            fieldset
-            label
-            type
-            show_in_browser_extension
+const getAnnotationQuery = graphql`
+  query MetadataTaskItemQuery($id: ID!) {
+    node(id: $id) {
+      ... on Task {
+        fieldset
+        label
+        type
+        show_in_browser_extension
+        id
+        description
+        first_response_value
+        first_response {
+          id
+        }
+        annotator {
+          id
+          user {
             id
-            first_response_value
-            first_response {
-              id
-            }
-            description
-            annotator {
-              id
-              user {
-                id
-                dbid
-                name
-                profile_image
-              }
-            }
+            dbid
+            name
+            profile_image
           }
         }
       }
@@ -75,22 +72,20 @@ const useStyles = makeStyles((theme) => ({
   value: {
     fontWeight: 900,
   },
+  profileImage: {
+    maxWidth: 25,
+  },
 }));
 
 const Metadata = (props) => {
   const classes = useStyles();
-  const { projectMedia } = props;
+  const { initialQueryRef } = props;
   const environment = useRelayEnvironment();
 
-  const ids = projectMedia.dbid.toString();
-  const tasksQueryReference = loadQuery(environment, tasksQuery, { ids });
-
-  function reloadQuery() {
-    loadQuery(environment, tasksQuery, { ids });
-  }
+  const [updateQueryRef] = useQueryLoader(UpdateQuery, initialQueryRef);
 
   function TextType(props) {
-    const { item } = props;
+    const { item, itemInitQueryRef } = props;
     const node = item.node;
     const [isEditing, setIsEditing] = React.useState(false);
     const hasData = !!item.node?.first_response_value;
@@ -101,22 +96,26 @@ const Metadata = (props) => {
     const [commitDelete, isDeleteInFlight] = useMutation(
       deleteAnnotationMutation,
     );
+    const id = node?.id;
+
+    const [, loadItemQuery] = useQueryLoader(
+      getAnnotationQuery,
+      itemInitQueryRef,
+    );
 
     let output = null;
 
     function handleSave() {
-      console.log('DOING IT');
       commit({
         variables: {
           input: {
-            id: node?.id,
+            id,
             response: `{"annotation_type":"task_response_free_text","set_fields":"{\\"response_free_text\\":\\"${textValue}\\"}"}`,
           },
         },
-        onCompleted(data) {
-          console.log('heyyyy', data);
+        onCompleted() {
+          loadItemQuery({ id }, { fetchPolicy: 'network-only' });
           setIsEditing(false);
-          reloadQuery();
         },
       });
     }
@@ -131,18 +130,16 @@ const Metadata = (props) => {
     }
 
     function handleDelete() {
-      console.log('DELETING IT', node?.first_response?.id);
       commitDelete({
         variables: {
           input: {
             id: node?.first_response?.id,
           },
         },
-        onCompleted(data) {
-          console.log('heyyyy we deleted', data);
-          setIsEditing(true);
+        onCompleted() {
+          loadItemQuery({ id }, { fetchPolicy: 'network-only' });
           setTextValue('');
-          reloadQuery();
+          setIsEditing(true);
         },
       });
     }
@@ -157,9 +154,13 @@ const Metadata = (props) => {
           <Typography variant="h6">{node?.label}</Typography>
           <Typography variant="body1">{node?.description}</Typography>
           <Typography variant="body1" className={classes.value}>
-            {textValue}
+            {node?.first_response_value}
           </Typography>
-          <img src={node?.annotator?.user?.profile_image} alt="Profile image" />
+          <img
+            className={classes.profileImage}
+            src={node?.annotator?.user?.profile_image}
+            alt="Profile image"
+          />
           <Typography variant="body1">
             Completed by{' '}
             <a
@@ -168,8 +169,20 @@ const Metadata = (props) => {
               {node?.annotator?.user?.name}
             </a>
           </Typography>
-          <Button onClick={handleEdit}>Edit</Button>
-          <Button onClick={handleDelete}>Delete</Button>
+          <Button onClick={handleEdit}>
+            <FormattedMessage
+              id="metadata.edit"
+              defaultMessage="Edit"
+              description="This is a label that appears on a button next to an item that the user can edit. The label indicates that if the user presses this button, the item will become editable."
+            />
+          </Button>
+          <Button onClick={handleDelete}>
+            <FormattedMessage
+              id="metadata.delete"
+              defaultMessage="Delete"
+              description="This is a label that appears on a button next to an item that the user can delete. The label indicates that if the user presses this button, the item will be deleted."
+            />
+          </Button>
           {isDeleteInFlight ? <CircularProgress size={20} /> : null}
         </>
       );
@@ -200,20 +213,30 @@ const Metadata = (props) => {
     return output;
   }
 
-  function RenderData() {
+  function RenderData(props) {
+    const { updateQueryRef } = props;
     // if the data exists, render the readable data. if it doesn't, render an input
-    const data = usePreloadedQuery(tasksQuery, tasksQueryReference);
-    console.log('data!', data);
+    const data = usePreloadedQuery(UpdateQuery, updateQueryRef);
+    console.log('rerendering data!', data);
+    // load a query for every individual type
+
     return (
       <div>
-        {data.project_media?.tasks?.edges
-          .filter((item) => item.node?.fieldset === 'metadata')
-          .map((item) => (
+        {data.project_media?.tasks?.edges.map((item) => {
+          // a query just for this one element
+          const itemInitQueryRef = loadQuery(
+            environment,
+            getAnnotationQuery,
+            { id: item.node?.id },
+            { fetchPolicy: 'network-only' },
+          );
+          return (
             <>
-              <TextType item={item} />
+              <TextType {...{ item, itemInitQueryRef }} />
               <Divider />
             </>
-          ))}
+          );
+        })}
       </div>
     );
   }
@@ -221,7 +244,7 @@ const Metadata = (props) => {
   return (
     <Box id="metadata" className={classes.root}>
       <React.Suspense fallback={<p>loading</p>}>
-        <RenderData />
+        <RenderData {...{ updateQueryRef }} />
       </React.Suspense>
     </Box>
   );
