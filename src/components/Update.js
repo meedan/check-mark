@@ -261,6 +261,7 @@ Update.defaultProps = {
 };
 
 Update.propTypes = {
+  environment: PropTypes.object.isRequired,
   projectMedia: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
   onLogout: PropTypes.func.isRequired,
