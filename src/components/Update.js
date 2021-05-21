@@ -124,6 +124,7 @@ const Update = ({
               type
               show_in_browser_extension
               id
+              options
               first_response_value
               first_response {
                 id

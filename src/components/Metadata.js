@@ -21,6 +21,7 @@ const getMetadataItemQuery = graphql`
         fieldset
         label
         type
+        options
         show_in_browser_extension
         id
         description
