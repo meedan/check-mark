@@ -8,11 +8,13 @@ import {
   useRelayEnvironment,
   useMutation,
 } from 'react-relay';
-import { Box, Divider } from '@material-ui/core';
+import { FormattedMessage } from 'react-intl';
+import { Box, CircularProgress, Divider, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import UpdateQuery from './__generated__/UpdateQuery.graphql';
 import MetadataText from './metadata/MetadataText';
 import MetadataNumber from './metadata/MetadataNumber';
+import MetadataMultiselect from './metadata/MetadataMultiselect';
 
 const getMetadataItemQuery = graphql`
   query MetadataTaskItemQuery($id: ID!) {
@@ -28,6 +30,7 @@ const getMetadataItemQuery = graphql`
         first_response_value
         first_response {
           id
+          content
         }
         annotator {
           id
@@ -43,8 +46,8 @@ const getMetadataItemQuery = graphql`
   }
 `;
 
-const updateAnnotationMutation = graphql`
-  mutation MetadataTaskMutation($input: UpdateTaskInput!) {
+const updateTaskMutation = graphql`
+  mutation MetadataUpdateTaskMutation($input: UpdateTaskInput!) {
     updateTask(input: $input) {
       taskEdge {
         node {
@@ -56,8 +59,21 @@ const updateAnnotationMutation = graphql`
   }
 `;
 
-const deleteAnnotationMutation = graphql`
-  mutation MetadataDeleteMutation($input: DestroyDynamicInput!) {
+const updateDynamicMutation = graphql`
+  mutation MetadataDynamicMutation($input: UpdateDynamicInput!) {
+    updateDynamic(input: $input) {
+      dynamicEdge {
+        node {
+          id
+          content
+        }
+      }
+    }
+  }
+`;
+
+const deleteDynamicMutation = graphql`
+  mutation MetadataDeleteDynamicMutation($input: DestroyDynamicInput!) {
     destroyDynamic(input: $input) {
       clientMutationId
     }
@@ -80,8 +96,6 @@ function RenderData(props) {
   const { updateQueryRef } = props;
   const environment = useRelayEnvironment();
   const data = usePreloadedQuery(UpdateQuery, updateQueryRef);
-
-  console.log('rerendering data!', data);
 
   return (
     <div>
@@ -108,11 +122,15 @@ function RenderData(props) {
                   case 'number':
                     output = <MetadataNumber {...props} />;
                     break;
+                  case 'multiple_choice':
+                    output = <MetadataMultiselect {...props} />;
+                    break;
                   default:
                     output = <MetadataText {...props} />;
                 }
                 return output;
               }}
+              isDynamic={metadataType === 'multiple_choice'}
             />
             <Divider />
           </>
@@ -123,19 +141,28 @@ function RenderData(props) {
 }
 
 function MetadataContainer(props) {
-  const { render, item, itemInitQueryRef } = props;
+  const { render, item, itemInitQueryRef, isDynamic } = props;
   const classes = useStyles();
   const node = item.node;
   const [isEditing, setIsEditing] = React.useState(false);
   const hasData = !!item.node?.first_response_value;
+  let initialDynamic = {};
+  if (isDynamic) {
+    try {
+      initialDynamic = JSON.parse(
+        JSON.parse(node?.first_response?.content)[0].value,
+      );
+    } catch (exception) {
+      initialDynamic = {};
+    }
+  }
   const [metadataValue, setMetadataValue] = React.useState(
-    node?.first_response_value,
+    isDynamic ? initialDynamic : node?.first_response_value,
   );
-  const [commit, isInFlight] = useMutation(updateAnnotationMutation);
-  const [commitDelete, isDeleteInFlight] = useMutation(
-    deleteAnnotationMutation,
-  );
-  const id = node?.id;
+  const [commit, isInFlight] = useMutation(updateTaskMutation);
+  const [dynamicCommit, isDynamicInFlight] = useMutation(updateDynamicMutation);
+  const [commitDelete, isDeleteInFlight] = useMutation(deleteDynamicMutation);
+  const id = isDynamic ? node?.first_response?.id : node?.id;
 
   const [, loadItemQuery] = useQueryLoader(
     getMetadataItemQuery,
@@ -147,7 +174,22 @@ function MetadataContainer(props) {
       variables: {
         input: {
           id,
-          response,
+          response: JSON.stringify(response),
+        },
+      },
+      onCompleted() {
+        loadItemQuery({ id }, { fetchPolicy: 'network-only' });
+        setIsEditing(false);
+      },
+    });
+  }
+
+  function handleDynamicSave(response) {
+    dynamicCommit({
+      variables: {
+        input: {
+          id,
+          set_fields: JSON.stringify(response),
         },
       },
       onCompleted() {
@@ -166,6 +208,19 @@ function MetadataContainer(props) {
     setMetadataValue(node?.first_response_value);
   }
 
+  function handleDynamicCancel() {
+    let initialDynamic;
+    try {
+      initialDynamic = JSON.parse(
+        JSON.parse(node?.first_response?.content)[0].value,
+      );
+    } catch (exception) {
+      initialDynamic = {};
+    }
+    setIsEditing(false);
+    setMetadataValue(initialDynamic);
+  }
+
   function handleDelete() {
     commitDelete({
       variables: {
@@ -181,21 +236,110 @@ function MetadataContainer(props) {
     });
   }
 
+  function EditButton() {
+    return (
+      <Button onClick={handleEdit}>
+        <FormattedMessage
+          id="metadata.edit"
+          defaultMessage="Edit"
+          description="This is a label that appears on a button next to an item that the user can edit. The label indicates that if the user presses this button, the item will become editable."
+        />
+      </Button>
+    );
+  }
+
+  function DeleteButton() {
+    return (
+      <>
+        <Button onClick={handleDelete}>
+          <FormattedMessage
+            id="metadata.delete"
+            defaultMessage="Delete"
+            description="This is a label that appears on a button next to an item that the user can delete. The label indicates that if the user presses this button, the item will be deleted."
+          />
+        </Button>
+        {isDeleteInFlight ? <CircularProgress size={20} /> : null}
+      </>
+    );
+  }
+
+  function CancelButton() {
+    const cancelMessage = (
+      <FormattedMessage
+        id="metadata.cancel"
+        defaultMessage="Cancel"
+        description="This is a label that appears on a button next to an item that the user is editing. The label indicates that if the user presses this button, the user will 'cancel' the editing action and all changes will revert."
+      />
+    );
+    return (
+      <>
+        {isDynamic ? (
+          <>
+            <Button onClick={handleDynamicCancel}>{cancelMessage}</Button>
+          </>
+        ) : (
+          <>
+            <Button onClick={handleCancel}>{cancelMessage}</Button>
+          </>
+        )}
+      </>
+    );
+  }
+
+  function SaveButton(props) {
+    const { mutationPayload, disabled } = props;
+    const saveMessage = (
+      <FormattedMessage
+        id="metadata.save"
+        defaultMessage="Save"
+        description="This is a label that appears on a button next to an item that the user is editing. The label indicates that if the user presses this button, the user will save the changes they have been making."
+      />
+    );
+    return (
+      <>
+        {isDynamic ? (
+          <>
+            <Button
+              onClick={() => handleDynamicSave(mutationPayload)}
+              disabled={disabled}
+            >
+              {saveMessage}
+            </Button>
+            {isDynamicInFlight ? <CircularProgress size={20} /> : null}
+          </>
+        ) : (
+          <>
+            <Button
+              onClick={() => handleSave(mutationPayload)}
+              disabled={disabled}
+            >
+              {saveMessage}
+            </Button>
+            {isInFlight ? <CircularProgress size={20} /> : null}
+          </>
+        )}
+      </>
+    );
+  }
+
+  SaveButton.propTypes = {
+    mutationPayload: PropTypes.string.isRequired,
+    disabled: PropTypes.bool,
+  };
+
   return (
     <>
       {render({
         node,
         classes,
-        handleEdit,
-        handleDelete,
-        handleCancel,
-        handleSave,
-        isDeleteInFlight,
-        isInFlight,
         hasData,
         isEditing,
         metadataValue,
         setMetadataValue,
+        EditButton,
+        DeleteButton,
+        CancelButton,
+        SaveButton,
       })}
     </>
   );
@@ -227,6 +371,7 @@ MetadataContainer.propTypes = {
   render: PropTypes.func.isRequired,
   item: PropTypes.object.isRequired,
   itemInitQueryRef: PropTypes.object.isRequired,
+  isDynamic: PropTypes.bool,
 };
 
 export default Metadata;

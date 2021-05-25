@@ -128,6 +128,7 @@ const Update = ({
               first_response_value
               first_response {
                 id
+                content
               }
               description
               annotator {
@@ -228,9 +229,7 @@ const Update = ({
           />
         </Tabs>
         {tab === 'media' ? <Media projectMedia={projectMedia} /> : null}
-        {tab === 'metadata-2' ? (
-          <Metadata {...{ initialQueryRef }} />
-        ) : null}
+        {tab === 'metadata-2' ? <Metadata {...{ initialQueryRef }} /> : null}
         {tab === 'tasks' || tab === 'metadata' || tab === 'source' ? (
           <Box className={classes.frameContainer}>
             {frameHeight === 0 ? (
