@@ -125,12 +125,18 @@ function RenderData(props) {
                   case 'multiple_choice':
                     output = <MetadataMultiselect {...props} />;
                     break;
+                  case 'single_choice':
+                    output = <MetadataMultiselect {...props} isSingle />;
+                    break;
                   default:
                     output = <MetadataText {...props} />;
                 }
                 return output;
               }}
-              isDynamic={metadataType === 'multiple_choice'}
+              isDynamic={
+                metadataType === 'multiple_choice' ||
+                metadataType === 'single_choice'
+              }
             />
             <Divider />
           </>
@@ -149,11 +155,19 @@ function MetadataContainer(props) {
   let initialDynamic = {};
   if (isDynamic) {
     try {
-      initialDynamic = JSON.parse(
-        JSON.parse(node?.first_response?.content)[0].value,
-      );
+      if (node.type === 'multiple_choice') {
+        initialDynamic = JSON.parse(
+          JSON.parse(node?.first_response?.content)[0].value,
+        );
+      } else if (node.type === 'single_choice') {
+        initialDynamic = JSON.parse(node?.first_response?.content)[0].value;
+      }
     } catch (exception) {
-      initialDynamic = {};
+      if (node.type === 'multiple_choice') {
+        initialDynamic = { selected: [] };
+      } else if (node.type === 'single_choice') {
+        initialDynamic = '';
+      }
     }
   }
   const [metadataValue, setMetadataValue] = React.useState(
@@ -162,19 +176,19 @@ function MetadataContainer(props) {
   const [commit, isInFlight] = useMutation(updateTaskMutation);
   const [dynamicCommit, isDynamicInFlight] = useMutation(updateDynamicMutation);
   const [commitDelete, isDeleteInFlight] = useMutation(deleteDynamicMutation);
-  const id = isDynamic ? node?.first_response?.id : node?.id;
+  const id = isDynamic ? node?.first_response?.id || node?.id : node?.id;
 
   const [, loadItemQuery] = useQueryLoader(
     getMetadataItemQuery,
     itemInitQueryRef,
   );
 
-  function handleSave(response) {
+  function handleSave(payload) {
     commit({
       variables: {
         input: {
           id,
-          response: JSON.stringify(response),
+          response: JSON.stringify(payload),
         },
       },
       onCompleted() {
@@ -184,19 +198,29 @@ function MetadataContainer(props) {
     });
   }
 
-  function handleDynamicSave(response) {
-    dynamicCommit({
-      variables: {
-        input: {
-          id,
-          set_fields: JSON.stringify(response),
+  function handleDynamicSave(payload) {
+    // if this is a first-time creation (node.first_response is null) then we use the normal, non-dynamic save
+    if (node.first_response === null) {
+      const newPayload = {
+        annotation_type: `task_response_${node.type}`,
+        set_fields: JSON.stringify(payload),
+      };
+
+      handleSave(newPayload);
+    } else {
+      dynamicCommit({
+        variables: {
+          input: {
+            id,
+            set_fields: JSON.stringify(payload),
+          },
         },
-      },
-      onCompleted() {
-        loadItemQuery({ id }, { fetchPolicy: 'network-only' });
-        setIsEditing(false);
-      },
-    });
+        onCompleted() {
+          loadItemQuery({ id }, { fetchPolicy: 'network-only' });
+          setIsEditing(false);
+        },
+      });
+    }
   }
 
   function handleEdit() {
@@ -208,17 +232,28 @@ function MetadataContainer(props) {
     setMetadataValue(node?.first_response_value);
   }
 
-  function handleDynamicCancel() {
+  function handleDynamicCancel(setOtherText) {
     let initialDynamic;
     try {
-      initialDynamic = JSON.parse(
-        JSON.parse(node?.first_response?.content)[0].value,
-      );
+      if (node.type === 'multiple_choice') {
+        initialDynamic = JSON.parse(
+          JSON.parse(node?.first_response?.content)[0].value,
+        );
+      } else if (node.type === 'single_choice') {
+        initialDynamic = JSON.parse(node?.first_response?.content)[0].value;
+      }
     } catch (exception) {
-      initialDynamic = {};
+      if (node.type === 'multiple_choice') {
+        initialDynamic = { selected: [] };
+      } else if (node.type === 'single_choice') {
+        initialDynamic = '';
+      }
     }
     setIsEditing(false);
     setMetadataValue(initialDynamic);
+    if (setOtherText) {
+      setOtherText(initialDynamic);
+    }
   }
 
   function handleDelete() {
@@ -263,7 +298,8 @@ function MetadataContainer(props) {
     );
   }
 
-  function CancelButton() {
+  function CancelButton(props) {
+    const { setOtherText } = props;
     const cancelMessage = (
       <FormattedMessage
         id="metadata.cancel"
@@ -275,7 +311,9 @@ function MetadataContainer(props) {
       <>
         {isDynamic ? (
           <>
-            <Button onClick={handleDynamicCancel}>{cancelMessage}</Button>
+            <Button onClick={() => handleDynamicCancel(setOtherText)}>
+              {cancelMessage}
+            </Button>
           </>
         ) : (
           <>
@@ -285,6 +323,10 @@ function MetadataContainer(props) {
       </>
     );
   }
+
+  CancelButton.propTypes = {
+    setOtherText: PropTypes.func.isRequired,
+  };
 
   function SaveButton(props) {
     const { mutationPayload, disabled } = props;
