@@ -15,6 +15,8 @@ import UpdateQuery from './__generated__/UpdateQuery.graphql';
 import MetadataText from './metadata/MetadataText';
 import MetadataNumber from './metadata/MetadataNumber';
 import MetadataMultiselect from './metadata/MetadataMultiselect';
+import MetadataDate from './metadata/MetadataDate';
+import MetadataFile from './metadata/MetadataFile';
 
 const getMetadataItemQuery = graphql`
   query MetadataTaskItemQuery($id: ID!) {
@@ -31,6 +33,7 @@ const getMetadataItemQuery = graphql`
         first_response {
           id
           content
+          file_data
         }
         annotator {
           id
@@ -90,6 +93,11 @@ const useStyles = makeStyles((theme) => ({
   profileImage: {
     maxWidth: 25,
   },
+  dropZone: {
+    backgroundColor: 'red',
+    height: '100px',
+    width: '100%',
+  },
 }));
 
 function RenderData(props) {
@@ -127,6 +135,17 @@ function RenderData(props) {
                     break;
                   case 'single_choice':
                     output = <MetadataMultiselect {...props} isSingle />;
+                    break;
+                  case 'datetime':
+                    output = <MetadataDate {...props} />;
+                    break;
+                  case 'file_upload':
+                    output = (
+                      <MetadataFile
+                        {...props}
+                        extensions={data.about.file_extensions}
+                      />
+                    );
                     break;
                   default:
                     output = <MetadataText {...props} />;

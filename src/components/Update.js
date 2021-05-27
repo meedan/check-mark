@@ -129,6 +129,7 @@ const Update = ({
               first_response {
                 id
                 content
+                file_data
               }
               description
               annotator {
@@ -143,6 +144,10 @@ const Update = ({
             }
           }
         }
+      }
+      about {
+        file_extensions
+        file_max_size
       }
     }
   `;
