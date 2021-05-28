@@ -94,9 +94,9 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: 25,
   },
   dropZone: {
-    backgroundColor: 'red',
-    height: '100px',
-    width: '100%',
+    padding: theme.spacing(2),
+    border: '2px dashed',
+    minHeight: '100px',
   },
 }));
 
@@ -154,7 +154,8 @@ function RenderData(props) {
               }}
               isDynamic={
                 metadataType === 'multiple_choice' ||
-                metadataType === 'single_choice'
+                metadataType === 'single_choice' ||
+                metadataType === 'file_upload'
               }
             />
             <Divider />
@@ -217,7 +218,7 @@ function MetadataContainer(props) {
     });
   }
 
-  function handleDynamicSave(payload) {
+  function handleDynamicSave(payload, uploadables) {
     // if this is a first-time creation (node.first_response is null) then we use the normal, non-dynamic save
     if (node.first_response === null) {
       const newPayload = {
@@ -238,6 +239,7 @@ function MetadataContainer(props) {
           loadItemQuery({ id }, { fetchPolicy: 'network-only' });
           setIsEditing(false);
         },
+        uploadables,
       });
     }
   }
@@ -348,7 +350,7 @@ function MetadataContainer(props) {
   };
 
   function SaveButton(props) {
-    const { mutationPayload, disabled } = props;
+    const { mutationPayload, disabled, uploadables } = props;
     const saveMessage = (
       <FormattedMessage
         id="metadata.save"
@@ -361,7 +363,7 @@ function MetadataContainer(props) {
         {isDynamic ? (
           <>
             <Button
-              onClick={() => handleDynamicSave(mutationPayload)}
+              onClick={() => handleDynamicSave(mutationPayload, uploadables)}
               disabled={disabled}
             >
               {saveMessage}
@@ -386,6 +388,7 @@ function MetadataContainer(props) {
   SaveButton.propTypes = {
     mutationPayload: PropTypes.string.isRequired,
     disabled: PropTypes.bool,
+    uploadables: PropTypes.object,
   };
 
   return (

@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Typography, TextField, Box } from '@material-ui/core';
+import { Typography, Box } from '@material-ui/core';
 import { FormattedMessage } from 'react-intl';
 import config from './../../config';
 
@@ -66,8 +66,7 @@ function MetadataFile({
   );
 
   const mutationPayload = {
-    annotation_type: 'task_response_free_text',
-    set_fields: `{"response_free_text":"${metadataValue}"}`,
+    response_file_upload: JSON.stringify(metadataValue),
   };
 
   function handleDrop(e) {
@@ -77,7 +76,6 @@ function MetadataFile({
     } else {
       if (e.dataTransfer.items[0].kind === 'file') {
         const fileData = e.dataTransfer.items[0].getAsFile();
-        console.log(fileData);
         const fileExtensionMatch = fileData.name?.match(/\.(\w*)$/);
         const fileExtension =
           fileExtensionMatch?.length > 1 ? fileExtensionMatch[1] : '';
@@ -86,6 +84,7 @@ function MetadataFile({
             // TODO: upload file
             setError({ message: null });
             setFile(fileData);
+            setMetadataValue(fileData.name);
           } else {
             setError({ message: errorFileTooBig });
           }
@@ -101,10 +100,6 @@ function MetadataFile({
   function handleDragOver(e) {
     e.preventDefault();
   }
-
-  function handleDragEnter(e) {}
-
-  function handleDragLeave(e) {}
 
   function RenderDrop() {
     return file.name ? (
@@ -125,8 +120,6 @@ function MetadataFile({
       </Typography>
     );
   }
-
-  console.log('file node', node, metadataValue);
 
   return (
     <>
@@ -163,8 +156,6 @@ function MetadataFile({
             className={classes.dropZone}
             onDrop={handleDrop}
             onDragOver={handleDragOver}
-            onDragEnter={handleDragEnter}
-            onDragLeave={handleDragLeave}
           >
             {error.message ? (
               <Typography variant="body1">{error.message}</Typography>
@@ -174,7 +165,11 @@ function MetadataFile({
           </Box>
           <br />
           <CancelButton />
-          <SaveButton {...{ mutationPayload }} disabled={error.message !== null} />
+          <SaveButton
+            {...{ mutationPayload }}
+            uploadables={{ 'file[]': file }}
+            disabled={error.message !== null}
+          />
         </>
       )}
     </>
