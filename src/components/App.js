@@ -22,7 +22,7 @@ const App = (props) => {
 
   let environment = null;
   if (user) {
-    environment = createEnvironment(user.token, '', null);
+    environment = createEnvironment(user.token, '');
   }
 
   const handleLogout = () => {

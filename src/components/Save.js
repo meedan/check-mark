@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { FormattedMessage } from 'react-intl';
-import { commitMutation, graphql } from 'react-relay';
+import { commitMutation, graphql, useRelayEnvironment } from 'react-relay';
 import Box from '@material-ui/core/Box';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
@@ -43,8 +43,9 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Save = ({ user, environment, text, url, onSave, onLogout }) => {
+const Save = ({ user, text, url, onSave, onLogout }) => {
   const classes = useStyles();
+  const environment = useRelayEnvironment();
 
   let team = null;
   if (user && user.current_team) {
@@ -190,7 +191,6 @@ Save.defaultProps = {
 
 Save.propTypes = {
   user: PropTypes.object.isRequired,
-  environment: PropTypes.object.isRequired,
   text: PropTypes.string,
   url: PropTypes.string,
   onSave: PropTypes.func.isRequired,

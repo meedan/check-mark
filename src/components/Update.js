@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { makeStyles } from '@material-ui/core/styles';
-import { loadQuery } from 'react-relay';
+import { loadQuery, useRelayEnvironment } from 'react-relay';
 import Title from './Title';
 import Menu from './Menu';
 import Media from './Media';
@@ -66,9 +66,9 @@ const Update = ({
   onLogout,
   justSaved,
   user,
-  environment,
 }) => {
   const classes = useStyles();
+  const environment = useRelayEnvironment();
 
   const defaultTab = projectMedia.type === 'Link' ? 'media' : 'metadata';
   const [tab, setTab] = React.useState(defaultTab);
@@ -266,7 +266,6 @@ Update.defaultProps = {
 };
 
 Update.propTypes = {
-  environment: PropTypes.object.isRequired,
   projectMedia: PropTypes.object.isRequired,
   user: PropTypes.object.isRequired,
   onLogout: PropTypes.func.isRequired,

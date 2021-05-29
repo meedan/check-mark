@@ -107,61 +107,65 @@ function RenderData(props) {
 
   return (
     <div>
-      {data.project_media?.tasks?.edges.map((item) => {
-        // a query just for this one element
-        const itemInitQueryRef = loadQuery(
-          environment,
-          getMetadataItemQuery,
-          { id: item.node?.id },
-          { fetchPolicy: 'network-only' },
-        );
-        const metadataType = item.node?.type;
-        return (
-          <>
-            <MetadataContainer
-              item={item}
-              itemInitQueryRef={itemInitQueryRef}
-              render={(props) => {
-                let output = null;
-                switch (metadataType) {
-                  case 'free_text':
-                    output = <MetadataText {...props} />;
-                    break;
-                  case 'number':
-                    output = <MetadataNumber {...props} />;
-                    break;
-                  case 'multiple_choice':
-                    output = <MetadataMultiselect {...props} />;
-                    break;
-                  case 'single_choice':
-                    output = <MetadataMultiselect {...props} isSingle />;
-                    break;
-                  case 'datetime':
-                    output = <MetadataDate {...props} />;
-                    break;
-                  case 'file_upload':
-                    output = (
-                      <MetadataFile
-                        {...props}
-                        extensions={data.about.file_extensions}
-                      />
-                    );
-                    break;
-                  default:
-                    output = <MetadataText {...props} />;
+      {data.project_media?.tasks?.edges?.length === 0 ? (
+        <span>No metadata fields</span>
+      ) : (
+        data.project_media?.tasks?.edges.map((item) => {
+          // a query just for this one element
+          const itemInitQueryRef = loadQuery(
+            environment,
+            getMetadataItemQuery,
+            { id: item.node?.id },
+            { fetchPolicy: 'network-only' },
+          );
+          const metadataType = item.node?.type;
+          return (
+            <>
+              <MetadataContainer
+                item={item}
+                itemInitQueryRef={itemInitQueryRef}
+                render={(props) => {
+                  let output = null;
+                  switch (metadataType) {
+                    case 'free_text':
+                      output = <MetadataText {...props} />;
+                      break;
+                    case 'number':
+                      output = <MetadataNumber {...props} />;
+                      break;
+                    case 'multiple_choice':
+                      output = <MetadataMultiselect {...props} />;
+                      break;
+                    case 'single_choice':
+                      output = <MetadataMultiselect {...props} isSingle />;
+                      break;
+                    case 'datetime':
+                      output = <MetadataDate {...props} />;
+                      break;
+                    case 'file_upload':
+                      output = (
+                        <MetadataFile
+                          {...props}
+                          extensions={data.about.file_extensions}
+                        />
+                      );
+                      break;
+                    default:
+                      output = <MetadataText {...props} />;
+                  }
+                  return output;
+                }}
+                isDynamic={
+                  metadataType === 'multiple_choice' ||
+                  metadataType === 'single_choice' ||
+                  metadataType === 'file_upload'
                 }
-                return output;
-              }}
-              isDynamic={
-                metadataType === 'multiple_choice' ||
-                metadataType === 'single_choice' ||
-                metadataType === 'file_upload'
-              }
-            />
-            <Divider />
-          </>
-        );
-      })}
+              />
+              <Divider />
+            </>
+          );
+        })
+      )}
     </div>
   );
 }
@@ -294,7 +298,7 @@ function MetadataContainer(props) {
 
   function EditButton() {
     return (
-      <Button onClick={handleEdit}>
+      <Button onClick={handleEdit} className="metadata-edit">
         <FormattedMessage
           id="metadata.edit"
           defaultMessage="Edit"
@@ -307,7 +311,7 @@ function MetadataContainer(props) {
   function DeleteButton() {
     return (
       <>
-        <Button onClick={handleDelete}>
+        <Button className="metadata-delete" onClick={handleDelete}>
           <FormattedMessage
             id="metadata.delete"
             defaultMessage="Delete"
@@ -332,13 +336,13 @@ function MetadataContainer(props) {
       <>
         {isDynamic ? (
           <>
-            <Button onClick={() => handleDynamicCancel(setOtherText)}>
+            <Button className="metadata-cancel" onClick={() => handleDynamicCancel(setOtherText)}>
               {cancelMessage}
             </Button>
           </>
         ) : (
           <>
-            <Button onClick={handleCancel}>{cancelMessage}</Button>
+            <Button className="metadata-cancel" onClick={handleCancel}>{cancelMessage}</Button>
           </>
         )}
       </>
@@ -365,6 +369,7 @@ function MetadataContainer(props) {
             <Button
               onClick={() => handleDynamicSave(mutationPayload, uploadables)}
               disabled={disabled}
+              className="metadata-save"
             >
               {saveMessage}
             </Button>
@@ -375,6 +380,7 @@ function MetadataContainer(props) {
             <Button
               onClick={() => handleSave(mutationPayload)}
               disabled={disabled}
+              className="metadata-save"
             >
               {saveMessage}
             </Button>

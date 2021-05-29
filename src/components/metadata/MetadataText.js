@@ -54,6 +54,7 @@ function MetadataText({
           <Typography variant="h6">{node.label}</Typography>
           <Typography variant="body1">{node.description}</Typography>
           <TextField
+            id="metadata-input"
             label="Answer here"
             variant="outlined"
             value={metadataValue}

@@ -137,7 +137,9 @@ function MetadataMultiselect({
                   )
                 }
                 checked={
-                  isSingle ? metadataValue === otherText : metadataValue.other
+                  isSingle
+                    ? otherText.length > 0 && metadataValue === otherText
+                    : metadataValue.other
                 }
                 disabled={hasData && !isEditing}
                 onChange={isSingle ? handleSingleChange : handleMultiChange}

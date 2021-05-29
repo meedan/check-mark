@@ -24,8 +24,6 @@ function MetadataText({
     setMetadataValue(e.target.value);
   }
 
-  console.log(metadataValue, typeof metadataValue)
-
   return (
     <>
       {hasData && !isEditing ? (
