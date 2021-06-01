@@ -20,8 +20,8 @@ function MetadataFile({
   const [error, setError] = React.useState({ message: null });
   const [file, setFile] = React.useState({});
   extensions = {
-    label: extensions,
-    list: extensions.split(', '),
+    label: extensions.join(', '),
+    list: extensions,
   };
 
   // 1.0 MB max file size
