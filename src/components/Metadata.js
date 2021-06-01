@@ -98,6 +98,9 @@ const useStyles = makeStyles((theme) => ({
     border: '2px dashed',
     minHeight: '100px',
   },
+  timeZoneSelect: {
+    marginTop: theme.spacing(4),
+  },
 }));
 
 function RenderData(props) {
@@ -177,6 +180,7 @@ function MetadataContainer(props) {
   const [isEditing, setIsEditing] = React.useState(false);
   const hasData = !!item.node?.first_response_value;
   let initialDynamic = {};
+  let initialValue = {};
   if (isDynamic) {
     try {
       if (node.type === 'multiple_choice') {
@@ -193,9 +197,15 @@ function MetadataContainer(props) {
         initialDynamic = '';
       }
     }
+  } else {
+    if (node.type === 'datetime') {
+      initialValue = node?.first_response_value?.replace(' at ', ' ');
+    } else {
+      initialValue = node?.first_response_value;
+    }
   }
   const [metadataValue, setMetadataValue] = React.useState(
-    isDynamic ? initialDynamic : node?.first_response_value,
+    isDynamic ? initialDynamic : initialValue,
   );
   const [commit, isInFlight] = useMutation(updateTaskMutation);
   const [dynamicCommit, isDynamicInFlight] = useMutation(updateDynamicMutation);
@@ -254,7 +264,7 @@ function MetadataContainer(props) {
 
   function handleCancel() {
     setIsEditing(false);
-    setMetadataValue(node?.first_response_value);
+    setMetadataValue(node?.first_response_value || '');
   }
 
   function handleDynamicCancel(setOtherText) {
@@ -336,13 +346,18 @@ function MetadataContainer(props) {
       <>
         {isDynamic ? (
           <>
-            <Button className="metadata-cancel" onClick={() => handleDynamicCancel(setOtherText)}>
+            <Button
+              className="metadata-cancel"
+              onClick={() => handleDynamicCancel(setOtherText)}
+            >
               {cancelMessage}
             </Button>
           </>
         ) : (
           <>
-            <Button className="metadata-cancel" onClick={handleCancel}>{cancelMessage}</Button>
+            <Button className="metadata-cancel" onClick={handleCancel}>
+              {cancelMessage}
+            </Button>
           </>
         )}
       </>
