@@ -11,6 +11,7 @@
     "babel-plugin-formatjs": "^10.2.11",
     "babel-plugin-relay": "^11.0.2",
     "copy-webpack-plugin": "^8.1.1",
+    "css-loader": "^5.2.6",
     "eslint": "^7.23.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-loader": "^4.0.2",
@@ -19,10 +20,12 @@
     "eslint-plugin-jsx-a11y": "^6.4.1",
     "eslint-plugin-react": "^7.22.0",
     "eslint-plugin-require-path-exists": "^1.1.9",
+    "file-loader": "^6.2.0",
     "html-webpack-plugin": "^5.3.1",
     "react-dev-utils": "^5.0.3",
     "react-test-renderer": "^17.0.2",
     "relay-compiler": "^11.0.2",
+    "style-loader": "^2.0.0",
     "webpack": "^5.36.2"
   },
   "dependencies": {
@@ -40,6 +43,7 @@
     "fs-extra": "3.0.1",
     "getit": "^1.1.0",
     "graphql": "^15.5.0",
+    "leaflet": "^1.7.1",
     "object-assign": "4.1.1",
     "postcss-flexbugs-fixes": "3.0.0",
     "pretty-bytes": "^4.0.2",

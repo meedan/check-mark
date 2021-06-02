@@ -17,6 +17,7 @@ import MetadataNumber from './metadata/MetadataNumber';
 import MetadataMultiselect from './metadata/MetadataMultiselect';
 import MetadataDate from './metadata/MetadataDate';
 import MetadataFile from './metadata/MetadataFile';
+import MetadataLocation from './metadata/MetadataLocation';
 
 const getMetadataItemQuery = graphql`
   query MetadataTaskItemQuery($id: ID!) {
@@ -101,6 +102,10 @@ const useStyles = makeStyles((theme) => ({
   timeZoneSelect: {
     marginTop: theme.spacing(4),
   },
+  map: {
+    width: '100%',
+    height: '500px',
+  },
 }));
 
 function RenderData(props) {
@@ -141,6 +146,9 @@ function RenderData(props) {
                       break;
                     case 'single_choice':
                       output = <MetadataMultiselect {...props} isSingle />;
+                      break;
+                    case 'geolocation':
+                      output = <MetadataLocation {...props} />;
                       break;
                     case 'datetime':
                       output = <MetadataDate {...props} />;
