@@ -54,6 +54,7 @@
     "react-intl": "^5.17.4",
     "react-relay": "^11.0.2",
     "react-select-plus": "^1.0.0-rc.5",
+    "regenerator-runtime": "^0.13.7",
     "superagent": "^3.5.2",
     "util": "^0.10.3",
     "whatwg-fetch": "2.0.3"
