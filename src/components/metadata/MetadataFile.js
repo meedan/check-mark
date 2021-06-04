@@ -2,7 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { Typography, Box } from '@material-ui/core';
 import { FormattedMessage } from 'react-intl';
-import config from './../../config';
 
 function MetadataFile({
   node,
@@ -11,6 +10,8 @@ function MetadataFile({
   DeleteButton,
   CancelButton,
   SaveButton,
+  AnnotatorInformation,
+  FieldInformation,
   hasData,
   isEditing,
   metadataValue,
@@ -123,35 +124,20 @@ function MetadataFile({
 
   return (
     <>
+      <FieldInformation/>
       {hasData && !isEditing ? (
         <>
-          <Typography variant="h6">{node.label}</Typography>
-          <Typography variant="body1">{node.description}</Typography>
           <Typography variant="body1" className={classes.value}>
             <a href={node.first_response?.file_data[0]}>
               {node.first_response_value}
             </a>
           </Typography>
-          <img
-            className={classes.profileImage}
-            src={node.annotator?.user?.profile_image}
-            alt="Profile image"
-          />
-          <Typography variant="body1">
-            Completed by{' '}
-            <a
-              href={`https://${config.checkWebUrl}/check/user/${node.annotator?.user?.dbid}`}
-            >
-              {node.annotator?.user?.name}
-            </a>
-          </Typography>
+          <AnnotatorInformation />
           <EditButton />
           <DeleteButton />
         </>
       ) : (
         <>
-          <Typography variant="h6">{node.label}</Typography>
-          <Typography variant="body1">{node.description}</Typography>
           <Box
             className={classes.dropZone}
             onDrop={handleDrop}
@@ -183,6 +169,8 @@ MetadataFile.propTypes = {
   DeleteButton: PropTypes.element.isRequired,
   CancelButton: PropTypes.element.isRequired,
   SaveButton: PropTypes.element.isRequired,
+  AnnotatorInformation: PropTypes.element.isRequired,
+  FieldInformation: PropTypes.element.isRequired,
   hasData: PropTypes.bool.isRequired,
   isEditing: PropTypes.bool.isRequired,
   metadataValue: PropTypes.string.isRequired,

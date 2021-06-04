@@ -9,7 +9,13 @@ import {
   useMutation,
 } from 'react-relay';
 import { FormattedMessage } from 'react-intl';
-import { Box, CircularProgress, Divider, Button } from '@material-ui/core';
+import {
+  Box,
+  CircularProgress,
+  Divider,
+  Button,
+  Typography,
+} from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import UpdateQuery from './__generated__/UpdateQuery.graphql';
 import MetadataText from './metadata/MetadataText';
@@ -18,6 +24,7 @@ import MetadataMultiselect from './metadata/MetadataMultiselect';
 import MetadataDate from './metadata/MetadataDate';
 import MetadataFile from './metadata/MetadataFile';
 import MetadataLocation from './metadata/MetadataLocation';
+import config from './../../config';
 
 const getMetadataItemQuery = graphql`
   query MetadataTaskItemQuery($id: ID!) {
@@ -93,6 +100,7 @@ const useStyles = makeStyles((theme) => ({
   },
   profileImage: {
     maxWidth: 25,
+    float: 'left',
   },
   dropZone: {
     padding: theme.spacing(2),
@@ -106,10 +114,31 @@ const useStyles = makeStyles((theme) => ({
     width: '100%',
     height: '500px',
   },
+  mapImg: {
+    marginTop: theme.spacing(2),
+    width: '100%',
+  },
+  annotator: {
+    margin: theme.spacing(2),
+    paddingLeft: theme.spacing(2),
+  },
+  metadata: {
+    '& .MuiInputBase-root': {
+      marginBottom: theme.spacing(2),
+    },
+  },
+  fieldInfo: {
+    marginBottom: theme.spacing(2),
+  },
+  divider: {
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1),
+  },
 }));
 
 function RenderData(props) {
   const { updateQueryRef } = props;
+  const classes = useStyles();
   const environment = useRelayEnvironment();
   const data = usePreloadedQuery(UpdateQuery, updateQueryRef);
 
@@ -164,7 +193,7 @@ function RenderData(props) {
                     default:
                       output = <MetadataText {...props} />;
                   }
-                  return output;
+                  return <div className={classes.metadata}>{output}</div>;
                 }}
                 isDynamic={
                   metadataType === 'multiple_choice' ||
@@ -172,7 +201,7 @@ function RenderData(props) {
                   metadataType === 'file_upload'
                 }
               />
-              <Divider />
+              <Divider className={classes.divider} />
             </>
           );
         })
@@ -420,6 +449,38 @@ function MetadataContainer(props) {
     uploadables: PropTypes.object,
   };
 
+  function FieldInformation() {
+    return (
+      <div className={classes.fieldInfo}>
+        <Typography variant="h6">{node.label}</Typography>
+        <Typography variant="subtitle2">{node.description}</Typography>
+      </div>
+    );
+  }
+
+  function AnnotatorInformation() {
+    return (
+      <div>
+        <img
+          className={classes.profileImage}
+          src={node.annotator?.user?.profile_image.replace(
+            'localhost',
+            'cormorant',
+          )}
+          alt="Profile image"
+        />
+        <Typography className={classes.annotator} variant="body1">
+          Completed by{' '}
+          <a
+            href={`https://${config.checkWebUrl}/check/user/${node.annotator?.user?.dbid}`}
+          >
+            {node.annotator?.user?.name}
+          </a>
+        </Typography>
+      </div>
+    );
+  }
+
   return (
     <>
       {render({
@@ -433,6 +494,8 @@ function MetadataContainer(props) {
         DeleteButton,
         CancelButton,
         SaveButton,
+        AnnotatorInformation,
+        FieldInformation,
       })}
     </>
   );

@@ -1,7 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { Typography, TextField } from '@material-ui/core';
-import config from './../../config';
 
 function MetadataText({
   node,
@@ -10,6 +9,8 @@ function MetadataText({
   DeleteButton,
   CancelButton,
   SaveButton,
+  AnnotatorInformation,
+  FieldInformation,
   hasData,
   isEditing,
   metadataValue,
@@ -26,33 +27,18 @@ function MetadataText({
 
   return (
     <>
+      <FieldInformation/>
       {hasData && !isEditing ? (
         <>
-          <Typography variant="h6">{node.label}</Typography>
-          <Typography variant="body1">{node.description}</Typography>
           <Typography variant="body1" className={classes.value}>
             {node.first_response_value}
           </Typography>
-          <img
-            className={classes.profileImage}
-            src={node.annotator?.user?.profile_image}
-            alt="Profile image"
-          />
-          <Typography variant="body1">
-            Completed by{' '}
-            <a
-              href={`https://${config.checkWebUrl}/check/user/${node.annotator?.user?.dbid}`}
-            >
-              {node.annotator?.user?.name}
-            </a>
-          </Typography>
+          <AnnotatorInformation />
           <EditButton />
           <DeleteButton />
         </>
       ) : (
         <>
-          <Typography variant="h6">{node.label}</Typography>
-          <Typography variant="body1">{node.description}</Typography>
           <TextField
             id="metadata-input"
             label="Answer here"
@@ -76,6 +62,8 @@ MetadataText.propTypes = {
   DeleteButton: PropTypes.element.isRequired,
   CancelButton: PropTypes.element.isRequired,
   SaveButton: PropTypes.element.isRequired,
+  AnnotatorInformation: PropTypes.element.isRequired,
+  FieldInformation: PropTypes.element.isRequired,
   hasData: PropTypes.bool.isRequired,
   isEditing: PropTypes.bool.isRequired,
   metadataValue: PropTypes.string.isRequired,

@@ -12,7 +12,6 @@ import { DateTimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import DayJsUtils from '@date-io/dayjs';
-import config from './../../config';
 
 dayjs.extend(utc);
 
@@ -23,6 +22,8 @@ function MetadataDate({
   DeleteButton,
   CancelButton,
   SaveButton,
+  AnnotatorInformation,
+  FieldInformation,
   hasData,
   isEditing,
   metadataValue,
@@ -37,7 +38,9 @@ function MetadataDate({
   const [timeZoneOffset, setTimeZoneOffset] = React.useState(0);
   const [displayDateTime, setDisplayDateTime] = React.useState(dayjs());
   if (!metadataValue) {
-    setMetadataValue(dayjs(displayDateTime).utcOffset(timeZoneOffset, true).format());
+    setMetadataValue(
+      dayjs(displayDateTime).utcOffset(timeZoneOffset, true).format(),
+    );
   }
 
   function handleChange(e) {
@@ -48,39 +51,26 @@ function MetadataDate({
   function handleTimeZoneOffsetChange(e) {
     setTimeZoneOffset(e.target.value);
     if (displayDateTime) {
-      setMetadataValue(dayjs(displayDateTime).utcOffset(e.target.value, true).format());
+      setMetadataValue(
+        dayjs(displayDateTime).utcOffset(e.target.value, true).format(),
+      );
     }
   }
 
   return (
     <>
+      <FieldInformation/>
       {hasData && !isEditing ? (
         <>
-          <Typography variant="h6">{node.label}</Typography>
-          <Typography variant="body1">{node.description}</Typography>
           <Typography variant="body1" className={classes.value}>
             {node.first_response_value}
           </Typography>
-          <img
-            className={classes.profileImage}
-            src={node.annotator?.user?.profile_image}
-            alt="Profile image"
-          />
-          <Typography variant="body1">
-            Completed by{' '}
-            <a
-              href={`https://${config.checkWebUrl}/check/user/${node.annotator?.user?.dbid}`}
-            >
-              {node.annotator?.user?.name}
-            </a>
-          </Typography>
+          <AnnotatorInformation />
           <EditButton />
           <DeleteButton />
         </>
       ) : (
         <MuiPickersUtilsProvider utils={DayJsUtils}>
-          <Typography variant="h6">{node.label}</Typography>
-          <Typography variant="body1">{node.description}</Typography>
           <FormControl>
             <DateTimePicker
               value={dayjs(displayDateTime)}
@@ -121,6 +111,8 @@ MetadataDate.propTypes = {
   DeleteButton: PropTypes.element.isRequired,
   CancelButton: PropTypes.element.isRequired,
   SaveButton: PropTypes.element.isRequired,
+  AnnotatorInformation: PropTypes.element.isRequired,
+  FieldInformation: PropTypes.element.isRequired,
   hasData: PropTypes.bool.isRequired,
   isEditing: PropTypes.bool.isRequired,
   metadataValue: PropTypes.string.isRequired,

@@ -25,6 +25,8 @@ function MetadataLocation({
   DeleteButton,
   CancelButton,
   SaveButton,
+  AnnotatorInformation,
+  FieldInformation,
   hasData,
   isEditing,
   metadataValue,
@@ -55,18 +57,18 @@ function MetadataLocation({
 
   if (!coordinates.error && nameText) {
     try {
-    setMetadataValue(
-      JSON.stringify({
-        type: 'Feature',
-        geometry: {
-          type: 'Point',
-          coordinates: [coordinates.latitude, coordinates.longitude],
-        },
-        properties: {
-          name: nameText,
-        },
-      }),
-    );
+      setMetadataValue(
+        JSON.stringify({
+          type: 'Feature',
+          geometry: {
+            type: 'Point',
+            coordinates: [coordinates.latitude, coordinates.longitude],
+          },
+          properties: {
+            name: nameText,
+          },
+        }),
+      );
     } catch {
       setMetadataValue('{}');
     }
@@ -154,37 +156,23 @@ function MetadataLocation({
 
   return (
     <>
+      <FieldInformation/>
       {hasData && !isEditing ? (
         <>
-          <Typography variant="h6">{node.label}</Typography>
-          <Typography variant="body1">{node.description}</Typography>
           <Typography variant="body1" className={classes.value}>
             {node.first_response_value}
           </Typography>
           <img
-            src={`https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/${longitude},${latitude},10,0,0/400x400?access_token=${config.mapboxApiKey}`}
+            className={classes.mapImg}
+            src={`https://api.mapbox.com/styles/v1/mapbox/streets-v11/static/${longitude},${latitude},10,0,0/500x500?access_token=${config.mapboxApiKey}`}
             alt=""
           />
-          <img
-            className={classes.profileImage}
-            src={node.annotator?.user?.profile_image}
-            alt="Profile image"
-          />
-          <Typography variant="body1">
-            Completed by{' '}
-            <a
-              href={`https://${config.checkWebUrl}/check/user/${node.annotator?.user?.dbid}`}
-            >
-              {node.annotator?.user?.name}
-            </a>
-          </Typography>
+          <AnnotatorInformation />
           <EditButton />
           <DeleteButton />
         </>
       ) : (
         <>
-          <Typography variant="h6">{node.label}</Typography>
-          <Typography variant="body1">{node.description}</Typography>
           <AutocompleteLocation {...{ setNameText, setCoordinates, map }} />
           <TextField
             label={
@@ -244,6 +232,8 @@ MetadataLocation.propTypes = {
   DeleteButton: PropTypes.element.isRequired,
   CancelButton: PropTypes.element.isRequired,
   SaveButton: PropTypes.element.isRequired,
+  AnnotatorInformation: PropTypes.element.isRequired,
+  FieldInformation: PropTypes.element.isRequired,
   hasData: PropTypes.bool.isRequired,
   isEditing: PropTypes.bool.isRequired,
   metadataValue: PropTypes.string.isRequired,

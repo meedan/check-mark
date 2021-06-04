@@ -2,13 +2,11 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {
   TextField,
-  Typography,
   Checkbox,
   FormGroup,
   FormControlLabel,
   Radio,
 } from '@material-ui/core';
-import config from './../../config';
 
 function MetadataMultiselect({
   node,
@@ -21,6 +19,8 @@ function MetadataMultiselect({
   DeleteButton,
   CancelButton,
   SaveButton,
+  AnnotatorInformation,
+  FieldInformation,
   isSingle,
 }) {
   let mutationPayload = {};
@@ -109,8 +109,7 @@ function MetadataMultiselect({
 
   return (
     <>
-      <Typography variant="h6">{node.label}</Typography>
-      <Typography variant="body1">{node.description}</Typography>
+      <FieldInformation/>
       <FormGroup>
         {options.map((option) => {
           if (option.other) {
@@ -170,19 +169,7 @@ function MetadataMultiselect({
       </FormGroup>
       {hasData && !isEditing ? (
         <>
-          <img
-            className={classes.profileImage}
-            src={node.annotator?.user?.profile_image}
-            alt="Profile image"
-          />
-          <Typography variant="body1">
-            Completed by{' '}
-            <a
-              href={`https://${config.checkWebUrl}/check/user/${node.annotator?.user?.dbid}`}
-            >
-              {node.annotator?.user?.name}
-            </a>
-          </Typography>
+          <AnnotatorInformation />
           <br />
           <EditButton />
           <DeleteButton />
@@ -208,6 +195,8 @@ MetadataMultiselect.propTypes = {
   DeleteButton: PropTypes.element.isRequired,
   CancelButton: PropTypes.element.isRequired,
   SaveButton: PropTypes.element.isRequired,
+  AnnotatorInformation: PropTypes.element.isRequired,
+  FieldInformation: PropTypes.element.isRequired,
   isSingle: PropTypes.bool.isRequired,
 };
 
