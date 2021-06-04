@@ -156,7 +156,7 @@ function MetadataLocation({
 
   return (
     <>
-      <FieldInformation/>
+      <FieldInformation />
       {hasData && !isEditing ? (
         <>
           <Typography variant="body1" className={classes.value}>
@@ -175,6 +175,7 @@ function MetadataLocation({
         <>
           <AutocompleteLocation {...{ setNameText, setCoordinates, map }} />
           <TextField
+            fullWidth
             label={
               <FormattedMessage
                 id="metadata.location.customize"
@@ -191,6 +192,7 @@ function MetadataLocation({
             }
           />
           <TextField
+            fullWidth
             label={
               <FormattedMessage
                 id="metadata.location.coordinates"

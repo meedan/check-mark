@@ -463,10 +463,7 @@ function MetadataContainer(props) {
       <div>
         <img
           className={classes.profileImage}
-          src={node.annotator?.user?.profile_image.replace(
-            'localhost',
-            'cormorant',
-          )}
+          src={node.annotator?.user?.profile_image}
           alt="Profile image"
         />
         <Typography className={classes.annotator} variant="body1">

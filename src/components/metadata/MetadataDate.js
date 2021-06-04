@@ -59,7 +59,7 @@ function MetadataDate({
 
   return (
     <>
-      <FieldInformation/>
+      <FieldInformation />
       {hasData && !isEditing ? (
         <>
           <Typography variant="body1" className={classes.value}>
@@ -71,20 +71,13 @@ function MetadataDate({
         </>
       ) : (
         <MuiPickersUtilsProvider utils={DayJsUtils}>
-          <FormControl>
+          <FormControl variant="outlined" fullWidth>
             <DateTimePicker
               value={dayjs(displayDateTime)}
               onChange={handleChange}
+              inputVariant="outlined"
             />
-            <InputLabel id="time-zone-label" className={classes.timeZoneSelect}>
-              <FormattedMessage
-                id="datetime.timezone"
-                defaultMessage="Time zone (GMT default)"
-                description="This is a label that appears on a time zone selector dropdown when nothing is selected. This indicates that the user should select a time zone, and if they do not, GMT (Greenwich Mean Time) will be the default time zone assumed."
-              />
-            </InputLabel>
             <Select
-              labelId="time-zone-label"
               value={timeZoneOffset}
               onChange={handleTimeZoneOffsetChange}
             >

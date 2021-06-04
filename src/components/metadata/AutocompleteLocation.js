@@ -49,8 +49,7 @@ function AutocompleteLocation(props) {
 
   return (
     <Autocomplete
-      id="asynchronous-demo"
-      style={{ width: 300 }}
+      fullWidth
       open={open}
       onOpen={() => {
         setOpen(true);

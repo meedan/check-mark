@@ -45,6 +45,7 @@ function MetadataNumber({
         <>
           <TextField
             label="Answer here"
+            fullWidth
             type="number"
             variant="outlined"
             value={metadataValue}

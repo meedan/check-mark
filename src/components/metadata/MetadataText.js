@@ -41,6 +41,7 @@ function MetadataText({
         <>
           <TextField
             id="metadata-input"
+            fullWidth
             label="Answer here"
             variant="outlined"
             value={metadataValue}
