@@ -33,19 +33,23 @@ function MetadataDate({
     set_fields: `{"response_datetime":"${metadataValue}"}`,
   };
   const options = node.options;
-  const [timeZoneOffset, setTimeZoneOffset] = React.useState(undefined);
+  // Use GMT as default time zone if none set
+  const [timeZoneOffset, setTimeZoneOffset] = React.useState(0);
+  const [displayDateTime, setDisplayDateTime] = React.useState(dayjs());
+  if (!metadataValue) {
+    setMetadataValue(dayjs(displayDateTime).utcOffset(timeZoneOffset, true).format());
+  }
 
   function handleChange(e) {
-    // Use GMT as default time zone if none set
-    if (timeZoneOffset === undefined) {
-      setMetadataValue(e.utcOffset(0, true).format());
-    } else {
-      setMetadataValue(e.utcOffset(timeZoneOffset, true).format());
-    }
+    setDisplayDateTime(e.format());
+    setMetadataValue(e.utcOffset(timeZoneOffset, true).format());
   }
 
   function handleTimeZoneOffsetChange(e) {
     setTimeZoneOffset(e.target.value);
+    if (displayDateTime) {
+      setMetadataValue(dayjs(displayDateTime).utcOffset(e.target.value, true).format());
+    }
   }
 
   return (
@@ -79,7 +83,7 @@ function MetadataDate({
           <Typography variant="body1">{node.description}</Typography>
           <FormControl>
             <DateTimePicker
-              value={dayjs(metadataValue)}
+              value={dayjs(displayDateTime)}
               onChange={handleChange}
             />
             <InputLabel id="time-zone-label" className={classes.timeZoneSelect}>
