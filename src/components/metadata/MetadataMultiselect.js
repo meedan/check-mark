@@ -10,7 +10,6 @@ import {
 
 function MetadataMultiselect({
   node,
-  classes,
   hasData,
   isEditing,
   metadataValue,
@@ -186,7 +185,6 @@ function MetadataMultiselect({
 
 MetadataMultiselect.propTypes = {
   node: PropTypes.object.isRequired,
-  classes: PropTypes.object.isRequired,
   hasData: PropTypes.bool.isRequired,
   isEditing: PropTypes.bool.isRequired,
   metadataValue: PropTypes.string.isRequired,

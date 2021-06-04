@@ -210,16 +210,7 @@ const Update = ({
               }
             />
           ) : null}
-          <Tab
-            value="metadata"
-            label={
-              <FormattedMessage
-                id="update.metadata"
-                defaultMessage="Metadata"
-              />
-            }
-          />
-          <Tab value="metadata-2" label="New" />
+          <Tab value="metadata" label="Metadata" />
           <Tab
             value="tasks"
             label={
@@ -234,8 +225,8 @@ const Update = ({
           />
         </Tabs>
         {tab === 'media' ? <Media projectMedia={projectMedia} /> : null}
-        {tab === 'metadata-2' ? <Metadata {...{ initialQueryRef }} /> : null}
-        {tab === 'tasks' || tab === 'metadata' || tab === 'source' ? (
+        {tab === 'metadata' ? <Metadata {...{ initialQueryRef }} /> : null}
+        {tab === 'tasks' || tab === 'source' ? (
           <Box className={classes.frameContainer}>
             {frameHeight === 0 ? (
               <Typography variant="body1" className={classes.spaced}>
