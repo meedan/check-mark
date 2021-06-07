@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Check",
   "description": "Verify breaking news online",
-  "version": "2.2.0",
+  "version": "2.4.0",
   "commands": {
     "_execute_browser_action": {
       "suggested_key": {
@@ -19,22 +19,18 @@
     "default_icon": "check19-in.png",
     "default_title": "Check"
   },
-  "content_scripts": [{
-    "run_at": "document_end",
-    "matches": [
-      "https://*/*",
-      "http://*/*"
-    ],
-    "js": ["content.js"]
-  }],
+  "content_scripts": [
+    {
+      "run_at": "document_end",
+      "matches": ["https://*/*", "http://*/*"],
+      "js": ["content.js"]
+    }
+  ],
   "icons": {
     "128": "check128.png",
     "48": "check48.png"
   },
-  "permissions": [
-    "activeTab",
-    "contextMenus"
-  ],
+  "permissions": ["activeTab", "contextMenus"],
   "web_accessible_resources": ["popup.html"],
   "externally_connectable": {
     "matches": ["https://checkmedia.org/"]
