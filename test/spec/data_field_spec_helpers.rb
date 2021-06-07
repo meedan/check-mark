@@ -4,7 +4,7 @@ module DataFieldSpecHelpers
     wait_for_selector('.task__save').click
   end
 
-  def answer_data_field_new(answer)
+  def answer_data_field_metadata(answer)
     wait_for_selector('#metadata-input').send_keys(answer)
     wait_for_selector('.metadata-save').click
   end
@@ -16,9 +16,9 @@ module DataFieldSpecHelpers
     wait_for_selector_none('.task__cancel')
   end
 
-  def edit_data_field_response_new(answer)
+  def edit_data_field_response_metadata(answer)
     wait_for_selector('.metadata-edit').click
-    answer_data_field_new(answer)
+    answer_data_field_metadata(answer)
     wait_for_selector_none('.metdata-cancel')
   end
 
@@ -29,7 +29,7 @@ module DataFieldSpecHelpers
     wait_for_selector_none('.confirm-proceed-dialog__cancel')
   end
 
-  def delete_data_field_response_new
+  def delete_data_field_response_metadata
     wait_for_selector('.metadata-delete').click
     wait_for_selector_none('.metadata-delete')
   end

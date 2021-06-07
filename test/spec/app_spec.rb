@@ -75,7 +75,7 @@ shared_examples 'tests' do
     wait_for_selector("//span[contains(text(), 'No tasks')]", :xpath)
     expect(@driver.page_source.include?('No tasks')).to be(true)
     @driver.switch_to.default_content
-    wait_for_selector("//span[contains(text(), 'New')]", :xpath).click
+    wait_for_selector("//span[contains(text(), 'Metadata')]", :xpath).click
     wait_for_selector("//span[contains(text(), 'No metadata fields')]", :xpath)
     expect(@driver.page_source.include?('No metadata fields')).to be(true)
   end
@@ -126,17 +126,17 @@ shared_examples 'tests' do
     wait_for_selector("//p[contains(text(), 'Saved')]", :xpath)
     expect(@driver.page_source.include?('Saved!')).to be(true)
 
-    wait_for_selector("//span[contains(text(), 'New')]", :xpath).click
+    wait_for_selector("//span[contains(text(), 'Metadata')]", :xpath).click
     wait_for_selector('#metadata-input')
     expect(@driver.page_source.include?('Team-metadata')).to be(true)
     # answer the metadata
-    answer_data_field_new('answer')
+    answer_data_field_metadata('answer')
     expect(@driver.page_source.include?('answer')).to be(true)
     # edit response
-    edit_data_field_response_new('-edited')
+    edit_data_field_response_metadata('-edited')
     expect(@driver.page_source.include?('answer-edited')).to be(true)
     # delete response
-    delete_data_field_response_new
+    delete_data_field_response_metadata
     expect(@driver.page_source.include?('answer-edited')).to be(false)
   end
 end
