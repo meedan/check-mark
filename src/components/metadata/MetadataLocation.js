@@ -151,6 +151,8 @@ function MetadataLocation({
     } else if (isEditing && !firstMapRender) {
       marker.setLatLng([coordinates.latitude, coordinates.longitude]);
       map.setView([coordinates.latitude, coordinates.longitude], map.getZoom());
+    } else if (!isEditing && !firstMapRender) {
+      setFirstMapRender(true);
     }
   });
 
