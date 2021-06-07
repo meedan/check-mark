@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { QueryRenderer, graphql } from 'react-relay';
+import { QueryRenderer, graphql, useRelayEnvironment } from 'react-relay';
 import { FormattedMessage } from 'react-intl';
 import Box from '@material-ui/core/Box';
 import Typography from '@material-ui/core/Typography';
@@ -17,8 +17,9 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const SaveOrUpdate = ({ environment, url, text, user, onLogout }) => {
+const SaveOrUpdate = ({ url, text, user, onLogout }) => {
   const classes = useStyles();
+  const environment = useRelayEnvironment();
   const [projectMediaCreated, setProjectMediaCreated] = React.useState(null);
 
   const handleSave = (newProjectMediaCreated, project) => {
@@ -37,7 +38,7 @@ const SaveOrUpdate = ({ environment, url, text, user, onLogout }) => {
 
   if (text) {
     return (
-      <Save text={text} environment={environment} user={user} onSave={handleSave} onLogout={onLogout} />
+      <Save text={text} user={user} onSave={handleSave} onLogout={onLogout} />
     );
   }
 
@@ -103,7 +104,7 @@ const SaveOrUpdate = ({ environment, url, text, user, onLogout }) => {
               );
             } else if (!error && data && data.project_medias.edges.length === 0) {
               return (
-                <Save url={url} environment={environment} user={user} onSave={handleSave} onLogout={onLogout} />
+                <Save url={url} user={user} onSave={handleSave} onLogout={onLogout} />
               );
             } else if (error) {
               return (
@@ -132,7 +133,6 @@ const SaveOrUpdate = ({ environment, url, text, user, onLogout }) => {
 
 SaveOrUpdate.propTypes = {
   user: PropTypes.object.isRequired,
-  environment: PropTypes.object.isRequired,
   text: PropTypes.string.isRequired,
   url: PropTypes.string.isRequired,
   onLogout: PropTypes.func.isRequired,

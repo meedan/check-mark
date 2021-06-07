@@ -6,13 +6,15 @@ import Typography from '@material-ui/core/Typography';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import { makeStyles } from '@material-ui/core/styles';
+import { loadQuery, useRelayEnvironment } from 'react-relay';
 import Title from './Title';
 import Menu from './Menu';
 import Media from './Media';
+import Metadata from './Metadata';
 import colors from './colors';
 import config from './../config';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles((theme) => ({
   root: {
     padding: theme.spacing(2),
   },
@@ -58,16 +60,23 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-const Update = ({ projectMedia, projectId, onLogout, justSaved, user }) => {
+const Update = ({
+  projectMedia,
+  projectId,
+  onLogout,
+  justSaved,
+  user,
+}) => {
   const classes = useStyles();
+  const environment = useRelayEnvironment();
 
   const defaultTab = projectMedia.type === 'Link' ? 'media' : 'metadata';
   const [tab, setTab] = React.useState(defaultTab);
   const [frameHeight, setFrameHeight] = React.useState(0);
 
-  const baseUrl = projectId ?
-    `${config.checkWebUrl}/${projectMedia.team.slug}/project/${projectId}/media/${projectMedia.dbid}` :
-    `${config.checkWebUrl}/${projectMedia.team.slug}/media/${projectMedia.dbid}`;
+  const baseUrl = projectId
+    ? `${config.checkWebUrl}/${projectMedia.team.slug}/project/${projectId}/media/${projectMedia.dbid}`
+    : `${config.checkWebUrl}/${projectMedia.team.slug}/media/${projectMedia.dbid}`;
 
   const handleOpen = () => {
     window.open(baseUrl);
@@ -96,11 +105,60 @@ const Update = ({ projectMedia, projectId, onLogout, justSaved, user }) => {
       }
 
       if (data.selectedText) {
-        document.getElementById('check-web-frame').contentWindow.postMessage(event.data, config.checkWebUrl);
+        document
+          .getElementById('check-web-frame')
+          .contentWindow.postMessage(event.data, config.checkWebUrl);
       }
-    }
+    };
     window.addEventListener('message', receiveMessage, false);
   }, []);
+
+  const updateQuery = graphql`
+    query UpdateQuery($ids: String!) {
+      project_media(ids: $ids) {
+        tasks(fieldset: "metadata") {
+          edges {
+            node {
+              fieldset
+              label
+              type
+              show_in_browser_extension
+              id
+              options
+              first_response_value
+              first_response {
+                id
+                content
+                file_data
+              }
+              description
+              annotator {
+                id
+                user {
+                  id
+                  dbid
+                  name
+                  profile_image
+                }
+              }
+            }
+          }
+        }
+      }
+      about {
+        file_extensions
+        file_max_size
+      }
+    }
+  `;
+
+  const ids = projectMedia.dbid.toString();
+  const initialQueryRef = loadQuery(
+    environment,
+    updateQuery,
+    { ids },
+    { fetchPolicy: 'store-and-network' },
+  );
 
   return (
     <Box id="update">
@@ -113,15 +171,27 @@ const Update = ({ projectMedia, projectId, onLogout, justSaved, user }) => {
           {projectMedia.team.name}
         </Typography>
         <Box display="flex" justifyContent="space-between" alignItems="center">
-          { justSaved ?
+          {justSaved ? (
             <Typography variant="body1" className={classes.spaced}>
               <FormattedMessage id="update.saved" defaultMessage="Saved!" />
-            </Typography> :
+            </Typography>
+          ) : (
             <Typography variant="body1" className={classes.spaced}>
-              <FormattedMessage id="update.alreadyAdded" defaultMessage="This link has already been added." />
-            </Typography> }
-          <Typography variant="body1" className={[classes.spaced, classes.link].join(' ')} onClick={handleOpen}>
-            <FormattedMessage id="update.openInCheck" defaultMessage="Open in Check" />
+              <FormattedMessage
+                id="update.alreadyAdded"
+                defaultMessage="This link has already been added."
+              />
+            </Typography>
+          )}
+          <Typography
+            variant="body1"
+            className={[classes.spaced, classes.link].join(' ')}
+            onClick={handleOpen}
+          >
+            <FormattedMessage
+              id="update.openInCheck"
+              defaultMessage="Open in Check"
+            />
           </Typography>
         </Box>
       </Box>
@@ -132,18 +202,40 @@ const Update = ({ projectMedia, projectId, onLogout, justSaved, user }) => {
           indicatorColor="primary"
           textColor="primary"
         >
-        { projectMedia.type === 'Link' ? <Tab value="media" label={<FormattedMessage id="update.media" defaultMessage="Media" />} /> : null }
-          <Tab value="metadata" label={<FormattedMessage id="update.metadata" defaultMessage="Metadata" />} />
-          <Tab value="tasks" label={<FormattedMessage id="update.tasks" defaultMessage="Tasks" />} />
-          <Tab value="source" label={<FormattedMessage id="update.source" defaultMessage="Source" />} />
+          {projectMedia.type === 'Link' ? (
+            <Tab
+              value="media"
+              label={
+                <FormattedMessage id="update.media" defaultMessage="Media" />
+              }
+            />
+          ) : null}
+          <Tab value="metadata" label="Metadata" />
+          <Tab
+            value="tasks"
+            label={
+              <FormattedMessage id="update.tasks" defaultMessage="Tasks" />
+            }
+          />
+          <Tab
+            value="source"
+            label={
+              <FormattedMessage id="update.source" defaultMessage="Source" />
+            }
+          />
         </Tabs>
-        { tab === 'media' ? <Media projectMedia={projectMedia} /> : null }
-        { tab === 'tasks' || tab === 'metadata' || tab === 'source' ?
+        {tab === 'media' ? <Media projectMedia={projectMedia} /> : null}
+        {tab === 'metadata' ? <Metadata {...{ initialQueryRef }} /> : null}
+        {tab === 'tasks' || tab === 'source' ? (
           <Box className={classes.frameContainer}>
-            { frameHeight === 0 ?
+            {frameHeight === 0 ? (
               <Typography variant="body1" className={classes.spaced}>
-                <FormattedMessage id="update.loading" defaultMessage="Loading…" />
-              </Typography> : null }
+                <FormattedMessage
+                  id="update.loading"
+                  defaultMessage="Loading…"
+                />
+              </Typography>
+            ) : null}
             <iframe
               id="check-web-frame"
               className={classes.frame}
@@ -152,7 +244,8 @@ const Update = ({ projectMedia, projectId, onLogout, justSaved, user }) => {
               scrolling="no"
               style={{ height: frameHeight }}
             />
-          </Box> : null }
+          </Box>
+        ) : null}
       </Box>
     </Box>
   );
