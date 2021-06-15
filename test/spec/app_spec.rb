@@ -20,7 +20,7 @@ shared_examples 'tests' do
     open_browser 'pt'
     open_extension('text', 'Test')
     expect(@driver.page_source.include?('Sign In')).to be(false)
-    expect(@driver.page_source.include?('Iniciar uma sessão')).to be(true)
+    expect(@driver.page_source.include?('Iniciar sessão')).to be(true)
     open_browser 'en'
   end
 
