@@ -1,60 +1,60 @@
 {
   "Login.addLinksToApp": {
-    "string": "Añade enlaces a Check con un clic. Los enlaces se agregarán a tu lista seleccionada. Si el enlace ya existe, puedes anotarlo."
+    "string": "Tambahkan tautan ke Check dengan satu klik. Tautan akan ditambahkan pada daftar pilihan Anda. Jika tautannya sudah ada, Anda dapat menambahkan catatan."
   },
   "Login.signIn": {
-    "string": "Inicia sesión "
+    "string": "Masuk"
   },
   "Login.start": {
-    "string": "Para empezar, inicia sesión y luego recarga la pagína."
+    "string": "Untuk memulai, masuk dan muat ulang halaman ini."
   },
   "app.loading": {
-    "string": "Autenticando en Check..."
+    "string": "Mengautentikasi di Check..."
   },
   "loading.loading": {
-    "string": "Cargando…"
+    "string": "Memuat..."
   },
   "media.author": {
-    "string": "Autor"
+    "string": "Pengarang"
   },
   "media.comments": {
-    "string": "Comentarios en FB"
+    "string": "Komentar di FB"
   },
   "media.description": {
-    "string": "Descripción "
+    "string": "Deskripsi"
   },
   "media.publishedOn": {
-    "string": "Publicado en"
+    "string": "Diterbitkan pada"
   },
   "media.reactions": {
-    "string": "Reacciones en FB"
+    "string": "Reaksi di FB"
   },
   "media.shares": {
-    "string": "Compartidas en FB"
+    "string": "Dibagikan di FB"
   },
   "media.title": {
-    "string": "Título"
+    "string": "Judul"
   },
   "media.url": {
     "string": "URL"
   },
   "menu.changeWorkspace": {
-    "string": "Cambiar área de trabajo"
+    "string": "Beralih ruang kerja"
   },
   "menu.logout": {
-    "string": "Salir "
+    "string": "Keluar"
   },
   "metadata.cancel": {
     "developer_comment": "This is a label that appears on a button next to an item that the user is editing. The label indicates that if the user presses this button, the user will 'cancel' the editing action and all changes will revert.",
-    "string": "Cancelar"
+    "string": "Batalkan"
   },
   "metadata.delete": {
     "developer_comment": "This is a label that appears on a button next to an item that the user can delete. The label indicates that if the user presses this button, the item will be deleted.",
-    "string": "Eliminar "
+    "string": "Hapus"
   },
   "metadata.edit": {
     "developer_comment": "This is a label that appears on a button next to an item that the user can edit. The label indicates that if the user presses this button, the item will become editable.",
-    "string": "Editar"
+    "string": "Sunting"
   },
   "metadata.file.dropFile": {
     "developer_comment": "This message appears in a rectangle, instructing the user that they can use their mouse to drag and drop a file, or click to pull up a file selector menu. This also tells them the maximum allowed file size, and the valid types of files that the user can upload. The `fileSizeLabel` variable will read something like '1.0 MB', and the 'extensions' variable is a list of valid file extensions. Neither will be localized.",
@@ -86,65 +86,65 @@
   },
   "metadata.location.customize": {
     "developer_comment": "This is a label that appears on a text field, related to a pin on a map. The user may type any text of their choice here and name the place they are pinning. They can also modify suggested place names here.",
-    "string": "Editar el nombre del lugar"
+    "string": "Kustomisasi nama tempat"
   },
   "metadata.location.search": {
     "developer_comment": "This is a label that appears on a text field. If the user begins to type a location they will receive a list of suggested place names.",
-    "string": "Buscar el mapa"
+    "string": "Cari petanya"
   },
   "metadata.save": {
     "developer_comment": "This is a label that appears on a button next to an item that the user is editing. The label indicates that if the user presses this button, the user will save the changes they have been making.",
-    "string": "Guardar"
+    "string": "Simpan"
   },
   "save.error": {
-    "string": "Error"
+    "string": "Kesalahan"
   },
   "save.noTeam": {
-    "string": "Debes ser miembro de al menos un equipo para poder utilizar la extensión del navegador."
+    "string": "Anda harus menjadi anggota dari setidaknya satu tim untuk menggunakan ekstensi peramban."
   },
   "save.save": {
-    "string": "Guardar"
+    "string": "Simpan"
   },
   "save.saveTo": {
-    "string": "Guardar en:"
+    "string": "Simpan ke:"
   },
   "save.saving": {
-    "string": "Guardando..."
+    "string": "Menyimpan..."
   },
   "save.text": {
-    "string": "Afirmación de texto"
+    "string": "Klaim teks"
   },
   "save.url": {
-    "string": "URL de enlace"
+    "string": "URL Tautan"
   },
   "saveOrUpdate.error": {
-    "string": "Lo sentimos, no se pudo buscar esta URL en Check."
+    "string": "Maaf, tidak dapat mencari URL ini di Check."
   },
   "saveOrUpdate.errorNoUrlOrText": {
-    "string": "Debes ingresar al menos una URL o un fragmento de texto."
+    "string": "Anda harus memasukkan setidaknya URL atau sebuah teks."
   },
   "saveOrUpdate.loading": {
-    "string": "Buscando esta URL en Check..."
+    "string": "Mencari URL ini di Check..."
   },
   "update.alreadyAdded": {
-    "string": "Este enlace ya ha sido añadido."
+    "string": "Tautan ini sudah ditambahkan."
   },
   "update.loading": {
-    "string": "Cargando…"
+    "string": "Memuat..."
   },
   "update.media": {
-    "string": "Medio"
+    "string": "Media"
   },
   "update.openInCheck": {
-    "string": "Abrir en Check"
+    "string": "Buka di Check"
   },
   "update.saved": {
-    "string": "Guardado!"
+    "string": "Disimpan!"
   },
   "update.source": {
-    "string": "Fuente"
+    "string": "Sumber"
   },
   "update.tasks": {
-    "string": "Tareas"
+    "string": "Tugas"
   }
 }

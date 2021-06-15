@@ -1,1 +1,150 @@
-{"app.loading":"Pinatutunayan sa Check...","Login.addLinksToApp":"Magdagdag ng mga link sa Check sa isang click. Idaragdag ang mga link sa pinili mong proyekto. Kung dati na ang link, malalagyan mo ito ng anotasyon.","Login.start":"Para magsimula, mag-sign in at i-reload ang pahina.","Login.signIn":"Mag-sign In","loading.loading":"Naglo-load...","saveOrUpdate.error":"Paumanhin, hindi mahanap ang URL na ito sa Check.","saveOrUpdate.loading":"Hinahanap ang URL na ito sa Check...","saveOrUpdate.errorNoUrlOrText":"Kailangan mong maglagay ng kahit URL o piraso ng teksto.","update.saved":"Naka-save!","update.alreadyAdded":"Naidagdag na ang link na ito.","update.openInCheck":"Buksan sa Check","update.media":"Media","update.metadata":"Metadata","update.tasks":"Mga Gawain","update.source":"Source","update.loading":"Naglo-load...","save.noTeam":"Kailangan mong maging miyembro ng kahit isang team para magamit ang browser extension.","save.error":"Error","save.saveTo":"I-save sa:","save.url":"URL ng link","save.text":"Text claim","save.saving":"Nagse-save...","save.save":"I-save","menu.changeWorkspace":"Magpalit ng workspace","menu.logout":"Log out","media.title":"Pamagat","media.author":"May-akda","media.publishedOn":"Inilathala noong","media.url":"URL","media.shares":"Mga Share sa FB","media.reactions":"Mga Reaksyon sa FB","media.comments":"Mga Komento sa FB","media.description":"Pagkakalarawan"}
+{
+  "Login.addLinksToApp": {
+    "string": "Magdagdag ng mga link sa Check sa isang click. Idaragdag ang mga link sa pinili mong proyekto. Kung dati na ang link, malalagyan mo ito ng anotasyon."
+  },
+  "Login.signIn": {
+    "string": "Mag-sign in"
+  },
+  "Login.start": {
+    "string": "Para magsimula, mag-sign in at i-reload ang pahina."
+  },
+  "app.loading": {
+    "string": "Pinatutunayan sa Check..."
+  },
+  "loading.loading": {
+    "string": "Naglo-load..."
+  },
+  "media.author": {
+    "string": "May-akda"
+  },
+  "media.comments": {
+    "string": "Mga Komento sa FB"
+  },
+  "media.description": {
+    "string": "Pagkakalarawan"
+  },
+  "media.publishedOn": {
+    "string": "Inilathala noong"
+  },
+  "media.reactions": {
+    "string": "Mga Reaksyon sa FB"
+  },
+  "media.shares": {
+    "string": "Mga Share sa FB"
+  },
+  "media.title": {
+    "string": "Pamagat"
+  },
+  "media.url": {
+    "string": "URL"
+  },
+  "menu.changeWorkspace": {
+    "string": "Magpalit ng workspace"
+  },
+  "menu.logout": {
+    "string": "Log out"
+  },
+  "metadata.cancel": {
+    "developer_comment": "This is a label that appears on a button next to an item that the user is editing. The label indicates that if the user presses this button, the user will 'cancel' the editing action and all changes will revert.",
+    "string": "Kanselahin"
+  },
+  "metadata.delete": {
+    "developer_comment": "This is a label that appears on a button next to an item that the user can delete. The label indicates that if the user presses this button, the item will be deleted.",
+    "string": "Burahin"
+  },
+  "metadata.edit": {
+    "developer_comment": "This is a label that appears on a button next to an item that the user can edit. The label indicates that if the user presses this button, the item will become editable.",
+    "string": "I-edit"
+  },
+  "metadata.file.dropFile": {
+    "developer_comment": "This message appears in a rectangle, instructing the user that they can use their mouse to drag and drop a file, or click to pull up a file selector menu. This also tells them the maximum allowed file size, and the valid types of files that the user can upload. The `fileSizeLabel` variable will read something like '1.0 MB', and the 'extensions' variable is a list of valid file extensions. Neither will be localized.",
+    "string": "Drag and drop a file here, or click to upload a file (max size: {fileSizeLabel}, allowed extensions: {extensions})"
+  },
+  "metadata.file.invalidFile": {
+    "developer_comment": "This message appears when a user tries to add a file that the browser cannot read for some reason to the file upload widget.",
+    "string": "This is not a valid file. Please try again with a different file."
+  },
+  "metadata.file.tooBig": {
+    "developer_comment": "This message appears when a user tries to upload a file that is too big. The 'fileSizeLabel' will read something like '1.0 MB' and will not be localized.",
+    "string": "This file is too big. The maximum allowed file size is {fileSizeLabel}. Please try again with a different file."
+  },
+  "metadata.file.tooManyFiles": {
+    "developer_comment": "This message appears when a user tries to add two or more files at once to the file upload widget.",
+    "string": "You can only upload one file here. Please try uploading one file."
+  },
+  "metadata.file.wrongType": {
+    "developer_comment": "This message appears when a user tries to upload a file that is the wrong file type. The 'extensions' variable will be a list of file extensions (PDF, PNG, etc) and will not be localized.",
+    "string": "This is not an accepted file type. Accepted file types include: {extensions}. Please try again with a different file."
+  },
+  "metadata.location.coordinates": {
+    "developer_comment": "This is a label that appears on a text field, related to a pin on a map. This contains the latitude and longitude coordinates of the map pin. If the user changes these numbers, the map pin moves. If the user moves the map pin, the numbers update to reflect the new pin location.",
+    "string": "Latitude, longitude"
+  },
+  "metadata.location.coordinates.helper": {
+    "developer_comment": "This is a helper message that appears when someone enters text in the 'Latitude, longitude' text field that cannot be parsed as a valid pair of latitude and longitude coordinates. It tells the user that they need to provide valid coordinates and gives an example. It also tells them that they can do a drag action with the mouse on the visual map pin as an alternative to entering numbers in this field.",
+    "string": "Should be a comma-separated pair of latitude and longitude coordiantes like '-12.9, -38.15'. Drag the map pin if you are having difficulty."
+  },
+  "metadata.location.customize": {
+    "developer_comment": "This is a label that appears on a text field, related to a pin on a map. The user may type any text of their choice here and name the place they are pinning. They can also modify suggested place names here.",
+    "string": "I-customize ang pangalan ng lugar"
+  },
+  "metadata.location.search": {
+    "developer_comment": "This is a label that appears on a text field. If the user begins to type a location they will receive a list of suggested place names.",
+    "string": "Maghanap sa mapa"
+  },
+  "metadata.save": {
+    "developer_comment": "This is a label that appears on a button next to an item that the user is editing. The label indicates that if the user presses this button, the user will save the changes they have been making.",
+    "string": "I-save"
+  },
+  "save.error": {
+    "string": "Error"
+  },
+  "save.noTeam": {
+    "string": "Kailangan mong maging miyembro ng kahit isang team para magamit ang browser extension."
+  },
+  "save.save": {
+    "string": "I-save"
+  },
+  "save.saveTo": {
+    "string": "I-save sa:"
+  },
+  "save.saving": {
+    "string": "Nagse-save..."
+  },
+  "save.text": {
+    "string": "Text claim"
+  },
+  "save.url": {
+    "string": "URL ng link"
+  },
+  "saveOrUpdate.error": {
+    "string": "Paumanhin, hindi mahanap ang URL na ito sa Check."
+  },
+  "saveOrUpdate.errorNoUrlOrText": {
+    "string": "Kailangan mong maglagay ng kahit URL o piraso ng teksto."
+  },
+  "saveOrUpdate.loading": {
+    "string": "Hinahanap ang URL na ito sa Check..."
+  },
+  "update.alreadyAdded": {
+    "string": "Naidagdag na ang link na ito."
+  },
+  "update.loading": {
+    "string": "Naglo-load..."
+  },
+  "update.media": {
+    "string": "Media"
+  },
+  "update.openInCheck": {
+    "string": "Buksan sa Check"
+  },
+  "update.saved": {
+    "string": "Naka-save!"
+  },
+  "update.source": {
+    "string": "Source"
+  },
+  "update.tasks": {
+    "string": "Mga gawain"
+  }
+}

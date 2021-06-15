@@ -1,1 +1,150 @@
-{"app.loading":"المصادقة جارية على Check…","Login.addLinksToApp":"يمكن أضافة روابط إلى Check بنقرة واحد، إلى قائمة من اختيارك. اذا كان الرابط موجود، يمكن إضافة التعليقات.","Login.start":"يرجى تسجيل الدخول، وإعادة تحميل الصفحة لبدء الاستخدام.","Login.signIn":"تسجيل الدخول","loading.loading":"التحميل جارٍ…","saveOrUpdate.error":"عذراً، لم نستطع البحث عن هذا الرابط في Check.","saveOrUpdate.loading":"البحث جارٍ عن هذا الرابط في Check…","saveOrUpdate.errorNoUrlOrText":"لا بد من إدخال رابط أو على الأقل جزء من نص.","update.saved":"تم الحفظ","update.alreadyAdded":"تمت اضافة  هذا الرابط مُسبقاً.","update.openInCheck":"فتحه في Check","update.media":"المواد الإعلامية","update.metadata":"البيانات الوصفية","update.tasks":"المهام","update.source":"المصدر","update.loading":"التحميل جارٍ…","save.noTeam":"لاستخدام إضافة المتصفح، تجب العضوية في فريق واحد على الأقل.","save.error":"خطأ","save.saveTo":"حفظ في:","save.url":"عنوان الرابط","save.text":"ادعاء النص","save.saving":"الحفظ جارٍ…","save.save":"حفظ","menu.changeWorkspace":"تبديل مساحة العمل","menu.logout":"خروج","media.title":"العنوان","media.author":"المؤلف(ة)","media.publishedOn":"تم النشر في","media.url":"الرّابط","media.shares":"مشاركات فيسبوك","media.reactions":"تفاعلات فيسبوك","media.comments":"تعليقات فيسبوك","media.description":"الوصف"}
+{
+  "Login.addLinksToApp": {
+    "string": "يمكن أضافة روابط إلى Check بنقرة واحد، إلى قائمة من اختيارك. اذا كان الرابط موجود، يمكن إضافة التعليقات."
+  },
+  "Login.signIn": {
+    "string": "تسجيل الدخول"
+  },
+  "Login.start": {
+    "string": "يرجى تسجيل الدخول، وإعادة تحميل الصفحة لبدء الاستخدام."
+  },
+  "app.loading": {
+    "string": "المصادقة جارية على Check…"
+  },
+  "loading.loading": {
+    "string": "التحميل جارٍ…"
+  },
+  "media.author": {
+    "string": "المؤلف(ة)"
+  },
+  "media.comments": {
+    "string": "تعليقات فيسبوك"
+  },
+  "media.description": {
+    "string": "الوصف"
+  },
+  "media.publishedOn": {
+    "string": "تم النشر في"
+  },
+  "media.reactions": {
+    "string": "تفاعلات فيسبوك"
+  },
+  "media.shares": {
+    "string": "مشاركات فيسبوك"
+  },
+  "media.title": {
+    "string": "العنوان"
+  },
+  "media.url": {
+    "string": "الرّابط"
+  },
+  "menu.changeWorkspace": {
+    "string": "تبديل مساحة العمل"
+  },
+  "menu.logout": {
+    "string": "خروج"
+  },
+  "metadata.cancel": {
+    "developer_comment": "This is a label that appears on a button next to an item that the user is editing. The label indicates that if the user presses this button, the user will 'cancel' the editing action and all changes will revert.",
+    "string": "إلغاء"
+  },
+  "metadata.delete": {
+    "developer_comment": "This is a label that appears on a button next to an item that the user can delete. The label indicates that if the user presses this button, the item will be deleted.",
+    "string": "حذف"
+  },
+  "metadata.edit": {
+    "developer_comment": "This is a label that appears on a button next to an item that the user can edit. The label indicates that if the user presses this button, the item will become editable.",
+    "string": "تحرير"
+  },
+  "metadata.file.dropFile": {
+    "developer_comment": "This message appears in a rectangle, instructing the user that they can use their mouse to drag and drop a file, or click to pull up a file selector menu. This also tells them the maximum allowed file size, and the valid types of files that the user can upload. The `fileSizeLabel` variable will read something like '1.0 MB', and the 'extensions' variable is a list of valid file extensions. Neither will be localized.",
+    "string": "Drag and drop a file here, or click to upload a file (max size: {fileSizeLabel}, allowed extensions: {extensions})"
+  },
+  "metadata.file.invalidFile": {
+    "developer_comment": "This message appears when a user tries to add a file that the browser cannot read for some reason to the file upload widget.",
+    "string": "This is not a valid file. Please try again with a different file."
+  },
+  "metadata.file.tooBig": {
+    "developer_comment": "This message appears when a user tries to upload a file that is too big. The 'fileSizeLabel' will read something like '1.0 MB' and will not be localized.",
+    "string": "This file is too big. The maximum allowed file size is {fileSizeLabel}. Please try again with a different file."
+  },
+  "metadata.file.tooManyFiles": {
+    "developer_comment": "This message appears when a user tries to add two or more files at once to the file upload widget.",
+    "string": "You can only upload one file here. Please try uploading one file."
+  },
+  "metadata.file.wrongType": {
+    "developer_comment": "This message appears when a user tries to upload a file that is the wrong file type. The 'extensions' variable will be a list of file extensions (PDF, PNG, etc) and will not be localized.",
+    "string": "This is not an accepted file type. Accepted file types include: {extensions}. Please try again with a different file."
+  },
+  "metadata.location.coordinates": {
+    "developer_comment": "This is a label that appears on a text field, related to a pin on a map. This contains the latitude and longitude coordinates of the map pin. If the user changes these numbers, the map pin moves. If the user moves the map pin, the numbers update to reflect the new pin location.",
+    "string": "Latitude, longitude"
+  },
+  "metadata.location.coordinates.helper": {
+    "developer_comment": "This is a helper message that appears when someone enters text in the 'Latitude, longitude' text field that cannot be parsed as a valid pair of latitude and longitude coordinates. It tells the user that they need to provide valid coordinates and gives an example. It also tells them that they can do a drag action with the mouse on the visual map pin as an alternative to entering numbers in this field.",
+    "string": "Should be a comma-separated pair of latitude and longitude coordiantes like '-12.9, -38.15'. Drag the map pin if you are having difficulty."
+  },
+  "metadata.location.customize": {
+    "developer_comment": "This is a label that appears on a text field, related to a pin on a map. The user may type any text of their choice here and name the place they are pinning. They can also modify suggested place names here.",
+    "string": "تصحيح اسم المكان"
+  },
+  "metadata.location.search": {
+    "developer_comment": "This is a label that appears on a text field. If the user begins to type a location they will receive a list of suggested place names.",
+    "string": "بحث في الخريطة"
+  },
+  "metadata.save": {
+    "developer_comment": "This is a label that appears on a button next to an item that the user is editing. The label indicates that if the user presses this button, the user will save the changes they have been making.",
+    "string": "حفظ"
+  },
+  "save.error": {
+    "string": "خطأ"
+  },
+  "save.noTeam": {
+    "string": "لاستخدام إضافة المتصفح، تجب العضوية في فريق واحد على الأقل."
+  },
+  "save.save": {
+    "string": "حفظ"
+  },
+  "save.saveTo": {
+    "string": "حفظ في:"
+  },
+  "save.saving": {
+    "string": "الحفظ جارٍ…"
+  },
+  "save.text": {
+    "string": "ادعاء النص"
+  },
+  "save.url": {
+    "string": "عنوان الرابط"
+  },
+  "saveOrUpdate.error": {
+    "string": "عذراً، لم نستطع البحث عن هذا الرابط في Check."
+  },
+  "saveOrUpdate.errorNoUrlOrText": {
+    "string": "لا بد من إدخال رابط أو على الأقل جزء من نص."
+  },
+  "saveOrUpdate.loading": {
+    "string": "البحث جارٍ عن هذا الرابط في Check…"
+  },
+  "update.alreadyAdded": {
+    "string": "تمت اضافة  هذا الرابط مُسبقاً."
+  },
+  "update.loading": {
+    "string": "التحميل جارٍ…"
+  },
+  "update.media": {
+    "string": "المواد الإعلامية"
+  },
+  "update.openInCheck": {
+    "string": "فتحه في Check"
+  },
+  "update.saved": {
+    "string": "تم الحفظ"
+  },
+  "update.source": {
+    "string": "المصدر"
+  },
+  "update.tasks": {
+    "string": "المهام"
+  }
+}

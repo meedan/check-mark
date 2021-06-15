@@ -7,6 +7,7 @@
     "@babel/node": "^7.13.13",
     "@babel/preset-env": "^7.14.1",
     "@babel/preset-react": "^7.13.13",
+    "@formatjs/cli": "^4.2.6",
     "babel-loader": "^8.2.2",
     "babel-plugin-formatjs": "^10.2.11",
     "babel-plugin-relay": "^11.0.2",
@@ -26,7 +27,8 @@
     "react-test-renderer": "^17.0.2",
     "relay-compiler": "^11.0.2",
     "style-loader": "^2.0.0",
-    "webpack": "^5.36.2"
+    "webpack": "^5.36.2",
+    "yalc": "^1.0.0-pre.53"
   },
   "dependencies": {
     "@date-io/dayjs": "^1.3.13",
@@ -34,6 +36,7 @@
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.56",
     "@material-ui/pickers": "^3.3.10",
+    "@meedan/check-ui": "0.0.78",
     "async-to-generator": "^1.1.0",
     "autoprefixer": "7.1.1",
     "chalk": "1.1.3",
@@ -62,13 +65,15 @@
   "scripts": {
     "clean-localization": "rm -rf src/localization/messages",
     "build": "npm i && npm run relay && cp config.js src/ && babel-node scripts/brand.js brand && babel-node scripts/build.js && npm run clean-localization && babel-node scripts/brand.js unbrand && rm -f src/config.js",
+    "build:check-ui": "npm i && yalc link @meedan/check-ui && npm run relay && cp config.js src/ && babel-node scripts/brand.js brand && babel-node scripts/build.js && npm run clean-localization && babel-node scripts/brand.js unbrand && rm -f src/config.js",
     "test:lint": "cd test/spec && bundle install && bundle exec rubocop && cd ..",
     "test:eslint": "eslint src",
     "test": "npm run release:test && cd test && bundle install && bundle exec rspec && cd ..",
     "relay": "babel-node scripts/relay.js && relay-compiler --src ./src --schema ./src/relay/relay.json",
     "relay:watch": "babel-node scripts/relay.js && relay-compiler --src ./src --schema ./src/relay/relay.json --watch -- ls -l",
     "transifex:parse": "npm run build && babel-node scripts/localize.js",
-    "transifex:upload": "npm run transifex:parse && tx push -s",
+    "transifex:extract": "formatjs extract src/**/*.js --format transifex --out-file src/localization/en.json",
+    "transifex:upload": "npm run transifex:extract && tx push -s",
     "transifex:download": "tx pull -a -f",
     "generate-extension": "npm run build; find build -name \"*.map\" -exec rm -f {} \";\"; echo 'Code generate at directory called build'",
     "release:qa": "mv config.js config.js.bkp; cp config.js.qa config.js; npm run build; rm -rf releases/qa; cp -r build releases/qa; find releases/qa -name \"*.map\" -exec rm -f {} \";\"; mv config.js.bkp config.js && cd releases/qa && zip -r qa.zip * && cd -",

@@ -26,3 +26,5 @@ android/app/src/main/assets/*bundle*
 .transifexrc
 build.zip
 dist
+.yalc
+yalc.lock

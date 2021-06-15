@@ -1,1 +1,150 @@
-{"app.loading":"Autenticando no Check...","Login.addLinksToApp":"Adicione links ao Check com um clique. Os links serão adicionados à sua lista selecionada. Se o link já existir, você poderá comentá-lo.","Login.start":"Para começar, faça o login e depois recarregue a página.","Login.signIn":"Iniciar uma sessão ","loading.loading":"Carregando...","saveOrUpdate.error":"Desculpe, não foi possível buscar por esta URL no Check.","saveOrUpdate.loading":"Buscando por esta URL no Check...","saveOrUpdate.errorNoUrlOrText":"Você precisa inserir pelo menos uma URL ou um pedaço de texto.","update.saved":"Salvo!","update.alreadyAdded":"Este link já foi adicionado.","update.openInCheck":"Abrir no Check","update.media":"Mídia","update.metadata":"Metadados","update.tasks":"Tarefas","update.source":"Fonte","update.loading":"Carregando...","save.noTeam":"Você deve ser membro de pelo menos uma equipe para poder usar a extensão do navegador.","save.error":"Erro","save.saveTo":"Salvar para:","save.url":"URL do link:","save.text":"Afirmação por texto","save.saving":"Salvando...","save.save":"Salvar","menu.changeWorkspace":"Trocar de espaço de trabalho","menu.logout":"Sair","media.title":"Título","media.author":"Autor(a)","media.publishedOn":"Publicado em","media.url":"URL","media.shares":"Compartilhamentos do Facebook","media.reactions":"Reações do Facebook","media.comments":"Comentários do Facebook","media.description":"Descrição"}
+{
+  "Login.addLinksToApp": {
+    "string": "Adicione links ao Check com um clique. Os links serão adicionados à sua lista selecionada. Se o link já existir, você poderá comentá-lo."
+  },
+  "Login.signIn": {
+    "string": "Iniciar sessão"
+  },
+  "Login.start": {
+    "string": "Para começar, faça o login e depois recarregue a página."
+  },
+  "app.loading": {
+    "string": "Autenticando no Check..."
+  },
+  "loading.loading": {
+    "string": "Carregando..."
+  },
+  "media.author": {
+    "string": "Autor(a)"
+  },
+  "media.comments": {
+    "string": "Comentários do Facebook"
+  },
+  "media.description": {
+    "string": "Descrição"
+  },
+  "media.publishedOn": {
+    "string": "Publicado em"
+  },
+  "media.reactions": {
+    "string": "Reações do Facebook"
+  },
+  "media.shares": {
+    "string": "Compartilhamentos do Facebook"
+  },
+  "media.title": {
+    "string": "Título"
+  },
+  "media.url": {
+    "string": "URL"
+  },
+  "menu.changeWorkspace": {
+    "string": "Trocar de espaço de trabalho"
+  },
+  "menu.logout": {
+    "string": "Sair"
+  },
+  "metadata.cancel": {
+    "developer_comment": "This is a label that appears on a button next to an item that the user is editing. The label indicates that if the user presses this button, the user will 'cancel' the editing action and all changes will revert.",
+    "string": "Cancelar"
+  },
+  "metadata.delete": {
+    "developer_comment": "This is a label that appears on a button next to an item that the user can delete. The label indicates that if the user presses this button, the item will be deleted.",
+    "string": "Excluir"
+  },
+  "metadata.edit": {
+    "developer_comment": "This is a label that appears on a button next to an item that the user can edit. The label indicates that if the user presses this button, the item will become editable.",
+    "string": "Editar"
+  },
+  "metadata.file.dropFile": {
+    "developer_comment": "This message appears in a rectangle, instructing the user that they can use their mouse to drag and drop a file, or click to pull up a file selector menu. This also tells them the maximum allowed file size, and the valid types of files that the user can upload. The `fileSizeLabel` variable will read something like '1.0 MB', and the 'extensions' variable is a list of valid file extensions. Neither will be localized.",
+    "string": "Drag and drop a file here, or click to upload a file (max size: {fileSizeLabel}, allowed extensions: {extensions})"
+  },
+  "metadata.file.invalidFile": {
+    "developer_comment": "This message appears when a user tries to add a file that the browser cannot read for some reason to the file upload widget.",
+    "string": "This is not a valid file. Please try again with a different file."
+  },
+  "metadata.file.tooBig": {
+    "developer_comment": "This message appears when a user tries to upload a file that is too big. The 'fileSizeLabel' will read something like '1.0 MB' and will not be localized.",
+    "string": "This file is too big. The maximum allowed file size is {fileSizeLabel}. Please try again with a different file."
+  },
+  "metadata.file.tooManyFiles": {
+    "developer_comment": "This message appears when a user tries to add two or more files at once to the file upload widget.",
+    "string": "You can only upload one file here. Please try uploading one file."
+  },
+  "metadata.file.wrongType": {
+    "developer_comment": "This message appears when a user tries to upload a file that is the wrong file type. The 'extensions' variable will be a list of file extensions (PDF, PNG, etc) and will not be localized.",
+    "string": "This is not an accepted file type. Accepted file types include: {extensions}. Please try again with a different file."
+  },
+  "metadata.location.coordinates": {
+    "developer_comment": "This is a label that appears on a text field, related to a pin on a map. This contains the latitude and longitude coordinates of the map pin. If the user changes these numbers, the map pin moves. If the user moves the map pin, the numbers update to reflect the new pin location.",
+    "string": "Latitude, longitude"
+  },
+  "metadata.location.coordinates.helper": {
+    "developer_comment": "This is a helper message that appears when someone enters text in the 'Latitude, longitude' text field that cannot be parsed as a valid pair of latitude and longitude coordinates. It tells the user that they need to provide valid coordinates and gives an example. It also tells them that they can do a drag action with the mouse on the visual map pin as an alternative to entering numbers in this field.",
+    "string": "Should be a comma-separated pair of latitude and longitude coordiantes like '-12.9, -38.15'. Drag the map pin if you are having difficulty."
+  },
+  "metadata.location.customize": {
+    "developer_comment": "This is a label that appears on a text field, related to a pin on a map. The user may type any text of their choice here and name the place they are pinning. They can also modify suggested place names here.",
+    "string": "Personalizar o nome do lugar"
+  },
+  "metadata.location.search": {
+    "developer_comment": "This is a label that appears on a text field. If the user begins to type a location they will receive a list of suggested place names.",
+    "string": "Pesquisar o mapa"
+  },
+  "metadata.save": {
+    "developer_comment": "This is a label that appears on a button next to an item that the user is editing. The label indicates that if the user presses this button, the user will save the changes they have been making.",
+    "string": "Salvar"
+  },
+  "save.error": {
+    "string": "Erro"
+  },
+  "save.noTeam": {
+    "string": "Você deve ser membro de pelo menos uma equipe para poder usar a extensão do navegador."
+  },
+  "save.save": {
+    "string": "Salvar"
+  },
+  "save.saveTo": {
+    "string": "Salvar para:"
+  },
+  "save.saving": {
+    "string": "Salvando..."
+  },
+  "save.text": {
+    "string": "Afirmação por texto"
+  },
+  "save.url": {
+    "string": "URL do link:"
+  },
+  "saveOrUpdate.error": {
+    "string": "Desculpe, não foi possível buscar por esta URL no Check."
+  },
+  "saveOrUpdate.errorNoUrlOrText": {
+    "string": "Você precisa inserir pelo menos uma URL ou um pedaço de texto."
+  },
+  "saveOrUpdate.loading": {
+    "string": "Buscando por esta URL no Check..."
+  },
+  "update.alreadyAdded": {
+    "string": "Este link já foi adicionado."
+  },
+  "update.loading": {
+    "string": "Carregando..."
+  },
+  "update.media": {
+    "string": "Mídia"
+  },
+  "update.openInCheck": {
+    "string": "Abrir no Check"
+  },
+  "update.saved": {
+    "string": "Salvo!"
+  },
+  "update.source": {
+    "string": "Fonte"
+  },
+  "update.tasks": {
+    "string": "Tarefas"
+  }
+}

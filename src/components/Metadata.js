@@ -10,6 +10,14 @@ import {
 } from 'react-relay';
 import { FormattedMessage } from 'react-intl';
 import {
+  MetadataText,
+  MetadataNumber,
+  MetadataMultiselect,
+  MetadataDate,
+  MetadataFile,
+  MetadataLocation,
+} from '@meedan/check-ui';
+import {
   Box,
   CircularProgress,
   Divider,
@@ -18,12 +26,6 @@ import {
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import UpdateQuery from './__generated__/UpdateQuery.graphql';
-import MetadataText from './metadata/MetadataText';
-import MetadataNumber from './metadata/MetadataNumber';
-import MetadataMultiselect from './metadata/MetadataMultiselect';
-import MetadataDate from './metadata/MetadataDate';
-import MetadataFile from './metadata/MetadataFile';
-import MetadataLocation from './metadata/MetadataLocation';
 import config from './../../config';
 
 const getMetadataItemQuery = graphql`
@@ -102,21 +104,9 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: 25,
     float: 'left',
   },
-  dropZone: {
-    padding: theme.spacing(2),
-    border: '2px dashed',
-    minHeight: '100px',
-  },
-  timeZoneSelect: {
-    marginTop: theme.spacing(4),
-  },
   map: {
     width: '100%',
     height: '500px',
-  },
-  mapImg: {
-    marginTop: theme.spacing(2),
-    width: '100%',
   },
   annotator: {
     margin: theme.spacing(2),
@@ -142,6 +132,91 @@ function RenderData(props) {
   const environment = useRelayEnvironment();
   const data = usePreloadedQuery(UpdateQuery, updateQueryRef);
 
+  function generateMessages(about) {
+    return {
+      MetadataLocation: {
+        customize: (
+          <FormattedMessage
+            id="metadata.location.customize"
+            defaultMessage="Customize place name"
+            description="This is a label that appears on a text field, related to a pin on a map. The user may type any text of their choice here and name the place they are pinning. They can also modify suggested place names here."
+          />
+        ),
+        coordinates: (
+          <FormattedMessage
+            id="metadata.location.coordinates"
+            defaultMessage="Latitude, longitude"
+            description="This is a label that appears on a text field, related to a pin on a map. This contains the latitude and longitude coordinates of the map pin. If the user changes these numbers, the map pin moves. If the user moves the map pin, the numbers update to reflect the new pin location."
+          />
+        ),
+        coordinatesHelper: (
+          <FormattedMessage
+            id="metadata.location.coordinates.helper"
+            defaultMessage="Should be a comma-separated pair of latitude and longitude coordiantes like '-12.9, -38.15'. Drag the map pin if you are having difficulty."
+            description="This is a helper message that appears when someone enters text in the 'Latitude, longitude' text field that cannot be parsed as a valid pair of latitude and longitude coordinates. It tells the user that they need to provide valid coordinates and gives an example. It also tells them that they can do a drag action with the mouse on the visual map pin as an alternative to entering numbers in this field."
+          />
+        ),
+        search: (
+          <FormattedMessage
+            id="metadata.location.search"
+            defaultMessage="Search the map"
+            description="This is a label that appears on a text field. If the user begins to type a location they will receive a list of suggested place names."
+          />
+        ),
+      },
+      MetadataFile: {
+        dropFile: (
+          <FormattedMessage
+            id="metadata.file.dropFile"
+            defaultMessage="Drag and drop a file here, or click to upload a file (max size: {fileSizeLabel}, allowed extensions: {extensions})"
+            description="This message appears in a rectangle, instructing the user that they can use their mouse to drag and drop a file, or click to pull up a file selector menu. This also tells them the maximum allowed file size, and the valid types of files that the user can upload. The `fileSizeLabel` variable will read something like '1.0 MB', and the 'extensions' variable is a list of valid file extensions. Neither will be localized."
+            values={{
+              fileSizeLabel: about.file_max_size,
+              extensions: about.file_extensions.join(', '),
+            }}
+          />
+        ),
+        errorTooManyFiles: (
+          <FormattedMessage
+            id="metadata.file.tooManyFiles"
+            defaultMessage="You can only upload one file here. Please try uploading one file."
+            description="This message appears when a user tries to add two or more files at once to the file upload widget."
+          />
+        ),
+
+        errorInvalidFile: (
+          <FormattedMessage
+            id="metadata.file.invalidFile"
+            defaultMessage="This is not a valid file. Please try again with a different file."
+            description="This message appears when a user tries to add a file that the browser cannot read for some reason to the file upload widget."
+          />
+        ),
+
+        errorFileTooBig: (
+          <FormattedMessage
+            id="metadata.file.tooBig"
+            defaultMessage="This file is too big. The maximum allowed file size is {fileSizeLabel}. Please try again with a different file."
+            description="This message appears when a user tries to upload a file that is too big. The 'fileSizeLabel' will read something like '1.0 MB' and will not be localized."
+            values={{
+              fileSizeLabel: about.file_max_size,
+            }}
+          />
+        ),
+
+        errorFileType: (
+          <FormattedMessage
+            id="metadata.file.wrongType"
+            defaultMessage="This is not an accepted file type. Accepted file types include: {extensions}. Please try again with a different file."
+            description="This message appears when a user tries to upload a file that is the wrong file type. The 'extensions' variable will be a list of file extensions (PDF, PNG, etc) and will not be localized."
+            values={{
+              extensions: about.file_extensions.join(', '),
+            }}
+          />
+        ),
+      },
+    };
+  }
+
   return (
     <div>
       {data.project_media?.tasks?.edges?.length === 0 ? (
@@ -156,6 +231,7 @@ function RenderData(props) {
             { fetchPolicy: 'network-only' },
           );
           const metadataType = item.node?.type;
+          const messages = generateMessages(data.about);
           return (
             <>
               <MetadataContainer
@@ -177,7 +253,13 @@ function RenderData(props) {
                       output = <MetadataMultiselect {...props} isSingle />;
                       break;
                     case 'geolocation':
-                      output = <MetadataLocation {...props} />;
+                      output = (
+                        <MetadataLocation
+                          {...props}
+                          mapboxApiKey={config.mapboxApiKey}
+                          messages={messages.MetadataLocation}
+                        />
+                      );
                       break;
                     case 'datetime':
                       output = <MetadataDate {...props} />;
@@ -187,6 +269,7 @@ function RenderData(props) {
                         <MetadataFile
                           {...props}
                           extensions={data.about.file_extensions}
+                          messages={messages.MetadataFile}
                         />
                       );
                       break;

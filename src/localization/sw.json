@@ -1,1 +1,150 @@
-{"app.loading":"Inaidhinisha kwenye Check…","Login.addLinksToApp":"Ongeza viungo kwa Check na mbonyezo mmoja. Viungo vitaongezwa kwenye orodha uliyochagua. Iwapo kiungo tayari kipo, una uwezo wa kukifafanua.","Login.start":"Ili kuanza, ingia na kisha upakie upya ukurasa.","Login.signIn":"Ingia","loading.loading":"Inapakia…","saveOrUpdate.error":"Samahani, haikuweza kutafuta URL hii kwenye Check.","saveOrUpdate.loading":"Inatafuta URL hii kwenye Check...","saveOrUpdate.errorNoUrlOrText":"Unahitaji kuingiza angalau URL au kipande cha maandishi.","update.saved":"Imehifadhiwa!","update.alreadyAdded":"Kiungo hiki tayari kimeongezwa.","update.openInCheck":"Fungua kwenye Check","update.media":"Vyombo vya habari","update.metadata":"Metadata","update.tasks":"Kazi","update.source":"Chanzo","update.loading":"Inapakia…","save.noTeam":"Lazima uwe mwanachama wa angalau timu moja ili uweze kutumia kiendelezi cha kivinjari.","save.error":"Hitilafu","save.saveTo":"Hifadhi kwa:","save.url":"Unganisha URL","save.text":"Dai la maandishi","save.saving":"Inahifadhi…","save.save":"Hifadhi","menu.changeWorkspace":"Badilisha eneo la kazi","menu.logout":"Ondoka","media.title":"Kichwa","media.author":"Mwandishi","media.publishedOn":"Imechapishwa kwenye","media.url":"URL","media.shares":"Hisa za FB","media.reactions":"Hisia za FB","media.comments":"Maoni ya FB","media.description":"Maelezo"}
+{
+  "Login.addLinksToApp": {
+    "string": "Ongeza viungo kwa Check na mbonyezo mmoja. Viungo vitaongezwa kwenye orodha uliyochagua. Iwapo kiungo tayari kipo, una uwezo wa kukifafanua."
+  },
+  "Login.signIn": {
+    "string": "Ingia"
+  },
+  "Login.start": {
+    "string": "Ili kuanza, ingia na kisha upakie upya ukurasa."
+  },
+  "app.loading": {
+    "string": "Inaidhinisha kwenye Check…"
+  },
+  "loading.loading": {
+    "string": "Inapakia…"
+  },
+  "media.author": {
+    "string": "Mwandishi"
+  },
+  "media.comments": {
+    "string": "Maoni ya FB"
+  },
+  "media.description": {
+    "string": "Maelezo"
+  },
+  "media.publishedOn": {
+    "string": "Imechapishwa mnamo"
+  },
+  "media.reactions": {
+    "string": "Hisia za FB"
+  },
+  "media.shares": {
+    "string": "Shiriki za FB"
+  },
+  "media.title": {
+    "string": "Kichwa"
+  },
+  "media.url": {
+    "string": "URL"
+  },
+  "menu.changeWorkspace": {
+    "string": "Badilisha eneo la kazi"
+  },
+  "menu.logout": {
+    "string": "Ondoka"
+  },
+  "metadata.cancel": {
+    "developer_comment": "This is a label that appears on a button next to an item that the user is editing. The label indicates that if the user presses this button, the user will 'cancel' the editing action and all changes will revert.",
+    "string": "Ghairi"
+  },
+  "metadata.delete": {
+    "developer_comment": "This is a label that appears on a button next to an item that the user can delete. The label indicates that if the user presses this button, the item will be deleted.",
+    "string": "Futa"
+  },
+  "metadata.edit": {
+    "developer_comment": "This is a label that appears on a button next to an item that the user can edit. The label indicates that if the user presses this button, the item will become editable.",
+    "string": "Hariri"
+  },
+  "metadata.file.dropFile": {
+    "developer_comment": "This message appears in a rectangle, instructing the user that they can use their mouse to drag and drop a file, or click to pull up a file selector menu. This also tells them the maximum allowed file size, and the valid types of files that the user can upload. The `fileSizeLabel` variable will read something like '1.0 MB', and the 'extensions' variable is a list of valid file extensions. Neither will be localized.",
+    "string": "Drag and drop a file here, or click to upload a file (max size: {fileSizeLabel}, allowed extensions: {extensions})"
+  },
+  "metadata.file.invalidFile": {
+    "developer_comment": "This message appears when a user tries to add a file that the browser cannot read for some reason to the file upload widget.",
+    "string": "This is not a valid file. Please try again with a different file."
+  },
+  "metadata.file.tooBig": {
+    "developer_comment": "This message appears when a user tries to upload a file that is too big. The 'fileSizeLabel' will read something like '1.0 MB' and will not be localized.",
+    "string": "This file is too big. The maximum allowed file size is {fileSizeLabel}. Please try again with a different file."
+  },
+  "metadata.file.tooManyFiles": {
+    "developer_comment": "This message appears when a user tries to add two or more files at once to the file upload widget.",
+    "string": "You can only upload one file here. Please try uploading one file."
+  },
+  "metadata.file.wrongType": {
+    "developer_comment": "This message appears when a user tries to upload a file that is the wrong file type. The 'extensions' variable will be a list of file extensions (PDF, PNG, etc) and will not be localized.",
+    "string": "This is not an accepted file type. Accepted file types include: {extensions}. Please try again with a different file."
+  },
+  "metadata.location.coordinates": {
+    "developer_comment": "This is a label that appears on a text field, related to a pin on a map. This contains the latitude and longitude coordinates of the map pin. If the user changes these numbers, the map pin moves. If the user moves the map pin, the numbers update to reflect the new pin location.",
+    "string": "Latitude, longitude"
+  },
+  "metadata.location.coordinates.helper": {
+    "developer_comment": "This is a helper message that appears when someone enters text in the 'Latitude, longitude' text field that cannot be parsed as a valid pair of latitude and longitude coordinates. It tells the user that they need to provide valid coordinates and gives an example. It also tells them that they can do a drag action with the mouse on the visual map pin as an alternative to entering numbers in this field.",
+    "string": "Should be a comma-separated pair of latitude and longitude coordiantes like '-12.9, -38.15'. Drag the map pin if you are having difficulty."
+  },
+  "metadata.location.customize": {
+    "developer_comment": "This is a label that appears on a text field, related to a pin on a map. The user may type any text of their choice here and name the place they are pinning. They can also modify suggested place names here.",
+    "string": "Geuza jina la pahali kukufaa"
+  },
+  "metadata.location.search": {
+    "developer_comment": "This is a label that appears on a text field. If the user begins to type a location they will receive a list of suggested place names.",
+    "string": "Tafuta ramani"
+  },
+  "metadata.save": {
+    "developer_comment": "This is a label that appears on a button next to an item that the user is editing. The label indicates that if the user presses this button, the user will save the changes they have been making.",
+    "string": "Hifadhi"
+  },
+  "save.error": {
+    "string": "Hitilafu"
+  },
+  "save.noTeam": {
+    "string": "Lazima uwe mwanachama wa angalau timu moja ili uweze kutumia kiendelezi cha kivinjari."
+  },
+  "save.save": {
+    "string": "Hifadhi"
+  },
+  "save.saveTo": {
+    "string": "Hifadhi kwa:"
+  },
+  "save.saving": {
+    "string": "Inahifadhi…"
+  },
+  "save.text": {
+    "string": "Dai la maandishi"
+  },
+  "save.url": {
+    "string": "Unganisha URL"
+  },
+  "saveOrUpdate.error": {
+    "string": "Samahani, haikuweza kutafuta URL hii kwenye Check."
+  },
+  "saveOrUpdate.errorNoUrlOrText": {
+    "string": "Unahitaji kuingiza angalau URL au kipande cha maandishi."
+  },
+  "saveOrUpdate.loading": {
+    "string": "Inatafuta URL hii kwenye Check..."
+  },
+  "update.alreadyAdded": {
+    "string": "Kiungo hiki tayari kimeongezwa."
+  },
+  "update.loading": {
+    "string": "Inapakia…"
+  },
+  "update.media": {
+    "string": "Vyombo vya habari"
+  },
+  "update.openInCheck": {
+    "string": "Fungua kwenye Check"
+  },
+  "update.saved": {
+    "string": "Imehifadhiwa!"
+  },
+  "update.source": {
+    "string": "Chanzo"
+  },
+  "update.tasks": {
+    "string": "Kazi"
+  }
+}
