@@ -40,6 +40,15 @@ const rtlLanguages = [
 const direction = rtlLanguages.indexOf(locale) > -1 ? 'rtl' : 'ltr';
 
 const translations = require(`./localization/${locale}.json`);
+// Transform message from transifex structured JSON to react-intl
+/* eslint-disable no-param-reassign */
+const messagesTransformed = Object.keys(translations).reduce(
+  (obj, key) => {
+    obj[key] = translations[key].string;
+    return obj;
+  },
+  {},
+);
 
 const urlParam = window.location.search.match(/^\?url=(.*)/);
 const url = urlParam ? decodeURI(urlParam[1]) : null;
@@ -60,7 +69,7 @@ const muiTheme = createMuiTheme({ direction, ...MuiTheme });
 
 ReactDOM.render(
   <MuiThemeProvider theme={muiTheme}>
-    <IntlProvider locale={locale} messages={translations}>
+    <IntlProvider locale={locale} messages={messagesTransformed}>
       {text || url ? <App direction={direction} url={url} text={text} /> : null}
     </IntlProvider>
   </MuiThemeProvider>,
