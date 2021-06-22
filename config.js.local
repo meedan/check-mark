@@ -6,7 +6,7 @@ const config = {
   appDescription: 'Verify breaking news online',
   checkRelayPath: 'http://localhost:3000/relay.json',
   checkApiUrl: 'http://localhost:3000',
-  checkWebUrl: 'http://localhost:3333'
+  checkWebUrl: 'http://localhost:3333',
   mapboxApiKey: 'MAPBOX_API_KEY', // '<MAPBOX API KEY>'
 };
 export default config;
