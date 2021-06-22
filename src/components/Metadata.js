@@ -22,11 +22,17 @@ import {
   CircularProgress,
   Divider,
   Button,
+  Link,
   Typography,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import DayJsUtils from '@date-io/dayjs';
 import UpdateQuery from './__generated__/UpdateQuery.graphql';
 import config from './../../config';
+
+dayjs.extend(relativeTime);
 
 const getMetadataItemQuery = graphql`
   query MetadataTaskItemQuery($id: ID!) {
@@ -97,9 +103,6 @@ const useStyles = makeStyles((theme) => ({
   root: {
     padding: theme.spacing(2),
   },
-  value: {
-    fontWeight: 900,
-  },
   profileImage: {
     maxWidth: 25,
     float: 'left',
@@ -109,20 +112,24 @@ const useStyles = makeStyles((theme) => ({
     height: '500px',
   },
   annotator: {
-    margin: theme.spacing(2),
-    paddingLeft: theme.spacing(2),
+    fontSize: '9px',
+    color: '#979797',
   },
   metadata: {
     '& .MuiInputBase-root': {
       marginBottom: theme.spacing(2),
     },
   },
-  fieldInfo: {
-    marginBottom: theme.spacing(2),
-  },
   divider: {
     marginTop: theme.spacing(1),
     marginBottom: theme.spacing(1),
+  },
+  button: {
+    backgroundColor: '#f4f4f4',
+    marginTop: theme.spacing(1),
+    '&:hover': {
+      backgroundColor: '#ddd',
+    },
   },
 }));
 
@@ -428,7 +435,10 @@ function MetadataContainer(props) {
 
   function EditButton() {
     return (
-      <Button onClick={handleEdit} className="metadata-edit">
+      <Button
+        className={`${classes.button} metadata-edit`}
+        onClick={handleEdit}
+      >
         <FormattedMessage
           id="metadata.edit"
           defaultMessage="Edit"
@@ -441,7 +451,10 @@ function MetadataContainer(props) {
   function DeleteButton() {
     return (
       <>
-        <Button className="metadata-delete" onClick={handleDelete}>
+        <Button
+          className={`${classes.button} metadata-delete`}
+          onClick={handleDelete}
+        >
           <FormattedMessage
             id="metadata.delete"
             defaultMessage="Delete"
@@ -467,7 +480,7 @@ function MetadataContainer(props) {
         {isDynamic ? (
           <>
             <Button
-              className="metadata-cancel"
+              className={`${classes.button} metadata-cancel`}
               onClick={() => handleDynamicCancel(setOtherText)}
             >
               {cancelMessage}
@@ -475,7 +488,10 @@ function MetadataContainer(props) {
           </>
         ) : (
           <>
-            <Button className="metadata-cancel" onClick={handleCancel}>
+            <Button
+              className={`${classes.button} metadata-cancel`}
+              onClick={handleCancel}
+            >
               {cancelMessage}
             </Button>
           </>
@@ -504,7 +520,7 @@ function MetadataContainer(props) {
             <Button
               onClick={() => handleDynamicSave(mutationPayload, uploadables)}
               disabled={disabled}
-              className="metadata-save"
+              className={`${classes.button} metadata-save`}
             >
               {saveMessage}
             </Button>
@@ -515,7 +531,7 @@ function MetadataContainer(props) {
             <Button
               onClick={() => handleSave(mutationPayload)}
               disabled={disabled}
-              className="metadata-save"
+              className={`${classes.button} metadata-save`}
             >
               {saveMessage}
             </Button>
@@ -541,21 +557,27 @@ function MetadataContainer(props) {
     );
   }
 
+  let updated_at;
+  try {
+    updated_at = JSON.parse(node.first_response?.content)[0]?.updated_at;
+  }
+  catch (exception) {
+    updated_at = null;
+  }
+
+  const timeAgo = dayjs().to(dayjs(updated_at));
+
   function AnnotatorInformation() {
     return (
       <div>
-        <img
-          className={classes.profileImage}
-          src={node.annotator?.user?.profile_image}
-          alt="Profile image"
-        />
         <Typography className={classes.annotator} variant="body1">
-          Completed by{' '}
-          <a
+          Saved {timeAgo} by{' '}
+          <Link
             href={`https://${config.checkWebUrl}/check/user/${node.annotator?.user?.dbid}`}
+            color="primary"
           >
             {node.annotator?.user?.name}
-          </a>
+          </Link>
         </Typography>
       </div>
     );
