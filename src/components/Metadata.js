@@ -116,9 +116,6 @@ const useStyles = makeStyles((theme) => ({
     color: '#979797',
   },
   metadata: {
-    '& .MuiInputBase-root': {
-      marginBottom: theme.spacing(2),
-    },
   },
   divider: {
     marginTop: theme.spacing(1),
@@ -131,6 +128,11 @@ const useStyles = makeStyles((theme) => ({
       backgroundColor: '#ddd',
     },
   },
+  '@global': {
+    '.Mui-checked + .Mui-disabled': {
+      color: 'inherit',
+    }
+  }
 }));
 
 function RenderData(props) {
