@@ -1,21 +1,21 @@
 {
   "Login.addLinksToApp": {
-    "string": "يمكن أضافة روابط إلى Check بنقرة واحد، إلى قائمة من اختيارك. اذا كان الرابط موجود، يمكن إضافة التعليقات."
+    "string": "يمكن إضافة روابط إلى Check بنقرة واحد، إلى قائمة من اختيارك. إذا كان الرابط موجودا، يمكنك إضافة التعليقات."
   },
   "Login.signIn": {
     "string": "تسجيل الدخول"
   },
   "Login.start": {
-    "string": "يرجى تسجيل الدخول، وإعادة تحميل الصفحة لبدء الاستخدام."
+    "string": "يرجى تسجيل الدخول، ثم إعادة تحميل الصفحة لبدء الاستخدام."
   },
   "app.loading": {
     "string": "المصادقة جارية على Check…"
   },
   "loading.loading": {
-    "string": "التحميل جارٍ…"
+    "string": "يجري التحميل…"
   },
   "media.author": {
-    "string": "المؤلف(ة)"
+    "string": "المؤلف"
   },
   "media.comments": {
     "string": "تعليقات فيسبوك"
@@ -58,31 +58,31 @@
   },
   "metadata.file.dropFile": {
     "developer_comment": "This message appears in a rectangle, instructing the user that they can use their mouse to drag and drop a file, or click to pull up a file selector menu. This also tells them the maximum allowed file size, and the valid types of files that the user can upload. The `fileSizeLabel` variable will read something like '1.0 MB', and the 'extensions' variable is a list of valid file extensions. Neither will be localized.",
-    "string": "Drag and drop a file here, or click to upload a file (max size: {fileSizeLabel}, allowed extensions: {extensions})"
+    "string": "يُرجى سحب ثم إسقاط ملف هنا، أو بالضغط على زر الفأرة لرفع ملف (الحجم الأقصى: {fileSizeLabel}، الأنواع المسموحة: {extensions})"
   },
   "metadata.file.invalidFile": {
     "developer_comment": "This message appears when a user tries to add a file that the browser cannot read for some reason to the file upload widget.",
-    "string": "This is not a valid file. Please try again with a different file."
+    "string": "هذا الملف غير صالح. يرجى إعادة المحاولة باستخدام ملف آخر."
   },
   "metadata.file.tooBig": {
     "developer_comment": "This message appears when a user tries to upload a file that is too big. The 'fileSizeLabel' will read something like '1.0 MB' and will not be localized.",
-    "string": "This file is too big. The maximum allowed file size is {fileSizeLabel}. Please try again with a different file."
+    "string": "الملف كبير جدا. الحجم الأقصي للملف هو {fileSizeLabel}. يرجى إعادة المحاولة باستخدام ملف آخر."
   },
   "metadata.file.tooManyFiles": {
     "developer_comment": "This message appears when a user tries to add two or more files at once to the file upload widget.",
-    "string": "You can only upload one file here. Please try uploading one file."
+    "string": "لا يمكن رفع أكثر من ملف هنا. يرجى محاولة رفع ملف واحد."
   },
   "metadata.file.wrongType": {
     "developer_comment": "This message appears when a user tries to upload a file that is the wrong file type. The 'extensions' variable will be a list of file extensions (PDF, PNG, etc) and will not be localized.",
-    "string": "This is not an accepted file type. Accepted file types include: {extensions}. Please try again with a different file."
+    "string": "نوع هذا الملف غير مقبول. أنواع الملفات المقبولة تشمل: {extensions}. يرجى المحاولة مرة أخرى باستخدام ملف آخر."
   },
   "metadata.location.coordinates": {
     "developer_comment": "This is a label that appears on a text field, related to a pin on a map. This contains the latitude and longitude coordinates of the map pin. If the user changes these numbers, the map pin moves. If the user moves the map pin, the numbers update to reflect the new pin location.",
-    "string": "Latitude, longitude"
+    "string": "خط العرض، خط الطول"
   },
   "metadata.location.coordinates.helper": {
     "developer_comment": "This is a helper message that appears when someone enters text in the 'Latitude, longitude' text field that cannot be parsed as a valid pair of latitude and longitude coordinates. It tells the user that they need to provide valid coordinates and gives an example. It also tells them that they can do a drag action with the mouse on the visual map pin as an alternative to entering numbers in this field.",
-    "string": "Should be a comma-separated pair of latitude and longitude coordiantes like '-12.9, -38.15'. Drag the map pin if you are having difficulty."
+    "string": "Should be a comma-separated pair of latitude and longitude coordinates like \"-12.9, -38.15\". Drag the map pin if you are having difficulty.\""
   },
   "metadata.location.customize": {
     "developer_comment": "This is a label that appears on a text field, related to a pin on a map. The user may type any text of their choice here and name the place they are pinning. They can also modify suggested place names here.",
@@ -90,7 +90,7 @@
   },
   "metadata.location.search": {
     "developer_comment": "This is a label that appears on a text field. If the user begins to type a location they will receive a list of suggested place names.",
-    "string": "بحث في الخريطة"
+    "string": "البحث في الخريطة"
   },
   "metadata.save": {
     "developer_comment": "This is a label that appears on a button next to an item that the user is editing. The label indicates that if the user presses this button, the user will save the changes they have been making.",
@@ -109,10 +109,10 @@
     "string": "حفظ في:"
   },
   "save.saving": {
-    "string": "الحفظ جارٍ…"
+    "string": "يجري الحفظ…"
   },
   "save.text": {
-    "string": "ادعاء النص"
+    "string": "نص الادعاء "
   },
   "save.url": {
     "string": "عنوان الرابط"
@@ -121,16 +121,16 @@
     "string": "عذراً، لم نستطع البحث عن هذا الرابط في Check."
   },
   "saveOrUpdate.errorNoUrlOrText": {
-    "string": "لا بد من إدخال رابط أو على الأقل جزء من نص."
+    "string": "لا بد من إدخال رابط أو على الأقل جزءاً من نص."
   },
   "saveOrUpdate.loading": {
-    "string": "البحث جارٍ عن هذا الرابط في Check…"
+    "string": "يجري البحث عن هذا الرابط في Check…"
   },
   "update.alreadyAdded": {
-    "string": "تمت اضافة  هذا الرابط مُسبقاً."
+    "string": "لقد أُضيف هذا الرابط مُسبقاً."
   },
   "update.loading": {
-    "string": "التحميل جارٍ…"
+    "string": "يجري التحميل…"
   },
   "update.media": {
     "string": "المواد الإعلامية"
@@ -139,7 +139,7 @@
     "string": "فتحه في Check"
   },
   "update.saved": {
-    "string": "تم الحفظ"
+    "string": "حُفظ !"
   },
   "update.source": {
     "string": "المصدر"

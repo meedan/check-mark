@@ -58,23 +58,23 @@
   },
   "metadata.file.dropFile": {
     "developer_comment": "This message appears in a rectangle, instructing the user that they can use their mouse to drag and drop a file, or click to pull up a file selector menu. This also tells them the maximum allowed file size, and the valid types of files that the user can upload. The `fileSizeLabel` variable will read something like '1.0 MB', and the 'extensions' variable is a list of valid file extensions. Neither will be localized.",
-    "string": "Drag and drop a file here, or click to upload a file (max size: {fileSizeLabel}, allowed extensions: {extensions})"
+    "string": "Arraste e solte um arquivo aqui, ou clique para carregá-lo (tamanho máximo: {fileSizeLabel}, extensões permitidas: {extensions})"
   },
   "metadata.file.invalidFile": {
     "developer_comment": "This message appears when a user tries to add a file that the browser cannot read for some reason to the file upload widget.",
-    "string": "This is not a valid file. Please try again with a different file."
+    "string": "Este arquivo não é válido. Por favor, tente novamente com um arquivo diferente."
   },
   "metadata.file.tooBig": {
     "developer_comment": "This message appears when a user tries to upload a file that is too big. The 'fileSizeLabel' will read something like '1.0 MB' and will not be localized.",
-    "string": "This file is too big. The maximum allowed file size is {fileSizeLabel}. Please try again with a different file."
+    "string": "Este arquivo é grande demais. O tamanho máximo permitido é {fileSizeLabel}. Por favor, tente novamente com um arquivo diferente."
   },
   "metadata.file.tooManyFiles": {
     "developer_comment": "This message appears when a user tries to add two or more files at once to the file upload widget.",
-    "string": "You can only upload one file here. Please try uploading one file."
+    "string": "Você só pode carregar um arquivo por vez. Por favor, tente carregar somente um arquivo."
   },
   "metadata.file.wrongType": {
     "developer_comment": "This message appears when a user tries to upload a file that is the wrong file type. The 'extensions' variable will be a list of file extensions (PDF, PNG, etc) and will not be localized.",
-    "string": "This is not an accepted file type. Accepted file types include: {extensions}. Please try again with a different file."
+    "string": "Este formato de arquivo não é aceito. Os formatos aceitos são: {extensions}. Por favor, tente novamente com um arquivo diferente."
   },
   "metadata.location.coordinates": {
     "developer_comment": "This is a label that appears on a text field, related to a pin on a map. This contains the latitude and longitude coordinates of the map pin. If the user changes these numbers, the map pin moves. If the user moves the map pin, the numbers update to reflect the new pin location.",
@@ -82,7 +82,7 @@
   },
   "metadata.location.coordinates.helper": {
     "developer_comment": "This is a helper message that appears when someone enters text in the 'Latitude, longitude' text field that cannot be parsed as a valid pair of latitude and longitude coordinates. It tells the user that they need to provide valid coordinates and gives an example. It also tells them that they can do a drag action with the mouse on the visual map pin as an alternative to entering numbers in this field.",
-    "string": "Should be a comma-separated pair of latitude and longitude coordiantes like '-12.9, -38.15'. Drag the map pin if you are having difficulty."
+    "string": "Should be a comma-separated pair of latitude and longitude coordinates like \"-12.9, -38.15\". Drag the map pin if you are having difficulty.\""
   },
   "metadata.location.customize": {
     "developer_comment": "This is a label that appears on a text field, related to a pin on a map. The user may type any text of their choice here and name the place they are pinning. They can also modify suggested place names here.",
