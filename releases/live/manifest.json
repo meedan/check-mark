@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Check",
   "description": "Verify breaking news online",
-  "version": "2.4.0",
+  "version": "2.5.0",
   "commands": {
     "_execute_browser_action": {
       "suggested_key": {
