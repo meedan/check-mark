@@ -107,10 +107,6 @@ const useStyles = makeStyles((theme) => ({
     maxWidth: 25,
     float: 'left',
   },
-  map: {
-    width: '100%',
-    height: '500px',
-  },
   annotator: {
     fontSize: '9px',
     color: '#979797',
