@@ -115,8 +115,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: '9px',
     color: '#979797',
   },
-  metadata: {
-  },
+  metadata: {},
   divider: {
     marginTop: theme.spacing(1),
     marginBottom: theme.spacing(1),
@@ -131,8 +130,8 @@ const useStyles = makeStyles((theme) => ({
   '@global': {
     '.Mui-checked + .Mui-disabled': {
       color: 'inherit',
-    }
-  }
+    },
+  },
 }));
 
 function RenderData(props) {
@@ -241,7 +240,7 @@ function RenderData(props) {
           );
           const metadataType = item.node?.type;
           const messages = generateMessages(data.about);
-          return (
+          return item.node?.show_in_browser_extension ? (
             <>
               <MetadataContainer
                 item={item}
@@ -295,7 +294,7 @@ function RenderData(props) {
               />
               <Divider className={classes.divider} />
             </>
-          );
+          ) : null;
         })
       )}
     </div>
@@ -562,8 +561,7 @@ function MetadataContainer(props) {
   let updated_at;
   try {
     updated_at = JSON.parse(node.first_response?.content)[0]?.updated_at;
-  }
-  catch (exception) {
+  } catch (exception) {
     updated_at = null;
   }
 
