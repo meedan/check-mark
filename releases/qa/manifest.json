@@ -1,6 +1,6 @@
 {
   "manifest_version": 2,
-  "name": "Check",
+  "name": "Check QA",
   "description": "Verify breaking news online",
   "version": "2.5.1",
   "commands": {
@@ -16,8 +16,8 @@
     "page": "background.html"
   },
   "browser_action": {
-    "default_icon": "check19-in.png",
-    "default_title": "Check"
+    "default_icon": "checkqa19-in.png",
+    "default_title": "Check QA"
   },
   "content_scripts": [
     {
@@ -27,8 +27,8 @@
     }
   ],
   "icons": {
-    "128": "check128.png",
-    "48": "check48.png"
+    "128": "checkqa128.png",
+    "48": "checkqa48.png"
   },
   "permissions": ["activeTab", "contextMenus"],
   "web_accessible_resources": ["popup.html"],
