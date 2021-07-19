@@ -1,6 +1,6 @@
 {
   "name": "check-mark",
-  "version": "2.5.1",
+  "version": "2.5.4",
   "private": true,
   "devDependencies": {
     "@babel/core": "^7.14.0",
@@ -36,7 +36,7 @@
     "@material-ui/icons": "^4.9.1",
     "@material-ui/lab": "^4.0.0-alpha.56",
     "@material-ui/pickers": "^3.3.10",
-    "@meedan/check-ui": "0.1.5",
+    "@meedan/check-ui": "0.1.7",
     "async-to-generator": "^1.1.0",
     "autoprefixer": "7.1.1",
     "chalk": "1.1.3",
