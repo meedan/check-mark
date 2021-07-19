@@ -148,6 +148,7 @@ const Update = ({
       about {
         file_extensions
         file_max_size
+        file_max_size_in_bytes
       }
     }
   `;
