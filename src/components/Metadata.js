@@ -275,6 +275,7 @@ function RenderData(props) {
                         <MetadataFile
                           {...props}
                           extensions={data.about.file_extensions}
+                          fileSizeMax={data.about.file_max_size_in_bytes}
                           messages={messages.MetadataFile}
                         />
                       );
