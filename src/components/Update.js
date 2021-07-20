@@ -116,6 +116,8 @@ const Update = ({
   const updateQuery = graphql`
     query UpdateQuery($ids: String!) {
       project_media(ids: $ids) {
+        id
+        dbid
         tasks(fieldset: "metadata") {
           edges {
             node {

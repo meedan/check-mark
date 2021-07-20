@@ -62,6 +62,9 @@ const MuiTheme = {
     primary: {
       main: colors.blue,
     },
+    secondary: {
+      main: colors.blue,
+    },
   },
 };
 
