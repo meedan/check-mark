@@ -29,6 +29,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 import DayJsUtils from '@date-io/dayjs';
+import Tags from './Tags';
 import UpdateQuery from './__generated__/UpdateQuery.graphql';
 import config from './../../config';
 
@@ -223,6 +224,7 @@ function RenderData(props) {
 
   return (
     <div>
+      <Tags projectMedia={data.project_media} />
       {data.project_media?.tasks?.edges?.length === 0 ? (
         <span>No metadata fields</span>
       ) : (
