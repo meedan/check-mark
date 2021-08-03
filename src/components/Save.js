@@ -95,6 +95,7 @@ const Save = ({ user, text, url, onSave, onLogout }) => {
         url: url,
         quote: text,
         clientMutationId: '1',
+        channel: 2,
       }
     };
     if (project) {
