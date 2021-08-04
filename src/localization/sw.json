@@ -126,6 +126,16 @@
   "saveOrUpdate.loading": {
     "string": "Inatafuta URL hii kwenye Check..."
   },
+  "tagMenu.notFound": {
+    "string": "No tags found"
+  },
+  "tagMenu.search": {
+    "string": "Tafuta..."
+  },
+  "tagMenu.submit": {
+    "developer_comment": "Verb, infinitive form. Button to commit action of tagging an item",
+    "string": "Tagi"
+  },
   "update.alreadyAdded": {
     "string": "Kiungo hiki tayari kimeongezwa."
   },

@@ -82,7 +82,7 @@
   },
   "metadata.location.coordinates.helper": {
     "developer_comment": "This is a helper message that appears when someone enters text in the 'Latitude, longitude' text field that cannot be parsed as a valid pair of latitude and longitude coordinates. It tells the user that they need to provide valid coordinates and gives an example. It also tells them that they can do a drag action with the mouse on the visual map pin as an alternative to entering numbers in this field.",
-    "string": "Should be a comma-separated pair of latitude and longitude coordinates like \"-12.9, -38.15\". Drag the map pin if you are having difficulty."
+    "string": "يجب أن يكون المحتوى مكونا من إحداثيات خطوط العرض والطول بينهما فاصلة مثل: \"‎-12.9, -38.15\". يمكنك سحب دبوس الخريطة إذا وجدت صعوبة في إدخال الإحداثيات."
   },
   "metadata.location.customize": {
     "developer_comment": "This is a label that appears on a text field, related to a pin on a map. The user may type any text of their choice here and name the place they are pinning. They can also modify suggested place names here.",
@@ -125,6 +125,16 @@
   },
   "saveOrUpdate.loading": {
     "string": "يجري البحث عن هذا الرابط في Check…"
+  },
+  "tagMenu.notFound": {
+    "string": "No tags found"
+  },
+  "tagMenu.search": {
+    "string": "بحث..."
+  },
+  "tagMenu.submit": {
+    "developer_comment": "Verb, infinitive form. Button to commit action of tagging an item",
+    "string": "الوسم"
   },
   "update.alreadyAdded": {
     "string": "لقد أُضيف هذا الرابط مُسبقاً."

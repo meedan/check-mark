@@ -126,6 +126,16 @@
   "saveOrUpdate.loading": {
     "string": "Hinahanap ang URL na ito sa Check..."
   },
+  "tagMenu.notFound": {
+    "string": "No tags found"
+  },
+  "tagMenu.search": {
+    "string": "Maghanap..."
+  },
+  "tagMenu.submit": {
+    "developer_comment": "Verb, infinitive form. Button to commit action of tagging an item",
+    "string": "Tag"
+  },
   "update.alreadyAdded": {
     "string": "Naidagdag na ang link na ito."
   },

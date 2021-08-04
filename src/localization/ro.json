@@ -126,6 +126,16 @@
   "saveOrUpdate.loading": {
     "string": "Se caută URL-ul în Check..."
   },
+  "tagMenu.notFound": {
+    "string": "No tags found"
+  },
+  "tagMenu.search": {
+    "string": "Caută..."
+  },
+  "tagMenu.submit": {
+    "developer_comment": "Verb, infinitive form. Button to commit action of tagging an item",
+    "string": "Etichetă"
+  },
   "update.alreadyAdded": {
     "string": "Linkul a fost deja adăugat."
   },

@@ -126,6 +126,16 @@
   "saveOrUpdate.loading": {
     "string": "Looking for this URL in Check…"
   },
+  "tagMenu.notFound": {
+    "string": "No tags found"
+  },
+  "tagMenu.search": {
+    "string": "Search…"
+  },
+  "tagMenu.submit": {
+    "developer_comment": "Verb, infinitive form. Button to commit action of tagging an item",
+    "string": "ടാഗ്"
+  },
   "update.alreadyAdded": {
     "string": "This link has already been added."
   },
