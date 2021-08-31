@@ -125,6 +125,11 @@ const Update = ({
               label
               type
               show_in_browser_extension
+              team_task_id,
+              team_task {
+                conditional_info
+                options
+              },
               id
               options
               first_response_value
