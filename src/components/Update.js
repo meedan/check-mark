@@ -213,7 +213,12 @@ const Update = ({
               }
             />
           ) : null}
-          <Tab value="metadata" label="Metadata" />
+          <Tab
+            value="metadata"
+            label={
+              <FormattedMessage id="update.annotation" defaultMessage="Annotation" />
+            }
+          />
           <Tab
             value="tasks"
             label={
