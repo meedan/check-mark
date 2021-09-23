@@ -45,6 +45,11 @@ const getMetadataItemQuery = graphql`
         type
         options
         show_in_browser_extension
+        team_task_id,
+        team_task {
+          conditional_info
+          options
+        },
         id
         description
         first_response_value
@@ -137,6 +142,7 @@ function RenderData(props) {
   const classes = useStyles();
   const environment = useRelayEnvironment();
   const data = usePreloadedQuery(UpdateQuery, updateQueryRef);
+  const [rerender, setRerender] = React.useState(false);
 
   function generateMessages(about) {
     return {
@@ -223,88 +229,147 @@ function RenderData(props) {
     };
   }
 
+  // Intersection of sets function
+  // https://stackoverflow.com/a/37041756/4869657
+  function intersect(a, b) {
+    const setB = new Set(b);
+    return [...new Set(a)].filter(x => setB.has(x));
+  }
+
+  // This function determines if we should show a metadata item based on conditional prerequisites
+  function showMetadataItem(task) {
+    const { conditional_info } = task.node.team_task;
+    if (conditional_info) {
+      try {
+        const parsedConditionalInfo = JSON.parse(conditional_info);
+        const { selectedFieldId, selectedConditional } = parsedConditionalInfo;
+        let { selectedCondition } = parsedConditionalInfo;
+        const matchingTask = data.project_media?.tasks?.edges.find(item => item.node.team_task_id === selectedFieldId);
+
+        // check if there is an "Other" value by looking for the .other prop on options
+        const hasOther = matchingTask.node.team_task?.options?.some(item => item.other);
+        if (hasOther) {
+          // if there is an "Other" value, then extract it by convering our first_response_value to an array and filtering out known values
+          const otherValue = matchingTask.node.first_response_value?.split(', ').filter(item => !matchingTask.node.team_task?.options?.some(option => option.label === item))[0];
+          // replace "Other" in selectedCondition with that value
+          selectedCondition = selectedCondition.replace(/\bOther\b/, otherValue);
+        }
+
+        // render nothing if there is no response (the matching metadata item is not filled in)
+        if (matchingTask.node.first_response_value === null || matchingTask.node.first_response_value === '') {
+          return false;
+        }
+
+        if (selectedConditional === 'is...' && matchingTask.node.first_response_value === selectedCondition) {
+          return true;
+        } else if (selectedConditional === 'is not...' && matchingTask.node.first_response_value !== selectedCondition) {
+          return true;
+        } else if (selectedConditional === 'is empty...' && matchingTask.node.first_response_value === null) {
+          return true;
+        } else if (selectedConditional === 'is not empty...' && matchingTask.node.first_response_value !== null) {
+          return true;
+        } else if (selectedConditional === 'is any of...' && intersect(selectedCondition.split(', '), matchingTask.node.first_response_value?.split(', ')).length > 0) {
+          // if the intersection of the options set and the selected set is not empty, then at least one item is in common
+          return true;
+        } else if (selectedConditional === 'is none of...' && intersect(selectedCondition.split(', '), matchingTask.node.first_response_value?.split(', ')).length === 0) {
+          // if the intersection of the options set and the selected set is empty, then we have met the "none of" condition
+          return true;
+        }
+        return false;
+      } catch (e) {
+        throw (e);
+      }
+    }
+    return true;
+  }
+
   return (
     <div>
       <Tags projectMedia={data.project_media} />
       {data.project_media?.tasks?.edges?.length === 0 ? (
         <span>No metadata fields</span>
       ) : (
-        data.project_media?.tasks?.edges.map((item) => {
-          // a query just for this one element
-          const itemInitQueryRef = loadQuery(
-            environment,
-            getMetadataItemQuery,
-            { id: item.node?.id },
-            { fetchPolicy: 'network-only' },
-          );
-          const metadataType = item.node?.type;
-          const messages = generateMessages(data.about);
-          return item.node?.show_in_browser_extension ? (
-            <>
-              <MetadataContainer
-                item={item}
-                itemInitQueryRef={itemInitQueryRef}
-                render={(props) => {
-                  let output = null;
-                  switch (metadataType) {
-                    case 'free_text':
-                      output = <MetadataText {...props} />;
-                      break;
-                    case 'number':
-                      output = <MetadataNumber {...props} />;
-                      break;
-                    case 'multiple_choice':
-                      output = <MetadataMultiselect {...props} />;
-                      break;
-                    case 'single_choice':
-                      output = <MetadataMultiselect {...props} isSingle />;
-                      break;
-                    case 'geolocation':
-                      output = (
-                        <MetadataLocation
-                          {...props}
-                          mapboxApiKey={config.mapboxApiKey}
-                          messages={messages.MetadataLocation}
-                        />
-                      );
-                      break;
-                    case 'datetime':
-                      output = <MetadataDate {...props} />;
-                      break;
-                    case 'file_upload':
-                      output = (
-                        <MetadataFile
-                          {...props}
-                          extensions={data.about.file_extensions}
-                          fileSizeMax={data.about.file_max_size_in_bytes}
-                          messages={messages.MetadataFile}
-                        />
-                      );
-                      break;
-                    default:
-                      output = <MetadataText {...props} />;
+        data.project_media?.tasks?.edges
+          .filter(item => item.node?.show_in_browser_extension)
+          .filter(showMetadataItem)
+          .map((item) => {
+            // a query just for this one element
+            const itemInitQueryRef = loadQuery(
+              environment,
+              getMetadataItemQuery,
+              { id: item.node?.id },
+              { fetchPolicy: 'network-only' },
+            );
+            const metadataType = item.node?.type;
+            const messages = generateMessages(data.about);
+            return (
+              <>
+                <MetadataContainer
+                  item={item}
+                  itemInitQueryRef={itemInitQueryRef}
+                  rerenderParent={{rerender, setRerender}}
+                  render={(props) => {
+                    let output = null;
+                    switch (metadataType) {
+                      case 'free_text':
+                        output = <MetadataText {...props} />;
+                        break;
+                      case 'number':
+                        output = <MetadataNumber {...props} />;
+                        break;
+                      case 'multiple_choice':
+                        output = <MetadataMultiselect {...props} />;
+                        break;
+                      case 'single_choice':
+                        output = <MetadataMultiselect {...props} isSingle />;
+                        break;
+                      case 'geolocation':
+                        output = (
+                          <MetadataLocation
+                            {...props}
+                            mapboxApiKey={config.mapboxApiKey}
+                            messages={messages.MetadataLocation}
+                          />
+                        );
+                        break;
+                      case 'datetime':
+                        output = <MetadataDate {...props} />;
+                        break;
+                      case 'file_upload':
+                        output = (
+                          <MetadataFile
+                            {...props}
+                            extensions={data.about.file_extensions}
+                            fileSizeMax={data.about.file_max_size_in_bytes}
+                            messages={messages.MetadataFile}
+                          />
+                        );
+                        break;
+                      default:
+                        output = <MetadataText {...props} />;
+                    }
+                    return <div className={classes.metadata}>{output}</div>;
+                  }}
+                  isDynamic={
+                    metadataType === 'multiple_choice' ||
+                    metadataType === 'single_choice' ||
+                    metadataType === 'file_upload'
                   }
-                  return <div className={classes.metadata}>{output}</div>;
-                }}
-                isDynamic={
-                  metadataType === 'multiple_choice' ||
-                  metadataType === 'single_choice' ||
-                  metadataType === 'file_upload'
-                }
-              />
-              <Divider className={classes.divider} />
-            </>
-          ) : null;
-        })
+                />
+                <Divider className={classes.divider} />
+              </>
+            );
+          })
       )}
     </div>
   );
 }
 
 function MetadataContainer(props) {
-  const { render, item, itemInitQueryRef, isDynamic } = props;
+  const { render, rerenderParent, item, itemInitQueryRef, isDynamic } = props;
   const classes = useStyles();
   const node = item.node;
+  const { setRerender } = rerenderParent;
   const [isEditing, setIsEditing] = React.useState(false);
   const hasData = !!item.node?.first_response_value;
   let initialDynamic = {};
@@ -356,6 +421,7 @@ function MetadataContainer(props) {
       onCompleted() {
         loadItemQuery({ id }, { fetchPolicy: 'network-only' });
         setIsEditing(false);
+        setRerender(!rerenderParent.rerender);
       },
     });
   }
@@ -380,6 +446,7 @@ function MetadataContainer(props) {
         onCompleted() {
           loadItemQuery({ id }, { fetchPolicy: 'network-only' });
           setIsEditing(false);
+          setRerender(!rerenderParent.rerender);
         },
         uploadables,
       });
@@ -430,6 +497,7 @@ function MetadataContainer(props) {
         loadItemQuery({ id }, { fetchPolicy: 'network-only' });
         setMetadataValue('');
         setIsEditing(true);
+        setRerender(!rerenderParent.rerender);
       },
     });
   }
