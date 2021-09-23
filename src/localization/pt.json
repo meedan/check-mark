@@ -6,7 +6,7 @@
     "string": "Iniciar sessão"
   },
   "Login.start": {
-    "string": "Para começar, faça o login e depois recarregue a página."
+    "string": "Para começar, inicie a sessão e depois recarregue a página."
   },
   "app.loading": {
     "string": "Autenticando no Check..."
@@ -127,7 +127,7 @@
     "string": "Buscando por esta URL no Check..."
   },
   "tagMenu.notFound": {
-    "string": "No tags found"
+    "string": "Nenhuma tag encontrada"
   },
   "tagMenu.search": {
     "string": "Buscar..."
