@@ -139,6 +139,9 @@
   "update.alreadyAdded": {
     "string": "لقد أُضيف هذا الرابط مُسبقاً."
   },
+  "update.annotation": {
+    "string": "Annotation"
+  },
   "update.loading": {
     "string": "يجري التحميل…"
   },

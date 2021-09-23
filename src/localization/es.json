@@ -139,6 +139,9 @@
   "update.alreadyAdded": {
     "string": "Este enlace ya ha sido añadido."
   },
+  "update.annotation": {
+    "string": "Annotation"
+  },
   "update.loading": {
     "string": "Cargando…"
   },

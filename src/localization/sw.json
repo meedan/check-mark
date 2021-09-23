@@ -139,6 +139,9 @@
   "update.alreadyAdded": {
     "string": "Kiungo hiki tayari kimeongezwa."
   },
+  "update.annotation": {
+    "string": "Annotation"
+  },
   "update.loading": {
     "string": "Inapakia…"
   },
