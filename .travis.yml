@@ -44,8 +44,10 @@ before_script:
 - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
 - docker-compose build
 - docker-compose -f docker-compose.yml -f docker-test.yml up -d
+- docker-compose logs -t -f &
 - until curl --silent -I -f http://localhost:3000 ; do printf .; sleep 1; done
 - until curl --silent -I -f http://localhost:3333 ; do printf .; sleep 1; done
+- docker ps
 - docker-compose exec mark npm install
 - docker-compose exec mark npm run test:lint || travis_terminate 1;
 script: docker-compose exec -e IMGUR_CLIENT_ID=$IMGUR_CLIENT_ID mark npm run test
