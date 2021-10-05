@@ -58,16 +58,15 @@ shared_examples 'tests' do
   end
 
   it 'should create media' do
-    login(media_type: 'url', media_content: 'https://meedan.com')
+    login(media_type: 'url', media_content: @media_url)
     wait_for_selector("//span[contains(text(), 'Link URL')]", :xpath)
     expect(@driver.page_source.include?('Saved!')).to be(false)
     wait_for_selector('#save-button').click
     wait_for_selector('#media')
     expect(@driver.page_source.include?('Saved!')).to be(true)
-    expect(@driver.page_source.include?('Media')).to be(true)
-    expect(@driver.page_source.include?('Meedan')).to be(true)
-    expect(@driver.page_source.include?('@meedan')).to be(true)
-    expect(@driver.page_source.include?('https://meedan.com')).to be(true)
+    expect(@driver.page_source.include?('Title')).to be(true)
+    expect(@driver.page_source.include?('Author')).to be(true)
+    expect(@driver.page_source.include?(@media_url)).to be(true)
     # verify that the team doesn't have task and metadata
     @driver.switch_to.default_content
     wait_for_selector("//span[contains(text(), 'Tasks')]", :xpath).click
@@ -164,6 +163,7 @@ describe 'app' do
     before :all do
       `cd #{@config['extension_path']} && zip -r -FS #{@config['extension_path']}/test.xpi * && cd -`
       @profile_url = 'https://twitter.com/nytimes'
+      @media_url = 'https://edition.cnn.com'
     end
 
     after :all do
@@ -197,6 +197,7 @@ describe 'app' do
   context 'chrome' do
     before :all do
       @profile_url = 'https://twitter.com/meedan'
+      @media_url = 'https://meedan.com'
     end
 
     def open_browser(language = 'en')
