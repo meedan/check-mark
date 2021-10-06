@@ -57,10 +57,11 @@ shared_examples 'tests' do
     expect(@driver.page_source.include?('sign in')).to be(false)
   end
 
-  it 'should create media' do
+  it 'should create media555' do
     login(media_type: 'url', media_content: @media_url)
     wait_for_selector("//span[contains(text(), 'Link URL')]", :xpath)
     expect(@driver.page_source.include?('Saved!')).to be(false)
+    # sleep 10
     wait_for_selector('#save-button').click
     wait_for_selector('#media')
     expect(@driver.page_source.include?('Saved!')).to be(true)
@@ -197,7 +198,7 @@ describe 'app' do
   context 'chrome' do
     before :all do
       @profile_url = 'https://twitter.com/meedan'
-      @media_url = 'https://meedan.com'
+      @media_url = 'https://www.bbc.co.uk/'
     end
 
     def open_browser(language = 'en')
