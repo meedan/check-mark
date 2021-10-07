@@ -26,9 +26,9 @@ const SaveOrUpdate = ({ url, text, user, onLogout }) => {
     setProjectMediaCreated({ projectMedia: newProjectMediaCreated, project });
   };
 
-  console.log("será que vai criar???")
+  console.log("will it be created?")
   if (projectMediaCreated) {
-    console.log("projeto foi criado sim :) ");
+    console.log("was created :)");
     let projectId = null;
     if (projectMediaCreated.project) {
       projectId = projectMediaCreated.project.dbid;
@@ -84,6 +84,7 @@ const SaveOrUpdate = ({ url, text, user, onLogout }) => {
           render={(response) => {
             const { error } = response;
             const data = response.props;
+            console.log("data:", data)
             if (!error && data && data.project_medias.edges.length > 0) {
               let team = null;
               if (user && user.current_team) {
@@ -109,7 +110,8 @@ const SaveOrUpdate = ({ url, text, user, onLogout }) => {
                 <Save url={url} user={user} onSave={handleSave} onLogout={onLogout} />
               );
             } else if (error) {
-              console.log("o erro foi: ", error);
+              console.log("the error was: ", error);
+              console.log("error.source: ", error.source);
               return (
                 <Message>
                   <FormattedMessage id="saveOrUpdate.error" defaultMessage="Sorry, could not look for this URL in Check." />

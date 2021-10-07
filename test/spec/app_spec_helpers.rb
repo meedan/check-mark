@@ -22,10 +22,13 @@ module AppSpecHelpers
 
     # Login, create a team, create a project and a datafield
     @driver.navigate.to "#{@config['check_api_url']}/test/session?email=#{email}"
+    sleep 2
     team = request_api 'team', { name: "Test Team #{Time.now.to_i}", email: email }
     team_id = JSON.parse(team.body)['data']['dbid']
     request_api 'team_data_field', { team_id: team_id, fieldset: params[:data_field_name] } unless params[:data_field_name].nil?
+    sleep 2
     request_api 'project', { title: "Test Project #{Time.now.to_i}", team_id: team_id }
+    sleep 2
     @driver.close if @driver.respond_to?(:close)
     # Go back to the extension
     window = @driver.window_handles.first
