@@ -46,7 +46,7 @@ before_script:
 - docker-compose -f docker-compose.yml -f docker-test.yml up -d
 - until curl --silent -I -f http://localhost:3000 ; do printf .; sleep 1; done
 - until curl --silent -I -f http://localhost:3333 ; do printf .; sleep 1; done
-- tail -f check-api/log/test.log
+- tail -f check-api/log/test.log &
 - docker-compose exec mark npm install
 - docker-compose exec mark npm run test:lint || travis_terminate 1;
 script: docker-compose exec -e IMGUR_CLIENT_ID=$IMGUR_CLIENT_ID mark npm run test
