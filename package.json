@@ -69,7 +69,7 @@
     "build:check-ui": "npm i && yalc link @meedan/check-ui && npm run relay && cp config.js src/ && babel-node scripts/brand.js brand && babel-node scripts/build.js && npm run clean-localization && babel-node scripts/brand.js unbrand && rm -f src/config.js",
     "test:lint": "cd test/spec && bundle install && bundle exec rubocop && cd ..",
     "test:eslint": "eslint src",
-    "test": "npm run release:test && cd test && bundle install && bundle exec rspec && cd ..",
+    "test": "npm run release:test && cd test && bundle install && bundle exec rspec --example '555' && cd ..",
     "relay": "babel-node scripts/relay.js && relay-compiler --src ./src --schema ./src/relay/relay.json",
     "relay:watch": "babel-node scripts/relay.js && relay-compiler --src ./src --schema ./src/relay/relay.json --watch -- ls -l",
     "transifex:extract": "formatjs extract src/**/*.js --format transifex --out-file src/localization/en.json",
