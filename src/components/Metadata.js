@@ -45,10 +45,11 @@ const getMetadataItemQuery = graphql`
         type
         options
         show_in_browser_extension
-        team_task_id,
+        team_task_id
         team_task {
           conditional_info
           options
+          required
         },
         id
         description
@@ -125,10 +126,18 @@ const useStyles = makeStyles((theme) => ({
   },
   button: {
     backgroundColor: '#f4f4f4',
+    display: 'none',
     marginTop: theme.spacing(1),
     '&:hover': {
       backgroundColor: '#ddd',
     },
+  },
+  formSave: {
+    backgroundColor: '#1BB157',
+    color: 'white',
+  },
+  required: {
+    color: 'red',
   },
   '@global': {
     '.Mui-checked + .Mui-disabled': {
@@ -137,12 +146,24 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+function isAnyRequiredFieldEmpty() {
+  // HTML data attributes cast booleans to strings, so we check for equality to
+  // the string "true" here
+  return Array.from(document.querySelectorAll('.metadata-save'))
+    .some(saveButton => saveButton.dataset.empty === 'true' && saveButton.dataset.required === 'true');
+}
+
+
 function RenderData(props) {
   const { updateQueryRef } = props;
   const classes = useStyles();
   const environment = useRelayEnvironment();
   const data = usePreloadedQuery(UpdateQuery, updateQueryRef);
   const [rerender, setRerender] = React.useState(false);
+  const [isEditing, setIsEditing] = React.useState(false);
+  const [localResponses, setLocalResponses] = React.useState(data.project_media?.tasks?.edges);
+
+  console.log('~~~local',localResponses);
 
   function generateMessages(about) {
     return {
@@ -244,7 +265,7 @@ function RenderData(props) {
         const parsedConditionalInfo = JSON.parse(conditional_info);
         const { selectedFieldId, selectedConditional } = parsedConditionalInfo;
         let { selectedCondition } = parsedConditionalInfo;
-        const matchingTask = data.project_media?.tasks?.edges.find(item => item.node.team_task_id === selectedFieldId);
+        const matchingTask = localResponses.find(item => item.node.team_task_id === selectedFieldId);
 
         // check if there is an "Other" value by looking for the .other prop on options
         const hasOther = matchingTask.node.team_task?.options?.some(item => item.other);
@@ -283,9 +304,84 @@ function RenderData(props) {
     return true;
   }
 
+  function handleEditAnnotations() {
+    document.querySelectorAll('.metadata-edit').forEach((editButton) => {
+      editButton.click();
+    });
+    setIsEditing(true);
+  }
+
+  function handleSaveAnnotations() {
+    if (isAnyRequiredFieldEmpty()) {
+      // TODO: FIX
+      setFlashMessage((
+        <FormattedMessage
+          id="metadata.couldNotSave"
+          defaultMessage="Could not save, missing required field"
+          description="Error message displayed when it's not possible to save metadata due to a required field not being filled in."
+        />
+      ), 'error');
+      return;
+    }
+    document.querySelectorAll('.metadata-save').forEach((saveButton) => {
+      saveButton.click();
+    });
+    setIsEditing(false);
+  }
+
+  function handleCancelAnnotations() {
+    document.querySelectorAll('.metadata-cancel').forEach((cancelButton) => {
+      cancelButton.click();
+    });
+    setIsEditing(false);
+  }
+
+  function handleMultiselectOnChange(textValue, task, setMetadata) {
+    console.log('~~!!!!',textValue, task);
+    //setMetadata(textValue);
+    const matchingTaskIndex = localResponses.findIndex(item => item.node.team_task_id === task.team_task_id);
+    const mutatedLocalResponses = localResponses;
+    if (task.type === 'single_choice') {
+      mutatedLocalResponses[matchingTaskIndex].node.first_response_value = textValue;
+    } else if (task.type === 'multiple_choice') {
+      // value is an object, we transform it to a string separated by ', '
+      let tempValue = textValue?.selected.join(', ');
+      if (textValue.other) {
+        tempValue += `, ${textValue.other}`;
+      }
+      mutatedLocalResponses[matchingTaskIndex].node.first_response_value = tempValue;
+      console.log('~~~~HEY we transformed', tempValue);
+    }
+    setLocalResponses([...mutatedLocalResponses]);
+    setRerender(!rerender);
+    console.log('~~~~result', mutatedLocalResponses);
+  }
+
+  console.log('~~~RENDER HEADER', isAnyRequiredFieldEmpty());
+  console.log('~~~REN2',Array.from(document.querySelectorAll('.metadata-save')));
   return (
     <div>
       <Tags projectMedia={data.project_media} />
+      {
+        isEditing ? (
+          <div>
+            <Button
+              className={classes.formSave}
+              variant="contained"
+              onClick={handleSaveAnnotations}
+              disabled={isAnyRequiredFieldEmpty()}
+            >
+              <FormattedMessage id="metadata.form.save" defaultMessage="Save" description="This is a label on a button at the top of a form. The label indicates that if the user presses this button, the user will save the changes they have been making in the form." />
+            </Button>
+            <Button onClick={handleCancelAnnotations}>
+              <FormattedMessage id="metadata.form.cancel" defaultMessage="Cancel changes" description="This is a label on a button that the user presses in order to revert/cancel any changes made to an unsaved form." />
+            </Button>
+          </div>
+        ) :
+          <Button variant="contained" onClick={handleEditAnnotations} color="primary">
+            <FormattedMessage id="metadata.form.edit" defaultMessage="Edit" description="This is a label on a button that the user presses in order to edit the items in the attached form." />
+          </Button>
+      }
       {data.project_media?.tasks?.edges?.length === 0 ? (
         <span>No metadata fields</span>
       ) : (
@@ -308,6 +404,8 @@ function RenderData(props) {
                   item={item}
                   itemInitQueryRef={itemInitQueryRef}
                   rerenderParent={{rerender, setRerender}}
+                  isEditing={isEditing}
+                  setIsEditing={setIsEditing}
                   render={(props) => {
                     let output = null;
                     switch (metadataType) {
@@ -315,13 +413,20 @@ function RenderData(props) {
                         output = <MetadataText {...props} />;
                         break;
                       case 'number':
-                        output = <MetadataNumber {...props} />;
+                        output = <MetadataNumber {...props}
+                          rerenderParent={{rerender, setRerender}}
+                        />;
                         break;
                       case 'multiple_choice':
-                        output = <MetadataMultiselect {...props} />;
+                        output = <MetadataMultiselect {...props}
+                          handleMultiselectOnChange={handleMultiselectOnChange}
+                        />;
                         break;
                       case 'single_choice':
-                        output = <MetadataMultiselect {...props} isSingle />;
+                        output = <MetadataMultiselect {...props}
+                          handleMultiselectOnChange={handleMultiselectOnChange}
+                          isSingle
+                        />;
                         break;
                       case 'geolocation':
                         output = (
@@ -366,11 +471,10 @@ function RenderData(props) {
 }
 
 function MetadataContainer(props) {
-  const { render, rerenderParent, item, itemInitQueryRef, isDynamic } = props;
+  const { render, rerenderParent, item, itemInitQueryRef, isDynamic, isEditing, setIsEditing } = props;
   const classes = useStyles();
   const node = item.node;
   const { setRerender } = rerenderParent;
-  const [isEditing, setIsEditing] = React.useState(false);
   const hasData = !!item.node?.first_response_value;
   let initialDynamic = {};
   let initialValue = {};
@@ -380,6 +484,10 @@ function MetadataContainer(props) {
         initialDynamic = JSON.parse(
           JSON.parse(node?.first_response?.content)[0].value,
         );
+        console.log('~~OOOO',initialDynamic);
+        if (initialDynamic === '') {
+          initialDynamic = { selected: [] };
+        }
       } else if (node.type === 'single_choice') {
         initialDynamic = JSON.parse(node?.first_response?.content)[0].value;
       }
@@ -392,14 +500,19 @@ function MetadataContainer(props) {
     }
   } else {
     if (node.type === 'datetime') {
-      initialValue = node?.first_response_value?.replace(' at ', ' ');
+      initialValue = node?.first_response_value?.replace(' at ', ' ') || '';
     } else {
-      initialValue = node?.first_response_value;
+      initialValue = node?.first_response_value || '';
     }
   }
   const [metadataValue, setMetadataValue] = React.useState(
     isDynamic ? initialDynamic : initialValue,
   );
+  React.useEffect(() => {
+    console.log('metadatavalue changed');
+    setRerender(!rerenderParent.rerender);
+  }, [metadataValue]);
+  console.log('~~~aa',item.node.type,isDynamic,metadataValue);
   const [commit, isInFlight] = useMutation(updateTaskMutation);
   const [dynamicCommit, isDynamicInFlight] = useMutation(updateDynamicMutation);
   const [commitDelete, isDeleteInFlight] = useMutation(deleteDynamicMutation);
@@ -574,7 +687,7 @@ function MetadataContainer(props) {
   };
 
   function SaveButton(props) {
-    const { mutationPayload, disabled, uploadables } = props;
+    const { mutationPayload, disabled, uploadables, required, empty } = props;
     const saveMessage = (
       <FormattedMessage
         id="metadata.save"
@@ -590,6 +703,8 @@ function MetadataContainer(props) {
               onClick={() => handleDynamicSave(mutationPayload, uploadables)}
               disabled={disabled}
               className={`${classes.button} metadata-save`}
+              data-required={required}
+              data-empty={empty}
             >
               {saveMessage}
             </Button>
@@ -601,6 +716,8 @@ function MetadataContainer(props) {
               onClick={() => handleSave(mutationPayload)}
               disabled={disabled}
               className={`${classes.button} metadata-save`}
+              data-required={required}
+              data-empty={empty}
             >
               {saveMessage}
             </Button>
@@ -620,7 +737,7 @@ function MetadataContainer(props) {
   function FieldInformation() {
     return (
       <div className={classes.fieldInfo}>
-        <Typography variant="h6">{node.label}</Typography>
+        <Typography variant="h6">{node.label}<span className={classes.required}>{node.team_task.required ? ' *' : null}</span></Typography>
         <Typography variant="subtitle2">
           <Linkify properties={{ onClick: function onClick(e) { const url = e.target.getAttribute('href'); e.target.setAttribute('href', '#'); window.open(url); }}}>{node.description}</Linkify>
         </Typography>
@@ -659,6 +776,7 @@ function MetadataContainer(props) {
         node,
         classes,
         hasData,
+        disabled: !isEditing,
         isEditing,
         metadataValue,
         setMetadataValue,
@@ -668,6 +786,7 @@ function MetadataContainer(props) {
         SaveButton,
         AnnotatorInformation,
         FieldInformation,
+        required: node.team_task.required,
       })}
     </>
   );

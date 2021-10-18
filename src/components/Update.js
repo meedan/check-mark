@@ -129,6 +129,7 @@ const Update = ({
               team_task {
                 conditional_info
                 options
+                required
               },
               id
               options
