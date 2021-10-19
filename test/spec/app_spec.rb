@@ -164,7 +164,7 @@ describe 'app' do
     before :all do
       `cd #{@config['extension_path']} && zip -r -FS #{@config['extension_path']}/test.xpi * && cd -`
       @profile_url = 'https://twitter.com/nytimes'
-      @media_url = 'https://edition.cnn.com'
+      @media_url = 'https://www.cnn.com/travel/article/india-temple-food-cmd/index.html'
     end
 
     after :all do
@@ -198,7 +198,7 @@ describe 'app' do
   context 'chrome' do
     before :all do
       @profile_url = 'https://twitter.com/meedan'
-      @media_url = 'https://www.bbc.co.uk/'
+      @media_url = 'https://www.bbc.com/news/science-environment-58965610'
     end
 
     def open_browser(language = 'en')
