@@ -46,6 +46,7 @@ before_script:
 - docker-compose -f docker-compose.yml -f docker-test.yml up -d
 - until curl --silent -I -f http://localhost:3000 ; do printf .; sleep 1; done
 - until curl --silent -I -f http://localhost:3333 ; do printf .; sleep 1; done
+- docker-compose restart pender
 - tail -f check-api/log/test.log &
 - tail -f pender/log/test.log &
 - docker-compose exec mark npm install
