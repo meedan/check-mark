@@ -61,12 +61,10 @@ shared_examples 'tests' do
     login(media_type: 'url', media_content: @media_url)
     wait_for_selector("//span[contains(text(), 'Link URL')]", :xpath)
     expect(@driver.page_source.include?('Saved!')).to be(false)
-    # sleep 10
     wait_for_selector('#save-button').click
     wait_for_selector('#media')
     expect(@driver.page_source.include?('Saved!')).to be(true)
     expect(@driver.page_source.include?('Title')).to be(true)
-    expect(@driver.page_source.include?('Author')).to be(true)
     expect(@driver.page_source.include?(@media_url)).to be(true)
     # verify that the team doesn't have task and metadata
     @driver.switch_to.default_content
