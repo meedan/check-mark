@@ -16,7 +16,7 @@ before_install:
 - cp config/config.yml.example config/config.yml
 - cp config/database.yml.example config/database.yml
 - cp config/sidekiq.yml.example config/sidekiq.yml
-- sed -i 's/timeout:\ 120/timeout:\ 1/' config/config.yml
+- sed -i 's/timeout:\ [0-9]\+/timeout:\ 0.1/g' config/config.yml
 - cd -
 # check api
 - export CHECK_API_BRANCH=$((git ls-remote --exit-code --heads https://github.com/meedan/check-api.git $TRAVIS_BRANCH >/dev/null && echo $TRAVIS_BRANCH) || echo 'develop')
