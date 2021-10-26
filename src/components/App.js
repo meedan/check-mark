@@ -10,13 +10,14 @@ import { loggedIn } from './../helpers';
 import { createEnvironment } from './../relay/Environment';
 
 const App = (props) => {
-  const [user, setUser] = useState(null);
-  const [loaded, setLoaded] = useState(false);
+  const [state, setState] = useState({ user: null, loaded: false });
+
+  const user = state.user;
+  const loaded = state.loaded;
 
   useEffect(() => {
     loggedIn((user) => {
-      setUser(user);
-      setLoaded(true);
+      setState({ user, loaded: true });
     });
   }, []);
 
@@ -26,7 +27,7 @@ const App = (props) => {
   }
 
   const handleLogout = () => {
-    setUser(null);
+    setState({ user: null, loaded });
   };
 
   const muiTheme = createMuiTheme({

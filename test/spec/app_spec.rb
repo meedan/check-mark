@@ -81,7 +81,7 @@ shared_examples 'tests' do
   end
 
   it 'should create media from a profile URL' do
-    login(media_type: 'url', media_content: @profile_url)
+    login(media_type: 'url', media_content: "#{@profile_url}/?t=#{Time.now.to_f}")
     wait_for_selector("//span[contains(text(), 'Link URL')]", :xpath)
     expect(@driver.page_source.include?('Saved!')).to be(false)
     wait_for_selector('#save-button').click
