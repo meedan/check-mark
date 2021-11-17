@@ -139,6 +139,7 @@ shared_examples 'tests' do
     delete_data_field_response_metadata
     expect(@driver.page_source.include?('answer-edited')).to be(false)
   end
+
 end
 
 describe 'app' do
@@ -173,7 +174,7 @@ describe 'app' do
     def open_browser(language = 'en')
       close_browser
       prefs = { 'intl.accept_languages' => language }
-      caps = Selenium::WebDriver::Remote::Capabilities.firefox(marionette: true, 'moz:firefoxOptions' => { prefs: prefs })
+      caps = Selenium::WebDriver::Remote::Capabilities.firefox(marionette: true, headless: true, 'moz:firefoxOptions' => { prefs: prefs })
       @driver = Selenium::WebDriver.for :remote, url: @config['geckodriver_url'], desired_capabilities: caps
       bridge = @driver.send(:bridge)
       uri = URI("#{bridge.http.send(:server_url)}session/#{bridge.session_id}/moz/addon/install")
