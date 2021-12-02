@@ -188,8 +188,8 @@ describe 'app' do
     end
 
     def open_extension(type, content)
-      @driver.navigate.to 'about:debugging'
-      id = wait_for_selector('.internal-uuid span')
+      @driver.navigate.to 'about:debugging#/runtime/this-firefox'
+      id = wait_for_selector_list('dd.fieldpair__description')[2]
       @driver.navigate.to "moz-extension://#{id.text}/popup.html?#{type}=#{content}"
       wait_for_selector('#app')
     end

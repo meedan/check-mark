@@ -1,13 +1,11 @@
 FROM selenium/standalone-firefox-debug
-# FROM selenium/standalone-firefox-debug:3.141.59-20210128
 
 USER root
 
 #=========
 # Firefox
 #=========
-ARG FIREFOX_VERSION=68.0b14
-# ARG FIREFOX_VERSION=69.0.1 # stop working
+ARG FIREFOX_VERSION=95.0b9
 # ARG FIREFOX_VERSION=56.0b10 previous version
 RUN apt-get update -qqy \
   && apt-get -qqy --no-install-recommends install firefox \
@@ -24,7 +22,8 @@ RUN apt-get update -qqy \
 #============
 # GeckoDriver
 #============
-ARG GECKODRIVER_VERSION=0.29.0
+# ARG GECKODRIVER_VERSION=0.30.0
+ARG GECKODRIVER_VERSION=0.29.1
 # ARG GECKODRIVER_VERSION=0.18.0 previous version
 RUN wget --no-hsts --no-verbose -O /tmp/geckodriver.tar.gz https://github.com/mozilla/geckodriver/releases/download/v$GECKODRIVER_VERSION/geckodriver-v$GECKODRIVER_VERSION-linux64.tar.gz \
   && rm -rf /opt/geckodriver \
