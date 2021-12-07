@@ -162,6 +162,9 @@ describe 'app' do
 
   context 'firefox' do
     before :all do
+      # Selenium::WebDriver.logger.level = :info
+      # Selenium::WebDriver.logger.level = :debug
+      # Selenium::WebDriver.logger.output = 'selenium.log'
       `cd #{@config['extension_path']} && zip -r -FS #{@config['extension_path']}/test.xpi * && cd -`
       @profile_url = 'https://twitter.com/nytimes'
     end
@@ -185,8 +188,8 @@ describe 'app' do
     end
 
     def open_extension(type, content)
-      @driver.navigate.to 'about:debugging'
-      id = wait_for_selector('.internal-uuid span')
+      @driver.navigate.to 'about:debugging#/runtime/this-firefox'
+      id = wait_for_selector_list('dd.fieldpair__description')[2]
       @driver.navigate.to "moz-extension://#{id.text}/popup.html?#{type}=#{content}"
       wait_for_selector('#app')
     end

@@ -20,6 +20,7 @@ services:
       - 5901:5900
     volumes:
       - ".:/check-mark"
+      - "/dev/shm:/dev/shm"
     networks:
       - dev
   api:
