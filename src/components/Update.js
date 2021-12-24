@@ -224,12 +224,13 @@ const Update = ({
               <FormattedMessage id="update.annotation" defaultMessage="Annotation" />
             }
           />
-          <Tab
-            value="tasks"
-            label={
-              <FormattedMessage id="update.tasks" defaultMessage="Tasks" />
-            }
-          />
+          {user && user.current_team && user.current_team.tasks_enabled ?
+            <Tab
+              value="tasks"
+              label={
+                <FormattedMessage id="update.tasks" defaultMessage="Tasks" />
+              }
+            /> : null}
           <Tab
             value="source"
             label={
