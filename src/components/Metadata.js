@@ -410,7 +410,7 @@ function MetadataContainer(props) {
     itemInitQueryRef,
   );
 
-  function handleSave(payload) {
+  function handleSave(payload, uploadables) {
     commit({
       variables: {
         input: {
@@ -423,6 +423,7 @@ function MetadataContainer(props) {
         setIsEditing(false);
         setRerender(!rerenderParent.rerender);
       },
+      uploadables
     });
   }
 
@@ -434,7 +435,7 @@ function MetadataContainer(props) {
         set_fields: JSON.stringify(payload),
       };
 
-      handleSave(newPayload);
+      handleSave(newPayload, uploadables);
     } else {
       dynamicCommit({
         variables: {
