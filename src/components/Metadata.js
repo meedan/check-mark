@@ -345,6 +345,18 @@ function RenderData(props) {
                           />
                         );
                         break;
+                      case 'url':
+                        output = (
+                          <>
+                            <Typography variant="h6">{props?.node?.label}</Typography>
+                            <FormattedMessage
+                              id="metadata.url.unavailable"
+                              defaultMessage="URL annotations are not yet supported in the Check Mark extension. Please click the link at the top of this panel to open your item in the web application version of Check."
+                              description="This message appears when a user tries to view a URL annotation in the browser extension. We don't support it, so we show this instead of an edit field."
+                            />
+                          </>
+                        );
+                        break;
                       default:
                         output = <MetadataText {...props} />;
                     }
