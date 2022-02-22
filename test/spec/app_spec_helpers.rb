@@ -64,7 +64,7 @@ module AppSpecHelpers
     wait_for_selector_list(selector, type)[index]
   end
 
-  def wait_for_selector_list(selector, type = :css, timeout = 20, _test = 'unknown')
+  def wait_for_selector_list(selector, type = :css, timeout = 20, _test = 'unknown', reload = false)
     elements = []
     attempts = 0
     wait = Selenium::WebDriver::Wait.new(timeout: timeout)
@@ -73,14 +73,20 @@ module AppSpecHelpers
       attempts += 1
       sleep 0.5
       begin
+        retries ||= 0
         wait.until { @driver.find_elements(type, selector).length.positive? }
         elements = @driver.find_elements(type, selector)
         elements.each do |e|
-          raise 'element is not being displayed' unless e.displayed?
+          raise 'Element is not being displayed' unless e.displayed?
         end
+      rescue Selenium::WebDriver::Error::StaleElementReferenceError
+        puts "retry Selenium::WebDriver::Error::StaleElementReferenceError"
+        sleep 1
+        retry if (retries += 1) < 10
       rescue
         # rescue from 'Selenium::WebDriver::Error::TimeOutError:' to give more information about the failure
       end
+      @driver.navigate.refresh if reload && elements.empty?
     end
     finish = Time.now.to_i - start
     raise "Could not find element with selector #{type.upcase} '#{selector}' after #{finish} seconds!" if elements.empty?
