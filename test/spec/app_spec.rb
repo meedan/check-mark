@@ -5,6 +5,7 @@ require 'json'
 require 'httparty'
 require_relative './app_spec_helpers'
 require_relative './data_field_spec_helpers'
+require_relative './spec_helper'
 
 shared_examples 'tests' do
   include AppSpecHelpers
@@ -133,6 +134,7 @@ shared_examples 'tests' do
     answer_data_field_metadata('answer')
     expect(@driver.page_source.include?('answer')).to be(true)
     # edit response
+    wait_for_selector_none('#metadata-input')
     edit_data_field_response_metadata('-edited')
     expect(@driver.page_source.include?('answer-edited')).to be(true)
     # delete response
