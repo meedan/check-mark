@@ -80,7 +80,7 @@ module AppSpecHelpers
           raise 'Element is not being displayed' unless e.displayed?
         end
       rescue Selenium::WebDriver::Error::StaleElementReferenceError
-        puts "retry Selenium::WebDriver::Error::StaleElementReferenceError"
+        puts 'retry Selenium::WebDriver::Error::StaleElementReferenceError'
         sleep 1
         retry if (retries += 1) < 10
       rescue

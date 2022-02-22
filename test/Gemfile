@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 gem 'httparty'
 gem 'rspec', '~> 3.9'
+gem 'rspec-retry'
 gem 'rubocop'
 gem 'selenium-webdriver', '~> 3.142', '>= 3.142.7'
-gem 'rspec-retry'
 # gem 'selenium-webdriver', '~> 4.0', '>= 4.0.3'
