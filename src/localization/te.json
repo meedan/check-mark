@@ -96,6 +96,10 @@
     "developer_comment": "This is a label that appears on a button next to an item that the user is editing. The label indicates that if the user presses this button, the user will save the changes they have been making.",
     "string": "Save"
   },
+  "metadata.url.unavailable": {
+    "developer_comment": "This message appears when a user tries to view a URL annotation in the browser extension. We don't support it, so we show this instead of an edit field.",
+    "string": "URL annotations are not yet supported in the Check Mark extension. Please click the link at the top of this panel to open your item in the web application version of Check."
+  },
   "save.error": {
     "string": "ఆటంకం"
   },
