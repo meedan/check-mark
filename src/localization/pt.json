@@ -98,7 +98,7 @@
   },
   "metadata.url.unavailable": {
     "developer_comment": "This message appears when a user tries to view a URL annotation in the browser extension. We don't support it, so we show this instead of an edit field.",
-    "string": "URL annotations are not yet supported in the Check Mark extension. Please click the link at the top of this panel to open your item in the web application version of Check."
+    "string": "Anotações de URL ainda não possuem suporte na extensão Check Mark. Por favor, clique no link na parte superior deste painel para acessar seu item na versão web do Check."
   },
   "save.error": {
     "string": "Erro"
