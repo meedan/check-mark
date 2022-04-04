@@ -96,6 +96,10 @@
     "developer_comment": "This is a label that appears on a button next to an item that the user is editing. The label indicates that if the user presses this button, the user will save the changes they have been making.",
     "string": "Enregistrer"
   },
+  "metadata.url.unavailable": {
+    "developer_comment": "This message appears when a user tries to view a URL annotation in the browser extension. We don't support it, so we show this instead of an edit field.",
+    "string": "Les annotations d’URL ne sont pas encore prises en charge dans l’extension « Check Mark ». Veuillez cliquer sur le lien en haut de ce volet pour ouvrir votre élément dans la version Web de Check."
+  },
   "save.error": {
     "string": "Erreur"
   },
@@ -112,7 +116,7 @@
     "string": "Enregistrement…"
   },
   "save.text": {
-    "string": "Déclaration texte"
+    "string": "Affirmation texte"
   },
   "save.url": {
     "string": "URL du lien"

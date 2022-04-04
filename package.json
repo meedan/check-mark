@@ -1,6 +1,6 @@
 {
   "name": "check-mark",
-  "version": "2.5.4",
+  "version": "2.5.10",
   "private": true,
   "devDependencies": {
     "@babel/core": "^7.14.0",
