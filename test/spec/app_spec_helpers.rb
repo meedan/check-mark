@@ -22,7 +22,7 @@ module AppSpecHelpers
 
     # Login, create a team, create a project and a datafield
     @driver.navigate.to "#{@config['check_api_url']}/test/session?email=#{email}"
-    team = request_api 'team', { name: "Test Team #{Time.now.to_i}", email: email, set_tasks_enabled: true }
+    team = request_api 'team', { name: "Test Team #{Time.now.to_i}", email: email }
     team_id = JSON.parse(team.body)['data']['dbid']
     request_api 'team_data_field', { team_id: team_id, fieldset: params[:data_field_name] } unless params[:data_field_name].nil?
     request_api 'project', { title: "Test Project #{Time.now.to_i}", team_id: team_id }

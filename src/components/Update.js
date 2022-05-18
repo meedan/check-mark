@@ -224,13 +224,6 @@ const Update = ({
               <FormattedMessage id="update.annotation" defaultMessage="Annotation" />
             }
           />
-          {user && user.current_team && user.current_team.tasks_enabled ?
-            <Tab
-              value="tasks"
-              label={
-                <FormattedMessage id="update.tasks" defaultMessage="Tasks" />
-              }
-            /> : null}
           <Tab
             value="source"
             label={
@@ -240,7 +233,7 @@ const Update = ({
         </Tabs>
         {tab === 'media' ? <Media projectMedia={projectMedia} /> : null}
         {tab === 'metadata' ? <Metadata {...{ initialQueryRef }} /> : null}
-        {tab === 'tasks' || tab === 'source' ? (
+        {tab === 'source' ? (
           <Box className={classes.frameContainer}>
             {frameHeight === 0 ? (
               <Typography variant="body1" className={classes.spaced}>
