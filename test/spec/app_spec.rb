@@ -71,11 +71,6 @@ shared_examples 'tests' do
     expect(@driver.page_source.include?('https://meedan.com')).to be(true)
     # verify that the team doesn't have task and metadata
     @driver.switch_to.default_content
-    wait_for_selector("//span[contains(text(), 'Tasks')]", :xpath).click
-    @driver.switch_to.frame 'check-web-frame'
-    wait_for_selector("//span[contains(text(), 'No tasks')]", :xpath)
-    expect(@driver.page_source.include?('No tasks')).to be(true)
-    @driver.switch_to.default_content
     wait_for_selector("//span[contains(text(), 'Annotation')]", :xpath).click
     wait_for_selector("//span[contains(text(), 'No metadata fields')]", :xpath)
     expect(@driver.page_source.include?('No metadata fields')).to be(true)
@@ -89,34 +84,6 @@ shared_examples 'tests' do
     wait_for_selector('#media')
     expect(@driver.page_source.include?(@profile_url)).to be(true)
     expect(@driver.page_source.include?('Title')).to be(true)
-  end
-
-  it 'should manage a team task' do
-    login(media_type: 'text', media_content: 'Test', data_field_name: 'tasks')
-    wait_for_selector("//span[contains(text(), 'Text claim')]", :xpath)
-    expect(@driver.page_source.include?('Saved!')).to be(false)
-    wait_for_selector('#save-button').click
-    wait_for_selector("//p[contains(text(), 'Saved')]", :xpath)
-    expect(@driver.page_source.include?('Saved!')).to be(true)
-    wait_for_selector("//span[contains(text(), 'Tasks')]", :xpath).click
-    @driver.switch_to.frame 'check-web-frame'
-    wait_for_selector('#task__response-input')
-    expect(@driver.page_source.include?('Team-task')).to be(true)
-    # Answer task
-    answer_data_field('answer')
-    wait_for_selector("//span[contains(text(), 'Completed by')]", :xpath)
-    expect(@driver.page_source.include?('Completed by')).to be(true)
-    expect(@driver.page_source.include?('answer')).to be(true)
-    # Edit task answer
-    edit_data_field_response('-edited')
-    expect(@driver.page_source.include?('answer-edited')).to be(true)
-    # Delete task answer
-    delete_data_field_response
-    expect(@driver.page_source.include?('answer-edited')).to be(false)
-    # delete task
-    delete_data_field
-    expect(@driver.page_source.include?('Team-task')).to be(false)
-    expect(@driver.page_source.include?('No tasks')).to be(true)
   end
 
   it 'should add, edit and delete a metadata response' do
