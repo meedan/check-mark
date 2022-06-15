@@ -160,8 +160,5 @@
   },
   "update.source": {
     "string": "Source"
-  },
-  "update.tasks": {
-    "string": "Mga gawain"
   }
 }
