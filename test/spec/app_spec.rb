@@ -66,9 +66,7 @@ shared_examples 'tests' do
     wait_for_selector('#media')
     expect(@driver.page_source.include?('Saved!')).to be(true)
     expect(@driver.page_source.include?('Media')).to be(true)
-    expect(@driver.page_source.include?('Meedan')).to be(true)
-    expect(@driver.page_source.include?('@meedan')).to be(true)
-    expect(@driver.page_source.include?('https://meedan.com')).to be(true)
+    expect(@driver.page_source.include?('Title')).to be(true)
     # verify that the team doesn't have task and metadata
     @driver.switch_to.default_content
     wait_for_selector("//span[contains(text(), 'Annotation')]", :xpath).click
