@@ -225,6 +225,14 @@ function RenderData(props) {
             }}
           />
         ),
+
+        errorNoFile: (
+          <FormattedMessage
+            id="metadata.file.noFile"
+            defaultMessage="This file is missing from the database. Edit and clear this annotation to upload a new file."
+            description="This message appears when a user tries to access a file that does not exist in the database."
+          />
+        ),
       },
     };
   }
