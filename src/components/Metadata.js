@@ -674,6 +674,11 @@ function MetadataContainer(props) {
     );
   }
 
+  // catch edge case re CHECK-2041
+  if (node.type === 'multiple_choice' && metadataValue === null) {
+    setMetadataValue({ selected: []});
+  }
+
   return (
     <>
       {render({
