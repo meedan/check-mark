@@ -225,6 +225,14 @@ function RenderData(props) {
             }}
           />
         ),
+
+        errorNoFile: (
+          <FormattedMessage
+            id="metadata.file.noFile"
+            defaultMessage="This file is missing from the database. Edit and clear this annotation to upload a new file."
+            description="This message appears when a user tries to access a file that does not exist in the database."
+          />
+        ),
       },
     };
   }
@@ -664,6 +672,11 @@ function MetadataContainer(props) {
         </Typography>
       </div>
     );
+  }
+
+  // catch edge case re CHECK-2041
+  if (node.type === 'multiple_choice' && metadataValue === null) {
+    setMetadataValue({ selected: []});
   }
 
   return (
