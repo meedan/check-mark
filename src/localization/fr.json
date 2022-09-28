@@ -64,6 +64,10 @@
     "developer_comment": "This message appears when a user tries to add a file that the browser cannot read for some reason to the file upload widget.",
     "string": "Ce fichier est invalide. Veuillez essayer de nouveau avec un fichier différent."
   },
+  "metadata.file.noFile": {
+    "developer_comment": "This message appears when a user tries to access a file that does not exist in the database.",
+    "string": "This file is missing from the database. Edit and clear this annotation to upload a new file."
+  },
   "metadata.file.tooBig": {
     "developer_comment": "This message appears when a user tries to upload a file that is too big. The 'fileSizeLabel' will read something like '1.0 MB' and will not be localized.",
     "string": "Ce fichier est trop gros. La taille maximale autorisée est {fileSizeLabel}. Veuillez réessayer avec un fichier différent."
