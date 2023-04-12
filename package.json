@@ -27,7 +27,7 @@
     "react-test-renderer": "^17.0.2",
     "relay-compiler": "^11.0.2",
     "style-loader": "^2.0.0",
-    "webpack": "^5.36.2",
+    "webpack": "^5.76.0",
     "yalc": "^1.0.0-pre.53"
   },
   "dependencies": {
