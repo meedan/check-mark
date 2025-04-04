@@ -32,7 +32,8 @@
   },
   "permissions": [
     "activeTab",
-    "contextMenus"
+    "contextMenus",
+    "scripting"
   ],
   "web_accessible_resources": [
     {
