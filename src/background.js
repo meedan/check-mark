@@ -2,14 +2,22 @@ import createMenu from './context';
 
 createMenu();
 
-chrome.browserAction.onClicked.addListener(function() {
-  chrome.tabs.query({ active: true, currentWindow: true }, function(tabs) {
-    chrome.tabs.executeScript( {
-      code: "window.getSelection().toString();"
-    }, function(selection) {
-      const text = (selection ? selection[0] : '');
-      const data = JSON.stringify({ message: 'toggle', url: tabs[0].url, text });
-      chrome.tabs.sendMessage(tabs[0].id, data);
-    });
-  });
+chrome.action.onClicked.addListener((tab) => {
+  if (!tab || !tab.id) return;
+
+  chrome.scripting.executeScript(
+    {
+      target: { tabId: tab.id },
+      // Using a function to get the current selection
+      func: () => window.getSelection().toString()
+    },
+    (results) => {
+      let text = '';
+      if (results && results[0] && results[0].result) {
+        text = results[0].result;
+      }
+      const data = JSON.stringify({ message: 'toggle', url: tab.url, text });
+      chrome.tabs.sendMessage(tab.id, data);
+    }
+  );
 });
