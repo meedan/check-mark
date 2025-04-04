@@ -1,17 +1,27 @@
-let windows = {app: 0, devtools: 0};
+let windows = { app: 0, devtools: 0 };
+
+let addedToMenu = false;
 
 const MENU_APP = 'MENU_APP';
 
+const menuCallbacks = {};
+
 function addToMenu(id, title, contexts, onClick) {
+  addedToMenu = true;
+  menuCallbacks[id] = onClick;
+
   chrome.contextMenus.create({
     id: id,
     title: title,
     contexts: contexts,
-    onclick: function(info, tab) {
-      onClick(info, tab);
-    }
   });
 }
+
+chrome.contextMenus.onClicked.addListener((info, tab) => {
+  if (menuCallbacks[info.menuItemId]) {
+    menuCallbacks[info.menuItemId](info, tab);
+  }
+});
 
 function closeIfExist(type) {
   if (windows[type] > 0) {
@@ -45,7 +55,7 @@ function popWindow(info) {
       key = 'text';
       value = encodeURIComponent(info.selectionText);
     }
-    options.url = chrome.extension.getURL(url) + '?' + key + '=' + value;
+    options.url = chrome.runtime.getURL(url) + '?' + key + '=' + value;
     chrome.windows.create(options, (win) => {
       windows[type] = win.id;
     });
@@ -55,7 +65,9 @@ function popWindow(info) {
 function createMenu() {
   var config = require('./config');
   var name = config.appName || 'Check';
-  addToMenu(MENU_APP, name, ['all'], popWindow);
+  if (!addedToMenu) {
+    addToMenu(MENU_APP, name, ['all'], popWindow);
+  }
 }
 
 export default createMenu;

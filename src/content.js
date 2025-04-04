@@ -63,7 +63,7 @@ function toggle(url, text) {
     iframe.style.display = 'block';
     iframe.frameBorder = 'none';
     iframe.id = id;
-    iframe.src = chrome.extension.getURL('popup.html') + params;
+    iframe.src = chrome.runtime.getURL('popup.html') + params;
     document.body.appendChild(iframe);
     body.style.paddingRight = paddingRight + width + 'px';
     checkMarkSidebarIframe = iframe;
