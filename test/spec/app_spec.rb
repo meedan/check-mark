@@ -43,11 +43,10 @@ shared_examples 'tests' do
     window = @driver.window_handles.last
     @driver.switch_to.window(window)
 
-    # Login, create a team and create a project
+    # Login, create a team.
     @driver.navigate.to "#{@config['check_api_url']}/test/session?email=#{email}"
     team = request_api 'team', { name: "Test Team #{Time.now.to_i}", email: email }
     team_id = JSON.parse(team.body)['data']['dbid']
-    request_api 'project', { title: "Test Project #{Time.now.to_i}", team_id: team_id }
     @driver.close if @driver.respond_to?(:close)
 
     # Go back to the extension and make sure that user is logged in
