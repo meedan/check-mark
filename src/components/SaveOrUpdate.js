@@ -22,17 +22,13 @@ const SaveOrUpdate = ({ url, text, user, onLogout }) => {
   const environment = useRelayEnvironment();
   const [projectMediaCreated, setProjectMediaCreated] = React.useState(null);
 
-  const handleSave = (newProjectMediaCreated, project) => {
-    setProjectMediaCreated({ projectMedia: newProjectMediaCreated, project });
+  const handleSave = (newProjectMediaCreated) => {
+    setProjectMediaCreated({ projectMedia: newProjectMediaCreated });
   };
 
   if (projectMediaCreated) {
-    let projectId = null;
-    if (projectMediaCreated.project) {
-      projectId = projectMediaCreated.project.dbid;
-    }
     return (
-      <Update projectMedia={projectMediaCreated.projectMedia} projectId={projectId} onLogout={onLogout} user={user} justSaved />
+      <Update projectMedia={projectMediaCreated.projectMedia} onLogout={onLogout} user={user} justSaved />
     );
   }
 
@@ -63,12 +59,6 @@ const SaveOrUpdate = ({ url, text, user, onLogout }) => {
                       slug
                       name
                     }
-                    project_id
-                    project {
-                      title,
-                      dbid,
-                      id,
-                    }
                   }
                 }
               }
@@ -95,12 +85,8 @@ const SaveOrUpdate = ({ url, text, user, onLogout }) => {
                   }
                 }
               });
-              let projectId = null;
-              if (projectMedia && projectMedia.project_id) {
-                projectId = projectMedia.project_id;
-              }
               return (
-                <Update projectMedia={projectMedia} projectId={projectId} user={user} onLogout={onLogout} />
+                <Update projectMedia={projectMedia} user={user} onLogout={onLogout} />
               );
             } else if (!error && data && data.project_medias.edges.length === 0) {
               return (

@@ -62,7 +62,6 @@ const useStyles = makeStyles((theme) => ({
 
 const Update = ({
   projectMedia,
-  projectId,
   onLogout,
   justSaved,
   user,
@@ -74,9 +73,7 @@ const Update = ({
   const [tab, setTab] = React.useState(defaultTab);
   const [frameHeight, setFrameHeight] = React.useState(0);
 
-  const baseUrl = projectId
-    ? `${config.checkWebUrl}/${projectMedia.team.slug}/project/${projectId}/media/${projectMedia.dbid}`
-    : `${config.checkWebUrl}/${projectMedia.team.slug}/media/${projectMedia.dbid}`;
+  const baseUrl = `${config.checkWebUrl}/${projectMedia.team.slug}/media/${projectMedia.dbid}`;
 
   const handleOpen = () => {
     window.open(baseUrl);
@@ -268,7 +265,6 @@ Update.propTypes = {
   user: PropTypes.object.isRequired,
   onLogout: PropTypes.func.isRequired,
   justSaved: PropTypes.bool,
-  projectId: PropTypes.number,
 };
 
 export default Update;

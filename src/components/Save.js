@@ -58,14 +58,8 @@ const Save = ({ user, text, url, onSave, onLogout }) => {
     );
   }
 
-  const projects = team.projects.sort((a, b) => (a.title.localeCompare(b.title)));
-  const [project, setProject] = React.useState(projects[0]);
   const [saving, setSaving] = React.useState(false);
   const [message, setMessage] = React.useState(null);
-
-  const handleChangeProject = (newProject) => {
-    setProject(newProject);
-  };
 
   const handleSave = () => {
     setSaving(true);
@@ -98,9 +92,6 @@ const Save = ({ user, text, url, onSave, onLogout }) => {
         channel: JSON.stringify({ main: 2 }),
       }
     };
-    if (project) {
-      variables.input.project_id = project.dbid;
-    }
 
     commitMutation(
       environment,
@@ -109,7 +100,7 @@ const Save = ({ user, text, url, onSave, onLogout }) => {
         variables,
         onCompleted: (response) => {
           setSaving(false);
-          onSave(response.createProjectMedia.project_media, project);
+          onSave(response.createProjectMedia.project_media);
         },
         onError: (error) => {
           const { source } = error;
@@ -136,22 +127,6 @@ const Save = ({ user, text, url, onSave, onLogout }) => {
         <Typography variant="body1" className={classes.heading}>
           {team.name}
         </Typography>
-        <Typography variant="body1" className={classes.spaced}>
-          <FormattedMessage id="save.saveTo" defaultMessage="Save to:" />
-        </Typography>
-        <Box>
-          <Autocomplete
-            value={project}
-            onChange={(event, newValue) => {
-              handleChangeProject(newValue);
-            }}
-            className={classes.select}
-            options={projects}
-            getOptionLabel={(project) => project.title}
-            renderInput={(params) => <TextField {...params} variant="outlined" fullWidth />}
-            fullWidth
-          />
-        </Box>
       </Box>
       <Box className={classes.root}>
         <Box className={classes.spaced}>
