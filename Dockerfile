@@ -9,13 +9,13 @@ RUN mkdir -p /usr/local/var/run/watchman && touch /usr/local/var/run/watchman/.n
 RUN true \
     && apt-get update \
     && apt-get install -y --no-install-recommends \
-        ruby2.5 \
-        ruby2.5-dev \
+        ruby2.7 \
+        ruby2.7-dev \
         build-essential \
         graphicsmagick \
-        python-pip \
-        python-setuptools \
-        python-wheel \
+        python3-pip \
+        python3-setuptools \
+        python3-wheel \
         tini \
         zip \
         libidn11-dev \
